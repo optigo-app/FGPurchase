@@ -1,0 +1,260 @@
+/* .userDataContainer{
+    width: 100%;
+    box-sizing: border-box !important;
+    padding: 5px;
+    border-right: 1px solid darkgrey;
+    height: 100vh;
+}
+
+.w_20_fgp{
+    width: 20%;
+}
+.w_30_fgp{
+    width: 30%;
+}
+.w_10_fgp{
+    width: 10%;
+}
+
+.center_fgp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+
+.userDataContainer {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+    /* background-color: #f4f4f4; */
+    overflow-y: auto;
+    transition: all 0.1s ease;
+  }
+  
+  .filterContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .filterItem {
+    margin: 0 10px 10px 0;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .filterItem select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .billInfo {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .billItem {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 20px;
+    background-color: rgb(226, 225, 143);
+  }
+
+  .bg_info{
+    background-color: #007bff47;
+  }
+
+  .summary {
+    margin-bottom: 15px;
+  }
+  
+  .summaryItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .boldText {
+    font-weight: bold;
+  }
+  
+  .tableContainer {
+    margin-bottom: 20px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  .table th {
+    background-color: #f0f0f0;
+  }
+  
+  .totalSummary {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  .totalItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+  
+  .taxOption,
+  .addLessOption {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 10px 0;
+  }
+  
+  .taxOptionDropdown,
+  .addLessOptionDropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+  }
+  
+  .taxOptionDropdown select,
+  .addLessOptionDropdown input {
+    margin-right: 10px;
+  }
+
+  .tax_select_us{
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  
+  .btnApply,
+  .btnRoundUp {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 5px 5px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .btnApply:hover,
+  .btnRoundUp:hover {
+    background-color: #218838;
+  }
+  
+  .addLessInput {
+    width: 50px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  
+  .btnClose {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 5px;
+    cursor: pointer;
+  }
+  
+  .btnClose:hover {
+    background-color: #c82333;
+  }
+
+  .fs_btn_us{
+    font-size: 11px;
+  }
+
+  .finalAmount{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0px;
+  }
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .userDataContainer {
+      padding: 10px;
+    }
+  
+    .filterContainer {
+      flex-direction: column;
+    }
+  
+    .filterItem {
+      margin-bottom: 10px;
+      max-width: 100%;
+    }
+  
+    .table th, .table td {
+      font-size: 12px;
+    }
+  
+    .totalSummary {
+      margin-top: 15px;
+    }
+  }
+  
+  /* Custom scrollbar */
+.userDataContainer::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .userDataContainer::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  .userDataContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+  
+  .userDataContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  /* Custom scrollbar */
+.tableContainer::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  }
+  
+  .tableContainer::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  .tableContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+  
+  .tableContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+
+  @media screen and (max-width:650px){
+    .tableContainer {
+overflow: scroll;    }
+  }
+
+  .smallText{
+    font-size: 10px;
+    color: grey;
+    font-weight: bolder;
+  }

@@ -1,0 +1,23 @@
+.customer-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .customer-info div {
+    font-size: 14px;
+    color: #333;
+  }
+
+  /* Order Dropdown Styling */
+  .order-dropdown {
+    margin-bottom: 20px;
+    max-width: 200px;
+  }
+
+
+  

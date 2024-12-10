@@ -1,0 +1,9 @@
+.d_flex_paginate_grid{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.jobgrid_fgp  .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
+    margin: 0px !important;
+}

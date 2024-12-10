@@ -1,0 +1,111 @@
+
+.valueMainDiv{
+    display: flex;
+    align-items: center;
+    margin-block: 15px;
+}
+
+.valueMainDivP{
+    min-width: 120px;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0px;
+}
+
+.amaountmain{
+    margin-top: 20px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.SaveBtnAmaount{
+    height: 35px;
+    width: 120px;
+    background-color: #0b5ed7;
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+
+
+.amountMain_rc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    width: 20%;
+  }
+  
+  .amountGrid_rc {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .valueMainDiv_rc {
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.5rem; */
+    gap: 0rem;
+  }
+  
+  .valueMainDivP_rc {
+    font-size: 1rem;
+    font-weight: normal;
+  }
+  
+  .saveBtnAmount_rc {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .saveBtnAmount_rc:hover {
+    background-color: #0056b3;
+  }
+
+  .inputF_rc{
+    padding: 5px ;
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+  }
+  .inputF_rc:focus{
+    outline: none;
+    border: 1px solid #007bff;
+  }
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .amountGrid_rc {
+      grid-template-columns: 1fr;
+    }
+  
+    .saveBtnAmount_rc {
+      width: 100%;
+    }
+  }
+  @media (max-width: 500px) {
+ 
+    .amountMain_rc {
+        
+        width: 100%;
+      }
+      .w_100_rc{
+        width: 100% !important;
+      }
+
+  }
+  

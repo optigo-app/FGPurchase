@@ -1,0 +1,64 @@
+.customizejob_container{
+    box-sizing: border-box;
+    width: 100%;
+}
+.job-info{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.filters-container_cjob {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+}
+.headline_cmj{
+    background-color: #e8e8e8;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+/* .customizejob_container > input, select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+} */
+
+@media (max-width: 768px) {
+    .filters-container_cjob {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .filters-container_cjob {
+        padding: 10px;
+    }
+    .filter-item {
+        gap: 6px;
+    }
+    label {
+        font-size: 12px;
+    }
+    input, select {
+        font-size: 12px;
+    }
+}
