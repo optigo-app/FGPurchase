@@ -43,21 +43,23 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
   const [validationErrors, setValidationErrors] = useState({
     // user: false,
+    searchUser: false,
     refno: false,
     bookName: false,
     currency: false,
     locker: false,
     counter: false,
-    moreDetails:false
+    // moreDetails:false
   });
   const [filtersValue, setFiltersValue] = useState({
     // user: '',
+    searchUser: '',
     refno: '',
     bookName: '',
     currency: '',
     locker: '',
     counter: '',
-    moreDetails:''
+    // moreDetails:''
   });
 
   const isSaveAndNext = useSelector(state => state?.home?.isSaveAndNext); 
@@ -129,19 +131,25 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     const handleSaveFilters = () => {
       const errors = {
         // user: !searchCustomer?.toString()?.trim(),
+        searchUser: !searchUser?.toString()?.trim(),
         refno: !refno?.toString()?.trim(),
         bookName: !selectBookName?.toString()?.trim(),
         currency: !selectCurrency?.toString()?.trim(),
         locker: !selectLockerName?.toString()?.trim(),
         counter: !counter?.toString()?.trim(),
-        moreDetails:!selectedmoreDetails?.toString()?.trim()
+        // moreDetails:!selectedmoreDetails?.toString()?.trim()
       };
+      console.log(errors);
+      
       setValidationErrors(errors);
   
       const hasErrors = Object?.values(errors)?.some((error) => error);
+      console.log(hasErrors);
+      
       if (!hasErrors) {
         let obj = {
           // user:searchCustomer,
+          searchUser: searchUser,
           refno:refno,
           bookName:selectBookName,
           currency:selectCurrency,
@@ -303,96 +311,96 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   //   // setJobnoVal('');
   // }
 
-  const handleSearchCustomer = (e) => {
-    setSearchCustomerFlag(true);
-      let searchVal = e;
-      setSearchCustomer(searchVal);
-      if (searchVal) {
-            const filtered = customerData?.filter(customer =>
-              customer?.TypoLabel?.toLowerCase()?.includes(searchVal?.toLowerCase())
-            );
-            setFilterCustomerData(filtered);
-            if (filtered?.length === 1 && filtered[0]?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()) {
-              setSearchCustomer(filtered[0]?.TypoLabel);
-              setSearchCustomerId(filtered[0]?.id);
-              // setFilterCustomerData([]); // Hide the dropdown
-              setSearchCustomerFlag(false);
-            }
-      }else{
-        setSearchCustomer('');
-        // setFilterCustomerData([]);
-        setSearchCustomerFlag(false);
-      }
-  }
+  // const handleSearchCustomer = (e) => {
+  //   setSearchCustomerFlag(true);
+  //     let searchVal = e;
+  //     setSearchCustomer(searchVal);
+  //     if (searchVal) {
+  //           const filtered = customerData?.filter(customer =>
+  //             customer?.TypoLabel?.toLowerCase()?.includes(searchVal?.toLowerCase())
+  //           );
+  //           setFilterCustomerData(filtered);
+  //           if (filtered?.length === 1 && filtered[0]?.TypoLabel?.toLowerCase() === searchVal?.toLowerCase()) {
+  //             setSearchCustomer(filtered[0]?.TypoLabel);
+  //             setSearchCustomerId(filtered[0]?.id);
+  //             // setFilterCustomerData([]); // Hide the dropdown
+  //             setSearchCustomerFlag(false);
+  //           }
+  //     }else{
+  //       setSearchCustomer('');
+  //       // setFilterCustomerData([]);
+  //       setSearchCustomerFlag(false);
+  //     }
+  // }
 
-  const handleSelectCustomer = (e) => {
-    console.log(e);
-    console.log(e?.TypoLabel);
-    setSearchCustomer(e?.TypoLabel);
-    console.log(filterCustomerData);
-    if(e?.TypoLabel){
-      // setFilterCustomerData([]);
-      setSearchCustomerFlag(false);
-    }
+  // const handleSelectCustomer = (e) => {
+  //   console.log(e);
+  //   console.log(e?.TypoLabel);
+  //   setSearchCustomer(e?.TypoLabel);
+  //   console.log(filterCustomerData);
+  //   if(e?.TypoLabel){
+  //     // setFilterCustomerData([]);
+  //     setSearchCustomerFlag(false);
+  //   }
     
-  }
+  // }
 
-  const handleSelectBlur = () => {
-    // Set timeout
-    const timeoutId = setTimeout(() => {
-      // setFilterCustomerData([]);
-      setSelectedIndex(-1);
-    }, 1000);
+  // const handleSelectBlur = () => {
+  //   // Set timeout
+  //   const timeoutId = setTimeout(() => {
+  //     // setFilterCustomerData([]);
+  //     setSelectedIndex(-1);
+  //   }, 1000);
 
-    // Check customer validation
-    if (!searchCustomer) {
-      // setCustomerValidationError(true);
-      setCustomerValidationError(false);
-    } else {
-      setCustomerValidationError(false);
-    }
+  //   // Check customer validation
+  //   if (!searchCustomer) {
+  //     // setCustomerValidationError(true);
+  //     setCustomerValidationError(false);
+  //   } else {
+  //     setCustomerValidationError(false);
+  //   }
 
-    // Cleanup function for the timeout
-    return () => clearTimeout(timeoutId);
-  };
+  //   // Cleanup function for the timeout
+  //   return () => clearTimeout(timeoutId);
+  // };
 
-  const handleKeyDown = (e) => {
-    if(selectedIndex < filterCustomerData?.length){
+  // const handleKeyDown = (e) => {
+  //   if(selectedIndex < filterCustomerData?.length){
 
-      if(e.key === 'ArrowUp' && selectedIndex > 0){
-        setSelectedIndex(prev => prev - 1)
-    }
-    else if(e.key === 'ArrowDown' && selectedIndex < filterCustomerData?.length - 1){
-      setSelectedIndex(prev => prev + 1)
-    }
-    else if(e.key?.toLowerCase() === 'enter' || e.key?.toLowerCase() === 'tab' && selectedIndex >= 0){
-      setSearchCustomer(filterCustomerData[selectedIndex]?.TypoLabel);
-      // setSearchCustomerId(filterCustomerData[selectedIndex]?.id);
-      // setFilterCustomerData([]);
-      setSearchCustomerFlag(false);
+  //     if(e.key === 'ArrowUp' && selectedIndex > 0){
+  //       setSelectedIndex(prev => prev - 1)
+  //   }
+  //   else if(e.key === 'ArrowDown' && selectedIndex < filterCustomerData?.length - 1){
+  //     setSelectedIndex(prev => prev + 1)
+  //   }
+  //   else if(e.key?.toLowerCase() === 'enter' || e.key?.toLowerCase() === 'tab' && selectedIndex >= 0){
+  //     setSearchCustomer(filterCustomerData[selectedIndex]?.TypoLabel);
+  //     // setSearchCustomerId(filterCustomerData[selectedIndex]?.id);
+  //     // setFilterCustomerData([]);
+  //     setSearchCustomerFlag(false);
 
-    }
+  //   }
 
 
-        // Scroll the selected item into view
-        setTimeout(() => {
-          const element = document.querySelector(".search_sug_line.active");
-          if (element) {
-            element.scrollIntoView({
-              behavior: 'smooth',
-              block: 'nearest',
-            });
-          }
-        }, 0);
+  //       // Scroll the selected item into view
+  //       setTimeout(() => {
+  //         const element = document.querySelector(".search_sug_line.active");
+  //         if (element) {
+  //           element.scrollIntoView({
+  //             behavior: 'smooth',
+  //             block: 'nearest',
+  //           });
+  //         }
+  //       }, 0);
 
-        // setCustErrorMsg('');
+  //       // setCustErrorMsg('');
 
-  }else{
-    // setCustErrorMsg('');
-    setSelectedIndex(-1);
-  }
-  // setInpAutoFocus(true);
-  }
+  // }else{
+  //   // setCustErrorMsg('');
+  //   setSelectedIndex(-1);
+  // }
+  // // setInpAutoFocus(true);
+  // }
 
   //books logic
   const handleBookName = (e) => {
@@ -479,6 +487,67 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     }
   ]
 
+  //user logic
+  const [searchUser, setUserSearch] = useState('');
+  const [userList, setUserList] = useState(CustomerData);
+  const [selectedUser, setSelectedUser] = useState('');
+  const [showUserListFlag, setShowUserListFlag] = useState(false);
+  const [searchUservalidationError, setSearchUservalidationError] = useState(false);
+  const [selectedUserIndex, setSelecteUserdIndex] = useState(-1);
+  const handleUserTypo = (e) => {
+    setUserSearch(e.target.value);
+    const value = e.target.value;
+    if(e.target.value){
+
+      let searchVal = (e.target.value)?.toLowerCase()?.toString();
+      setShowUserListFlag(true);
+
+      const filteredUserArr = CustomerData?.filter((el, i) =>  el?.TypoLabel?.toString()?.toLowerCase()?.includes(searchVal));
+      console.log(filteredUserArr);
+
+      setUserList(filteredUserArr);
+      
+      setValidationErrors((prev) => ({ ...prev, searchUser: !(value)?.toString()?.trim() }));
+      if(value === ''){
+        setSearchUservalidationError(true);
+      }else{
+        setSearchUservalidationError(false);
+      }
+
+    }else{
+      setShowUserListFlag(false);
+    }
+    setSelecteUserdIndex(-1);
+  }
+  const handleUserList = (e)=> {
+
+      setSelectedUser(e?.TypoLabel);
+      setUserSearch(e?.TypoLabel);
+      if(e?.TypoLabel){
+        setShowUserListFlag(false);
+      }
+  }
+  const handleUserBlur = () => {
+      setTimeout(() => {
+        setShowUserListFlag(false);
+      },2000);
+  }
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowDown') {
+        // Move down in the list
+        // setSelecteUserdIndex(prevIndex => Math.min(prevIndex + 1, userList?.length - 1));
+        setSelecteUserdIndex((prevIndex) => (prevIndex + 1) % userList?.length);
+    } else if (e.key === 'ArrowUp') {
+        // Move up in the list
+        setSelecteUserdIndex((prevIndex) => (prevIndex - 1 + userList?.length) % userList?.length);
+    } else if (e.key === 'Enter' && selectedUserIndex >= 0) {
+        // Select the current item on Enter
+        handleUserList(userList[selectedUserIndex]);
+    }
+};
+
+  
+
   return (
     <div className="homepage_container">
       <div>
@@ -495,8 +564,31 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       {/* Extra Filters */}
       { (SaveFiltersFlag || updateFiltersFlag) && <div className='d-flex justify-content-start align-items-center mb-4'>
         <div className="filters-container_hm">
-        <div className="filter-item_hp" >
-            <select name="bookname" id="bookname" autoFocus value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
+          <div className="filter-item_hp userBox_hm" >
+              <input type="text" placeholder="user" autoFocus value={searchUser} onBlur={() => handleUserBlur()} onChange={(el) => handleUserTypo(el)} onKeyDown={handleKeyDown} 
+                style={{ border: validationErrors?.searchUser ? '1px solid red' : '1px solid #ccc' }}
+              />
+              {
+                showUserListFlag && <>
+                <div className='userSuggestionList_hm'>
+                  <ul>
+                    {
+                      userList?.length > 0 && userList?.map((e, index) => {
+                        return (
+                          <li key={e?.id} value={selectedUser} onClick={() => handleUserList(e)}  
+                          style={{
+                            backgroundColor: index === selectedUserIndex ? '#d3d3d3' : 'transparent', // Highlight selected item
+                        }}>{e?.TypoLabel}</li>
+                        )
+                      })
+                    }
+                  </ul>
+                </div>
+                </>
+              }
+          </div>
+          <div className="filter-item_hp" >
+            <select name="bookname" id="bookname"  value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
               <option value="" disabled selected>select BookName</option>
               {
                 bookNameData?.map((e, i) => {
@@ -542,7 +634,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               }
             </select>
           </div>
-          <div className="filter-item_hp" >
+          {/* <div className="filter-item_hp" >
             <select name="moredetails" id="moredetails" value={selectedmoreDetails} onChange={(el) => handleMoreDetails(el)} style={{ border: validationErrors.moreDetails ? '1px solid red' : '1px solid #ccc' }}>
             <option value="" disabled selected>More Details</option>
               {
@@ -551,7 +643,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 })
               }
             </select>
-          </div>
+          </div> */}
           
         </div>
         <div style={{minWidth:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor:'pointer'}}><button className='btn btn-success' title='Save' onClick={() => handleSaveFilters()}>Procced To Bill</button></div>

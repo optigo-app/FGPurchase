@@ -15,6 +15,53 @@
     border-left: 1px solid darkgrey;
 
   }
+
+  .userBox_hm{
+    position: relative;
+  }
+  .userSuggestionList_hm{
+    position: absolute;
+    font-size: 12px;
+    padding: 5px;
+    border: 1px solid #989898;
+    max-height: 150px;
+    max-width: 220px;
+    min-width: 220px;
+    overflow: auto;
+    top: 45px;
+    background-color: white;
+    color: black;
+  }
+  /* Target the scrollbar itself */
+.userSuggestionList_hm::-webkit-scrollbar {
+  width: 6px;  /* Adjust the width of the vertical scrollbar */
+  height: 6px;
+}
+
+/* Style the scrollbar track (background) */
+.userSuggestionList_hm::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Style the scrollbar thumb (the actual scrollable part) */
+.userSuggestionList_hm::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+/* Style the scrollbar thumb when hovered */
+.userSuggestionList_hm::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+  .userSuggestionList_hm ul {
+    padding-left: 3px;
+  }
+  .userSuggestionList_hm ul li {
+    list-style-type: none !important;
+  }
+
+
+
   
   /* Filters Container with Flexbox */
   /* .filters-container_hm {
@@ -84,7 +131,8 @@
 .filter-item_hp select:focus {
   outline: none;
   border-color: #007bff; /* Highlight color on focus */
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  /* box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); */
+  box-shadow: 0 0 4px rgba(0, 2, 255, 1);
 }
 
 
