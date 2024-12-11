@@ -544,7 +544,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         // Select the current item on Enter
         handleUserList(userList[selectedUserIndex]);
     }
-};
+  };
 
   
 

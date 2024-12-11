@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import "./issuedmaterial.css";
-import { Tooltip, Modal, Box, Button } from '@mui/material';
+import { Tooltip, Modal, Box, Button, Grid2, Select, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { handleIssuedMaterialModal } from '../../../../redux/slices/HomeSlice';
@@ -16,6 +16,9 @@ import  Typography  from '@mui/material/Typography';
 const IssuedMaterial = () => {
     const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
     const dispatch = useDispatch();
+    const theme = useTheme();
+    console.log(theme);
+    
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -93,6 +96,28 @@ const IssuedMaterial = () => {
                     <div>&nbsp;</div>
                     <div><Typography variant='h5' color='primary'>Issued Material</Typography></div>
                     <div><CancelIcon style={{cursor:'pointer'}} onClick={() => dispatch(handleIssuedMaterialModal(false))} /></div>
+                </div>
+                <div className='pb-2 w-100 d-flex align-items-center justify-content-end px-1'>
+                  <Grid2 container spacing={2}>
+                    <Grid2 item xs={12} sm={6} md={3} >
+                      <select name="issueBy" id="issueBy" className='p-1'>
+                        <option value="" selected disabled>Search By</option>
+                        <option value="design">Design#</option>
+                        <option value="po">PO#</option>
+                        <option value="job">Job#</option>
+                        <option value="batch">Batch#</option>
+                      </select>
+                    </Grid2>
+                    <Grid2 item xs={12} sm={6} md={3} >
+                      <Button size='small' variant='contained' color='error'>Receive Now</Button>
+                    </Grid2>
+                    <Grid2 item xs={12} sm={6} md={3} >
+                      <Button size='small' variant='contained' color='success'>Receive & Close</Button>
+                    </Grid2>
+                  </Grid2>
+                </div>
+                <div>
+                  
                 </div>
                 <div>
                 <TableContainer component={Paper} 
