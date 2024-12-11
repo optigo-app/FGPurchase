@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './homepage.css';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -29,6 +29,9 @@ import { FaGoodreadsG } from "react-icons/fa";
 // import OldGold from '../OldGold/OldGold';
 
 const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
+
+  const userListRef = useRef(null); 
+
   const [selectOrder, setSelectorder] = useState('neworder');
   const selectedButton = useSelector((state) => (state?.home?.selectButtonValue));
   const [selectedButtonFlag, setSelectedButtonFlag] = useState(true);
@@ -537,14 +540,25 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         // Move down in the list
         // setSelecteUserdIndex(prevIndex => Math.min(prevIndex + 1, userList?.length - 1));
         setSelecteUserdIndex((prevIndex) => (prevIndex + 1) % userList?.length);
+        // scrollToSelectedItem((selectedUserIndex + 1) % userList.length);
     } else if (e.key === 'ArrowUp') {
         // Move up in the list
         setSelecteUserdIndex((prevIndex) => (prevIndex - 1 + userList?.length) % userList?.length);
+        // scrollToSelectedItem((selectedUserIndex - 1 + userList.length) % userList.length);
     } else if (e.key === 'Enter' && selectedUserIndex >= 0) {
         // Select the current item on Enter
         handleUserList(userList[selectedUserIndex]);
     }
   };
+  // const scrollToSelectedItem = (index) => {
+  //   const selectedItem = userListRef.current?.children[index];
+  //   if (selectedItem) {
+  //     selectedItem.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'nearest',
+  //     });
+  //   }
+  // }
 
   
 
@@ -571,7 +585,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               {
                 showUserListFlag && <>
                 <div className='userSuggestionList_hm'>
-                  <ul>
+                  <ul ref={userListRef}>
                     {
                       userList?.length > 0 && userList?.map((e, index) => {
                         return (
