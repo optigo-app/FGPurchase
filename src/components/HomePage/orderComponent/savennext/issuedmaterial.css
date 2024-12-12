@@ -1,0 +1,13 @@
+.ibtninput{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px #0000001a;
+    font-size: 14px;
+    padding: 2px;
+    /* width: 100%; */
+}
+.ibtninput:focus{
+    border-color: #007bff;
+    box-shadow: 0 0 4px #007bff80;
+    outline: none;
+}

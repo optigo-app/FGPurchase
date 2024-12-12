@@ -13,6 +13,7 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import  Typography  from '@mui/material/Typography';
+import "./issuedmaterial.css";
 const IssuedMaterial = () => {
     const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
     const dispatch = useDispatch();
@@ -20,7 +21,9 @@ const IssuedMaterial = () => {
     const [tabValue, setTabValue] = useState(1);
 
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [arrType, setArrType] = useState([]);
+    const [columns, setColumns] = useState([]);
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage)
@@ -32,31 +35,113 @@ const IssuedMaterial = () => {
     }
 
 
-    const data = Array?.from({ length: 10 }, (_, index) => ({
-        id: index + 1,
-        job: `1/271928`,
-        collection:'Fine Jewellery',
-        subcategory:'Antique Jewellery',
-        diactw:'5.000',
-        csctw:'2.000'
+    const diamond_data = Array?.from({ length: 10 }, (_, index) => ({
+        sr: index + 1,
+        customer: `Stock`,
+        lot:1412,
+        type:'Dr-01',
+        shape:'9P AS',
+        clarity:'Any',
+        color:'Any',
+        size:'1mm',
+        ctw:10.345,
+        receivepcs:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
+        receivectw:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
+      }));
+    const misc_data = Array?.from({ length: 10 }, (_, index) => ({
+        sr: index + 1,
+        customer: `Stock`,
+        lot:1412,
+        type:'Dr-01',
+        shape:'9P AS',
+        clarity:'Any',
+        color:'Any',
+        size:'1mm',
+        ctw:10.345,
+        receivepcs:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
+        receivectw:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
+        gwt:<input type="checkbox" style={{maxWidth:'50px', cursor:'pointer'}} className='ibtninput' />,
+      }));
+    const finding_data = Array?.from({ length: 10 }, (_, index) => ({
+        sr: index + 1,
+        customer: `Stock`,
+        lot:1412,
+        ftype:'Block Chain',
+        accessories:'Anchor Chain',
+        mtype:'Gold',
+        purity:'18K',
+        color:'yelow pl',
+        gm:0.1,
+        tunch:76,
+        wastage:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
+        receivepcs:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
+        receivegm:<input type="text" style={{maxWidth:'90px'}} className='ibtninput' />,
       }));
 
-      const columns = [
-        { id: 'sr', label: 'Sr#', minWidth: 100 },
-        { id: 'customer', label: 'Customer#', minWidth: 100 },
-        { id: 'lot', label: 'Lot', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
-        { id: 'type', label: 'Type', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
+      const diamond_columns = [
+        { id: 'sr', label: 'Sr#', minWidth: 50, align:'center' },
+        { id: 'customer', label: 'Customer#', minWidth: 100, align:'left' },
+        { id: 'lot', label: 'Lot', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'type', label: 'Type', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
         { id: 'shape', label: 'Shape', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
-        { id: 'diactw', label: 'Clarity', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-        { id: 'csctw', label: 'CS. Ctw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) }
+        { id: 'clarity', label: 'Clarity', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'color', label: 'Color', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'size', label: 'Size', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'ctw', label: 'Ctw', minWidth: 60, align: 'right',  },
+        { id: 'receivepcs', label: 'Receive Pcs', minWidth: 110, align: 'center',  },
+        { id: 'receivectw', label: 'Receive Ctw', minWidth: 110, align: 'center',  },
+      ];
+      const misc_columns = [
+        { id: 'sr', label: 'Sr#', minWidth: 50, align:'center' },
+        { id: 'customer', label: 'Customer#', minWidth: 100, align:'left' },
+        { id: 'lot', label: 'Lot', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'type', label: 'Type', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'shape', label: 'Shape', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
+        { id: 'clarity', label: 'Clarity', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'color', label: 'Color', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'size', label: 'Size', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'ctw', label: 'Ctw', minWidth: 60, align: 'right',  },
+        { id: 'receivepcs', label: 'Receive Pcs', minWidth: 110, align: 'center',  },
+        { id: 'receivectw', label: 'Receive Ctw', minWidth: 110, align: 'center',  },
+        { id: 'gwt', label: 'GWT', minWidth: 50, align: 'center',  },
+      ];
+      const finding_columns = [
+        { id: 'sr', label: 'Sr#', minWidth: 50, align:'center' },
+        { id: 'customer', label: 'Customer#', minWidth: 100, align:'left' },
+        { id: 'lot', label: 'Lot', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'ftype', label: 'FType', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'accessories', label: 'Accessories', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
+        { id: 'mtype', label: 'M.Type', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'purity', label: 'Purity', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'color', label: 'Color', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'gm', label: 'GM', minWidth: 60, align: 'right',  },
+        { id: 'tunch', label: 'Tunch', minWidth: 60, align: 'right',  },
+        { id: 'wastage', label: 'Wastage', minWidth: 110, align: 'right',  },
+        { id: 'receivepcs', label: 'Receive Pcs', minWidth: 110, align: 'center',  },
+        { id: 'receivegm', label: 'Receive GM', minWidth: 110, align: 'center',  },
       ];
 
       useEffect(() => {
         setTabValue(1);
+        setArrType(diamond_data);
+        setColumns(diamond_columns);
       },[]);
 
       const handleTabsChange = (e, newValue) => {
         setTabValue(newValue);
+
+        if(newValue === 1 || newValue === 2){
+          setArrType(diamond_data);
+          setColumns(diamond_columns);
+        }
+        if(newValue === 3){
+          setArrType(misc_data);
+          setColumns(misc_columns);
+        }
+        if(newValue === 4){
+          setArrType(finding_data);
+          setColumns(finding_columns);
+        }
       }
       
 
@@ -120,6 +205,27 @@ const IssuedMaterial = () => {
                 </div>
 
                 <div>
+                  { (tabValue === 1 || tabValue === 2 || tabValue === 3) && <div className='mt-1 mb-2 d-flex align-items-center'>
+                    <div style={{width:'100px'}} className='d-flex justify-content-center'><Button size='small' variant='contained' color='success'>All</Button></div>
+                    <input type='text' placeholder='Customer#' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Lot' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Type' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Shape' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Clarity' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Color' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Size' style={{width:'93px'}} className='mx-1 ibtninput' />
+                  </div>}
+                  
+                  { tabValue === 4 && <div className='mt-1 mb-2 d-flex align-items-center'>
+                    <div style={{width:'100px'}} className='d-flex justify-content-center'><Button size='small' variant='contained' color='success'>All</Button></div>
+                    <input type='text' placeholder='Customer#' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Lot' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='FType' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Accessories' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='M.Type' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Purity' style={{width:'93px'}} className='mx-1 ibtninput' />
+                    <input type='text' placeholder='Color' style={{width:'93px'}} className='mx-1 ibtninput' />
+                  </div>}
                 <TableContainer component={Paper} 
                   sx={{
                     maxHeight: 440,
@@ -138,27 +244,28 @@ const IssuedMaterial = () => {
                     },
                     boxShadow: 'none',
                     border: '1px solid #e8e8e8',
+                    minWidth:'1350px'
                   }}
                   >
                     <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
                       <TableHead>
                         <TableRow>
                           {columns?.map(column => (
-                            <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}}>
+                            <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7', border:'1px solid #e8e8e8', borderCollapse:'collapse', fontSize:'12px'}}>
                               {column.label}
                             </TableCell>
                           ))}
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
+                        {arrType?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
                           return (
                             <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
                               {columns?.map(column => {
                                 const value = row[column?.id]
 
                                 return (
-                                  <TableCell key={column?.id} align={column?.align} sx={{color:'#595959'}}>
+                                  <TableCell key={column?.id} align={column?.align} sx={{color:'#595959', border:'1px solid #e8e8e8',  fontSize: '12px',padding:'3px' }}>
                                     {column?.format && typeof value === 'number' ? column?.format(value) : value}
                                   </TableCell>
                                 )
@@ -172,7 +279,7 @@ const IssuedMaterial = () => {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25, 100]}
                   component='div'
-                  count={data?.length}
+                  count={arrType?.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
