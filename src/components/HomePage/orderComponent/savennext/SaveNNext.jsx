@@ -66,6 +66,44 @@ const SaveNNext = () => {
   const [isColorStoneAdding, setIsColorStoneAdding] = useState(false);
   const csWtFocus = useRef();
 
+  //add misc details pop up
+  const [addMiscInfoPopUp, setAddMiscInfoPopUp] = useState(false);
+  const [addMiscRows, setAddMiscRows] = useState([
+    {
+      type: '',
+      criteria: '',
+      pcs: '',
+      wt: '',
+      supplier: '',
+      rate: '',
+      amount: '',
+    },
+  ]);
+  const [isMiscAdding, setMiscAdding] = useState(false);
+  const miscWtFocus = useRef();
+
+
+  //add finding details pop up
+  const [addFindingInfoPopUp, setAddFindingInfoPopUp] = useState(false);
+  const [addFindingRows, setAddFindingRows] = useState([
+    {
+      type: '',
+      criteria: '',
+      pcs: '',
+      wt: '',
+      supplier: '',
+      rate: '',
+      amount: '',
+    },
+  ]);
+  const [isFindingAdding, setFindingAdding] = useState(false);
+  const findingWtFocus = useRef();
+
+
+
+
+
+
   const [isEditing, setIsEditing] = useState(false);
   const [rowData, setRowData] = useState({
     type: "D",
@@ -204,21 +242,9 @@ const SaveNNext = () => {
         setRemarkModal(false);
       }
   }
-
-
-  //enter key logic
-  // const handleEnterKeyChange = useCallback((e) => {
-  //     console.log('sav n eny then also its call ');
-      
-  //     if(e.key?.toLowerCase() === "enter"){
-  //       console.log('pressed');
-        
-  //       setAddDiaInfoPopUp(true);
-  //       setIsAdding(true);
-  //     }
-      
-  // },[addDiaInfoPopUp]);
   
+
+  //diamond, cs, misc, finding logic of pop up
   const handleEnterKeyChange = useCallback((e, args) => {
     
     if (e?.key?.toLowerCase() === "enter") {
@@ -231,14 +257,24 @@ const SaveNNext = () => {
         setAddCSInfoPopUp(true);
         setIsColorStoneAdding(true);
       }
+      if(args === 'misc'){
+        setAddMiscInfoPopUp(true);
+        // setMiscAdding(true);
+      }
+      if(args === 'finding'){
+        setAddFindingInfoPopUp(true);
+        // setIsF(true);
+      }
     }
 
-  }, [addDiaInfoPopUp, addCSInfoPopUp]);
+  }, [addDiaInfoPopUp, addCSInfoPopUp, addMiscInfoPopUp, addFindingInfoPopUp]);
 
   const handleCloseModal = () => {
     setAddDiaInfoPopUp(false);
+    
   };
 
+  //add diamond pop up logic
   const handleDiamondInputChange = (e, rowIndex) => {
     const { name, value } = e.target;
     const updatedRows = [...addDiamondRows];
@@ -273,16 +309,12 @@ const SaveNNext = () => {
   //       }
   //   },10);
   // }, [addDiaInfoPopUp]);
-
-  
-
-
   const handleSaveDiamondDetails = () => {
     console.log(addDiamondRows);
     setAddDiaInfoPopUp(false);
   }
 
-
+//add colorstone pop up logic
   const handleSaveColorstoneDetails = () => {
     console.log(addCsRows);
     setAddCSInfoPopUp(false);
@@ -311,6 +343,74 @@ const SaveNNext = () => {
       const handleColorstoneKeyDown = (e) => {
         if (e.key === 'Enter') {
           handleCSAddRow();
+        }
+      };
+      
+
+
+  //add misc pop up logic
+  const handleSaveMiscDetails = () => {
+    console.log(addCsRows);
+    setAddMiscInfoPopUp(false);
+  }
+  const handleMiscInputChange = (e, rowIndex) => {
+    const { name, value } = e.target;
+    const updatedRows = [...addMiscRows];
+    updatedRows[rowIndex][name] = value;
+    setAddMiscRows(updatedRows);
+  };
+      // Add a new row
+      const handleMiscAddRow = () => {
+        setAddMiscRows([
+          ...addMiscRows,
+          {
+            type: '',
+            criteria: '',
+            pcs: '',
+            wt: '',
+            supplier: '',
+            rate: '',
+            amount: '',
+          },
+        ]);
+      };
+      const handleMiscKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          handleMiscAddRow();
+        }
+      };
+
+
+
+  //add finding pop up logic
+  const handleSaveFindingDetails = () => {
+    console.log(addFindingRows);
+    setAddFindingInfoPopUp(false);
+  }
+  const handleFindingInputChange = (e, rowIndex) => {
+    const { name, value } = e.target;
+    const updatedRows = [...addFindingRows];
+    updatedRows[rowIndex][name] = value;
+    setAddFindingRows(updatedRows);
+  };
+      // Add a new row
+      const handleFindingAddRow = () => {
+        setAddFindingRows([
+          ...addFindingRows,
+          {
+            type: '',
+            criteria: '',
+            pcs: '',
+            wt: '',
+            supplier: '',
+            rate: '',
+            amount: '',
+          },
+        ]);
+      };
+      const handleFindingKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          handleFindingAddRow();
         }
       };
 
@@ -419,6 +519,9 @@ const SaveNNext = () => {
         </div>
         <div className="filter-item">
           <input type="text" placeholder="Misc Wt" onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
+        </div>
+        <div className="filter-item">
+          <input type="text" placeholder="Finding Wt" onKeyDown={(e) => handleEnterKeyChange(e, 'finding')} />
         </div>
         <div className="filter-item">
             <input type="text" placeholder="Labour" />
@@ -733,6 +836,8 @@ const SaveNNext = () => {
             </Box>
           </Modal>
         }
+
+        {/* diam, cs, misc, find pop up render part */}
         {
           addDiaInfoPopUp && <Modal
             open={addDiaInfoPopUp}
@@ -770,13 +875,14 @@ const SaveNNext = () => {
             <thead>
               <tr>
                 <th align='center'>Sr</th>
-                <th align='center'>Type</th>
+                
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
                 <th align='center'>Amount</th>
                 <th align='center'>Mark Up</th>
+                <th align='center'>On Pcs</th>
                 <th align='center'>Add</th>
               </tr>
             </thead>
@@ -785,29 +891,51 @@ const SaveNNext = () => {
                       addDiamondRows?.map((rowData, i) => {
                         return <tr key={i}>
                         <td align="center">1</td>
+                        
                         <td align="left">
+                            <div>
                             <input
                               type="text"
                               name="type"
                               value={rowData.type}
                               onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
+                              style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
-                              inputRef={diamond_Focus}
+                              placeholder='Shape'
                               autoComplete='off'
-                              autoFocus
                             />
-                          
-                        </td>
-                        <td align="left">
                             <input
                               type="text"
-                              name="criteria"
-                              value={rowData.criteria}
+                              name="type"
+                              value={rowData.type}
                               onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
+                              style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='Clarity'
+                              autoComplete='off'
                             />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleDiamondInputChange}
+                              style={{width:'70px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='Color'
+                              autoComplete='off'
+                            />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleDiamondInputChange}
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='Size'
+                              autoComplete='off'
+                            />
+                            </div>
+                          
                         </td>
                         <td align="center">
                             <div>
@@ -818,6 +946,7 @@ const SaveNNext = () => {
                               onChange={handleDiamondInputChange}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='pcs'
                             />
                             <input
                               type="text"
@@ -826,6 +955,7 @@ const SaveNNext = () => {
                               onChange={handleDiamondInputChange}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='wt'
                             />
                             </div>
                           
@@ -838,6 +968,7 @@ const SaveNNext = () => {
                               onChange={handleDiamondInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='supplier'
                             />
                         </td>
                         <td align="right">
@@ -848,6 +979,7 @@ const SaveNNext = () => {
                               onChange={handleDiamondInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='rate'
                             />
                         </td>
                         <td align="right">
@@ -858,10 +990,22 @@ const SaveNNext = () => {
                               onChange={handleDiamondInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='amount'
                             />
                         </td>
                         <td align="center">
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
+                        </td>
+                        <td align="left">
+                            <input
+                              type="checkbox"
+                              name="onpcs"
+                              value={rowData.criteria}
+                              onChange={handleDiamondInputChange}
+                              className='onfocus_snv'
+                              autoFocus
+                              placeholder=''
+                            />
                         </td>
                         <td align="center">
                             <Button sx={{width:'50px'}} onKeyDown={handleDIamondKeyDown}><AddCircleIcon
@@ -921,13 +1065,14 @@ const SaveNNext = () => {
             <thead>
               <tr>
                 <th align='center'>Sr</th>
-                <th align='center'>Type</th>
+                
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
                 <th align='center'>Amount</th>
                 <th align='center'>Mark Up</th>
+                <th align='center'>On Pcs</th>
                 <th align='center'>Add</th>
               </tr>
             </thead>
@@ -936,28 +1081,51 @@ const SaveNNext = () => {
                       addCsRows?.map((rowData, i) => {
                         return <tr key={i}>
                         <td align="center">1</td>
+                       
                         <td align="left">
+                            <div>
                             <input
                               type="text"
                               name="type"
                               value={rowData.type}
                               onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
+                              style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='Shape'
                               autoComplete='off'
-                              autoFocus
                             />
-                          
-                        </td>
-                        <td align="left">
                             <input
                               type="text"
-                              name="criteria"
-                              value={rowData.criteria}
+                              name="type"
+                              value={rowData.type}
                               onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
+                              style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='Clarity'
+                              autoComplete='off'
                             />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleColorstoneInputChange}
+                              style={{width:'70px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='Color'
+                              autoComplete='off'
+                            />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleColorstoneInputChange}
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='Size'
+                              autoComplete='off'
+                            />
+                            </div>
+                          
                         </td>
                         <td align="center">
                             <div>
@@ -968,6 +1136,8 @@ const SaveNNext = () => {
                               onChange={handleColorstoneInputChange}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='pcs'
+                              autoComplete='off'
                             />
                             <input
                               type="text"
@@ -976,6 +1146,8 @@ const SaveNNext = () => {
                               onChange={handleColorstoneInputChange}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='wt'
+                              autoComplete='off'
                             />
                             </div>
                           
@@ -988,6 +1160,8 @@ const SaveNNext = () => {
                               onChange={handleColorstoneInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='supplier'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="right">
@@ -998,6 +1172,8 @@ const SaveNNext = () => {
                               onChange={handleColorstoneInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='rate'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="right">
@@ -1008,10 +1184,23 @@ const SaveNNext = () => {
                               onChange={handleColorstoneInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='amount'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="center">
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
+                        </td>
+                        <td align="left">
+                            <input
+                              type="checkbox"
+                              name="onpcs"
+                              value={rowData.type}
+                              onChange={handleColorstoneInputChange}
+                              className='onfocus_snv'
+                              autoComplete='off'
+                            />
+                          
                         </td>
                         <td align="center">
                             <Button sx={{width:'50px'}} onKeyDown={handleColorstoneKeyDown}><AddCircleIcon
@@ -1027,6 +1216,306 @@ const SaveNNext = () => {
           </table>
       
               <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveColorstoneDetails()}>Save ColorStone Details</Button></div>
+
+                </div>
+              </div>
+            </Box>
+
+          </Modal>
+        }
+        {
+          addMiscInfoPopUp && <Modal
+            open={addMiscInfoPopUp}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+            onClose={() => setAddMiscInfoPopUp(false)}
+          >
+            <Box 
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: "95%",
+                      bgcolor: 'background.paper',
+                      borderRadius: '12px',
+                      boxShadow: 24,
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      maxHeight: '500px',
+                      overflowY:'scroll',
+                      border: 'none',
+                    }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between p-1'>
+                    <div></div>
+                    <div><Typography variant='h6'>Add Misc Details</Typography></div>
+                    <div><Tooltip title="Close" onClick={() => setAddMiscInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
+                </div>
+                <div className='w-100'>
+                <table className='table'>
+            <thead>
+              <tr>
+                <th align='center'>Sr</th>
+                <th align='center'>Type</th>
+                <th align='center'>Criteria</th>
+                <th align='center'>Pcs/Wt</th>
+                <th align='center'>Supplier</th>
+                <th align='center'>Rate</th>
+                <th align='center'>Amount</th>
+                <th align='center'>Mark Up</th>
+                <th align='center'>Add</th>
+              </tr>
+            </thead>
+            <tbody>
+                    {
+                      addMiscRows?.map((rowData, i) => {
+                        return <tr key={i}>
+                        <td align="center">1</td>
+                        <td align="left">
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              autoComplete='off'
+                              autoFocus
+                            />
+                          
+                        </td>
+                        <td align="left">
+                            <input
+                              type="text"
+                              name="criteria"
+                              value={rowData.criteria}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="center">
+                            <div>
+                            <input
+                              type="text"
+                              name="pcsWt"
+                              value={rowData.pcs}
+                              onChange={handleMiscInputChange}
+                              style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                            <input
+                              type="text"
+                              name="pcsWt"
+                              value={rowData.wt}
+                              onChange={handleMiscInputChange}
+                              style={{width:'60px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                            </div>
+                          
+                        </td>
+                        <td align="left">
+                            <input
+                              type="text"
+                              name="supplier"
+                              value={rowData.supplier}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="right">
+                            <input
+                              type="text"
+                              name="rate"
+                              value={rowData.rate}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="right">
+                            <input
+                              type="text"
+                              name="amount"
+                              value={rowData.amount}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="center">
+                          <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
+                        </td>
+                        <td align="center">
+                            <Button sx={{width:'50px'}} onKeyDown={handleMiscKeyDown}><AddCircleIcon
+                                  titleAccess="Add Entry"
+                                  onClick={handleMiscAddRow}
+                                  style={{ cursor: "pointer" }}
+                          /></Button>
+                        </td>
+                      </tr>
+                      })
+                    }
+                  </tbody>
+                </table>
+      
+                  <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveMiscDetails()}>Save Misc Details</Button></div>
+
+                </div>
+              </div>
+            </Box>
+
+          </Modal>
+        }
+        {
+          addFindingInfoPopUp && <Modal
+            open={addFindingInfoPopUp}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+            onClose={() => setAddFindingInfoPopUp(false)}
+          >
+            <Box 
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: "95%",
+                      bgcolor: 'background.paper',
+                      borderRadius: '12px',
+                      boxShadow: 24,
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      maxHeight: '500px',
+                      overflowY:'scroll',
+                      border: 'none',
+                    }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between p-1'>
+                    <div></div>
+                    <div><Typography variant='h6'>Add Finding Details</Typography></div>
+                    <div><Tooltip title="Close" onClick={() => setAddFindingInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
+                </div>
+                <div className='w-100'>
+                <table className='table'>
+            <thead>
+              <tr>
+                <th align='center'>Sr</th>
+                <th align='center'>Type</th>
+                <th align='center'>Criteria</th>
+                <th align='center'>Pcs/Wt</th>
+                <th align='center'>Supplier</th>
+                <th align='center'>Rate</th>
+                <th align='center'>Amount</th>
+                <th align='center'>Mark Up</th>
+                <th align='center'>Add</th>
+              </tr>
+            </thead>
+            <tbody>
+                    {
+                      addFindingRows?.map((rowData, i) => {
+                        return <tr key={i}>
+                        <td align="center">1</td>
+                        <td align="left">
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleFindingInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              autoComplete='off'
+                              autoFocus
+                            />
+                          
+                        </td>
+                        <td align="left">
+                            <input
+                              type="text"
+                              name="criteria"
+                              value={rowData.criteria}
+                              onChange={handleFindingInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="center">
+                            <div>
+                            <input
+                              type="text"
+                              name="pcsWt"
+                              value={rowData.pcs}
+                              onChange={handleFindingInputChange}
+                              style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                            <input
+                              type="text"
+                              name="pcsWt"
+                              value={rowData.wt}
+                              onChange={handleFindingInputChange}
+                              style={{width:'60px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                            </div>
+                          
+                        </td>
+                        <td align="left">
+                            <input
+                              type="text"
+                              name="supplier"
+                              value={rowData.supplier}
+                              onChange={handleFindingInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="right">
+                            <input
+                              type="text"
+                              name="rate"
+                              value={rowData.rate}
+                              onChange={handleFindingInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="right">
+                            <input
+                              type="text"
+                              name="amount"
+                              value={rowData.amount}
+                              onChange={handleFindingInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="center">
+                          <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
+                        </td>
+                        <td align="center">
+                            <Button sx={{width:'50px'}} onKeyDown={handleFindingKeyDown}><AddCircleIcon
+                                  titleAccess="Add Entry"
+                                  onClick={handleFindingAddRow}
+                                  style={{ cursor: "pointer" }}
+                          /></Button>
+                        </td>
+                      </tr>
+                      })
+                    }
+                  </tbody>
+                </table>
+      
+                  <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveFindingDetails()}>Save Finding Details</Button></div>
 
                 </div>
               </div>
