@@ -91,9 +91,18 @@ const ReOrder = () => {
   const dispatch = useDispatch();
   return (
     <div className="reorder_component">
-      <div className="form-group mt-4 mb-2">
-        <label htmlFor="design" className="form-label pe-2">Design:</label>
-        <input type="text" placeholder="design#" autoFocus className="form-input"/>
+      <div className='d-flex align-items-end '>
+        <div className='mx-1'>
+          <select name="jdwise" id="jdwise" className='reorder_dropdwon'>
+            <option value="" selected disabled>Select</option>
+            <option value="designno">Design No</option>
+            <option value="jobno">Job No</option>
+          </select>
+        </div>
+        <div className="  mx-1">
+          <label htmlFor="design" className="form-label pe-2">Design:</label>
+          <input type="text" placeholder="design#" autoFocus className="form-input"/>
+        </div>
       </div>
 
       {/* Radio Buttons and Button */}
@@ -135,7 +144,7 @@ const ReOrder = () => {
                 <th>Description</th>
                 <th>Tunch</th>
                 <th>Wastage</th>
-                <th>Issue Wt</th>
+                <th>Issue Pcs</th>
                 <th>Mark Up</th>
                 <th>Mark Up On</th>
                 <th>Remaining Wt</th>
