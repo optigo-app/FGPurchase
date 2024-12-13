@@ -14,10 +14,11 @@ import FileUploaderMultiple from './FileUploaderMultiple';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MountGrid from './MountGrid';
 import IssuedMaterial from './IssuedMaterial';
+import Snackbar from '@mui/material/Snackbar';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mountModal = useSelector(state => state?.home?.mountModal);
-  console.log(mountModal);
+
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
   
   const [materialSelectedValue, setMaterialSelectedValue] = useState('diamond');
@@ -25,6 +26,11 @@ const SaveNNext = () => {
   const [markUpModal, setMarkUpModal] = useState(false);
 
   const [addMoreMaterial, setAddMoreMaterial] = useState(false);
+
+  //remark variables
+  const [remarkModal, setRemarkModal] = useState(false);
+  const [saveRemark, setSaveRemark] = useState('');
+  // const [openSnacBar, setOpenSnacBar] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [rowData, setRowData] = useState({
@@ -147,6 +153,25 @@ const SaveNNext = () => {
 
   const markUpModalOpen = () => {
     setMarkUpModal(true);
+    
+  }
+
+
+  //add remark logic
+  const handleAddRemark = () => {
+    setRemarkModal(true);
+    // setOpenSnacBar(false);
+  }
+  const handleRemarkChange = (e) => {
+    setSaveRemark(e.target.value);
+    
+  }
+  const handleSaveRemark = () => {
+      if(saveRemark){
+        console.log(saveRemark);
+        setRemarkModal(false);
+        // setOpenSnacBar(true);
+      }
   }
 
 
@@ -165,7 +190,65 @@ const SaveNNext = () => {
         <div>Dia: <b className="text-primary">2.256 cts 12000 Amount</b></div>
         <div className=' '>
                 <FileUploaderMultiple />
-          </div>
+        </div>
+        <div>
+          <Button size='small' color='warning' variant='outlined' onClick={() => handleAddRemark()}>Add Remark</Button>
+          <>
+          {
+            remarkModal && 
+            <Modal
+              open={remarkModal}
+              aria-labelledby="parent-modal-title"
+              aria-describedby="parent-modal-description">
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    maxHeight: 400,
+                    bgcolor: 'background.paper',
+                    borderRadius: '12px',
+                    boxShadow: 24,
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    minHeight: '215px',
+                    border: 'none',
+                  }}
+                >
+                  <div className='w-100 d-flex flex-column my-1'>
+                    <div className='mb-3 d-flex align-items-center justify-content-between'><span></span><Tooltip title="Close"><span style={{cursor:'pointer'}} onClick={() => setRemarkModal(false)}><CancelIcon /></span></Tooltip></div>
+                    <textarea placeholder='Enter Your Remark' rows={5} className='mb-2 textareadRemark_snv' onChange={(e) => handleRemarkChange(e)} ></textarea>
+                    <Tooltip title="Save & Close"><Button color='success' variant='outlined' size='small' onClick={() => handleSaveRemark()} >Save Remark</Button></Tooltip>
+                    {/* <Snackbar
+                        open={openSnacBar}
+                        autoHideDuration={1000}
+                        onClose={() => setOpenSnacBar(false)} 
+                        message="Remark Saved"
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
+                        
+                        sx={{
+                          borderRadius: '8px',
+                          width: 'fit-content',
+                          padding: '8px',
+                          textAlign: 'center',
+                          fontSize: '14px',
+                          display:'flex',
+                          justifyContent:'center',
+                          alignItems:'center'
+                        }}
+                      /> */}
+                  </div>
+                </Box>
+
+            </Modal>
+
+          }
+          </>
+        </div>
       </div>
 
       <div className="filters-container_sn">

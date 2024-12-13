@@ -660,7 +660,9 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           </div> */}
           
         </div>
-        <div style={{minWidth:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor:'pointer'}}><button className='btn btn-success' title='Save' onClick={() => handleSaveFilters()}>Procced To Bill</button></div>
+        <div style={{minWidth:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor:'pointer'}}><button className='btn btn-success' title='Save' 
+          onClick={() => handleSaveFilters()}>Procced To Bill</button>
+        </div>
       </div>}
               
       { !SaveFiltersFlag && <>
@@ -739,7 +741,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
 
       <div className="action-buttons">
-        {buttonActions.map((action) => (
+        {buttonActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
               className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}

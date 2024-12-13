@@ -86,7 +86,7 @@ const IssuedMaterial = () => {
         { id: 'shape', label: 'Shape', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
         { id: 'clarity', label: 'Clarity', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
         { id: 'color', label: 'Color', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
-        { id: 'size', label: 'Size', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+        { id: 'size', label: 'Size', minWidth: 50, align: 'left', format: value => value?.toLocaleString('en-US') },
         { id: 'ctw', label: 'Ctw', minWidth: 60, align: 'right',  },
         { id: 'receivepcs', label: 'Receive Pcs', minWidth: 110, align: 'center',  },
         { id: 'receivectw', label: 'Receive Ctw', minWidth: 110, align: 'center',  },

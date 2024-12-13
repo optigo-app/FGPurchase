@@ -234,3 +234,32 @@
     border: 1px solid #007bff !important;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
+.textareadRemark_snv{
+    border: 1px solid #BDBDBD;
+    border-radius: 4px;
+    padding: 4px;
+}
+.textareadRemark_snv:focus{
+    outline: none;
+    border: 1px solid #007bff !important;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+
+
+.parent-container {
+    position: relative;
+  }
+  
+  .snackbar-custom {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 8px;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+  }

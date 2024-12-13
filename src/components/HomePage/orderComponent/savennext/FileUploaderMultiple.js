@@ -18,6 +18,7 @@ import { Icon } from '@iconify/react';
 import { useDropzone } from 'react-dropzone';
 import "./fileUpload.css"
 import { Tooltip } from '@mui/material';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const FileUploaderMultiple = () => {
   // ** State
@@ -86,11 +87,12 @@ const FileUploaderMultiple = () => {
                 borderRadius: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#e8e8e8'
+                // backgroundColor: '#e8e8e8'
                 //   backgroundColor: theme => `rgba(${theme.palette.customColors.main}, 0.08)`
             }}
           >
-            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><Icon icon='tabler:upload' fontSize='1.75rem' /></Tooltip>
+            {/* <Tooltip title="Upload Image" style={{cursor:'pointer'}}><Icon icon='tabler:upload' fontSize='1.75rem' /></Tooltip> */}
+            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><UploadFileIcon  /></Tooltip>
           </Box>
           {/* <Typography variant='h6' sx={{ mb: 1.5, minWidth:50, fontSize:'10px' }}>
             Upload Image

@@ -35,47 +35,47 @@ const NewOrder = () => {
         </div>
         <div className="filter_grid mt-3">
           <div>
-            <select name="" id="" autoFocus>
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Brand</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Collection</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Category</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Sub Category</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Product Type</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Gender</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Occasion</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Style</option>
             </select>
           </div>
           <div>
-            <select name="" id="">
+            <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>HSN</option>
             </select>
           </div>
