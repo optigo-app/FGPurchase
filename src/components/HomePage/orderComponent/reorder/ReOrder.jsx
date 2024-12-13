@@ -114,13 +114,13 @@ const ReOrder = () => {
         <div className="table-header d-flex justify-content-between align-items-center flexCol_re">
           <div>DESIGN NO: L-1245455</div>
           <div className="d-flex align-items-center flexCol_re">
-            <select name="" id="" className="select-box me-2">
+            {/* <select name="" id="" className="select-box me-2">
               <option value="" selected disabled>Issue By</option>
               <option value="powise">PO wise</option>
               <option value="jobwise">Job wise</option>
               <option value="batchwise">Batch wise</option>
               <option value="designwise">Design wise</option>
-            </select>
+            </select> */}
             <button className="btn btn-secondary action-btn">Receive Now</button>
             <button className="btn btn-secondary action-btn">Receive & Close</button>
           </div>

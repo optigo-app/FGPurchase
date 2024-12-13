@@ -64,6 +64,7 @@ const SaveNNext = () => {
     },
   ]);
   const [isColorStoneAdding, setIsColorStoneAdding] = useState(false);
+  const colorstone_focus = useRef();
   const csWtFocus = useRef();
 
   //add misc details pop up
@@ -80,6 +81,7 @@ const SaveNNext = () => {
     },
   ]);
   const [isMiscAdding, setMiscAdding] = useState(false);
+  const misc_focus = useRef();
   const miscWtFocus = useRef();
 
 
@@ -98,6 +100,7 @@ const SaveNNext = () => {
   ]);
   const [isFindingAdding, setFindingAdding] = useState(false);
   const findingWtFocus = useRef();
+  const finding_focus = useRef();
 
 
 
@@ -244,6 +247,10 @@ const SaveNNext = () => {
   }
   
 
+
+
+
+
   //diamond, cs, misc, finding logic of pop up
   const handleEnterKeyChange = useCallback((e, args) => {
     
@@ -251,11 +258,11 @@ const SaveNNext = () => {
       
       if(args === 'diamond'){
         setAddDiaInfoPopUp(true);
-        setIsAdding(true);
+        // setIsAdding(true);
       }
       if(args === 'colorstone'){
         setAddCSInfoPopUp(true);
-        setIsColorStoneAdding(true);
+        // setIsColorStoneAdding(true);
       }
       if(args === 'misc'){
         setAddMiscInfoPopUp(true);
@@ -271,8 +278,13 @@ const SaveNNext = () => {
 
   const handleCloseModal = () => {
     setAddDiaInfoPopUp(false);
-    
+    setAddCSInfoPopUp(false);
+    setAddMiscInfoPopUp(false);
+    setAddFindingInfoPopUp(false);
   };
+
+
+  
 
   //add diamond pop up logic
   const handleDiamondInputChange = (e, rowIndex) => {
@@ -301,18 +313,26 @@ const SaveNNext = () => {
         handleAddRow();
       }
     };
-     // Focus on the input field when the modal is open
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //       if (addDiaInfoPopUp && diamond_Focus.current) {
-  //         diamond_Focus.current.focus();
-  //       }
-  //   },10);
-  // }, [addDiaInfoPopUp]);
+  useEffect(() => {
+    if (addDiaInfoPopUp) {
+      setTimeout(() => {
+        if (diamond_Focus.current) {
+          diamond_Focus.current.focus();
+        }
+      }, 0);
+    }
+  }, [addDiaInfoPopUp]);
+
   const handleSaveDiamondDetails = () => {
     console.log(addDiamondRows);
     setAddDiaInfoPopUp(false);
   }
+
+
+
+
+
+
 
 //add colorstone pop up logic
   const handleSaveColorstoneDetails = () => {
@@ -345,7 +365,24 @@ const SaveNNext = () => {
           handleCSAddRow();
         }
       };
-      
+      useEffect(() => {
+        if (addCSInfoPopUp) {
+          setTimeout(() => {
+            if (colorstone_focus.current) {
+              colorstone_focus.current.focus();
+            }
+          }, 0);
+        }
+      }, [addCSInfoPopUp]);
+
+
+
+
+
+
+
+
+
 
 
   //add misc pop up logic
@@ -379,6 +416,21 @@ const SaveNNext = () => {
           handleMiscAddRow();
         }
       };
+      useEffect(() => {
+        if (addMiscInfoPopUp) {
+          setTimeout(() => {
+            if (misc_focus.current) {
+              misc_focus.current.focus();
+            }
+          }, 0);
+        }
+      }, [addMiscInfoPopUp]);
+
+
+
+
+
+
 
 
 
@@ -413,7 +465,20 @@ const SaveNNext = () => {
           handleFindingAddRow();
         }
       };
+      useEffect(() => {
+        if (addFindingInfoPopUp) {
+          setTimeout(() => {
+            if (finding_focus.current) {
+              finding_focus.current.focus();
+            }
+          }, 0);
+        }
+      }, [addFindingInfoPopUp]);
 
+
+
+
+      
   
 
 
@@ -515,13 +580,13 @@ const SaveNNext = () => {
           <input type="text" placeholder="Dia.Wt"  onKeyDown={(e) => handleEnterKeyChange(e, 'diamond')} />
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Cs.Wt" inputRef={csWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'colorstone')} />
+          <input type="text" placeholder="Cs.Wt" ref={csWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'colorstone')} />
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Misc Wt" onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
+          <input type="text" placeholder="Misc Wt" ref={miscWtFocus}  onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Finding Wt" onKeyDown={(e) => handleEnterKeyChange(e, 'finding')} />
+          <input type="text" placeholder="Finding Wt" ref={findingWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'finding')} />
         </div>
         <div className="filter-item">
             <input type="text" placeholder="Labour" />
@@ -897,6 +962,7 @@ const SaveNNext = () => {
                             <input
                               type="text"
                               name="type"
+                              ref={diamond_Focus}
                               value={rowData.type}
                               onChange={handleDiamondInputChange}
                               style={{width:'80px', border: "1px solid #ccc"}}
@@ -1093,6 +1159,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                               placeholder='Shape'
                               autoComplete='off'
+                              ref={colorstone_focus}
                             />
                             <input
                               type="text"
@@ -1285,6 +1352,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                               autoComplete='off'
                               autoFocus
+                              ref={misc_focus}
                             />
                           
                         </td>
@@ -1435,6 +1503,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                               autoComplete='off'
                               autoFocus
+                              ref={finding_focus}
                             />
                           
                         </td>
