@@ -916,7 +916,7 @@ const SaveNNext = () => {
                       top: '50%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      width: "95%",
+                      // width: "95%",
                       bgcolor: 'background.paper',
                       borderRadius: '12px',
                       boxShadow: 24,
@@ -927,6 +927,7 @@ const SaveNNext = () => {
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
+                      minWidth:'1350px'
                     }}
             >
               <div className='w-100'>
@@ -940,7 +941,7 @@ const SaveNNext = () => {
             <thead>
               <tr>
                 <th align='center'>Sr</th>
-                
+                <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
@@ -955,9 +956,21 @@ const SaveNNext = () => {
                     {
                       addDiamondRows?.map((rowData, i) => {
                         return <tr key={i}>
-                        <td align="center">1</td>
-                        
-                        <td align="left">
+                        <td align="center" width={"50px"}>1</td>
+                        <td align='center' width={"80px"}>
+                        <input
+                              type="text"
+                              name="type"
+                              ref={diamond_Focus}
+                              value={rowData.type}
+                              onChange={handleDiamondInputChange}
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Shape'
+                              autoComplete='off'
+                            />
+                        </td>
+                        <td align="left" width={"350px"}>
                             <div>
                             <input
                               type="text"
@@ -1003,7 +1016,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
-                        <td align="center">
+                        <td align="center" width={"130px"}>
                             <div>
                             <input
                               type="text"
@@ -1026,7 +1039,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
-                        <td align="left">
+                        <td align="left" width={"100px"}>
                             <input
                               type="text"
                               name="supplier"
@@ -1037,7 +1050,7 @@ const SaveNNext = () => {
                               placeholder='supplier'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="rate"
@@ -1048,7 +1061,7 @@ const SaveNNext = () => {
                               placeholder='rate'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="amount"
@@ -1059,10 +1072,10 @@ const SaveNNext = () => {
                               placeholder='amount'
                             />
                         </td>
-                        <td align="center">
+                        <td align="center" width={"60px"}>
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
                         </td>
-                        <td align="left">
+                        <td align="left" width={"80px"}>
                             <input
                               type="checkbox"
                               name="onpcs"
@@ -1073,7 +1086,7 @@ const SaveNNext = () => {
                               placeholder=''
                             />
                         </td>
-                        <td align="center">
+                        <td align="center" width={"80px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleDIamondKeyDown}><AddCircleIcon
                             titleAccess="Add Entry"
                             onClick={handleAddRow}
@@ -1107,7 +1120,7 @@ const SaveNNext = () => {
                       top: '50%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      width: "95%",
+                      // width: "70%",
                       bgcolor: 'background.paper',
                       borderRadius: '12px',
                       boxShadow: 24,
@@ -1118,6 +1131,7 @@ const SaveNNext = () => {
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
+                      minWidth:'1350px'
                     }}
             >
               <div className='w-100'>
@@ -1131,7 +1145,7 @@ const SaveNNext = () => {
             <thead>
               <tr>
                 <th align='center'>Sr</th>
-                
+                <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
@@ -1146,9 +1160,21 @@ const SaveNNext = () => {
                     {
                       addCsRows?.map((rowData, i) => {
                         return <tr key={i}>
-                        <td align="center">1</td>
-                       
-                        <td align="left">
+                        <td align="center" width={"80px"}>1</td>
+                        <td align='left' width={"100px"}>
+                              <input
+                                type="text"
+                                name="type"
+                                value={rowData.type}
+                                onChange={handleColorstoneInputChange}
+                                style={{width:'80px', border: "1px solid #ccc"}}
+                                className='onfocus_snv m_x_inp_snv'
+                                placeholder='Shape'
+                                autoComplete='off'
+                                ref={colorstone_focus}
+                              />
+                        </td>
+                        <td align="left" width={"360px"}>
                             <div>
                             <input
                               type="text"
@@ -1159,7 +1185,6 @@ const SaveNNext = () => {
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
                               autoComplete='off'
-                              ref={colorstone_focus}
                             />
                             <input
                               type="text"
@@ -1194,7 +1219,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
-                        <td align="center">
+                        <td align="center" width={"130px"}>
                             <div>
                             <input
                               type="text"
@@ -1219,7 +1244,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
-                        <td align="left">
+                        <td align="left" width={"80px"}>
                             <input
                               type="text"
                               name="supplier"
@@ -1231,7 +1256,7 @@ const SaveNNext = () => {
                               autoComplete='off'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="rate"
@@ -1243,7 +1268,7 @@ const SaveNNext = () => {
                               autoComplete='off'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="amount"
@@ -1255,10 +1280,10 @@ const SaveNNext = () => {
                               autoComplete='off'
                             />
                         </td>
-                        <td align="center">
+                        <td align="center" width={"80px"}>
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
                         </td>
-                        <td align="left">
+                        <td align="left" width={"80px"}>
                             <input
                               type="checkbox"
                               name="onpcs"
@@ -1269,7 +1294,7 @@ const SaveNNext = () => {
                             />
                           
                         </td>
-                        <td align="center">
+                        <td align="center" width={"80px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleColorstoneKeyDown}><AddCircleIcon
                             titleAccess="Add Entry"
                             onClick={handleCSAddRow}
@@ -1303,7 +1328,7 @@ const SaveNNext = () => {
                       top: '50%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      width: "95%",
+                      // width: "95%",
                       bgcolor: 'background.paper',
                       borderRadius: '12px',
                       boxShadow: 24,
@@ -1314,6 +1339,7 @@ const SaveNNext = () => {
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
+                      minWidth:'1350px'
                     }}
             >
               <div className='w-100'>
@@ -1341,32 +1367,67 @@ const SaveNNext = () => {
                     {
                       addMiscRows?.map((rowData, i) => {
                         return <tr key={i}>
-                        <td align="center">1</td>
-                        <td align="left">
+                        <td align="center" width={"50px"}>1</td>
+                        <td align='left' width={"100px"}>
+                              <input
+                                type="text"
+                                name="type"
+                                value={rowData.type}
+                                onChange={handleMiscInputChange}
+                                style={{width:'80px', border: "1px solid #ccc"}}
+                                className='onfocus_snv m_x_inp_snv'
+                                placeholder='Shape'
+                                autoComplete='off'
+                                ref={misc_focus}
+                              />
+                        </td>
+
+                        <td align="left" width={"360px"}>
+                            <div>
                             <input
                               type="text"
                               name="type"
                               value={rowData.type}
                               onChange={handleMiscInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Shape'
                               autoComplete='off'
-                              autoFocus
-                              ref={misc_focus}
                             />
-                          
-                        </td>
-                        <td align="left">
                             <input
                               type="text"
-                              name="criteria"
-                              value={rowData.criteria}
+                              name="type"
+                              value={rowData.type}
                               onChange={handleMiscInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              style={{width:'70px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Clarity'
+                              autoComplete='off'
                             />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleMiscInputChange}
+                              style={{width:'70px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Color'
+                              autoComplete='off'
+                            />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleMiscInputChange}
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Size'
+                              autoComplete='off'
+                            />
+                            </div>
+                          
                         </td>
-                        <td align="center">
+                        <td align="center" width={"130px"}>
                             <div>
                             <input
                               type="text"
@@ -1387,7 +1448,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
-                        <td align="left">
+                        <td align="left" width={"80px"}>
                             <input
                               type="text"
                               name="supplier"
@@ -1397,7 +1458,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="rate"
@@ -1407,7 +1468,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="amount"
@@ -1417,10 +1478,10 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                             />
                         </td>
-                        <td align="center">
+                        <td align="center" width={"50px"}>
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
                         </td>
-                        <td align="center">
+                        <td align="center" width={"50px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleMiscKeyDown}><AddCircleIcon
                                   titleAccess="Add Entry"
                                   onClick={handleMiscAddRow}
@@ -1454,7 +1515,7 @@ const SaveNNext = () => {
                       top: '50%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      width: "95%",
+                      // width: "95%",
                       bgcolor: 'background.paper',
                       borderRadius: '12px',
                       boxShadow: 24,
@@ -1465,6 +1526,7 @@ const SaveNNext = () => {
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
+                      minWidth:'1350px'
                     }}
             >
               <div className='w-100'>
@@ -1492,32 +1554,66 @@ const SaveNNext = () => {
                     {
                       addFindingRows?.map((rowData, i) => {
                         return <tr key={i}>
-                        <td align="center">1</td>
-                        <td align="left">
+                        <td align="center" width={"60px"}>1</td>
+                        <td align='left' width={"100px"}>
+                              <input
+                                type="text"
+                                name="type"
+                                value={rowData.type}
+                                onChange={handleFindingInputChange}
+                                style={{width:'80px', border: "1px solid #ccc"}}
+                                className='onfocus_snv m_x_inp_snv'
+                                placeholder='Shape'
+                                autoComplete='off'
+                                ref={finding_focus}
+                              />
+                        </td>
+                        <td align="left" width={"360px"}>
+                            <div>
                             <input
                               type="text"
                               name="type"
                               value={rowData.type}
                               onChange={handleFindingInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Shape'
                               autoComplete='off'
-                              autoFocus
-                              ref={finding_focus}
                             />
-                          
-                        </td>
-                        <td align="left">
                             <input
                               type="text"
-                              name="criteria"
-                              value={rowData.criteria}
+                              name="type"
+                              value={rowData.type}
                               onChange={handleFindingInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Accessories'
+                              autoComplete='off'
                             />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleFindingInputChange}
+                              style={{width:'70px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Purity'
+                              autoComplete='off'
+                            />
+                            <input
+                              type="text"
+                              name="type"
+                              value={rowData.type}
+                              onChange={handleFindingInputChange}
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Color'
+                              autoComplete='off'
+                            />
+                            </div>
+                          
                         </td>
-                        <td align="center">
+                        <td align="center" width={"130px"}>
                             <div>
                             <input
                               type="text"
@@ -1538,7 +1634,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
-                        <td align="left">
+                        <td align="left" width={"80px"}>
                             <input
                               type="text"
                               name="supplier"
@@ -1548,7 +1644,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="rate"
@@ -1558,7 +1654,7 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                             />
                         </td>
-                        <td align="right">
+                        <td align="right" width={"80px"}>
                             <input
                               type="text"
                               name="amount"
@@ -1568,10 +1664,10 @@ const SaveNNext = () => {
                               className='onfocus_snv'
                             />
                         </td>
-                        <td align="center">
+                        <td align="center " width={"80px"}>
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
                         </td>
-                        <td align="center">
+                        <td align="center" width={"80px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleFindingKeyDown}><AddCircleIcon
                                   titleAccess="Add Entry"
                                   onClick={handleFindingAddRow}
