@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import "./savennext.css";
 // import  DeleteIcon  from '@mui/icons-material/Delete';
 import DeleteIcon from "../../../../assets/images/delete.png";
@@ -9,13 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import  EditIcon  from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
-import { Tooltip, Modal, Box, Button, Typography } from '@mui/material';
+import { Tooltip, Modal, Box, Button } from '@mui/material';
 import FileUploaderMultiple from './FileUploaderMultiple';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MountGrid from './MountGrid';
 import IssuedMaterial from './IssuedMaterial';
 import Snackbar from '@mui/material/Snackbar';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mountModal = useSelector(state => state?.home?.mountModal);
@@ -31,40 +30,7 @@ const SaveNNext = () => {
   //remark variables
   const [remarkModal, setRemarkModal] = useState(false);
   const [saveRemark, setSaveRemark] = useState('');
-
-
-  //add diamond details pop up
-  const [addDiaInfoPopUp, setAddDiaInfoPopUp] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
-  const [addDiamondRows, setAddDiamondRows] = useState([
-    // Default row
-    {
-      type: '',
-      criteria: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-    },
-  ]);
-  const diamond_Focus = useRef();
-
-  //add colorstone details pop up
-  const [addCSInfoPopUp, setAddCSInfoPopUp] = useState(false);
-  const [addCsRows, setAddCSRows] = useState([
-    {
-      type: '',
-      criteria: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-    },
-  ]);
-  const [isColorStoneAdding, setIsColorStoneAdding] = useState(false);
-  const csWtFocus = useRef();
+  // const [openSnacBar, setOpenSnacBar] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [rowData, setRowData] = useState({
@@ -172,6 +138,7 @@ const SaveNNext = () => {
 
   const handleSaveClick = () => {
     setIsEditing(false);
+    // Add logic to save updated data to backend or state
     console.log("Updated Row Data:", rowData);
   };
 
@@ -193,6 +160,7 @@ const SaveNNext = () => {
   //add remark logic
   const handleAddRemark = () => {
     setRemarkModal(true);
+    // setOpenSnacBar(false);
   }
   const handleRemarkChange = (e) => {
     setSaveRemark(e.target.value);
@@ -202,119 +170,9 @@ const SaveNNext = () => {
       if(saveRemark){
         console.log(saveRemark);
         setRemarkModal(false);
+        // setOpenSnacBar(true);
       }
   }
-
-
-  //enter key logic
-  // const handleEnterKeyChange = useCallback((e) => {
-  //     console.log('sav n eny then also its call ');
-      
-  //     if(e.key?.toLowerCase() === "enter"){
-  //       console.log('pressed');
-        
-  //       setAddDiaInfoPopUp(true);
-  //       setIsAdding(true);
-  //     }
-      
-  // },[addDiaInfoPopUp]);
-  
-  const handleEnterKeyChange = useCallback((e, args) => {
-    
-    if (e?.key?.toLowerCase() === "enter") {
-      
-      if(args === 'diamond'){
-        setAddDiaInfoPopUp(true);
-        setIsAdding(true);
-      }
-      if(args === 'colorstone'){
-        setAddCSInfoPopUp(true);
-        setIsColorStoneAdding(true);
-      }
-    }
-
-  }, [addDiaInfoPopUp, addCSInfoPopUp]);
-
-  const handleCloseModal = () => {
-    setAddDiaInfoPopUp(false);
-  };
-
-  const handleDiamondInputChange = (e, rowIndex) => {
-    const { name, value } = e.target;
-    const updatedRows = [...addDiamondRows];
-    updatedRows[rowIndex][name] = value;
-    setAddDiamondRows(updatedRows);
-  };
-    // Add a new row
-    const handleAddRow = () => {
-      setAddDiamondRows([
-        ...addDiamondRows,
-        {
-          type: '',
-          criteria: '',
-          pcs: '',
-          wt: '',
-          supplier: '',
-          rate: '',
-          amount: '',
-        },
-      ]);
-    };
-    const handleDIamondKeyDown = (e) => {
-      if (e.key === 'Enter') {
-        handleAddRow();
-      }
-    };
-     // Focus on the input field when the modal is open
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //       if (addDiaInfoPopUp && diamond_Focus.current) {
-  //         diamond_Focus.current.focus();
-  //       }
-  //   },10);
-  // }, [addDiaInfoPopUp]);
-
-  
-
-
-  const handleSaveDiamondDetails = () => {
-    console.log(addDiamondRows);
-    setAddDiaInfoPopUp(false);
-  }
-
-
-  const handleSaveColorstoneDetails = () => {
-    console.log(addCsRows);
-    setAddCSInfoPopUp(false);
-  }
-  const handleColorstoneInputChange = (e, rowIndex) => {
-    const { name, value } = e.target;
-    const updatedRows = [...addCsRows];
-    updatedRows[rowIndex][name] = value;
-    setAddCSRows(updatedRows);
-  };
-      // Add a new row
-      const handleCSAddRow = () => {
-        setAddCSRows([
-          ...addCsRows,
-          {
-            type: '',
-            criteria: '',
-            pcs: '',
-            wt: '',
-            supplier: '',
-            rate: '',
-            amount: '',
-          },
-        ]);
-      };
-      const handleColorstoneKeyDown = (e) => {
-        if (e.key === 'Enter') {
-          handleCSAddRow();
-        }
-      };
-
-  
 
 
   return (
@@ -365,6 +223,24 @@ const SaveNNext = () => {
                     <div className='mb-3 d-flex align-items-center justify-content-between'><span></span><Tooltip title="Close"><span style={{cursor:'pointer'}} onClick={() => setRemarkModal(false)}><CancelIcon /></span></Tooltip></div>
                     <textarea placeholder='Enter Your Remark' rows={5} className='mb-2 textareadRemark_snv' onChange={(e) => handleRemarkChange(e)} ></textarea>
                     <Tooltip title="Save & Close"><Button color='success' variant='outlined' size='small' onClick={() => handleSaveRemark()} >Save Remark</Button></Tooltip>
+                    {/* <Snackbar
+                        open={openSnacBar}
+                        autoHideDuration={1000}
+                        onClose={() => setOpenSnacBar(false)} 
+                        message="Remark Saved"
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
+                        
+                        sx={{
+                          borderRadius: '8px',
+                          width: 'fit-content',
+                          padding: '8px',
+                          textAlign: 'center',
+                          fontSize: '14px',
+                          display:'flex',
+                          justifyContent:'center',
+                          alignItems:'center'
+                        }}
+                      /> */}
                   </div>
                 </Box>
 
@@ -377,7 +253,7 @@ const SaveNNext = () => {
 
       <div className="filters-container_sn">
         <div className="filter-item">
-          <input type="text" placeholder="HSN" autoFocus />
+          <input type="text" placeholder="HSN" />
         </div>
         <div className="filter-item">
           <input type="text" placeholder="Ref No" />
@@ -388,12 +264,27 @@ const SaveNNext = () => {
         <div className="filter-item">
           <input type="text" placeholder="Certificate No." />
         </div>
+        {/* <div className="filter-item">
+          <input type="text" placeholder="Sales Lab" />
+        </div> */}
         <div className="filter-item">
           <input type="text" placeholder="HUID No" />
         </div>
         <div className="filter-item d-flex justify-content-center align-items-center w-100">
           <Tooltip title="Change Criteria" style={{cursor:'pointer'}}><SettingsIcon /></Tooltip>
         </div>
+        {/* <div className="filter-item">
+          <div className='d-flex align-items-center'>
+            <input type="text" placeholder="Dia. Wt" style={{maxWidth:'75px'}} />
+            <span className='addIcon_svn'><Tooltip title="Add Diamond"><AddIcon /></Tooltip></span>
+          </div>
+        </div>
+        <div className="filter-item">
+          <div className='d-flex align-items-center'>
+            <input type="text" placeholder="Cs. Wt" style={{maxWidth:'75px'}} />
+            <span className='addIcon_svn'><Tooltip title="Add Colorstone"><AddIcon /></Tooltip></span>
+          </div>
+        </div> */}
       </div>
       <div className="filters-container2">
         <div className="filter-item">
@@ -412,40 +303,75 @@ const SaveNNext = () => {
           <input type="text" placeholder="Wastage" />
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Dia.Wt"  onKeyDown={(e) => handleEnterKeyChange(e, 'diamond')} />
+          <input type="text" placeholder="Dia.Wt" />
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Cs.Wt" inputRef={csWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'colorstone')} />
+          <input type="text" placeholder="Cs.Wt" />
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Misc Wt" onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
+          <input type="text" placeholder="Misc Wt" />
         </div>
         <div className="filter-item">
             <input type="text" placeholder="Labour" />
           </div>
           <div className="filter-item">
-            <input type="text" placeholder="SalesLabour" />
+            <input type="text" placeholder="Sale Labour" />
           </div>
-        
+        {/* <div className="filter-item">
+          <input type="text" placeholder="Loss On" />
+        </div>
+        <div className="filter-item">
+          <input type="text" placeholder="Loss" />
+        </div>
+        <div className="filter-item">
+          <input type="text" placeholder="Metal Rate" />
+        </div> */}
+        {/* <div className="filter-item">
+          <input type="text" placeholder="Labour" />
+        </div>
+        <div className="filter-item">
+          <input type="text" placeholder="Sales Labour" />
+        </div> */}
+        {/* <div className="filter-item">
+          <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save</button>
+        </div>
+        <div className="filter-item">
+          <button className='btn btn-success fs_sn_fgp' onClick={() => dispatch(handleSaveAndNextFlag(false))} style={{minWidth:'100px'}}>Save & New</button>
+        </div>
+        <div className="filter-item">
+          <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save & Print</button>
+        </div> */}
       </div>
-      
-      {/* { !addMoreMaterial && <div className='mt-3' onClick={() => setAddMoreMaterial(true)}><Button size='small' color='warning' variant='contained'>Add Material Details</Button></div>} */}
+      {/* <div className="filters-container3_sn">
+        <div className="filter-item">
+            <input type="text" placeholder="Labour" />
+          </div>
+          <div className="filter-item">
+            <input type="text" placeholder="Sales Labour" />
+          </div>
+      </div> */}
+      {/* <div className='d-flex align-items-center'>
+        <label htmlFor="remark" className='form-label pe-2 mb-0'>Remark</label>
+        <textarea name="remark" id="remark" cols="60" rows="3" className='remark_area_Snv'>
+        </textarea>
+      </div> */}
+      { !addMoreMaterial && <div className='mt-3' onClick={() => setAddMoreMaterial(true)}><Button size='small' color='warning' variant='contained'>Add Material Details</Button></div>}
 
       <div>
         {
-        //  addMoreMaterial && <>
-         1 && <>
+         addMoreMaterial && <>
           <div className='d-flex justify-content-between align-items-center mb-2 pt-3'>
           <h5 className='ps-2'>Add Material Details</h5>
           <div className='d-flex justify-content-between align-items-center'>
             <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div>
             <div><Tooltip title="Issued Material"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
+            {/* <div><button className='p-1 py-0 px-2 btn btn-warning mx-1' title=''>D</button></div> */}
           </div>
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
 
-        {/* <div className="filters-container2">
+        <div className="filters-container2">
         <div className="filter-item">
           <select name="material" placeholder="material" id="mateiral" value={materialSelectedValue} onChange={handleMaterialSelection}>
             <option value="" disabled selected>select</option>
@@ -496,6 +422,11 @@ const SaveNNext = () => {
             <input type="checkbox" id='onpcs' style={{width:'20px'}} /><label htmlFor="onpcs" className='ps-1 user-select-none'>On Pcs</label>
           </div>
         </div>
+        {/* { materialSelectedValue == 3 && <div className="filter-item">
+          <div className='d-flex justify-content-center align-items-center'>
+            <input type="checkbox" id='addgrosswt' style={{width:'20px'}} /><label htmlFor="addgrosswt" className='ps-1 user-select-none minWGwt'>Add In GrossWt</label>
+          </div>
+        </div>} */}
         <div className="filter-item">
           <div className='fs_sn_fgp w-100 d-flex justify-content-center'><AddIcon titleAccess='Add Material' style={{border:'1px solid #989898', cursor:'pointer', borderRadius:'16px'}} /></div>
         </div>
@@ -536,9 +467,23 @@ const SaveNNext = () => {
         </div>
            </>
           }
+        {/* <div className="filter-item">
+        <select name="salerateon" id="salerateon">
+            <option value="salerateon">Sale Rate On</option>
+          </select>
+        </div>
+        <div className="filter-item">
+          <input type="text" placeholder="Sale Rate" />
         </div> */}
+        
+        
+        </div>
+
+
+
+        {/* <div style={{overflowX:'scroll', maxHeight:'245px'}}> */}
         <div style={{maxHeight:'245px'}}>
-        { addMoreMaterial && <table className='table'>
+        <table className='table'>
             <thead>
               <tr>
                 <th align='center'>Sr</th>
@@ -678,7 +623,7 @@ const SaveNNext = () => {
             </td>
           </tr>
         </tbody>
-        </table>}
+        </table>
         {
           markUpModal && <Modal
             open={markUpModal}
@@ -733,311 +678,19 @@ const SaveNNext = () => {
             </Box>
           </Modal>
         }
-        {
-          addDiaInfoPopUp && <Modal
-            open={addDiaInfoPopUp}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-            onClose={handleCloseModal}
-          >
-            <Box 
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: "95%",
-                      bgcolor: 'background.paper',
-                      borderRadius: '12px',
-                      boxShadow: 24,
-                      p: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      maxHeight: '500px',
-                      overflowY:'scroll',
-                      border: 'none',
-                    }}
-            >
-              <div className='w-100'>
-                <div className='d-flex align-items-center justify-content-between p-1'>
-                    <div></div>
-                    <div><Typography variant='h6'>Add Diamond Details</Typography></div>
-                    <div><Tooltip title="Close" onClick={() => setAddDiaInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
-                </div>
-                <div className='w-100'>
-                <table className='table'>
-            <thead>
-              <tr>
-                <th align='center'>Sr</th>
-                <th align='center'>Type</th>
-                <th align='center'>Criteria</th>
-                <th align='center'>Pcs/Wt</th>
-                <th align='center'>Supplier</th>
-                <th align='center'>Rate</th>
-                <th align='center'>Amount</th>
-                <th align='center'>Mark Up</th>
-                <th align='center'>Add</th>
-              </tr>
-            </thead>
-            <tbody>
-                    {
-                      addDiamondRows?.map((rowData, i) => {
-                        return <tr key={i}>
-                        <td align="center">1</td>
-                        <td align="left">
-                            <input
-                              type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                              inputRef={diamond_Focus}
-                              autoComplete='off'
-                              autoFocus
-                            />
-                          
-                        </td>
-                        <td align="left">
-                            <input
-                              type="text"
-                              name="criteria"
-                              value={rowData.criteria}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="center">
-                            <div>
-                            <input
-                              type="text"
-                              name="pcsWt"
-                              value={rowData.pcs}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                            <input
-                              type="text"
-                              name="pcsWt"
-                              value={rowData.wt}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'60px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                            </div>
-                          
-                        </td>
-                        <td align="left">
-                            <input
-                              type="text"
-                              name="supplier"
-                              value={rowData.supplier}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="right">
-                            <input
-                              type="text"
-                              name="rate"
-                              value={rowData.rate}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="right">
-                            <input
-                              type="text"
-                              name="amount"
-                              value={rowData.amount}
-                              onChange={handleDiamondInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="center">
-                          <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
-                        </td>
-                        <td align="center">
-                            <Button sx={{width:'50px'}} onKeyDown={handleDIamondKeyDown}><AddCircleIcon
-                            titleAccess="Add Entry"
-                            onClick={handleAddRow}
-                            style={{ cursor: "pointer" }}
-                          /></Button>
-                        </td>
-                      </tr>
-                      })
-                    }
-            </tbody>
-          </table>
-      
-              <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveDiamondDetails()}>Save Diamond Details</Button></div>
-
-                </div>
-              </div>
-            </Box>
-
-          </Modal>
-        }
-        {
-          addCSInfoPopUp && <Modal
-            open={addCSInfoPopUp}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-            onClose={handleCloseModal}
-          >
-            <Box 
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: "95%",
-                      bgcolor: 'background.paper',
-                      borderRadius: '12px',
-                      boxShadow: 24,
-                      p: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      maxHeight: '500px',
-                      overflowY:'scroll',
-                      border: 'none',
-                    }}
-            >
-              <div className='w-100'>
-                <div className='d-flex align-items-center justify-content-between p-1'>
-                    <div></div>
-                    <div><Typography variant='h6'>Add ColorStone Details</Typography></div>
-                    <div><Tooltip title="Close" onClick={() => setAddCSInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
-                </div>
-                <div className='w-100'>
-                <table className='table'>
-            <thead>
-              <tr>
-                <th align='center'>Sr</th>
-                <th align='center'>Type</th>
-                <th align='center'>Criteria</th>
-                <th align='center'>Pcs/Wt</th>
-                <th align='center'>Supplier</th>
-                <th align='center'>Rate</th>
-                <th align='center'>Amount</th>
-                <th align='center'>Mark Up</th>
-                <th align='center'>Add</th>
-              </tr>
-            </thead>
-            <tbody>
-                    {
-                      addCsRows?.map((rowData, i) => {
-                        return <tr key={i}>
-                        <td align="center">1</td>
-                        <td align="left">
-                            <input
-                              type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                              autoComplete='off'
-                              autoFocus
-                            />
-                          
-                        </td>
-                        <td align="left">
-                            <input
-                              type="text"
-                              name="criteria"
-                              value={rowData.criteria}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="center">
-                            <div>
-                            <input
-                              type="text"
-                              name="pcsWt"
-                              value={rowData.pcs}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                            <input
-                              type="text"
-                              name="pcsWt"
-                              value={rowData.wt}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'60px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                            </div>
-                          
-                        </td>
-                        <td align="left">
-                            <input
-                              type="text"
-                              name="supplier"
-                              value={rowData.supplier}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="right">
-                            <input
-                              type="text"
-                              name="rate"
-                              value={rowData.rate}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="right">
-                            <input
-                              type="text"
-                              name="amount"
-                              value={rowData.amount}
-                              onChange={handleColorstoneInputChange}
-                              style={{width:'100px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
-                            />
-                        </td>
-                        <td align="center">
-                          <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
-                        </td>
-                        <td align="center">
-                            <Button sx={{width:'50px'}} onKeyDown={handleColorstoneKeyDown}><AddCircleIcon
-                            titleAccess="Add Entry"
-                            onClick={handleCSAddRow}
-                            style={{ cursor: "pointer" }}
-                          /></Button>
-                        </td>
-                      </tr>
-                      })
-                    }
-            </tbody>
-          </table>
-      
-              <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveColorstoneDetails()}>Save ColorStone Details</Button></div>
-
-                </div>
-              </div>
-            </Box>
-
-          </Modal>
-        }
         </div>
         </>
         }
 
+        <div className='d-flex flex-wrap justify-content-center align-items-center p-1 py-3'>
+          {/* <div className=' '>
+                <FileUploaderMultiple />
+          </div> */}
+          {/* <div className='d-flex align-items-center ps-3'>
+            <label htmlFor="Remark" className='pe-2'>Remark : </label>
+            <textarea name="Remark" id="Remark" cols="60" rows="3"></textarea>
+          </div> */}
+        </div>
 
         <div className='d-flex align-items-center justify-content-center pb-2'>
           <div className="m-1">

@@ -162,7 +162,7 @@
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); /* This will adapt to screen size */
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* This will adapt to screen size */
 }
 .filters-container3_sn {
     display: grid;

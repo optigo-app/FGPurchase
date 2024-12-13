@@ -172,7 +172,7 @@ const IssuedMaterial = () => {
             >
                   <div className='d-flex justify-content-between align-items-center w-100 py-2 pb-2 px-0 border-bottom mb-2'>
                     <div>&nbsp;</div>
-                    <div><Typography variant='h5' color='primary'>Issued Material</Typography></div>
+                    <div><Typography variant='h5' color='primary'>Receive From Vendor</Typography></div>
                     <div><CancelIcon style={{cursor:'pointer'}} onClick={() => dispatch(handleIssuedMaterialModal(false))} /></div>
                 </div>
                 <div className='pb-2 w-100 d-flex align-items-center justify-content-end px-1'>
@@ -187,7 +187,7 @@ const IssuedMaterial = () => {
                       </select>
                     </Grid2>
                     <Grid2 item xs={12} sm={6} md={3} >
-                      <Button size='small' variant='contained' color='error'>Receive Now</Button>
+                      <Button size='small' variant='contained' color='success'>Receive Now</Button>
                     </Grid2>
                     <Grid2 item xs={12} sm={6} md={3} >
                       <Button size='small' variant='contained' color='success'>Receive & Close</Button>
