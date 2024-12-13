@@ -1,4 +1,4 @@
-table,
+/* table,
 th,
 td {
   border-collapse: collapse;
@@ -128,4 +128,169 @@ td {
     margin-left: 0px !important;
     width: 50% !important;
   }
+} */
+
+
+
+
+
+table,
+th,
+td {
+  border-collapse: collapse;
+}
+
+.tableTitle {
+  border-right: 1px solid #d4cbcb;
+  /* width: 200px; */
+  padding-block: 5px;
+  font-size: 13px;
+}
+
+.tableValue {
+  /* width: 200px; */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tableValueBalance {
+  width: 400px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.tableValueFinal {
+  /* width: 200px; */
+  display: flex;
+  justify-content: flex-end;
+  color: blue;
+  font-weight: 600;
+}
+
+.Summ_ApllyBtnPay {
+  height: 40px;
+  width: 50px;
+  background-color: #685dd8;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Summ_SaveEndContiBtnPay{
+  height: 40px;
+  background-color: #685dd8;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Summ_DiscountApllyBtnPay{
+  height: 40px;
+  background-color: #685dd8;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shipingDetailMainModel {
+  outline: none !important;
+}
+
+.summuryDeatilPopup_name {
+  font-size: 14px;
+  margin: 0px;
+  min-width: 150px;
+}
+.summuryDeatilPopup_textfild .MuiInputBase-input{
+  padding: 2px !important;
+  height: 25px !important;
+}
+.summuryDeatilPopupDiv {
+  display: flex;
+  align-items: center;
+  margin-block: 5px;
+}
+
+.summury_textArea {
+  width: 250px;
+  height: 100px;
+  border: 1px solid #e8e8e8;
+}
+
+.summuryExtraButtons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.summury_totalValue{
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0px;
+  border: 1px solid lightgray;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.titleForUpload{
+  margin: 0px;
+}
+.uploadBoxView{
+  height: 35px;
+  width: 250px;
+
+}
+
+
+.summuryDiv1_table1 {
+  width: 33.33%;
+}
+.summuryDiv1_table2 {
+  width: 100%;
+}
+
+.remakrTitle {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 150px;
+}
+
+.tableTitleFinal {
+  border-right: 1px solid #d4cbcb;
+  padding-block: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: blue;
+}
+
+.tabkeMainTitle {
+  background-color: #dee2e666;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tableRow {
+  border-bottom: 1px solid #d4cbcb;
+}
+
+@media (max-width: 1500px) {
+
 }

@@ -966,7 +966,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleDiamondInputChange}
                               style={{width:'80px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
                               autoComplete='off'
                             />
@@ -976,7 +976,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleDiamondInputChange}
                               style={{width:'70px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Clarity'
                               autoComplete='off'
                             />
@@ -986,7 +986,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleDiamondInputChange}
                               style={{width:'70px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Color'
                               autoComplete='off'
                             />
@@ -996,7 +996,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleDiamondInputChange}
                               style={{width:'80px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Size'
                               autoComplete='off'
                             />
@@ -1156,7 +1156,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleColorstoneInputChange}
                               style={{width:'80px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
                               autoComplete='off'
                               ref={colorstone_focus}
@@ -1167,7 +1167,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleColorstoneInputChange}
                               style={{width:'70px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Clarity'
                               autoComplete='off'
                             />
@@ -1177,7 +1177,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleColorstoneInputChange}
                               style={{width:'70px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Color'
                               autoComplete='off'
                             />
@@ -1187,7 +1187,7 @@ const SaveNNext = () => {
                               value={rowData.type}
                               onChange={handleColorstoneInputChange}
                               style={{width:'80px', border: "1px solid #ccc"}}
-                              className='onfocus_snv'
+                              className='onfocus_snv m_x_inp_snv'
                               placeholder='Size'
                               autoComplete='off'
                             />
