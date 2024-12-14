@@ -30,6 +30,8 @@ const UserData = () => {
 
   const [jobListData, setJobListData] = useState();
 
+  const [jobSearch, setJobSearch] = useState('');
+
   useEffect(() => {
     setJobListData([
       { details: '1/271928 ', gwt: 3.0, netwt: 2.6, totalamt: 3081.5, delete: null },
@@ -86,7 +88,7 @@ const UserData = () => {
               <EditIcon
                 fontSize="small"
                 style={{ border: '1px solid #e8e8e8', padding: '2px', marginLeft: '8px' }}
-                onClick={() => moveToSaveNNextPage(row)}
+                onClick={() => moveToSaveNNextPage(true)}
               />
             </Tooltip>
           </span>
@@ -113,7 +115,11 @@ const UserData = () => {
         </Tooltip>
       ),
     },
-  ]
+  ];
+
+  const handleJobSearch = (e) => {
+      setJobSearch(e.target.value);
+  }
 
   return (
     <div className="userDataContainer">
@@ -166,6 +172,9 @@ const UserData = () => {
       </div>
 
       {/* Table */}
+      <div className="mb-2">
+        <input type="Search Job" value={jobSearch} className="jobSearchINP" placeholder="Search jobs here" onChange={e => handleJobSearch(e)} />
+      </div>
       <div className="tableContainer">
         {/* <table className="table">
           <thead>
