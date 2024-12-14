@@ -40,12 +40,16 @@ const SaveNNext = () => {
     // Default row
     {
       type: '',
-      criteria: '',
+      shape: '',
+      clarity:'',
+      color:'',
+      size:'',
       pcs: '',
       wt: '',
       supplier: '',
       rate: '',
       amount: '',
+      onPcs:false
     },
   ]);
   const diamond_Focus = useRef();
@@ -88,15 +92,15 @@ const SaveNNext = () => {
   //add finding details pop up
   const [addFindingInfoPopUp, setAddFindingInfoPopUp] = useState(false);
   const [addFindingRows, setAddFindingRows] = useState([
-    {
-      type: '',
-      criteria: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-    },
+    // {
+    //   type: '',
+    //   criteria: '',
+    //   pcs: '',
+    //   wt: '',
+    //   supplier: '',
+    //   rate: '',
+    //   amount: '',
+    // },
   ]);
   const [isFindingAdding, setFindingAdding] = useState(false);
   const findingWtFocus = useRef();
@@ -288,9 +292,16 @@ const SaveNNext = () => {
 
   //add diamond pop up logic
   const handleDiamondInputChange = (e, rowIndex) => {
-    const { name, value } = e.target;
+    // const { name, value } = e.target;
+    // const updatedRows = [...addDiamondRows];
+    // updatedRows[rowIndex][name] = value;
+    // setAddDiamondRows(updatedRows);
+    const { name, value, type, checked } = e.target;
     const updatedRows = [...addDiamondRows];
-    updatedRows[rowIndex][name] = value;
+  
+    // Use `checked` for checkboxes, `value` for other inputs
+    updatedRows[rowIndex][name] = type === "checkbox" ? checked : value;
+  
     setAddDiamondRows(updatedRows);
   };
     // Add a new row
@@ -612,6 +623,46 @@ const SaveNNext = () => {
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
+            {console.log(addDiamondRows)}
+          { (addDiamondRows?.length > 0 || addCsRows?.length > 0) && <div>
+              <table className='table'>
+                <thead>
+                  <tr>
+                    <th>Sr</th>
+                    <th>Type</th>
+                    <th>Shape</th>
+                    <th>Clarity</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Pcs/Wt</th>
+                    <th>Supplier</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    {/* <th>Mark Up</th> */}
+                    <th>On Pcs</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    addDiamondRows?.map((e, i) => {
+                      return <tr key={i}>
+                          <td>{i+1}</td>
+                          <td>{e?.type}</td>
+                          <td>{e?.shape}</td>
+                          <td>{e?.clarity}</td>
+                          <td>{e?.color}</td>
+                          <td>{e?.size}</td>
+                          <td>{e?.pcs} / {e?.wt}</td>
+                          <td>{e?.supplier}</td>
+                          <td>{e?.rate}</td>
+                          <td>{e?.amount}</td>
+                          <td>{(e?.onPcs === '' || e?.onPcs === undefined) ? '' : (e?.onPcs ? 'Yes' : 'No')}</td>
+                      </tr>
+                    })
+                  }
+                </tbody>
+              </table>
+          </div>}
 
         {/* <div className="filters-container2">
         <div className="filter-item">
@@ -956,17 +1007,17 @@ const SaveNNext = () => {
                     {
                       addDiamondRows?.map((rowData, i) => {
                         return <tr key={i}>
-                        <td align="center" width={"50px"}>1</td>
+                        <td align="center" width={"50px"}>{i + 1}</td>
                         <td align='center' width={"80px"}>
                         <input
                               type="text"
                               name="type"
                               ref={diamond_Focus}
                               value={rowData.type}
-                              onChange={handleDiamondInputChange}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
-                              placeholder='Shape'
+                              placeholder='Type'
                               autoComplete='off'
                             />
                         </td>
@@ -974,10 +1025,9 @@ const SaveNNext = () => {
                             <div>
                             <input
                               type="text"
-                              name="type"
-                              ref={diamond_Focus}
-                              value={rowData.type}
-                              onChange={handleDiamondInputChange}
+                              name="shape"
+                              value={rowData.shape}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
@@ -985,9 +1035,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleDiamondInputChange}
+                              name="clarity"
+                              value={rowData.clarity}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Clarity'
@@ -995,9 +1045,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleDiamondInputChange}
+                              name="color"
+                              value={rowData.color}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Color'
@@ -1005,9 +1055,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleDiamondInputChange}
+                              name="size"
+                              value={rowData.size}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Size'
@@ -1020,18 +1070,18 @@ const SaveNNext = () => {
                             <div>
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="pcs"
                               value={rowData.pcs}
-                              onChange={handleDiamondInputChange}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='pcs'
                             />
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="wt"
                               value={rowData.wt}
-                              onChange={handleDiamondInputChange}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='wt'
@@ -1044,7 +1094,7 @@ const SaveNNext = () => {
                               type="text"
                               name="supplier"
                               value={rowData.supplier}
-                              onChange={handleDiamondInputChange}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='supplier'
@@ -1055,7 +1105,7 @@ const SaveNNext = () => {
                               type="text"
                               name="rate"
                               value={rowData.rate}
-                              onChange={handleDiamondInputChange}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='rate'
@@ -1066,7 +1116,7 @@ const SaveNNext = () => {
                               type="text"
                               name="amount"
                               value={rowData.amount}
-                              onChange={handleDiamondInputChange}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='amount'
@@ -1078,20 +1128,23 @@ const SaveNNext = () => {
                         <td align="left" width={"80px"}>
                             <input
                               type="checkbox"
-                              name="onpcs"
-                              value={rowData.criteria}
-                              onChange={handleDiamondInputChange}
+                              name="onPcs"
+                              // value={rowData.onPcs}
+                              checked={rowData.onPcs}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
                               className='onfocus_snv'
                               autoFocus
                               placeholder=''
                             />
                         </td>
                         <td align="center" width={"80px"}>
-                            <Button sx={{width:'50px'}} onKeyDown={handleDIamondKeyDown}><AddCircleIcon
-                            titleAccess="Add Entry"
-                            onClick={handleAddRow}
-                            style={{ cursor: "pointer" }}
-                          /></Button>
+                            <Button sx={{width:'50px'}} onKeyDown={handleDIamondKeyDown}>
+                              <AddCircleIcon
+                                  titleAccess="Add Entry"
+                                  onClick={handleAddRow}
+                                  style={{ cursor: "pointer" }}
+                              />
+                            </Button>
                         </td>
                       </tr>
                       })
@@ -1099,8 +1152,8 @@ const SaveNNext = () => {
             </tbody>
           </table>
       
-              <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveDiamondDetails()}>Save Diamond Details</Button></div>
-
+                <div className='d-flex justify-content-center align-items-center w-100'>
+                  <Button variant='contained' onClick={() => handleSaveDiamondDetails()}>Save Diamond Details</Button></div>
                 </div>
               </div>
             </Box>
@@ -1339,7 +1392,7 @@ const SaveNNext = () => {
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
-                      minWidth:'1350px'
+                      minWidth:'1450px'
                     }}
             >
               <div className='w-100'>
@@ -1360,6 +1413,8 @@ const SaveNNext = () => {
                 <th align='center'>Rate</th>
                 <th align='center'>Amount</th>
                 <th align='center'>Mark Up</th>
+                <th align='center'>On Pcs</th>
+                <th align='center'>AddIn GrossWt</th>
                 <th align='center'>Add</th>
               </tr>
             </thead>
@@ -1427,6 +1482,7 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
+
                         <td align="center" width={"130px"}>
                             <div>
                             <input
@@ -1436,6 +1492,8 @@ const SaveNNext = () => {
                               onChange={handleMiscInputChange}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='pcs'
+                              autoComplete='off'
                             />
                             <input
                               type="text"
@@ -1444,6 +1502,8 @@ const SaveNNext = () => {
                               onChange={handleMiscInputChange}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='wt'
+                              autoComplete='off'
                             />
                             </div>
                           
@@ -1456,6 +1516,8 @@ const SaveNNext = () => {
                               onChange={handleMiscInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='supplier'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="right" width={"80px"}>
@@ -1466,6 +1528,8 @@ const SaveNNext = () => {
                               onChange={handleMiscInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='rate'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="right" width={"80px"}>
@@ -1476,10 +1540,32 @@ const SaveNNext = () => {
                               onChange={handleMiscInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='amount'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="center" width={"50px"}>
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
+                        </td>
+                        <td align="right" width={"50px"}>
+                            <input
+                              type="checkbox"
+                              name="amount"
+                              value={rowData.amount}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
+                        </td>
+                        <td align="right" width={"50px"}>
+                            <input
+                              type="checkbox"
+                              name="amount"
+                              value={rowData.amount}
+                              onChange={handleMiscInputChange}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                            />
                         </td>
                         <td align="center" width={"50px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleMiscKeyDown}><AddCircleIcon
@@ -1622,6 +1708,8 @@ const SaveNNext = () => {
                               onChange={handleFindingInputChange}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='pcs'
+                              autoComplete='off'
                             />
                             <input
                               type="text"
@@ -1630,6 +1718,8 @@ const SaveNNext = () => {
                               onChange={handleFindingInputChange}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='wt'
+                              autoComplete='off'
                             />
                             </div>
                           
@@ -1642,6 +1732,8 @@ const SaveNNext = () => {
                               onChange={handleFindingInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='supplier'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="right" width={"80px"}>
@@ -1652,6 +1744,8 @@ const SaveNNext = () => {
                               onChange={handleFindingInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='rate'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="right" width={"80px"}>
@@ -1662,6 +1756,8 @@ const SaveNNext = () => {
                               onChange={handleFindingInputChange}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
+                              placeholder='amount'
+                              autoComplete='off'
                             />
                         </td>
                         <td align="center " width={"80px"}>
