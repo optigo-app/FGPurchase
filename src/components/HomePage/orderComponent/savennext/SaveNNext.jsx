@@ -49,7 +49,10 @@ const SaveNNext = () => {
       supplier: '',
       rate: '',
       amount: '',
-      onPcs:false
+      onPcs:false,
+      addInGrossWt:null,
+      tunch:0,
+      wastage:0
     },
   ]);
   const diamond_Focus = useRef();
@@ -59,12 +62,19 @@ const SaveNNext = () => {
   const [addCsRows, setAddCSRows] = useState([
     {
       type: '',
-      criteria: '',
+      shape: '',
+      clarity:'',
+      color:'',
+      size:'',
       pcs: '',
       wt: '',
       supplier: '',
       rate: '',
       amount: '',
+      onPcs:false,
+      addInGrossWt:null,
+      tunch:0,
+      wastage:0
     },
   ]);
   const [isColorStoneAdding, setIsColorStoneAdding] = useState(false);
@@ -76,12 +86,19 @@ const SaveNNext = () => {
   const [addMiscRows, setAddMiscRows] = useState([
     {
       type: '',
-      criteria: '',
+      shape: '',
+      clarity:'',
+      color:'',
+      size:'',
       pcs: '',
       wt: '',
       supplier: '',
       rate: '',
       amount: '',
+      onPcs:false,
+      addInGrossWt:false,
+      tunch:0,
+      wastage:0
     },
   ]);
   const [isMiscAdding, setMiscAdding] = useState(false);
@@ -92,15 +109,22 @@ const SaveNNext = () => {
   //add finding details pop up
   const [addFindingInfoPopUp, setAddFindingInfoPopUp] = useState(false);
   const [addFindingRows, setAddFindingRows] = useState([
-    // {
-    //   type: '',
-    //   criteria: '',
-    //   pcs: '',
-    //   wt: '',
-    //   supplier: '',
-    //   rate: '',
-    //   amount: '',
-    // },
+    {
+      type: '',
+      shape: '',
+      clarity:'',
+      color:'',
+      size:'',
+      pcs: '',
+      wt: '',
+      supplier: '',
+      rate: '',
+      amount: '',
+      onPcs:false,
+      addInGrossWt:false,
+      tunch:0,
+      wastage:0
+    },
   ]);
   const [isFindingAdding, setFindingAdding] = useState(false);
   const findingWtFocus = useRef();
@@ -108,7 +132,7 @@ const SaveNNext = () => {
 
 
 
-
+  const [showTableEntry, setShowTableEntry] = useState(false);
 
 
   const [isEditing, setIsEditing] = useState(false);
@@ -304,21 +328,60 @@ const SaveNNext = () => {
   
     setAddDiamondRows(updatedRows);
   };
-    // Add a new row
+    // // Add a new row
+    // const handleAddRow = () => {
+    //   setAddDiamondRows([
+    //     ...addDiamondRows,
+    //     {
+    //       type: '',
+    //       criteria: '',
+    //       pcs: '',
+    //       wt: '',
+    //       supplier: '',
+    //       rate: '',
+    //       amount: '',
+    //     },
+    //   ]);
+    // };
     const handleAddRow = () => {
+      // Get the last row
+      const lastRow = addDiamondRows[addDiamondRows.length - 1];
+    
+      // Keys to ignore during validation
+      const keysToIgnore = ['onPcs'];
+    
+      // Validate only the fields not in keysToIgnore
+      const isLastRowValid = Object.entries(lastRow)
+        .filter(([key]) => !keysToIgnore.includes(key)) // Exclude ignored keys
+        .every(([, value]) => value !== ''); // Check remaining fields
+    
+      if (!isLastRowValid) {
+        alert('Please fill out all required fields in the last row before adding a new one.');
+        return; // Stop adding a new row
+      }
+    
+      // Add a new row if validation passes
       setAddDiamondRows([
         ...addDiamondRows,
         {
           type: '',
-          criteria: '',
+          shape: '',
+          clarity:'',
+          color:'',
+          size:'',
           pcs: '',
           wt: '',
           supplier: '',
           rate: '',
           amount: '',
+          onPcs:false,
+          addInGrossWt:null,
+          tunch:0,
+          wastage:0
         },
       ]);
     };
+    
     const handleDIamondKeyDown = (e) => {
       if (e.key === 'Enter') {
         handleAddRow();
@@ -358,16 +421,39 @@ const SaveNNext = () => {
   };
       // Add a new row
       const handleCSAddRow = () => {
+        const lastRow = addCsRows[addCsRows.length - 1];
+    
+        // Keys to ignore during validation
+        const keysToIgnore = ['onPcs'];
+      
+        // Validate only the fields not in keysToIgnore
+        const isLastRowValid = Object.entries(lastRow)
+          .filter(([key]) => !keysToIgnore.includes(key)) // Exclude ignored keys
+          .every(([, value]) => value !== ''); // Check remaining fields
+      
+        if (!isLastRowValid) {
+          alert('Please fill out all required fields in the last row before adding a new one.');
+          return; // Stop adding a new row
+        }
+      
+        // Add a new row if validation passes
         setAddCSRows([
           ...addCsRows,
           {
             type: '',
-            criteria: '',
+            shape: '',
+            clarity:'',
+            color:'',
+            size:'',
             pcs: '',
             wt: '',
             supplier: '',
             rate: '',
             amount: '',
+            onPcs:false,
+            addInGrossWt:null,
+            tunch:0,
+            wastage:0
           },
         ]);
       };
@@ -409,16 +495,39 @@ const SaveNNext = () => {
   };
       // Add a new row
       const handleMiscAddRow = () => {
+        const lastRow = addMiscRows[addMiscRows?.length - 1];
+    
+        // Keys to ignore during validation
+        const keysToIgnore = ['onPcs'];
+      
+        // Validate only the fields not in keysToIgnore
+        const isLastRowValid = Object.entries(lastRow)
+          .filter(([key]) => !keysToIgnore.includes(key)) // Exclude ignored keys
+          .every(([, value]) => value !== ''); // Check remaining fields
+      
+        if (!isLastRowValid) {
+          alert('Please fill out all required fields in the last row before adding a new one.');
+          return; // Stop adding a new row
+        }
+      
+        // Add a new row if validation passes
         setAddMiscRows([
           ...addMiscRows,
           {
             type: '',
-            criteria: '',
+            shape: '',
+            clarity:'',
+            color:'',
+            size:'',
             pcs: '',
             wt: '',
             supplier: '',
             rate: '',
             amount: '',
+            onPcs:false,
+            addInGrossWt:false,
+            tunch:0,
+            wastage:0
           },
         ]);
       };
@@ -458,16 +567,39 @@ const SaveNNext = () => {
   };
       // Add a new row
       const handleFindingAddRow = () => {
+        const lastRow = addFindingRows[addFindingRows?.length - 1];
+    
+        // Keys to ignore during validation
+        const keysToIgnore = ['onPcs'];
+      
+        // Validate only the fields not in keysToIgnore
+        const isLastRowValid = Object.entries(lastRow)
+          .filter(([key]) => !keysToIgnore.includes(key)) // Exclude ignored keys
+          .every(([, value]) => value !== ''); // Check remaining fields
+      
+        if (!isLastRowValid) {
+          alert('Please fill out all required fields in the last row before adding a new one.');
+          return; // Stop adding a new row
+        }
+      
+        // Add a new row if validation passes
         setAddFindingRows([
           ...addFindingRows,
           {
             type: '',
-            criteria: '',
+            shape: '',
+            clarity:'',
+            color:'',
+            size:'',
             pcs: '',
             wt: '',
             supplier: '',
             rate: '',
             amount: '',
+            onPcs:false,
+            addInGrossWt:null,
+            tunch:0,
+            wastage:0
           },
         ]);
       };
@@ -486,11 +618,6 @@ const SaveNNext = () => {
         }
       }, [addFindingInfoPopUp]);
 
-
-
-
-      
-  
 
 
   return (
@@ -615,7 +742,7 @@ const SaveNNext = () => {
         //  addMoreMaterial && <>
          1 && <>
           <div className='d-flex justify-content-between align-items-center mb-2 pt-3'>
-          <h5 className='ps-2'>Add Material Details</h5>
+          {  <h5 className='ps-2 mb-0'>{ showTableEntry && "Add Material Details"}</h5>}
           <div className='d-flex justify-content-between align-items-center'>
             <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div>
             <div><Tooltip title="Issued Material"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
@@ -623,23 +750,25 @@ const SaveNNext = () => {
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
-            {console.log(addDiamondRows)}
-          { (addDiamondRows?.length > 0 || addCsRows?.length > 0) && <div>
-              <table className='table'>
+          <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button>
+          { showTableEntry && <div className='w-100 d-flex justify-content-center align-items-center'>
+              <table className='table' style={{maxWidth:'1400px'}}>
                 <thead>
                   <tr>
                     <th>Sr</th>
                     <th>Type</th>
                     <th>Shape</th>
-                    <th>Clarity</th>
+                    <th>Clarity / FType</th>
                     <th>Color</th>
-                    <th>Size</th>
+                    <th>Size / Accessories</th>
                     <th>Pcs/Wt</th>
+                    <th>Tunch/Wastage</th>
                     <th>Supplier</th>
                     <th>Rate</th>
                     <th>Amount</th>
                     {/* <th>Mark Up</th> */}
                     <th>On Pcs</th>
+                    <th>AddIn GrossWt</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -653,10 +782,69 @@ const SaveNNext = () => {
                           <td>{e?.color}</td>
                           <td>{e?.size}</td>
                           <td>{e?.pcs} / {e?.wt}</td>
+                          <td>{e?.tunch} / {e?.wastage}</td>
                           <td>{e?.supplier}</td>
                           <td>{e?.rate}</td>
                           <td>{e?.amount}</td>
-                          <td>{(e?.onPcs === '' || e?.onPcs === undefined) ? '' : (e?.onPcs ? 'Yes' : 'No')}</td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                      </tr>
+                    })
+                  }
+                  {
+                    addCsRows?.map((e, i) => {
+                      return <tr key={i}>
+                          <td>{i+1}</td>
+                          <td>{e?.type}</td>
+                          <td>{e?.shape}</td>
+                          <td>{e?.clarity}</td>
+                          <td>{e?.color}</td>
+                          <td>{e?.size}</td>
+                          <td>{e?.pcs} / {e?.wt}</td>
+                          <td>{e?.tunch} / {e?.wastage}</td>
+                          <td>{e?.supplier}</td>
+                          <td>{e?.rate}</td>
+                          <td>{e?.amount}</td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                      </tr>
+                    })
+                  }
+                  {
+                    addMiscRows?.map((e, i) => {
+                      return <tr key={i}>
+                          <td>{i+1}</td>
+                          <td>{e?.type}</td>
+                          <td>{e?.shape}</td>
+                          <td>{e?.clarity}</td>
+                          <td>{e?.color}</td>
+                          <td>{e?.size}</td>
+                          <td>{e?.pcs} / {e?.wt}</td>
+                          <td>{e?.tunch} / {e?.wastage}</td>
+                          <td>{e?.supplier}</td>
+                          <td>{e?.rate}</td>
+                          <td>{e?.amount}</td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                      </tr>
+                    })
+                  }
+                  {
+                    addFindingRows?.map((e, i) => {
+                      return <tr key={i}>
+                          <td>{i+1}</td>
+                          <td>{e?.type}</td>
+                          <td>{e?.shape}</td>
+                          <td>{e?.clarity}</td>
+                          <td>{e?.color}</td>
+                          <td>{e?.size}</td>
+                          <td>{e?.pcs} / {e?.wt}</td>
+                          <td>{e?.tunch} / {e?.wastage}</td>
+                          <td>{e?.supplier}</td>
+                          <td>{e?.rate}</td>
+                          <td>{e?.amount}</td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
                       </tr>
                     })
                   }
@@ -1219,7 +1407,7 @@ const SaveNNext = () => {
                                 type="text"
                                 name="type"
                                 value={rowData.type}
-                                onChange={handleColorstoneInputChange}
+                                onChange={(e) => handleColorstoneInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
                                 placeholder='Shape'
@@ -1231,9 +1419,9 @@ const SaveNNext = () => {
                             <div>
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleColorstoneInputChange}
+                              name="shape"
+                              value={rowData.shape}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
@@ -1241,9 +1429,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleColorstoneInputChange}
+                              name="clarity"
+                              value={rowData.clarity}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Clarity'
@@ -1251,9 +1439,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleColorstoneInputChange}
+                              name="color"
+                              value={rowData.color}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Color'
@@ -1261,9 +1449,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleColorstoneInputChange}
+                              name="size"
+                              value={rowData.size}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Size'
@@ -1276,9 +1464,9 @@ const SaveNNext = () => {
                             <div>
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="pcs"
                               value={rowData.pcs}
-                              onChange={handleColorstoneInputChange}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='pcs'
@@ -1286,9 +1474,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="wt"
                               value={rowData.wt}
-                              onChange={handleColorstoneInputChange}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='wt'
@@ -1302,7 +1490,7 @@ const SaveNNext = () => {
                               type="text"
                               name="supplier"
                               value={rowData.supplier}
-                              onChange={handleColorstoneInputChange}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='supplier'
@@ -1314,7 +1502,7 @@ const SaveNNext = () => {
                               type="text"
                               name="rate"
                               value={rowData.rate}
-                              onChange={handleColorstoneInputChange}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='rate'
@@ -1326,7 +1514,7 @@ const SaveNNext = () => {
                               type="text"
                               name="amount"
                               value={rowData.amount}
-                              onChange={handleColorstoneInputChange}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='amount'
@@ -1339,13 +1527,13 @@ const SaveNNext = () => {
                         <td align="left" width={"80px"}>
                             <input
                               type="checkbox"
-                              name="onpcs"
-                              value={rowData.type}
-                              onChange={handleColorstoneInputChange}
+                              name="onPcs"
+                              // value={rowData.onPcs}
+                              checked={rowData.onPcs}
+                              onChange={(e) => handleColorstoneInputChange(e, i)}
                               className='onfocus_snv'
                               autoComplete='off'
                             />
-                          
                         </td>
                         <td align="center" width={"80px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleColorstoneKeyDown}><AddCircleIcon
@@ -1428,7 +1616,7 @@ const SaveNNext = () => {
                                 type="text"
                                 name="type"
                                 value={rowData.type}
-                                onChange={handleMiscInputChange}
+                                onChange={(e) => handleMiscInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
                                 placeholder='Shape'
@@ -1441,9 +1629,9 @@ const SaveNNext = () => {
                             <div>
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleMiscInputChange}
+                              name="shape"
+                              value={rowData.shape}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
@@ -1451,9 +1639,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleMiscInputChange}
+                              name="clarity"
+                              value={rowData.clarity}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Clarity'
@@ -1461,9 +1649,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleMiscInputChange}
+                              name="color"
+                              value={rowData.color}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Color'
@@ -1471,9 +1659,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
-                              onChange={handleMiscInputChange}
+                              name="size"
+                              value={rowData.size}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Size'
@@ -1487,9 +1675,9 @@ const SaveNNext = () => {
                             <div>
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="pcs"
                               value={rowData.pcs}
-                              onChange={handleMiscInputChange}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='pcs'
@@ -1497,9 +1685,9 @@ const SaveNNext = () => {
                             />
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="wt"
                               value={rowData.wt}
-                              onChange={handleMiscInputChange}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='wt'
@@ -1513,7 +1701,7 @@ const SaveNNext = () => {
                               type="text"
                               name="supplier"
                               value={rowData.supplier}
-                              onChange={handleMiscInputChange}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='supplier'
@@ -1525,7 +1713,7 @@ const SaveNNext = () => {
                               type="text"
                               name="rate"
                               value={rowData.rate}
-                              onChange={handleMiscInputChange}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='rate'
@@ -1537,7 +1725,7 @@ const SaveNNext = () => {
                               type="text"
                               name="amount"
                               value={rowData.amount}
-                              onChange={handleMiscInputChange}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='amount'
@@ -1550,9 +1738,10 @@ const SaveNNext = () => {
                         <td align="right" width={"50px"}>
                             <input
                               type="checkbox"
-                              name="amount"
-                              value={rowData.amount}
-                              onChange={handleMiscInputChange}
+                              name="onPcs"
+                              // value={rowData.amount}
+                              checked={rowData?.onPcs}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                             />
@@ -1560,9 +1749,10 @@ const SaveNNext = () => {
                         <td align="right" width={"50px"}>
                             <input
                               type="checkbox"
-                              name="amount"
-                              value={rowData.amount}
-                              onChange={handleMiscInputChange}
+                              name="addInGrossWt"
+                              // value={rowData.addInGrossWt}
+                              checked={rowData?.addInGrossWt}
+                              onChange={(e) => handleMiscInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                             />
@@ -1612,7 +1802,7 @@ const SaveNNext = () => {
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
-                      minWidth:'1350px'
+                      minWidth:'1550px'
                     }}
             >
               <div className='w-100'>
@@ -1629,10 +1819,12 @@ const SaveNNext = () => {
                 <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
+                <th align='center'>Tunch/Wastage</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
                 <th align='center'>Amount</th>
                 <th align='center'>Mark Up</th>
+                <th align='center'>On Pcs</th>
                 <th align='center'>Add</th>
               </tr>
             </thead>
@@ -1646,7 +1838,7 @@ const SaveNNext = () => {
                                 type="text"
                                 name="type"
                                 value={rowData.type}
-                                onChange={handleFindingInputChange}
+                                onChange={(e) => handleFindingInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
                                 placeholder='Shape'
@@ -1660,7 +1852,7 @@ const SaveNNext = () => {
                               type="text"
                               name="type"
                               value={rowData.type}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Shape'
@@ -1670,7 +1862,7 @@ const SaveNNext = () => {
                               type="text"
                               name="type"
                               value={rowData.type}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Accessories'
@@ -1680,7 +1872,7 @@ const SaveNNext = () => {
                               type="text"
                               name="type"
                               value={rowData.type}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Purity'
@@ -1690,7 +1882,7 @@ const SaveNNext = () => {
                               type="text"
                               name="type"
                               value={rowData.type}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
                               placeholder='Color'
@@ -1705,7 +1897,7 @@ const SaveNNext = () => {
                               type="text"
                               name="pcsWt"
                               value={rowData.pcs}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='pcs'
@@ -1715,7 +1907,7 @@ const SaveNNext = () => {
                               type="text"
                               name="pcsWt"
                               value={rowData.wt}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'60px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='wt'
@@ -1724,12 +1916,36 @@ const SaveNNext = () => {
                             </div>
                           
                         </td>
+                        <td align="center" width={"130px"}>
+                            <div>
+                            <input
+                              type="text"
+                              name="tunch"
+                              value={rowData.tunch}
+                              onChange={(e) => handleFindingInputChange(e, i)}
+                              style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='tunch'
+                              autoComplete='off'
+                            />
+                            <input
+                              type="text"
+                              name="wastage"
+                              value={rowData.wastage}
+                              onChange={(e) => handleFindingInputChange(e, i)}
+                              style={{width:'60px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='wasatge'
+                              autoComplete='off'
+                            />
+                            </div>
+                        </td>
                         <td align="left" width={"80px"}>
                             <input
                               type="text"
                               name="supplier"
                               value={rowData.supplier}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='supplier'
@@ -1741,7 +1957,7 @@ const SaveNNext = () => {
                               type="text"
                               name="rate"
                               value={rowData.rate}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='rate'
@@ -1753,7 +1969,7 @@ const SaveNNext = () => {
                               type="text"
                               name="amount"
                               value={rowData.amount}
-                              onChange={handleFindingInputChange}
+                              onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'100px', border: "1px solid #ccc"}}
                               className='onfocus_snv'
                               placeholder='amount'
@@ -1762,6 +1978,18 @@ const SaveNNext = () => {
                         </td>
                         <td align="center " width={"80px"}>
                           <Tooltip title="Mark Up Details"><Button onClick={() => markUpModalOpen()} sx={{width:'50px', color:'black'}}><VisibilityIcon  /></Button></Tooltip>
+                        </td>
+                        <td align="right" width={"60px"}>
+                            <input
+                              type="checkbox"
+                              name="onPcs"
+                              checked={rowData.onPcs}
+                              onChange={(e) => handleFindingInputChange(e, i)}
+                              style={{width:'100px', border: "1px solid #ccc"}}
+                              className='onfocus_snv'
+                              placeholder='onPcs'
+                              autoComplete='off'
+                            />
                         </td>
                         <td align="center" width={"80px"}>
                             <Button sx={{width:'50px'}} onKeyDown={handleFindingKeyDown}><AddCircleIcon
