@@ -16,6 +16,7 @@ import MountGrid from './MountGrid';
 import IssuedMaterial from './IssuedMaterial';
 import Snackbar from '@mui/material/Snackbar';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mountModal = useSelector(state => state?.home?.mountModal);
@@ -637,7 +638,8 @@ const SaveNNext = () => {
                 <FileUploaderMultiple />
         </div>
         <div>
-          <Button size='small' color='warning' variant='outlined' onClick={() => handleAddRemark()}>Add Remark</Button>
+          {/* <Button size='small' color='warning' variant='outlined' onClick={() => handleAddRemark()}>Add Remark</Button> */}
+          <Tooltip title="Add Remark"><NoteAltIcon  style={{cursor:'pointer'}} onClick={() => handleAddRemark()} /></Tooltip>
           <>
           {
             remarkModal && 
@@ -667,7 +669,7 @@ const SaveNNext = () => {
                   <div className='w-100 d-flex flex-column my-1'>
                     <div className='mb-3 d-flex align-items-center justify-content-between'><span></span><Tooltip title="Close"><span style={{cursor:'pointer'}} onClick={() => setRemarkModal(false)}><CancelIcon /></span></Tooltip></div>
                     <textarea placeholder='Enter Your Remark' rows={5} className='mb-2 textareadRemark_snv' onChange={(e) => handleRemarkChange(e)} ></textarea>
-                    <Tooltip title="Save & Close"><Button color='success' variant='outlined' size='small' onClick={() => handleSaveRemark()} >Save Remark</Button></Tooltip>
+                    <Tooltip title="Save & Close"><Button color='success' variant='contained' size='small' onClick={() => handleSaveRemark()} >Save Remark</Button></Tooltip>
                   </div>
                 </Box>
 
@@ -752,7 +754,7 @@ const SaveNNext = () => {
           </div>
           <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button>
           { showTableEntry && <div className='w-100 d-flex justify-content-center align-items-center'>
-              <table className='table' style={{maxWidth:'1400px'}}>
+              <table className='table' style={{width:'90%'}}>
                 <thead>
                   <tr>
                     <th>Sr</th>
