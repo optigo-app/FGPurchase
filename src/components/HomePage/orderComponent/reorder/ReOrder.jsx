@@ -82,13 +82,32 @@
 
 // export default ReOrder;
 
-import React from 'react'
+import React, { useState } from 'react'
 import "./reorder.css"
 import { handleSaveAndNextFlag } from '../../../../redux/slices/HomeSlice';
 import { useDispatch } from 'react-redux';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, Button, Modal, Typography } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const ReOrder = () => {
+  
   const dispatch = useDispatch();
+  const [markUpModal, setMarkUpModal] = useState(false);
+  const [addWtModal, setAddWtModal] = useState(false);
+  const remainingWt = 15;
+  const [wt, setWt] = useState('');
+  
+  const markUpModalOpen = () => {
+    setMarkUpModal(true);
+  }
+  const handleWtChange = (e) => {
+      setWt(e.target.value);
+      if(e.target.value > remainingWt){
+        setAddWtModal(true);
+      }
+  }
+
   return (
     <div className="reorder_component">
       <div className='d-flex align-items-end '>
@@ -115,7 +134,7 @@ const ReOrder = () => {
           <input type="radio" value="subtag" name="addtag" id="subtag" />
           <label htmlFor="subtag" className="mx-1">Add Sub Tag</label>
         </div>
-        <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button>
+        {/* <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button> */}
       </div>
 
       {/* Table Section */}
@@ -130,59 +149,143 @@ const ReOrder = () => {
               <option value="batchwise">Batch wise</option>
               <option value="designwise">Design wise</option>
             </select> */}
-            <button className="btn btn-secondary action-btn">Receive Now</button>
-            <button className="btn btn-secondary action-btn">Receive & Close</button>
+            {/* <button className="btn btn-secondary action-btn">Receive Now</button>
+            <button className="btn btn-secondary action-btn">Receive & Close</button> */}
+            <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button>
           </div>
         </div>
 
         {/* Table */}
-        <div className="table-wrapper mt-3 overflow-x-scroll">
-          <table className="table ">
+        <div className="table-wrapper mt-3 d-flex justify-content-center align-items-center">
+          <table className="table " style={{maxWidth:'1200px'}}>
             <thead>
               <tr>
                 <th>Material</th>
                 <th>Description</th>
-                <th>Tunch</th>
-                <th>Wastage</th>
                 <th>Issue Pcs</th>
+                <th>Issue Wt</th>
                 <th>Mark Up</th>
-                <th>Mark Up On</th>
                 <th>Remaining Wt</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>METAL</td>
-                <td>GOLD 14K YW PRL GREEN MIX DEFAULT</td>
+                <td>GOLD 14K YW PRL GREEN MIX DEFAULT / 76 / 10.567</td>
                 <td><input type="text" className="table-input" /></td>
-                <td><input type="text" className="table-input" /></td>
-                <td><input type="text" className="table-input" /></td>
-                <td><input type="text" className="table-input" /></td>
-                <td>
-                  <select name="" id="" className="select-box">
-                    <option value="">Select</option>
-                  </select>
-                </td>
-                <td>12/14.356</td>
+                <td><input type="text" className="table-input" value={wt} onChange={(e) => handleWtChange(e)} /></td>
+                <td><VisibilityIcon onClick={() => markUpModalOpen()} /></td>
+                <td>{remainingWt}</td>
               </tr>
               <tr>
                 <td>METAL</td>
-                <td>GOLD 14K YW</td>
+                <td>GOLD 14K YW / 76 / 10.567 </td>
                 <td><input type="text" className="table-input" /></td>
                 <td><input type="text" className="table-input" /></td>
-                <td><input type="text" className="table-input" /></td>
-                <td><input type="text" className="table-input" /></td>
-                <td>
-                  <select name="" id="" className="select-box">
-                    <option value="">Select</option>
-                  </select>
-                </td>
-                <td>12/14.356</td>
+                <td><VisibilityIcon onClick={() => markUpModalOpen()} /></td>
+                <td>{remainingWt}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      {
+          markUpModal && <Modal
+            open={markUpModal}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+          >
+            <Box
+               sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 400,
+                maxHeight: 700,
+                bgcolor: 'background.paper',
+                borderRadius: '12px',
+                boxShadow: 24,
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                minHeight: '300px',
+                border: 'none',
+              }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between pb-2'>
+                  <div>&nbsp;</div>
+                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>Apply Sale Mark Up</h4>
+                  <div><CancelIcon style={{cursor:'pointer'}} onClick={() => setMarkUpModal(false)} /></div>
+                </div>
+                <div className='pt-2'>
+                  <label htmlFor="applyon" className='form-label text-primary mb-1 px-1'>Apply On</label>
+                  <select name="applyon" id="applyon" className='form-control'>
+                    <option value="" selected disabled>Select</option>
+                    <option value="amount">Amount</option>
+                    <option value="percentage">Percentage</option>
+                  </select>
+                </div>
+                <div className='pt-2'>
+                  <label htmlFor="salerate" className='form-label text-primary mb-1 px-1'>Mark Rate</label>
+                  <input type="text" id="salerate" className='form-control' placeholder='50000' />
+                </div>
+                <div className='pt-2 w-100 ps-2'>
+                  <input type="checkbox" id="onpcsmarkup" placeholder='50000' />
+                  <label htmlFor="onpcsmarkup"  className='form-label mb-1 px-1 text-primary user-select-none'>On Pcs</label>
+                </div>
+                <div className='text-center w-100'>
+                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setMarkUpModal(false)}>Apply</Button>
+                </div>
+              </div>
+            </Box>
+          </Modal>
+        }
+      {
+          addWtModal && <Modal
+            open={addWtModal}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+          >
+            <Box
+               sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 400,
+                maxHeight: 700,
+                bgcolor: 'background.paper',
+                borderRadius: '12px',
+                boxShadow: 24,
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                minHeight: '300px',
+                border: 'none',
+              }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between pb-2'>
+                  <div>&nbsp;</div>
+                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'></h4>
+                  <div><CancelIcon style={{cursor:'pointer'}} onClick={() => setAddWtModal(false)} /></div>
+                </div>
+                <div className='pt-2 d-flex flex-column justify-content-center align-items-center'>
+                  <div><Typography>Do You Want to Add?</Typography></div>
+                  <div>Material Select Supplier</div>
+                  <div className='mt-2'>
+                    <Button variant='contained' color='primary' sx={{fontWeight:'bold', mx:1}} size='small' onClick={() => setAddWtModal(false)} >Manufacturer</Button>
+                    <Button variant='contained' color='primary' sx={{fontWeight:'bold'}} size='small' onClick={() => setAddWtModal(false)} >Company</Button>
+                  </div>
+                </div>
+              </div>
+            </Box>
+          </Modal>
+        }
     </div>
   )
 }
