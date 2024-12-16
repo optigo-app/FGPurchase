@@ -40,6 +40,7 @@ const SaveNNext = () => {
   const [addDiamondRows, setAddDiamondRows] = useState([
     // Default row
     {
+      material:'',
       type: '',
       shape: '',
       clarity:'',
@@ -62,6 +63,7 @@ const SaveNNext = () => {
   const [addCSInfoPopUp, setAddCSInfoPopUp] = useState(false);
   const [addCsRows, setAddCSRows] = useState([
     {
+      material:'',
       type: '',
       shape: '',
       clarity:'',
@@ -86,6 +88,7 @@ const SaveNNext = () => {
   const [addMiscInfoPopUp, setAddMiscInfoPopUp] = useState(false);
   const [addMiscRows, setAddMiscRows] = useState([
     {
+      material:'',
       type: '',
       shape: '',
       clarity:'',
@@ -111,6 +114,7 @@ const SaveNNext = () => {
   const [addFindingInfoPopUp, setAddFindingInfoPopUp] = useState(false);
   const [addFindingRows, setAddFindingRows] = useState([
     {
+      material:'',
       type: '',
       shape: '',
       clarity:'',
@@ -134,6 +138,9 @@ const SaveNNext = () => {
 
 
   const [showTableEntry, setShowTableEntry] = useState(false);
+
+  //Change Criteria logics
+  const [changeCriteria, setChangeCriteria] = useState(false);
 
 
   const [isEditing, setIsEditing] = useState(false);
@@ -282,6 +289,7 @@ const SaveNNext = () => {
       setAddDiamondRows([
         ...addDiamondRows,
         {
+          material:'',
           type: '',
           shape: '',
           clarity:'',
@@ -358,6 +366,7 @@ const SaveNNext = () => {
         setAddCSRows([
           ...addCsRows,
           {
+            material:'',
             type: '',
             shape: '',
             clarity:'',
@@ -432,6 +441,7 @@ const SaveNNext = () => {
         setAddMiscRows([
           ...addMiscRows,
           {
+            material:'',
             type: '',
             shape: '',
             clarity:'',
@@ -504,6 +514,7 @@ const SaveNNext = () => {
         setAddFindingRows([
           ...addFindingRows,
           {
+            material:'',
             type: '',
             shape: '',
             clarity:'',
@@ -563,7 +574,9 @@ const SaveNNext = () => {
             <Modal
               open={remarkModal}
               aria-labelledby="parent-modal-title"
-              aria-describedby="parent-modal-description">
+              aria-describedby="parent-modal-description"
+              onClose={() => setRemarkModal(false)}
+              >
                 <Box
                   sx={{
                     position: 'absolute',
@@ -614,7 +627,7 @@ const SaveNNext = () => {
           <input type="text" placeholder="HUID No" />
         </div>
         <div className="filter-item d-flex justify-content-center align-items-center w-100">
-          <Tooltip title="Change Criteria" style={{cursor:'pointer'}}><SettingsIcon /></Tooltip>
+          <Tooltip title="Change Criteria" style={{cursor:'pointer'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
         </div>
       </div>
       <div className="filters-container2">
@@ -661,7 +674,8 @@ const SaveNNext = () => {
         //  addMoreMaterial && <>
          1 && <>
           <div className='d-flex justify-content-between align-items-center mb-2 pt-3'>
-          {  <h5 className='ps-2 mb-0'>{ showTableEntry && "Add Material Details"}</h5>}
+          {/* {  <h5 className='ps-2 mb-0'>{ showTableEntry && "Material Details"}</h5>} */}
+          {  <h5 className='ps-2 mb-0'>{ showTableEntry && ""}</h5>}
           <div className='d-flex justify-content-between align-items-center'>
             <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div>
             <div><Tooltip title="
@@ -689,6 +703,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                     {/* <th>Mark Up</th> */}
                     <th>On Pcs</th>
                     <th>AddIn GrossWt</th>
+                    <th>Update</th>
+                    <th>Remove</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -708,6 +724,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                           <td>{e?.amount}</td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                          <td><EditIcon /></td>
+                          <td><img
+                                src={DeleteIcon}
+                                alt="#delete"
+                                title="Delete"
+                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
+                          </td>
                       </tr>
                     })
                   }
@@ -727,6 +750,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                           <td>{e?.amount}</td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                          <td><EditIcon /></td>
+                          <td><img
+                                src={DeleteIcon}
+                                alt="#delete"
+                                title="Delete"
+                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
+                          </td>
                       </tr>
                     })
                   }
@@ -746,6 +776,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                           <td>{e?.amount}</td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                          <td><EditIcon /></td>
+                          <td><img
+                                src={DeleteIcon}
+                                alt="#delete"
+                                title="Delete"
+                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
+                          </td>
                       </tr>
                     })
                   }
@@ -765,6 +802,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                           <td>{e?.amount}</td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
+                          <td><EditIcon /></td>
+                          <td><img
+                                src={DeleteIcon}
+                                alt="#delete"
+                                title="Delete"
+                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
+                          </td>
                       </tr>
                     })
                   }
@@ -1011,6 +1055,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
             open={markUpModal}
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
+            onClose={() => setMarkUpModal(false)}
           >
             <Box
                sx={{
@@ -1061,6 +1106,96 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
           </Modal>
         }
 
+        {
+          changeCriteria && <Modal
+            open={changeCriteria}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+            onClose={() => setChangeCriteria(false)}
+          >
+            <Box
+               sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 800,
+                maxHeight: 700,
+                bgcolor: 'background.paper',
+                borderRadius: '12px',
+                boxShadow: 24,
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                minHeight: '200px',
+                border: 'none',
+              }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between pb-2'>
+                  <div>&nbsp;</div>
+                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>Change Criteria</h4>
+                  <div><CancelIcon style={{cursor:'pointer'}} onClick={() => setChangeCriteria(false)} /></div>
+                </div>
+                <div className="filter_grid mt-3">
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Brand</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Collection</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Category</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Sub Category</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Product Type</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Gender</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Occasion</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>Style</option>
+            </select>
+          </div>
+          <div>
+            <select name="" id="" className='categoryNewOrder'>
+              <option value="" disabled selected>HSN</option>
+            </select>
+          </div>
+          <div className='text-center pt-2 categoryNewOrder'>
+                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
+                </div>
+        </div>
+                {/* <div className='text-center w-100 pt-2'>
+                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
+                </div> */}
+              </div>
+            </Box>
+          </Modal>
+        }
+
         {/* diam, cs, misc, find pop up render part */}
         {
           addDiaInfoPopUp && <Modal
@@ -1086,7 +1221,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
-                      minWidth:'1350px'
+                       minWidth:'1550px'
                     }}
             >
               <div className='w-100'>
@@ -1103,12 +1238,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
             <thead>
               <tr>
                 <th align='center'>Sr</th>
+                <th align='center'>Material</th>
                 <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
-                <th align='center'>Amount</th>
+                <th align='center'>Sale Rate</th>
                 <th align='center'>Mark Up</th>
                 <th align='center'>On Pcs</th>
                 <th align='center'>Add</th>
@@ -1119,6 +1255,19 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       addDiamondRows?.map((rowData, i) => {
                         return <tr key={i}>
                         <td align="center" width={"50px"}>{i + 1}</td>
+                        <td align='center' width={"80px"}>
+                        <input
+                              type="text"
+                              name="material"
+                              ref={diamond_Focus}
+                              value={rowData.material}
+                              onChange={(e) => handleDiamondInputChange(e, i)}
+                              style={{width:'80px', border: "1px solid #ccc"}}
+                              className='onfocus_snv m_x_inp_snv'
+                              placeholder='Type'
+                              autoComplete='off'
+                            />
+                        </td>
                         <td align='center' width={"80px"}>
                         <input
                               type="text"
@@ -1295,7 +1444,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
-                      minWidth:'1350px'
+                       minWidth:'1550px'
                     }}
             >
               <div className='w-100'>
@@ -1313,12 +1462,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
             <thead>
               <tr>
                 <th align='center'>Sr</th>
+                <th align='center'>Material</th>
                 <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
-                <th align='center'>Amount</th>
+                <th align='center'>Sale Rate</th>
                 <th align='center'>Mark Up</th>
                 <th align='center'>On Pcs</th>
                 <th align='center'>Add</th>
@@ -1329,6 +1479,19 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       addCsRows?.map((rowData, i) => {
                         return <tr key={i}>
                         <td align="center" width={"80px"}>1</td>
+                        <td align='left' width={"100px"}>
+                              <input
+                                type="text"
+                                name="type"
+                                value={rowData.material}
+                                onChange={(e) => handleColorstoneInputChange(e, i)}
+                                style={{width:'80px', border: "1px solid #ccc"}}
+                                className='onfocus_snv m_x_inp_snv'
+                                placeholder='Shape'
+                                autoComplete='off'
+                                ref={colorstone_focus}
+                              />
+                        </td>
                         <td align='left' width={"100px"}>
                               <input
                                 type="text"
@@ -1507,7 +1670,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       maxHeight: '500px',
                       overflowY:'scroll',
                       border: 'none',
-                      minWidth:'1450px'
+                       minWidth:'1550px'
                     }}
             >
               <div className='w-100'>
@@ -1525,12 +1688,13 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
             <thead>
               <tr>
                 <th align='center'>Sr</th>
+                <th align='center'>Material</th>
                 <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
-                <th align='center'>Amount</th>
+                <th align='center'>Sale Rate</th>
                 <th align='center'>Mark Up</th>
                 <th align='center'>On Pcs</th>
                 <th align='center'>AddIn GrossWt</th>
@@ -1542,6 +1706,19 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       addMiscRows?.map((rowData, i) => {
                         return <tr key={i}>
                         <td align="center" width={"50px"}>1</td>
+                        <td align='left' width={"100px"}>
+                              <input
+                                type="text"
+                                name="type"
+                                value={rowData.material}
+                                onChange={(e) => handleMiscInputChange(e, i)}
+                                style={{width:'80px', border: "1px solid #ccc"}}
+                                className='onfocus_snv m_x_inp_snv'
+                                placeholder='Shape'
+                                autoComplete='off'
+                                ref={misc_focus}
+                              />
+                        </td>
                         <td align='left' width={"100px"}>
                               <input
                                 type="text"
@@ -1751,13 +1928,14 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
             <thead>
               <tr>
                 <th align='center'>Sr</th>
+                <th align='center'>Material</th>
                 <th align='center'>Type</th>
                 <th align='center'>Criteria</th>
                 <th align='center'>Pcs/Wt</th>
                 <th align='center'>Tunch/Wastage</th>
                 <th align='center'>Supplier</th>
                 <th align='center'>Rate</th>
-                <th align='center'>Amount</th>
+                <th align='center'>Sale Rate</th>
                 <th align='center'>Mark Up</th>
                 <th align='center'>On Pcs</th>
                 <th align='center'>Add</th>
@@ -1768,6 +1946,19 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                       addFindingRows?.map((rowData, i) => {
                         return <tr key={i}>
                         <td align="center" width={"60px"}>1</td>
+                        <td align='left' width={"100px"}>
+                              <input
+                                type="text"
+                                name="type"
+                                value={rowData.material}
+                                onChange={(e) => handleFindingInputChange(e, i)}
+                                style={{width:'80px', border: "1px solid #ccc"}}
+                                className='onfocus_snv m_x_inp_snv'
+                                placeholder='Shape'
+                                autoComplete='off'
+                                ref={finding_focus}
+                              />
+                        </td>
                         <td align='left' width={"100px"}>
                               <input
                                 type="text"

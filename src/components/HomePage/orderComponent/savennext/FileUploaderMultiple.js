@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-
+import CancelIcon from '@mui/icons-material/Cancel';
 // ** Icon Imports
 // import Icon from 'src/@core/components/icon'
 // import Icon from '../../../../components/Core'
@@ -17,12 +17,13 @@ import { Icon } from '@iconify/react';
 // ** Third Party Imports
 import { useDropzone } from 'react-dropzone';
 import "./fileUpload.css"
-import { Tooltip } from '@mui/material';
+import { Tooltip, Modal,  } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const FileUploaderMultiple = () => {
   // ** State
-  const [files, setFiles] = useState([])
+  const [files, setFiles] = useState([]);
+  const [showImgListPopUp, setShowImgPopUp] = useState(false);
 
   // ** Hooks
   const { getRootProps, getInputProps } = useDropzone({
@@ -34,6 +35,14 @@ const FileUploaderMultiple = () => {
   const renderFilePreview = file => {
     if (file.type.startsWith('image')) {
       return <img width={28} height={28} alt={file.name} src={URL.createObjectURL(file)} />
+    } else {
+    //   return <Icon icon='tabler:file-description' />
+      return ''
+    }
+  }
+  const renderFilePreview2 = file => {
+    if (file.type.startsWith('image')) {
+      return <img alt={file.name} style={{ width:'100%', objectFit:'cover', height:"300px",  padding:'5px', boxSizing:'border-box', borderRadius:'10px'}} src={URL.createObjectURL(file)} />
     } else {
     //   return <Icon icon='tabler:file-description' />
       return ''
@@ -51,6 +60,25 @@ const FileUploaderMultiple = () => {
     // <div key={file.name}>
       <div className='file-details'>
         <div className='file-preview   d-flex justify-content-center align-items-center p-0 me-2'>{renderFilePreview(file)}</div>
+        {/* <div className='d-flex flex-column justify-content-center align-items-center'>
+          <Typography className='file-name'>{file.name}</Typography>
+          <Typography className='file-size' variant='body2'>
+            {Math.round(file.size / 100) / 10 > 1000
+              ? `${(Math.round(file.size / 100) / 10000).toFixed(1)} mb`
+              : `${(Math.round(file.size / 100) / 10).toFixed(1)} kb`}
+          </Typography>
+        </div> */}
+      </div>
+      // <IconButton onClick={() => handleRemoveFile(file)}>
+      //   <Icon icon='tabler:x' fontSize={20} />
+      // </IconButton>
+    // </div>
+  ))
+  const fileList2 = files.map(file => (
+    // <ListItem key={file.name}>
+    // <div key={file.name}>
+      <div className='file-details'>
+        <div className='file-preview   d-flex justify-content-center align-items-center p-0 '>{renderFilePreview2(file)}</div>
         {/* <div className='d-flex flex-column justify-content-center align-items-center'>
           <Typography className='file-name'>{file.name}</Typography>
           <Typography className='file-size' variant='body2'>
@@ -106,7 +134,7 @@ const FileUploaderMultiple = () => {
       {files.length ? (
         <Fragment>
           {/* <List >{fileList}</List> */}
-          <Tooltip title="Uploaded Image"><div>{fileList}</div></Tooltip>
+          <Tooltip title="Uploaded Image" style={{cursor:'pointer'}}><div onClick={() => setShowImgPopUp(true)}>{fileList}</div></Tooltip>
           <div className='buttons'>
             {/* <Button variant='contained' size='small' className='me-1'>Upload Image</Button> */}
             <Button color='error' variant='contained' size='small' onClick={handleRemoveAllFiles}  >
@@ -116,6 +144,51 @@ const FileUploaderMultiple = () => {
         </Fragment>
       ) : null}
     </div>
+
+    {
+          showImgListPopUp && <Modal
+            open={showImgListPopUp}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+            onClose={() => setShowImgPopUp(false)}
+          >
+            <Box 
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      // width: "95%",
+                      bgcolor: 'background.paper',
+                      borderRadius: '12px',
+                      boxShadow: 24,
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      maxHeight: '500px',
+                      // overflowY:'scroll',
+                      border: 'none',
+                      minWidth:'600px'
+                    }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between p-1'>
+                    <div></div>
+                    <div><Typography variant='h6'>Uploaded Images</Typography></div>
+                    <div className='d-flex align-items-center'>
+                      <Tooltip title="Close" onClick={() => setShowImgPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
+                    </div>
+                </div>
+                <div>
+                {fileList2}
+                </div>
+              </div>
+            </Box>
+
+          </Modal>
+        }
+
     </Fragment>
   )
 }
