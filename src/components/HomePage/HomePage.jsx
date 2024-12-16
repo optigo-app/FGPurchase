@@ -12,7 +12,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import { Tooltip,  Modal, Box } from '@mui/material';
+import { Tooltip,  Modal, Box, Typography, RadioGroup, FormControlLabel, Radio, FormControl } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomizeJob from '../CustomizeJob/CustomizeJob';
 import { handleCustomizeJobFlag, handleSave, handleSaveAndNextFlag, handleSelectedButton } from '../../redux/slices/HomeSlice';
@@ -27,6 +27,21 @@ import Print from '../Print/Print';
 import Summary from '../Summary/Summary';
 import { FaGoodreadsG } from "react-icons/fa";
 // import OldGold from '../OldGold/OldGold';
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  display: "flex",
+  flexDirection: "column",
+  border: "none",
+  outline: "none",
+  boxShadow: 24,
+  p: 4,
+};
 
 const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
@@ -104,6 +119,9 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
   const [dateUpdateFlag, setDateUpdateFlag] = useState(false);
   const [currExchRateFlag, setCurrExchRateFlag] = useState(false);
+
+  const [printListModal, setPrintListModal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
   
 
   const handleOrderSelection = (e) => {
@@ -469,6 +487,10 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   ];
 
   const handleButtonClick = (value) => {
+    if(value === "Print"){
+      setPrintListModal(true);
+     return 
+    }
     if(value){
       dispatch(handleSelectedButton(value));
       setSelectedButtonFlag(false);
@@ -562,6 +584,12 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   //     });
   //   }
   // }
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    setPrintListModal(false);
+  };
+
 
   
 
@@ -738,6 +766,62 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                                   </Box>
                                 </Modal> }
         </div>
+
+        {
+          <>
+            <Modal open={printListModal} onClose={() => setPrintListModal(false)}>
+        <Box sx={style}>
+          <Typography variant="h6" component="h2">
+            Select Print Type
+          </Typography>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="print-type"
+              name="print-type"
+              value={selectedOption}
+              onChange={handleOptionChange}
+            >
+              <FormControlLabel
+                value="270"
+                control={<Radio />}
+                label="Bill Sticker"
+              />
+              <FormControlLabel
+                value="10"
+                control={<Radio />}
+                label="Daily Statement"
+              />
+              <FormControlLabel
+                value="232"
+                control={<Radio />}
+                label="Detail Print 10"
+              />
+              {/* Add more options here as per your needs */}
+              <FormControlLabel
+                value="312"
+                control={<Radio />}
+                label="Export Invoice A"
+              />
+              <FormControlLabel
+                value="244"
+                control={<Radio />}
+                label="Invoice print R"
+              />
+              <FormControlLabel
+                value="283"
+                control={<Radio />}
+                label="Invoice Print V"
+              />
+              {/* ... Add all other options */}
+            </RadioGroup>
+          </FormControl>
+          {/* <Button onClick={handleCloseModal} variant="contained">
+            Submit
+          </Button> */}
+        </Box>
+      </Modal>
+          </>
+        }
         { !SaveFiltersFlag && <div><EditIcon style={{cursor:'pointer'}} titleAccess='Edit' onClick={() => handleUpdateFilters()} /></div>}
       </div>}
 
@@ -765,7 +849,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               { selectedButton === 'Pay' && <Pay /> }
               { selectedButton === 'Summary' && <Summary /> }
               { selectedButton === 'Save' && <Save /> }
-              { selectedButton === 'Print' && <Print /> }
+              {/* { selectedButton === 'Print' && <Print /> } */}
             </>
           }
       

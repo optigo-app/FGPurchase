@@ -178,8 +178,8 @@ const ReOrder = () => {
                 <td>{remainingWt}</td>
               </tr>
               <tr>
-                <td>METAL</td>
-                <td>GOLD 14K YW / 76 / 10.567 </td>
+                <td>DIAMOND</td>
+                <td>RND VVS PD PD / 76 / 10.567 </td>
                 <td><input type="text" className="table-input" /></td>
                 <td><input type="text" className="table-input" /></td>
                 <td><VisibilityIcon onClick={() => markUpModalOpen()} /></td>

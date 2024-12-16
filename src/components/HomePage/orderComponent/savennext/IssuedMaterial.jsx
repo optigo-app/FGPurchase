@@ -151,6 +151,7 @@ const IssuedMaterial = () => {
             open={issuedMaterialModal}
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
+            onClose={() => dispatch(handleIssuedMaterialModal(false))}
         >
             <Box
                     sx={{
