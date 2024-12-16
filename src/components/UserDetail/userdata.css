@@ -22,7 +22,9 @@
     align-items: center;
 } */
 
-
+.fs_usd{
+  font-size: 12px !important;
+}
 .userDataContainer {
     width: 100%;
     padding: 20px;
@@ -31,6 +33,7 @@
     /* background-color: #f4f4f4; */
     overflow-y: auto;
     transition: all 0.1s ease;
+    font-size: 12px;
   }
   
   .filterContainer {

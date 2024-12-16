@@ -256,7 +256,7 @@ const ReOrder = () => {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 width: 400,
-                maxHeight: 700,
+                maxHeight: 300,
                 bgcolor: 'background.paper',
                 borderRadius: '12px',
                 boxShadow: 24,
@@ -264,7 +264,7 @@ const ReOrder = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                minHeight: '300px',
+                minHeight:190,
                 border: 'none',
               }}
             >
@@ -275,11 +275,11 @@ const ReOrder = () => {
                   <div><CancelIcon style={{cursor:'pointer'}} onClick={() => setAddWtModal(false)} /></div>
                 </div>
                 <div className='pt-2 d-flex flex-column justify-content-center align-items-center'>
+                  <div><Typography>Material Exceeds Issue Wt?</Typography></div>
                   <div><Typography>Do You Want to Add?</Typography></div>
-                  <div>Material Select Supplier</div>
                   <div className='mt-2'>
-                    <Button variant='contained' color='primary' sx={{fontWeight:'bold', mx:1}} size='small' onClick={() => setAddWtModal(false)} >Manufacturer</Button>
-                    <Button variant='contained' color='primary' sx={{fontWeight:'bold'}} size='small' onClick={() => setAddWtModal(false)} >Company</Button>
+                    <Button variant='contained' color='primary' sx={{fontWeight:'bold', mx:1}} size='small' onClick={() => setAddWtModal(false)} >Manufacturer</Button>or
+                    <Button variant='contained' color='primary' sx={{fontWeight:'bold', mx:1}} size='small' onClick={() => setAddWtModal(false)} >Company</Button>
                   </div>
                 </div>
               </div>

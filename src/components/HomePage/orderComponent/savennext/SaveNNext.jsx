@@ -664,7 +664,8 @@ const SaveNNext = () => {
           {  <h5 className='ps-2 mb-0'>{ showTableEntry && "Add Material Details"}</h5>}
           <div className='d-flex justify-content-between align-items-center'>
             <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div>
-            <div><Tooltip title="Issued Material"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
+            <div><Tooltip title="
+Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
           </div>
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
@@ -1092,7 +1093,10 @@ const SaveNNext = () => {
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
                     <div><Typography variant='h6'>Add Diamond Details</Typography></div>
-                    <div><Tooltip title="Close" onClick={() => setAddDiaInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
+                    <div className='d-flex align-items-center'>
+                      <Tooltip title="Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Close" onClick={() => setAddDiaInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
+                    </div>
                 </div>
                 <div className='w-100'>
                 <table className='table'>
@@ -1298,7 +1302,11 @@ const SaveNNext = () => {
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
                     <div><Typography variant='h6'>Add ColorStone Details</Typography></div>
-                    <div><Tooltip title="Close" onClick={() => setAddCSInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
+                    <div className='d-flex align-items-center'>
+                      <Tooltip title="
+Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Close" onClick={() => setAddCSInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
+                    </div>
                 </div>
                 <div className='w-100'>
                 <table className='table'>
@@ -1506,7 +1514,11 @@ const SaveNNext = () => {
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
                     <div><Typography variant='h6'>Add Misc Details</Typography></div>
-                    <div><Tooltip title="Close" onClick={() => setAddMiscInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
+                    <div className='d-flex justify-content-center'>
+                      <Tooltip title="
+Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Close" onClick={() => setAddMiscInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
+                    </div>
                 </div>
                 <div className='w-100'>
                 <table className='table'>
@@ -1728,7 +1740,11 @@ const SaveNNext = () => {
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
                     <div><Typography variant='h6'>Add Finding Details</Typography></div>
-                    <div><Tooltip title="Close" onClick={() => setAddFindingInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip></div>
+                    <div className='d-flex align-items-center'>
+                      <Tooltip title="
+Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Close" onClick={() => setAddFindingInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
+                    </div>
                 </div>
                 <div className='w-100'>
                 <table className='table'>

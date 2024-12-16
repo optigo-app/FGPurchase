@@ -12,7 +12,7 @@ import { Settings } from "@mui/icons-material";
 import JobGrid from "./JobGrid";
 import "./jobgrid.css";
 import  EditIcon  from '@mui/icons-material/Edit';
-import { Tooltip } from "@mui/material";
+import { Checkbox, Tooltip } from "@mui/material";
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -29,20 +29,22 @@ const UserData = () => {
   const [showAddLess, setShowAddLess] = useState(false);
 
   const [jobListData, setJobListData] = useState();
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const [jobSearch, setJobSearch] = useState('');
 
   useEffect(() => {
     setJobListData([
-      { details: '1/271928 ', gwt: 3.0, netwt: 2.6, totalamt: 3081.5, delete: null },
-      { details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:1, details: '1/271928 ', gwt: 3.0, netwt: 2.6, totalamt: 3081.5, delete: null },
+      { id:2, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:3, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:4, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:5, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:6, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:7, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
     ])
   },[]);
+
 
   const dispatch = useDispatch();
   const MoreJobDetailsFlag = useSelector((state) => state?.fgp?.MoreJobDetails);
@@ -76,6 +78,14 @@ const UserData = () => {
       render: (value, row) => (
         <td style={{ cursor: 'pointer' }}>
           <span className="d-flex">
+          <Tooltip title="Edit Job">
+              <EditIcon
+                fontSize="small"
+                style={{ border: '1px solid #e8e8e8', padding: '2px', marginLeft: '8px' }}
+                onClick={() => moveToSaveNNextPage(true)}
+              />
+            </Tooltip>
+            <div>
             <span
               onClick={() => {
                 dispatch(handleCustomizeJobFlag(true));
@@ -83,16 +93,11 @@ const UserData = () => {
               }}
             >
               {value}
-            </span>
-            <Tooltip title="Edit Job">
-              <EditIcon
-                fontSize="small"
-                style={{ border: '1px solid #e8e8e8', padding: '2px', marginLeft: '8px' }}
-                onClick={() => moveToSaveNNextPage(true)}
-              />
-            </Tooltip>
+            </span><br/>
+            <span className="smallText">D#: {row?.details?.split('/')[1]}</span>
+            </div>
           </span>
-          <span className="smallText">D#: {row?.details?.split('/')[1]}</span>
+          
         </td>
       ),
     },
@@ -120,6 +125,26 @@ const UserData = () => {
   const handleJobSearch = (e) => {
       setJobSearch(e.target.value);
   }
+
+
+  const handleSelectAll = (event) => {
+    if (event.target.checked) {
+      const allRowIds = jobListData?.map((row) => row.id);
+      setSelectedRows(allRowIds);
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
+  const handleRowSelection = (id) => {
+    if (selectedRows.includes(id)) {
+      setSelectedRows(selectedRows?.filter((rowId) => rowId !== id));
+    } else {
+      setSelectedRows([...selectedRows, id]);
+    }
+  };
+
+  const isRowSelected = (id) => selectedRows.includes(id);
 
   return (
     <div className="userDataContainer">
@@ -221,7 +246,7 @@ const UserData = () => {
         <TableContainer component={Paper} 
         sx={{
           maxHeight: 440,
-          height: 323.5, 
+          // height: 323.5, 
           overflow: 'auto', // Enable scrolling for both directions
           '&::-webkit-scrollbar': {
             height: '6px', // Reduce the scrollbar height for horizontal scrolling
@@ -242,8 +267,17 @@ const UserData = () => {
         <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
           <TableHead>
             <TableRow>
+            <TableCell padding="checkbox">
+                <Checkbox
+                size="small"
+                  color="primary"
+                  indeterminate={selectedRows?.length > 0 && selectedRows?.length < jobListData?.length}
+                  checked={selectedRows?.length === jobListData?.length}
+                  onChange={handleSelectAll}
+                />
+              </TableCell>
               {columns?.map(column => (
-                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}}>
+                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}} className="fs_usd">
                   {column.label}
                 </TableCell>
               ))}
@@ -253,11 +287,21 @@ const UserData = () => {
             {jobListData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
               return (
                 <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
+                   <TableCell padding="checkbox">
+                  <Checkbox
+                  size="small"
+                    color="primary"
+                    checked={isRowSelected(row.id)}
+                    onChange={() => handleRowSelection(row.id)}
+                  />
+                </TableCell>
                   {columns?.map(column => {
                     const value = row[column?.id]
 
                     return (
-                      <TableCell key={column?.id} align={column?.align} sx={{padding:'5px'}}>
+                      <>
+                       
+                      <TableCell key={column?.id} align={column?.align} sx={{padding:'0px'}} className="fs_usd">
                         {/* {column?.format && typeof value === 'number' ? column?.format(value) : value} */}
                         {column?.render // If render function exists, call it
                 ? column.render(value, row)
@@ -266,6 +310,7 @@ const UserData = () => {
                 : value // Default to raw value
               }
                       </TableCell>
+                      </>
                     )
                   })}
                 </TableRow>
@@ -275,7 +320,7 @@ const UserData = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
+        rowsPerPageOptions={[5, 20, 30 ,50]}
         component='div'
         count={jobListData?.length}
         rowsPerPage={rowsPerPage}

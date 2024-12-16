@@ -463,15 +463,18 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
     { title: "Pay", icon: <PaymentIcon />, value: "Pay" },
     { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
-    { title: "Save", icon: <SaveIcon />, value: "Save" },
+    // { title: "Save", icon: <SaveIcon />, value: "Save" },
+    { title: "Save", icon: <SaveIcon />, value: "" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
 
   const handleButtonClick = (value) => {
-    dispatch(handleSelectedButton(value));
-    setSelectedButtonFlag(false);
-    dispatch(handleCustomizeJobFlag(false));
-    dispatch(handleSaveAndNextFlag(false));
+    if(value){
+      dispatch(handleSelectedButton(value));
+      setSelectedButtonFlag(false);
+      dispatch(handleCustomizeJobFlag(false));
+      dispatch(handleSaveAndNextFlag(false));
+    }
   };
 
 
