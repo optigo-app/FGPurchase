@@ -35,13 +35,13 @@ const UserData = () => {
 
   useEffect(() => {
     setJobListData([
-      { id:1, details: '1/271928 ', gwt: 3.0, netwt: 2.6, totalamt: 3081.5, delete: null },
-      { id:2, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { id:3, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { id:4, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { id:5, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { id:6, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
-      { id:7, details: '1/271929', gwt: 4.0, netwt: 3.6, totalamt: 4081.5, delete: null },
+      { id:1, details: '1/271928 ', gwt: 3.120, netwt: 2.654, totalamt: 3081.5, delete: null },
+      { id:2, details: '1/271929', gwt: 4.019, netwt: 3.254, totalamt: 4081.5, delete: null },
+      { id:3, details: '1/271929', gwt: 4.228, netwt: 3.621, totalamt: 4081.5, delete: null },
+      { id:4, details: '1/271929', gwt: 4.145, netwt: 3.690, totalamt: 4081.5, delete: null },
+      { id:5, details: '1/271929', gwt: 4.841, netwt: 3.687, totalamt: 4081.5, delete: null },
+      { id:6, details: '1/271929', gwt: 4.992, netwt: 3.678, totalamt: 4081.5, delete: null },
+      { id:7, details: '1/271929', gwt: 4.100, netwt: 3.600, totalamt: 4081.5, delete: null },
     ])
   },[]);
 
@@ -101,7 +101,7 @@ const UserData = () => {
         </td>
       ),
     },
-    { id: 'gwt', label: 'GWT', minWidth: 60 },
+    { id: 'gwt', label: 'GWT', minWidth: 60, align: 'center', },
     { id: 'netwt', label: 'NetWt', minWidth: 60, align: 'center', format: value => value?.toLocaleString('en-US') },
     { id: 'totalamt', label: 'Amount', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
     {
@@ -267,7 +267,7 @@ const UserData = () => {
         <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
           <TableHead>
             <TableRow>
-            <TableCell padding="checkbox">
+            <TableCell padding="checkbox" style={{backgroundColor:'#F6F6F7'}}>
                 <Checkbox
                 size="small"
                   color="primary"
