@@ -677,7 +677,7 @@ const SaveNNext = () => {
           {/* {  <h5 className='ps-2 mb-0'>{ showTableEntry && "Material Details"}</h5>} */}
           {  <h5 className='ps-2 mb-0'>{ showTableEntry && ""}</h5>}
           <div className='d-flex justify-content-between align-items-center'>
-            <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div>
+            {/* <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div> */}
             <div><Tooltip title="
 Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
           </div>
