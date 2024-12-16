@@ -234,7 +234,7 @@
   /* Custom scrollbar */
 .tableContainer::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
+  height: 4px;
   }
   
   .tableContainer::-webkit-scrollbar-track {

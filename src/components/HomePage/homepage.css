@@ -265,7 +265,7 @@
     /* Custom scrollbar */
 .homepage_container::-webkit-scrollbar {
   width: 8px;
-    height: 8px;
+    height: 4px;
 }
 
 .homepage_container::-webkit-scrollbar-track {

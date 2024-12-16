@@ -77,7 +77,7 @@ const UserData = () => {
       align: 'left',
       render: (value, row) => (
         <td style={{ cursor: 'pointer' }}>
-          <span className="d-flex">
+          <span className="d-flex" style={{minWidth:'100px'}}>
           <Tooltip title="Edit Job">
               <EditIcon
                 fontSize="small"
