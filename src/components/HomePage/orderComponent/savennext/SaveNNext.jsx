@@ -1264,7 +1264,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                               onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
-                              placeholder='Type'
+                              placeholder='Material'
                               autoComplete='off'
                             />
                         </td>
@@ -1272,7 +1272,6 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                         <input
                               type="text"
                               name="type"
-                              ref={diamond_Focus}
                               value={rowData.type}
                               onChange={(e) => handleDiamondInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
@@ -1452,8 +1451,9 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                     <div></div>
                     <div><Typography variant='h6'>Add ColorStone Details</Typography></div>
                     <div className='d-flex align-items-center'>
-                      <Tooltip title="
-Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Receive From Vendor">
+                          <button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button>
+                        </Tooltip>
                       <Tooltip title="Close" onClick={() => setAddCSInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
                     </div>
                 </div>
@@ -1487,7 +1487,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                                 onChange={(e) => handleColorstoneInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
-                                placeholder='Shape'
+                                placeholder='Material'
                                 autoComplete='off'
                                 ref={colorstone_focus}
                               />
@@ -1500,9 +1500,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                                 onChange={(e) => handleColorstoneInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
-                                placeholder='Shape'
+                                placeholder='Type'
                                 autoComplete='off'
-                                ref={colorstone_focus}
                               />
                         </td>
                         <td align="left" width={"360px"}>
@@ -1678,8 +1677,9 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                     <div></div>
                     <div><Typography variant='h6'>Add Misc Details</Typography></div>
                     <div className='d-flex justify-content-center'>
-                      <Tooltip title="
-Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Receive From Vendor">
+                        <button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button>
+                      </Tooltip>
                       <Tooltip title="Close" onClick={() => setAddMiscInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
                     </div>
                 </div>
@@ -1714,7 +1714,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                                 onChange={(e) => handleMiscInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
-                                placeholder='Shape'
+                                placeholder='Material'
                                 autoComplete='off'
                                 ref={misc_focus}
                               />
@@ -1727,9 +1727,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                                 onChange={(e) => handleMiscInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
-                                placeholder='Shape'
+                                placeholder='Type'
                                 autoComplete='off'
-                                ref={misc_focus}
                               />
                         </td>
 
@@ -1918,8 +1917,9 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                     <div></div>
                     <div><Typography variant='h6'>Add Finding Details</Typography></div>
                     <div className='d-flex align-items-center'>
-                      <Tooltip title="
-Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
+                      <Tooltip title="Receive From Vendor">
+                        <button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button>
+                      </Tooltip>
                       <Tooltip title="Close" onClick={() => setAddFindingInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
                     </div>
                 </div>
@@ -1954,7 +1954,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                                 onChange={(e) => handleFindingInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
-                                placeholder='Shape'
+                                placeholder='Material'
                                 autoComplete='off'
                                 ref={finding_focus}
                               />
@@ -1967,9 +1967,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                                 onChange={(e) => handleFindingInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
                                 className='onfocus_snv m_x_inp_snv'
-                                placeholder='Shape'
+                                placeholder='Type'
                                 autoComplete='off'
-                                ref={finding_focus}
                               />
                         </td>
                         <td align="left" width={"360px"}>

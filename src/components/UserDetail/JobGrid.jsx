@@ -276,6 +276,7 @@ const JobGrid = () => {
         open={PopUpJobDetails}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
+        onClose={() => dispatch(handlePopUpJobDetails(false))}
       >
         <Box
           sx={{

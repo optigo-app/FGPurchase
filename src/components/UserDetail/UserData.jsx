@@ -12,7 +12,7 @@ import { Settings } from "@mui/icons-material";
 import JobGrid from "./JobGrid";
 import "./jobgrid.css";
 import  EditIcon  from '@mui/icons-material/Edit';
-import { Checkbox, Tooltip } from "@mui/material";
+import { Button, Checkbox, Tooltip } from "@mui/material";
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -197,8 +197,11 @@ const UserData = () => {
       </div>
 
       {/* Table */}
-      <div className="mb-2">
-        <input type="Search Job" value={jobSearch} className="jobSearchINP" placeholder="Search jobs here" onChange={e => handleJobSearch(e)} />
+      <div className="d-flex align-items-center w-100">
+        <div className="mb-2 w-75">
+          <input type="Search Job" value={jobSearch} className="jobSearchINP" placeholder="Search jobs here" onChange={e => handleJobSearch(e)} />
+        </div>
+        <div className="w-25"><Button variant="contained" size="small" color="error">Delete All</Button></div>
       </div>
       <div className="tableContainer">
         {/* <table className="table">
