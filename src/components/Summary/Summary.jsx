@@ -400,7 +400,7 @@ const Summary = () => {
           <textarea className="summury_textArea" />
         </div>
 
-        <button className="Summ_DiscountApllyBtnPay">Save Remarks</button>
+        <button className="ApllyBtnPay">Save Remarks</button>
       </div>
     </div>
   );

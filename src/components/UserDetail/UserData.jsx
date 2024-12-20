@@ -198,12 +198,12 @@ const UserData = () => {
 
       {/* Table */}
       <div className="d-flex align-items-center w-100">
-        <div className="mb-2 w-75">
-          <input type="Search Job" value={jobSearch} className="jobSearchINP" placeholder="Search jobs here" onChange={e => handleJobSearch(e)} />
+        <div className=" w-75">
+          <input type="Search Job" value={jobSearch} className="jobSearchINP" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
         </div>
         <div className="w-25"><Button variant="contained" size="small" color="error">Delete All</Button></div>
       </div>
-      <div className="tableContainer">
+      <div className="tableContainer mt-2">
         {/* <table className="table">
           <thead>
               <tr>

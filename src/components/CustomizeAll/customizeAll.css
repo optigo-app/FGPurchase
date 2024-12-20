@@ -35,12 +35,13 @@
   
   .allCustomize_textinput{
       width: 100% !important;
-      min-width: 155px !important;
+      min-width: 55px !important;
   }
   
   .allCustomize_textinput .MuiInputBase-root{
-      width: 90% !important;
+      width: 40% !important;
   }
+
 
 
   
@@ -51,7 +52,7 @@
 }
 
 .valueMainDivP{
-    min-width: 120px;
+    min-width: 135px;
     font-size: 15px;
     font-weight: 600;
     margin: 0px;
@@ -103,4 +104,18 @@
   
   .sclbar_czall::-webkit-scrollbar-track {
     background: #f1f1f1; /* Track background */
+  }
+
+  .single_tableTr2_td_textfiled{
+    max-width: 100px;
+  }
+
+
+  .cinputfield{
+    width: 100px !important;
+    min-width: 100px !important;
+  }
+  .cinputfield .MuiInputBase-root{
+    width: 100px !important;
+    min-width: 100px !important;
   }
