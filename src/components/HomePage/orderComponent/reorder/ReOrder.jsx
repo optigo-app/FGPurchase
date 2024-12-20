@@ -90,6 +90,15 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box, Button, Modal, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableRow from '@mui/material/TableRow';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
+
 const ReOrder = () => {
   
   const dispatch = useDispatch();
@@ -97,6 +106,9 @@ const ReOrder = () => {
   const [addWtModal, setAddWtModal] = useState(false);
   const remainingWt = 15;
   const [wt, setWt] = useState('');
+
+    const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   
   const markUpModalOpen = () => {
     setMarkUpModal(true);
@@ -107,6 +119,51 @@ const ReOrder = () => {
         setAddWtModal(true);
       }
   }
+
+  const [rows, setRows] = useState([
+    {
+      id: 1,
+      material: 'METAL',
+      description: 'GOLD 14K YW PRL GREEN MIX DEFAULT / 76 / 10.567',
+      issuePcs: '',
+      issueWt: '',
+      remainingWt: remainingWt,
+    },
+    {
+      id: 2,
+      material: 'DIAMOND',
+      description: 'RND VVS PD PD / 76 / 10.567',
+      issuePcs: '',
+      issueWt: '',
+      remainingWt: remainingWt,
+    },
+    {
+      id: 3,
+      material: 'MISC',
+      description: 'RND VVS PD PD / 76 / 10.567',
+      issuePcs: '',
+      issueWt: '',
+      remainingWt: remainingWt,
+    },
+    {
+      id: 4,
+      material: 'FINDING',
+      description: 'RND VVS PD PD / 76 / 10.567',
+      issuePcs: '',
+      issueWt: '',
+      remainingWt: remainingWt,
+    },
+  ]);
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleRowsPerPageChange = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
 
   return (
     <div className="reorder_component">
@@ -156,7 +213,7 @@ const ReOrder = () => {
         </div>
 
         {/* Table */}
-        <div className="table-wrapper mt-3 d-flex justify-content-center align-items-center">
+        {/* <div className="table-wrapper mt-3 d-flex justify-content-center align-items-center">
           <table className="table " style={{maxWidth:'1200px'}}>
             <thead>
               <tr>
@@ -187,13 +244,101 @@ const ReOrder = () => {
               </tr>
             </tbody>
           </table>
+        </div> */}
+        <div className='d-flex flex-column justify-content-center align-items-center w-100'>
+          <div style={{maxWidth:'1200px'}}>
+          <TableContainer  component={Paper}         sx={{
+          maxHeight: 440,
+          overflow: 'auto', // Enable scrolling for both directions
+          '&::-webkit-scrollbar': {
+            height: '6px', // Reduce the scrollbar height for horizontal scrolling
+            width: '6px', // Adjust scrollbar width for vertical scrolling
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0,0,0,0.3)', // Adjust scrollbar thumb color
+            borderRadius: '4px', // Rounded corners for the scrollbar thumb
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'rgba(0,0,0,0.1)', // Adjust scrollbar track color
+            borderRadius: '4px', // Rounded corners for the scrollbar track
+          },
+          boxShadow: 'none',
+          border: '1px solid #e8e8e8',
+          mt:3
+        }}>
+            <Table>
+              <TableHead stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
+                <TableRow style={{backgroundColor:'#F6F6F7', fontWeight:'bolder'}}>
+                  <TableCell>Material</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Issue Pcs</TableCell>
+                  <TableCell>Issue Wt</TableCell>
+                  <TableCell>Mark Up</TableCell>
+                  <TableCell>Remaining Wt</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => (
+                    <TableRow key={row.id} hover >
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} >{row.material}</TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} >{row.description}</TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>
+                        <input
+                          type="text"
+                          className='onfocus_snv'
+                          value={row.issuePcs || ''}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setRows((prevRows) =>
+                              prevRows?.map((r) =>
+                                r.id === row.id
+                                  ? { ...r, issuePcs: value }
+                                  : r
+                              )
+                            );
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>
+                        <input
+                          type="text"
+                          disabled
+                          value={row.issueWt || ''}
+                          onChange={(e) => handleWtChange(row.id, e.target.value)}
+                        />
+                      </TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>
+                        <VisibilityIcon style={{cursor:'pointer'}} onClick={markUpModalOpen} />
+                      </TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>{row.remainingWt}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <div className='w-100 d-flex justify-content-end align-items-center'>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 15]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
+          </div>
+          </div>
         </div>
+      
       </div>
       {
           markUpModal && <Modal
             open={markUpModal}
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
+            onClose={() => setMarkUpModal(false)}
           >
             <Box
                sx={{
