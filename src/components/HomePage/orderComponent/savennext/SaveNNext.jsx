@@ -612,57 +612,105 @@ const SaveNNext = () => {
 
       <div className="filters-container_sn">
         <div className="filter-item">
-          <input type="text" placeholder="HSN" autoFocus />
+          <div>
+            <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
+            <input type="text" id="HSN" placeholder="HSN" autoFocus />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Ref No" />
+          <div>
+            <label htmlFor="refno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Ref No.</label>
+            <input type="text" id="refno" placeholder="Ref No" />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Certificate Type" />
+          <div>
+            <label htmlFor="ctype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. Type</label>
+            <input type="text" id="ctype" placeholder="Certificate Type" />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Certificate No." />
+          <div>
+            <label htmlFor="certno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. No.</label>
+            <input type="text" placeholder="Certificate No." id='certno' />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="HUID No" />
+          <div>
+            <label htmlFor="huid" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HUID. No.</label>
+            <input type="text" placeholder="HUID No" id='huid' />
+          </div>
         </div>
         <div className="filter-item d-flex justify-content-center align-items-center w-100">
-          <Tooltip title="Change Criteria" style={{cursor:'pointer'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
+          <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
         </div>
       </div>
       <div className="filters-container2">
         <div className="filter-item">
-          <input type="text" placeholder="Metal Type" />
+          <div>
+            <label htmlFor="metaltype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MetalType</label>
+            <input type="text" placeholder="Metal Type" id='metaltype' />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Gross Wt" />
+          <div>
+            <label htmlFor="grosswt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>GrossWt</label>
+            <input type="text" placeholder="Gross Wt" id='grosswt' />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="NetWt" />
+          <div>
+            <label htmlFor="netwt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>NetWt</label>
+            <input type="text" placeholder="NetWt" id='netwt' />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Tunch" />
+        <div>
+            <label htmlFor="tunch" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Tunch</label>
+            <input type="text" placeholder="Tunch" id='tunch' />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Wastage" />
+          <div>
+            <label htmlFor="wastage" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Wastage</label>
+            <input type="text" placeholder="Wastage" id='wastage' />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Dia.Wt"  onKeyDown={(e) => handleEnterKeyChange(e, 'diamond')} />
+          <div> 
+            <label htmlFor="diawt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Dia. Wt</label>
+            <input type="text" placeholder="Dia.Wt" id='diawt'  onKeyDown={(e) => handleEnterKeyChange(e, 'diamond')} />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Cs.Wt" ref={csWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'colorstone')} />
+          <div> 
+            <label htmlFor="cswt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cs. Wt</label>
+            <input type="text" placeholder="Cs.Wt" id='cswt' ref={csWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'colorstone')} />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Misc Wt" ref={miscWtFocus}  onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
+          <div>
+            <label htmlFor="miscwt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Misc. Wt</label>
+            <input type="text" placeholder="Misc Wt" id='miscwt' ref={miscWtFocus}  onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
+          </div>
         </div>
         <div className="filter-item">
-          <input type="text" placeholder="Finding Wt" ref={findingWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'finding')} />
+          <div>
+            <label htmlFor="finewt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Finding. Wt</label>
+            <input type="text" placeholder="Finding Wt" id='finewt' ref={findingWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'finding')} />
+          </div>
         </div>
         <div className="filter-item">
-            <input type="text" placeholder="Labour" />
+            <div>
+            <label htmlFor="labour" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Labour</label>
+              <input type="text" placeholder="Labour" id='labour' />
+            </div>
           </div>
           <div className="filter-item">
-            <input type="text" placeholder="SalesLabour" />
+            <div>
+              <label htmlFor="saleslabour" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>SalesLabour</label>
+              <input type="text" placeholder="SalesLabour" id='saleslabour' />
+            </div>
           </div>
         
       </div>
