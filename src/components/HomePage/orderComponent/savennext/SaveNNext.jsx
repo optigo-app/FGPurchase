@@ -51,7 +51,7 @@ const SaveNNext = () => {
       supplier: '',
       rate: '',
       amount: '',
-      onPcs:false,
+      onPcs:null,
       addInGrossWt:null,
       tunch:0,
       wastage:0
@@ -74,7 +74,7 @@ const SaveNNext = () => {
       supplier: '',
       rate: '',
       amount: '',
-      onPcs:false,
+      onPcs:null,
       addInGrossWt:null,
       tunch:0,
       wastage:0
@@ -99,8 +99,8 @@ const SaveNNext = () => {
       supplier: '',
       rate: '',
       amount: '',
-      onPcs:false,
-      addInGrossWt:false,
+      onPcs:null,
+      addInGrossWt:null,
       tunch:0,
       wastage:0
     },
@@ -125,8 +125,8 @@ const SaveNNext = () => {
       supplier: '',
       rate: '',
       amount: '',
-      onPcs:false,
-      addInGrossWt:false,
+      onPcs:null,
+      addInGrossWt:null,
       tunch:0,
       wastage:0
     },
@@ -138,6 +138,11 @@ const SaveNNext = () => {
 
 
   const [showTableEntry, setShowTableEntry] = useState(false);
+  const [showDiarows, setShowDiaRows] = useState(null);
+  const [showCSrows, setShowCSRows] = useState(null);
+  const [showMiscrows, setShowMiscRows] = useState(null);
+  const [showFindingrows, setShowFindingRows] = useState(null);
+
 
   //Change Criteria logics
   const [changeCriteria, setChangeCriteria] = useState(false);
@@ -326,6 +331,9 @@ const SaveNNext = () => {
   const handleSaveDiamondDetails = () => {
     console.log(addDiamondRows);
     setAddDiaInfoPopUp(false);
+
+    const hasValidDiamondData = isTableDataValid(addDiamondRows);
+    setShowDiaRows(hasValidDiamondData);
   }
 
 
@@ -338,6 +346,8 @@ const SaveNNext = () => {
   const handleSaveColorstoneDetails = () => {
     console.log(addCsRows);
     setAddCSInfoPopUp(false);
+    const hasValidCsData = isTableDataValid(addCsRows);
+    setShowCSRows(hasValidCsData);
   }
   const handleColorstoneInputChange = (e, rowIndex) => {
     const { name, value } = e.target;
@@ -413,6 +423,8 @@ const SaveNNext = () => {
   const handleSaveMiscDetails = () => {
     console.log(addCsRows);
     setAddMiscInfoPopUp(false);
+    const hasValidMiscData = isTableDataValid(addMiscRows);
+    setShowMiscRows(hasValidMiscData);
   }
   const handleMiscInputChange = (e, rowIndex) => {
     const { name, value } = e.target;
@@ -481,11 +493,14 @@ const SaveNNext = () => {
 
 
 
-
   //add finding pop up logic
   const handleSaveFindingDetails = () => {
     console.log(addFindingRows);
     setAddFindingInfoPopUp(false);
+
+    const hasValidFindingData = isTableDataValid(addFindingRows);
+    setShowFindingRows(hasValidFindingData);
+
   }
   const handleFindingInputChange = (e, rowIndex) => {
     const { name, value } = e.target;
@@ -548,6 +563,27 @@ const SaveNNext = () => {
       }, [addFindingInfoPopUp]);
 
 
+const isTableDataValid = (rows) => {
+  return rows.some(row => 
+    Object.values(row).some(value => value !== "" && value !== null && value !== 0)
+  );
+};
+const handleTableToggle = () => {
+  // Check if any row in each category (diamond, CS, misc, and finding) has valid data
+  const hasValidDiamondData = isTableDataValid(addDiamondRows);
+  setShowDiaRows(hasValidDiamondData);
+  const hasValidCsData = isTableDataValid(addCsRows);
+  setShowCSRows(hasValidCsData);
+  const hasValidMiscData = isTableDataValid(addMiscRows);
+  setShowMiscRows(hasValidMiscData);
+  const hasValidFindingData = isTableDataValid(addFindingRows);
+  setShowFindingRows(hasValidFindingData);
+
+  
+
+  // Only show the table if at least one row from any category has valid data
+  setShowTableEntry(hasValidDiamondData || hasValidCsData || hasValidMiscData || hasValidFindingData);
+};
 
   return (
     <>
@@ -732,8 +768,9 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
-          <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button>
-          { showTableEntry && <div className='w-100 d-flex justify-content-center align-items-center'>
+          {/* <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button> */}
+          <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button>
+          { (showTableEntry) && <div className='w-100 d-flex justify-content-center align-items-center'>
               <table className='table' style={{width:'90%'}}>
                 <thead>
                   <tr>
@@ -757,7 +794,33 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                 </thead>
                 <tbody>
                   {
-                    addDiamondRows?.map((e, i) => {
+                   showDiarows && addDiamondRows?.map((e, i) => {
+                      return <tr key={i}>
+                          <td>{i+1}</td>
+                          <td>{e?.type}</td>
+                          <td>{e?.shape}</td>
+                          <td>{e?.clarity}</td>
+                          <td>{e?.color}</td>
+                          <td>{e?.size}</td>
+                          <td>{e?.pcs} / {e?.wt}</td>
+                          <td>{e?.tunch} / {e?.wastage}</td>
+                          <td>{e?.supplier}</td>
+                          <td>{e?.rate}</td>
+                          <td>{e?.amount}</td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
+                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} disabled /></td>
+                          <td><EditIcon /></td>
+                          <td><img
+                                src={DeleteIcon}
+                                alt="#delete"
+                                title="Delete"
+                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
+                          </td>
+                      </tr>
+                    })
+                  }
+                  {
+                    showCSrows && addCsRows?.map((e, i) => {
                       return <tr key={i}>
                           <td>{i+1}</td>
                           <td>{e?.type}</td>
@@ -783,7 +846,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                     })
                   }
                   {
-                    addCsRows?.map((e, i) => {
+                    showMiscrows && addMiscRows?.map((e, i) => {
                       return <tr key={i}>
                           <td>{i+1}</td>
                           <td>{e?.type}</td>
@@ -809,33 +872,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                     })
                   }
                   {
-                    addMiscRows?.map((e, i) => {
-                      return <tr key={i}>
-                          <td>{i+1}</td>
-                          <td>{e?.type}</td>
-                          <td>{e?.shape}</td>
-                          <td>{e?.clarity}</td>
-                          <td>{e?.color}</td>
-                          <td>{e?.size}</td>
-                          <td>{e?.pcs} / {e?.wt}</td>
-                          <td>{e?.tunch} / {e?.wastage}</td>
-                          <td>{e?.supplier}</td>
-                          <td>{e?.rate}</td>
-                          <td>{e?.amount}</td>
-                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
-                          <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} /></td>
-                          <td><EditIcon /></td>
-                          <td><img
-                                src={DeleteIcon}
-                                alt="#delete"
-                                title="Delete"
-                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
-                          </td>
-                      </tr>
-                    })
-                  }
-                  {
-                    addFindingRows?.map((e, i) => {
+                    showFindingrows && addFindingRows?.map((e, i) => {
                       return <tr key={i}>
                           <td>{i+1}</td>
                           <td>{e?.type}</td>
@@ -1530,7 +1567,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                         <td align='left' width={"100px"}>
                               <input
                                 type="text"
-                                name="type"
+                                name="material"
                                 value={rowData.material}
                                 onChange={(e) => handleColorstoneInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
@@ -1757,7 +1794,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                         <td align='left' width={"100px"}>
                               <input
                                 type="text"
-                                name="type"
+                                name="material"
                                 value={rowData.material}
                                 onChange={(e) => handleMiscInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
@@ -1997,7 +2034,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                         <td align='left' width={"100px"}>
                               <input
                                 type="text"
-                                name="type"
+                                name="material"
                                 value={rowData.material}
                                 onChange={(e) => handleFindingInputChange(e, i)}
                                 style={{width:'80px', border: "1px solid #ccc"}}
@@ -2023,8 +2060,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                             <div>
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
+                              name="shape"
+                              value={rowData.shape}
                               onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
@@ -2033,8 +2070,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
+                              name="clarity"
+                              value={rowData.clarity}
                               onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
@@ -2043,8 +2080,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
+                              name="size"
+                              value={rowData.size}
                               onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'70px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
@@ -2053,8 +2090,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                             />
                             <input
                               type="text"
-                              name="type"
-                              value={rowData.type}
+                              name="color"
+                              value={rowData.color}
                               onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'80px', border: "1px solid #ccc"}}
                               className='onfocus_snv m_x_inp_snv'
@@ -2068,7 +2105,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                             <div>
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="pcs"
                               value={rowData.pcs}
                               onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'40px', marginRight:'2px', border: "1px solid #ccc"}}
@@ -2078,7 +2115,7 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
                             />
                             <input
                               type="text"
-                              name="pcsWt"
+                              name="wt"
                               value={rowData.wt}
                               onChange={(e) => handleFindingInputChange(e, i)}
                               style={{width:'60px', border: "1px solid #ccc"}}

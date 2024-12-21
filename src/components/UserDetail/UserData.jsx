@@ -201,7 +201,7 @@ const UserData = () => {
         <div className=" w-75">
           <input type="Search Job" value={jobSearch} className="jobSearchINP" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
         </div>
-        <div className="w-25"><Button variant="contained" size="small" color="error">Delete All</Button></div>
+        <div className="w-25"><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div>
       </div>
       <div className="tableContainer mt-2">
         {/* <table className="table">
