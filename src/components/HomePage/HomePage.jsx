@@ -26,6 +26,7 @@ import Save from '../Save/Save';
 import Print from '../Print/Print';
 import Summary from '../Summary/Summary';
 import { FaGoodreadsG } from "react-icons/fa";
+import { handleModeChange } from '../../redux/slices/FgpSlice';
 // import OldGold from '../OldGold/OldGold';
 
 const style = {
@@ -160,12 +161,10 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         // counter: !counter?.toString()?.trim(),
         // moreDetails:!selectedmoreDetails?.toString()?.trim()
       };
-      console.log(errors);
       
       setValidationErrors(errors);
   
       const hasErrors = Object?.values(errors)?.some((error) => error);
-      console.log(hasErrors);
       
       if (!hasErrors) {
         let obj = {
@@ -531,7 +530,6 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       setShowUserListFlag(true);
 
       const filteredUserArr = CustomerData?.filter((el, i) =>  el?.TypoLabel?.toString()?.toLowerCase()?.includes(searchVal));
-      console.log(filteredUserArr);
 
       setUserList(filteredUserArr);
       
@@ -590,6 +588,20 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     setPrintListModal(false);
   };
 
+  const [modeComp, setModeComp] = useState('');
+  const mode = useSelector((state) => state?.fgp);
+  
+  const handleModeChangeComp = (e) => {
+      let val = e.target.value;
+      if(val){
+        setModeComp(e.target.value);
+        
+      }
+  }
+
+  useEffect(() => {
+      dispatch(handleModeChange(modeComp));
+  },[modeComp]);
 
   
 
@@ -609,6 +621,14 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       {/* Extra Filters */}
       { (SaveFiltersFlag || updateFiltersFlag) && <div className='d-flex justify-content-start align-items-center mb-4'>
         <div className="filters-container_hm">
+          <div className='filter-item_hp'>
+            <select name="mode" id="mode" value={modeComp} onChange={(e) => handleModeChangeComp(e)}>
+              <option value="" disabled selected>Select Mode</option>
+              <option value="purchase">Purchase</option>
+              <option value="alteration_issue">Alteration Issue</option>
+              <option value="alteration_receive">Alteration Receive</option>
+            </select>
+          </div>
           <div className="filter-item_hp userBox_hm" >
               <input type="text" placeholder="user" autoFocus value={searchUser} onBlur={() => handleUserBlur()} onChange={(el) => handleUserTypo(el)} onKeyDown={handleKeyDown} 
                 style={{ border: validationErrors?.searchUser ? '1px solid red' : '1px solid #ccc' }}

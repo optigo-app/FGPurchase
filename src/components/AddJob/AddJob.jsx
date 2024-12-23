@@ -10,6 +10,7 @@ const AddJob = () => {
     const [selectOrder, setSelectorder] = useState('neworder');
     const isSaveAndNext = useSelector(state => state?.home?.isSaveAndNext); 
     const customizeJob = useSelector(state => state?.home?.isJobCustomize); 
+    const mode = useSelector(state => state?.fgp?.isJobCustomize); 
     const dispatch = useDispatch();
 
     const dropdownRef = useRef(null);
@@ -31,13 +32,13 @@ const AddJob = () => {
         <>    
         { !customizeJob && <>
          {  !isSaveAndNext && <div className="order-dropdown">
-           <label htmlFor="inwardas" className="order-label">Inward As:</label>
+ {   mode !== "alteration_issue"  && <> <label htmlFor="inwardas" className="order-label">Inward As:</label>
            <select name="inwardas" id="inwardas" value={selectOrder} onChange={handleOrderSelection} ref={dropdownRef}  >
              <option value="" disabled selected>Select Order</option>
              <option value="neworder">New Order</option>
              <option value="reorder">Re-Order</option>
              <option value="jobbased">Job Based</option>
-           </select>
+           </select></>}
          </div>}
           
                { !isSaveAndNext && <div className="order-components">

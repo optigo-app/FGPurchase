@@ -9,7 +9,7 @@ const NewOrder = () => {
 
   const [tagGenerate, setTagGenerate] = useState(false);
   const addSubTag = useSelector((state) => state?.home?.addSubtag);
-  console.log(addSubTag);
+  const mode = useSelector((state) => state?.fgp?.mode);
   
   // const [addSubTag, setAddSubTag] = useState(false);
 
@@ -31,6 +31,7 @@ const NewOrder = () => {
 
 
   return (
+   <>
     <>
       <div className="neworder_component">
         <div className='d-flex align-items-center'>
@@ -166,6 +167,7 @@ const NewOrder = () => {
       </div>
       }
     </>
+   </>
   );
 };
 

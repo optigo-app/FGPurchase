@@ -3,7 +3,8 @@ const FgpSlice = createSlice({
     name:'fgp',
     initialState:{
         MoreJobDetails:false,
-        PopUpJobDetails:false
+        PopUpJobDetails:false,
+        mode:''
     },
     reducers:{
         handleMoreJobDetails: (state, action) => {
@@ -12,7 +13,10 @@ const FgpSlice = createSlice({
         handlePopUpJobDetails: (state, action) => {
             state.PopUpJobDetails = action.payload;
         },
+        handleModeChange: (state, action) => {
+            state.mode = action.payload;
+        }
     },
 })
-export const { handleMoreJobDetails, handlePopUpJobDetails } = FgpSlice.actions;
+export const { handleMoreJobDetails, handlePopUpJobDetails, handleModeChange } = FgpSlice.actions;
 export default FgpSlice.reducer;
