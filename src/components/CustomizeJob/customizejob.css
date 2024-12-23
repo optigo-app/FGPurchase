@@ -1,4 +1,4 @@
-.customizejob_container{
+/* .customizejob_container{
     box-sizing: border-box;
     width: 100%;
 }
@@ -35,12 +35,6 @@ label {
     border-radius: 4px;
 }
 
-/* .customizejob_container > input, select {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-} */
 
 @media (max-width: 768px) {
     .filters-container_cjob {
@@ -61,4 +55,127 @@ label {
     input, select {
         font-size: 12px;
     }
+} */
+
+
+
+.allCustomizationMain {
+    display: flex;
+  }
+  
+  .tableMainTitle{
+      background-color: lightgray;
+  }
+  .tableExtraTitle{
+      font-size: 18px;
+      border-bottom: 1px solid lightgray;
+      padding-top: 20px;
+      color: #11b8ee;
+  }
+  
+  .tableTr2{
+      width: 150px;
+  }
+  
+  .tableTr3{
+      width: 100px;
+  }
+  
+  .tableTr4{
+      width: 100px;
+  }
+  
+  .tableTr5{
+      width: 100px;
+  }
+  
+  .allCustomization_tableData{
+      width: 70%;
+  }
+  
+  .allCustomize_textinput{
+      width: 100% !important;
+      min-width: 55px !important;
+  }
+  
+  .allCustomize_textinput .MuiInputBase-root{
+      width: 40% !important;
+  }
+
+
+
+  
+.valueMainDiv{
+    display: flex;
+    align-items: center;
+    margin-block: 15px;
 }
+
+.valueMainDivP{
+    min-width: 135px;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0px;
+}
+
+.SaveBtnAmaountCZALL{
+    height: 35px;
+    width: 120px;
+    background-color: #0b5ed7;
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+
+.MainTitleLine {
+    align-items: center;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+    display: flex;
+    font-size: 25px;
+    font-weight: 600;
+    height: 50px;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-inline: 10px;
+}
+
+.sclbar_czall {
+    overflow-x: scroll;
+    scrollbar-height: 5px; /* For Firefox */
+  }
+  
+  /* Webkit Browsers */
+  .sclbar_czall::-webkit-scrollbar {
+    height: 5px; /* Reduce height */
+  }
+  
+  .sclbar_czall::-webkit-scrollbar-thumb {
+    background: #888; /* Scrollbar color */
+    border-radius: 5px; /* Rounded edges */
+  }
+  
+  .sclbar_czall::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color on hover */
+  }
+  
+  .sclbar_czall::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track background */
+  }
+
+  .single_tableTr2_td_textfiled{
+    max-width: 100px;
+  }
+
+
+  .cinputfield{
+    width: 100px !important;
+    min-width: 100px !important;
+  }
+  .cinputfield .MuiInputBase-root{
+    width: 100px !important;
+    min-width: 100px !important;
+  }

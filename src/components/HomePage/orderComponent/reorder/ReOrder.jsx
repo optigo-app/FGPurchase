@@ -107,7 +107,7 @@ const ReOrder = () => {
   const remainingWt = 15;
   const [wt, setWt] = useState('');
 
-    const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   
   const markUpModalOpen = () => {
@@ -169,7 +169,7 @@ const ReOrder = () => {
     <div className="reorder_component">
       <div className='d-flex align-items-end '>
         <div className='mx-1'>
-          <select name="jdwise" id="jdwise" className='reorder_dropdwon'>
+          <select name="jdwise" id="jdwise" className='reorder_dropdwon' style={{maxWidth:'150px'}}>
             <option value="" selected disabled>Select</option>
             <option value="designno">Design No</option>
             <option value="jobno">Job No</option>
@@ -177,7 +177,7 @@ const ReOrder = () => {
         </div>
         <div className="  mx-1">
           <label htmlFor="design" className="form-label pe-2">Design:</label>
-          <input type="text" placeholder="design#" autoFocus className="form-input"/>
+          <input type="text" placeholder="design#" autoFocus className="form_input_or" style={{maxWidth:'150px'}} />
         </div>
       </div>
 
@@ -289,6 +289,7 @@ const ReOrder = () => {
                           type="text"
                           className='onfocus_snv'
                           value={row.issuePcs || ''}
+                          style={{maxWidth:'60px'}}
                           onChange={(e) => {
                             const value = e.target.value;
                             setRows((prevRows) =>
@@ -307,6 +308,7 @@ const ReOrder = () => {
                           disabled
                           value={row.issueWt || ''}
                           onChange={(e) => handleWtChange(row.id, e.target.value)}
+                          style={{maxWidth:'80px'}}
                         />
                       </TableCell>
                       <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>

@@ -7,7 +7,8 @@ const homeObject = {
     homefilterObject:{},
     multiPartPayFlag:false,
     mountModal:false,
-    issuedMaterialModal:false
+    issuedMaterialModal:false,
+    addSubtag:false
 }
 
 const HomeSlice = createSlice({
@@ -34,9 +35,12 @@ const HomeSlice = createSlice({
         },
         handleIssuedMaterialModal:(state, action) => {
             state.issuedMaterialModal = action.payload;
+        },
+        handleaddSubtagFlag:(state, action) => {
+            state.addSubtag = action.payload;
         }
     }
 })
 
-export const { handleSaveAndNextFlag, handleCustomizeJobFlag, handleSave, handleSelectedButton, handleMultiPartPayFlag, handleMountModal, handleIssuedMaterialModal } = HomeSlice?.actions;
+export const { handleSaveAndNextFlag, handleCustomizeJobFlag, handleSave, handleSelectedButton, handleMultiPartPayFlag, handleMountModal, handleIssuedMaterialModal, handleaddSubtagFlag } = HomeSlice?.actions;
 export default HomeSlice.reducer;

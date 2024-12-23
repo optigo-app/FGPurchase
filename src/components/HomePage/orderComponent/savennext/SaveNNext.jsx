@@ -20,6 +20,7 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mountModal = useSelector(state => state?.home?.mountModal);
+  const addSubTag = useSelector(state => state?.home?.addSubtag);
 
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
   
@@ -582,7 +583,7 @@ const handleTableToggle = () => {
   
 
   // Only show the table if at least one row from any category has valid data
-  setShowTableEntry(hasValidDiamondData || hasValidCsData || hasValidMiscData || hasValidFindingData);
+  // setShowTableEntry(hasValidDiamondData || hasValidCsData || hasValidMiscData || hasValidFindingData);
 };
 
   return (
@@ -750,7 +751,119 @@ const handleTableToggle = () => {
           </div>
         
       </div>
-      
+
+        
+        { addSubTag &&
+          <>
+          <hr />
+            <div className="filters-container_sn">
+        <div className="filter-item">
+          <div>
+            <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
+            <input type="text" id="HSN" placeholder="HSN" autoFocus />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="refno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Ref No.</label>
+            <input type="text" id="refno" placeholder="Ref No" />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="ctype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. Type</label>
+            <input type="text" id="ctype" placeholder="Certificate Type" />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="certno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. No.</label>
+            <input type="text" placeholder="Certificate No." id='certno' />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="huid" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HUID. No.</label>
+            <input type="text" placeholder="HUID No" id='huid' />
+          </div>
+        </div>
+        <div className="filter-item d-flex justify-content-center align-items-center w-100">
+          <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
+        </div>
+      </div>
+      <div className="filters-container2">
+        <div className="filter-item">
+          <div>
+            <label htmlFor="metaltype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MetalType</label>
+            <input type="text" placeholder="Metal Type" id='metaltype' />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="grosswt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>GrossWt</label>
+            <input type="text" placeholder="Gross Wt" id='grosswt' />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="netwt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>NetWt</label>
+            <input type="text" placeholder="NetWt" id='netwt' />
+          </div>
+        </div>
+        <div className="filter-item">
+        <div>
+            <label htmlFor="tunch" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Tunch</label>
+            <input type="text" placeholder="Tunch" id='tunch' />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="wastage" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Wastage</label>
+            <input type="text" placeholder="Wastage" id='wastage' />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div> 
+            <label htmlFor="diawt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Dia. Wt</label>
+            <input type="text" placeholder="Dia.Wt" id='diawt'  onKeyDown={(e) => handleEnterKeyChange(e, 'diamond')} />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div> 
+            <label htmlFor="cswt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cs. Wt</label>
+            <input type="text" placeholder="Cs.Wt" id='cswt' ref={csWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'colorstone')} />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="miscwt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Misc. Wt</label>
+            <input type="text" placeholder="Misc Wt" id='miscwt' ref={miscWtFocus}  onKeyDown={(e) => handleEnterKeyChange(e, 'misc')} />
+          </div>
+        </div>
+        <div className="filter-item">
+          <div>
+            <label htmlFor="finewt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Finding. Wt</label>
+            <input type="text" placeholder="Finding Wt" id='finewt' ref={findingWtFocus} onKeyDown={(e) => handleEnterKeyChange(e, 'finding')} />
+          </div>
+        </div>
+        <div className="filter-item">
+            <div>
+            <label htmlFor="labour" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Labour</label>
+              <input type="text" placeholder="Labour" id='labour' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="saleslabour" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>SalesLabour</label>
+              <input type="text" placeholder="SalesLabour" id='saleslabour' />
+            </div>
+          </div>
+        
+      </div>
+          </>
+        }
+
+
       {/* { !addMoreMaterial && <div className='mt-3' onClick={() => setAddMoreMaterial(true)}><Button size='small' color='warning' variant='contained'>Add Material Details</Button></div>} */}
 
       <div>
@@ -768,8 +881,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
-          {/* <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button> */}
-          <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button>
+          <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button>
+          {/* <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button> */}
           { (showTableEntry) && <div className='w-100 d-flex justify-content-center align-items-center'>
               <table className='table' style={{width:'90%'}}>
                 <thead>

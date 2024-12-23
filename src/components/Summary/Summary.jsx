@@ -390,14 +390,14 @@ const Summary = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div style={{ display: "flex", marginTop: "10px" }}>
-          <p className="remakrTitle">Remarks</p>
-          <textarea className="summury_textArea" />
+      <div className="d-flex justify-content-start align-items-center">
+        <div style={{ display: "flex", marginTop: "10px" }} className="me-4">
+          <label className="remakrTitle" htmlFor="remark">Remarks : </label>
+          <textarea className="summury_textArea" id="remark" />
         </div>
-        <div style={{ display: "flex", marginTop: "10px" }}>
-          <p className="remakrTitle">Print Remarks :</p>
-          <textarea className="summury_textArea" />
+        <div style={{ display: "flex", marginTop: "10px" }} className="me-4">
+          <label className="remakrTitle" htmlFor="printremark">Print Remarks :</label>
+          <textarea className="summury_textArea" id="printremark" />
         </div>
 
         <button className="ApllyBtnPay">Save Remarks</button>

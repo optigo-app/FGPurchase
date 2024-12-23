@@ -138,7 +138,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     const handleRefNoChange = (e) => {
       const value = e.target.value;
       setRefno(value);
-        setValidationErrors((prev) => ({ ...prev, refno: !value?.toString()?.trim() }));
+        // setValidationErrors((prev) => ({ ...prev, refno: !value?.toString()?.trim() }));
     }
 
 
@@ -146,18 +146,18 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     const handleCounter = (e) => {
       const value = e.target.value;
       setCounter(value);
-        setValidationErrors((prev) => ({ ...prev, counter: !value?.toString()?.trim() }));
+        // setValidationErrors((prev) => ({ ...prev, counter: !value?.toString()?.trim() }));
     }
 
     const handleSaveFilters = () => {
       const errors = {
         // user: !searchCustomer?.toString()?.trim(),
         searchUser: !searchUser?.toString()?.trim(),
-        refno: !refno?.toString()?.trim(),
+        // refno: !refno?.toString()?.trim(),
         bookName: !selectBookName?.toString()?.trim(),
         currency: !selectCurrency?.toString()?.trim(),
         locker: !selectLockerName?.toString()?.trim(),
-        counter: !counter?.toString()?.trim(),
+        // counter: !counter?.toString()?.trim(),
         // moreDetails:!selectedmoreDetails?.toString()?.trim()
       };
       console.log(errors);
