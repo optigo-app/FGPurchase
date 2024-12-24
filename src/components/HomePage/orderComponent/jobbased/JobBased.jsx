@@ -107,7 +107,7 @@ const JobBased = () => {
             <input type="text" style={{ height: '35px' }} id='searchBy' autoFocus className='search-input' />
           </div>
         </div>
-        <div className='d-flex justify-content-center  py-5 bg-white border px-2'>
+        <div className='d-flex justify-content-start align-items-start  py-5 bg-white border px-2'>
         <div className='w-100' style={{maxWidth:'1200px'}}>
           {/* <table className='table table-bordered table-hover'>
             <thead className='thead-light'>

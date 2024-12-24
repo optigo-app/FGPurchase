@@ -197,6 +197,7 @@ const ScanAddJob = () => {
                   className="enterBrachItemBox"
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
+                  autoFocus
                 />
                 <Button
                   variant="contained"
@@ -258,6 +259,7 @@ const ScanAddJob = () => {
                     height: "35px",
                     outline: "none",
                   }}
+                  autoFocus
                   className="enterBrachItemBox"
                   placeholder="Add Design#"
                   onChange={handleInputChange}

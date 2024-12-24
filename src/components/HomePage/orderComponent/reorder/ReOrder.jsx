@@ -245,7 +245,7 @@ const ReOrder = () => {
             </tbody>
           </table>
         </div> */}
-        <div className='d-flex flex-column justify-content-center align-items-center w-100'>
+        <div className='d-flex flex-column justify-content-center align-items-start w-100'>
           <div style={{maxWidth:'1200px'}}>
           <TableContainer  component={Paper}         sx={{
           maxHeight: 440,
