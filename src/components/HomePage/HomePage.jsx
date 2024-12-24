@@ -27,6 +27,11 @@ import Print from '../Print/Print';
 import Summary from '../Summary/Summary';
 import { FaGoodreadsG } from "react-icons/fa";
 import { handleModeChange } from '../../redux/slices/FgpSlice';
+import DatePicker from 'react-datepicker';
+import CustomInput from '../pickers/PickersComponent';
+import "react-datepicker/dist/react-datepicker.css";
+import ".././pickers/reactcustomdatepicker.css"
+import AltJobs from '../AlterationReceive/AltJobs/AltJobs';
 // import OldGold from '../OldGold/OldGold';
 
 const style = {
@@ -166,7 +171,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   
       const hasErrors = Object?.values(errors)?.some((error) => error);
       
-      if (!hasErrors) {
+      // if (!hasErrors) {
         let obj = {
           // user:searchCustomer,
           searchUser: searchUser,
@@ -182,12 +187,16 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         setFiltersValue(obj);
         setSaveFiltersFlag(false);
         setUpdateFiltersFlag(false);
-        dispatch(handleSelectedButton('add'));
+        if(modeComp === "alteration_receive"){
+          dispatch(handleSelectedButton('altjobs'));
+        }else{
+          dispatch(handleSelectedButton('add'));
+        }
         setSelectedButtonFlag(false);
         dispatch(handleCustomizeJobFlag(false));
         dispatch(handleSaveAndNextFlag(false))
 
-      }
+      // }
     };
 
     const handleUpdateFilters = () => {
@@ -201,7 +210,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           setRefno(refno);
           setUser(user);
 
-          dispatch(handleSelectedButton('add'));
+          if(modeComp === "alteration_receive"){
+            dispatch(handleSelectedButton('altjobs'));
+          }else{
+            dispatch(handleSelectedButton('add'));
+          }
           setSelectedButtonFlag(false);
           // setTimeout(() => {setSelectorder('new order');},10);
           dispatch(handleCustomizeJobFlag(false));
@@ -484,6 +497,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     { title: "Save", icon: <SaveIcon />, value: "" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
+  const buttonAltActions = [
+    { title: "Add", icon: <AddIcon />, value: "altjobs" },
+    // { title: "Customize All", icon: <SettingsIcon />, value: "Customize All" },
+    // { title: "Old Gold", icon: <FaGoodreadsG />, value: "Old Gold" },
+    // { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
+    // { title: "Pay", icon: <PaymentIcon />, value: "Pay" },
+    { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
+    // { title: "Save", icon: <SaveIcon />, value: "Save" },
+    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Print", icon: <PrintIcon />, value: "Print" },
+  ];
 
   const handleButtonClick = (value) => {
     if(value === "Print"){
@@ -603,6 +627,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       dispatch(handleModeChange(modeComp));
   },[modeComp]);
 
+
+
+  //alteration issue
+  const [date, setDate] = useState(new Date());
+  const voucherTypeData = [
+    {
+      id:1,
+      name:'Repairing'
+    }
+  ]
+  
   
 
   return (
@@ -653,7 +688,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 </>
               }
           </div>
-          <div className="filter-item_hp" >
+          { modeComp !== "alteration_receive" && <>
+            <div className="filter-item_hp" >
             <select name="bookname" id="bookname"  value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
               <option value="" disabled selected>select BookName</option>
               {
@@ -663,13 +699,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               }
             </select>
           </div>
-         
           <div className="filter-item_hp">
             <input type="text" placeholder="reference No." value={refno} onChange={(el) => handleRefNoChange(el)}
               style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
              />
           </div> 
-          
           <div className="filter-item_hp" >
             <select name="currency" id="currency" value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
               <option value="" disabled selected>select Currency</option>
@@ -700,6 +734,32 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               }
             </select>
           </div>
+          </>}
+          {
+            modeComp === "alteration_receive" && <>
+            <div className="filter-item_hp" >
+              <select name="locker" id="locker" value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
+                <option value="" disabled selected>Voucher Type</option>
+                {
+                  voucherTypeData?.map((e, i) => {
+                    return <option value={e?.id} key={i}>{e?.name}</option>
+                  })
+                }
+              </select>
+            </div>
+            <div className="filter-item_hp" >
+              <DatePicker
+                selected={date}
+                id='basic-input'
+                // popperPlacement={popperPlacement}
+                // popperPlacement="bottom-end"
+                onChange={date => setDate(date)}
+                placeholderText='Click to select a date'
+                customInput={<CustomInput  />}
+              />
+            </div>
+            </>
+          }
           {/* <div className="filter-item_hp" >
             <select name="moredetails" id="moredetails" value={selectedmoreDetails} onChange={(el) => handleMoreDetails(el)} style={{ border: validationErrors.moreDetails ? '1px solid red' : '1px solid #ccc' }}>
             <option value="" disabled selected>More Details</option>
@@ -717,7 +777,9 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         </div>
       </div>}
               
-      { !SaveFiltersFlag && <>
+
+      
+        { !SaveFiltersFlag && <>
 
       {/* Customer Line */}
       { !updateFiltersFlag && <div className="customer-info">
@@ -849,7 +911,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
 
       <div className="action-buttons">
-        {buttonActions?.map((action) => (
+        { modeComp !== "alteration_receive" && buttonActions?.map((action) => (
+          <Tooltip title={action.title} arrow placement="top" key={action.value}>
+            <button
+              className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
+              onClick={() => handleButtonClick(action.value)}
+            >
+              {action.icon}
+            </button>
+          </Tooltip>
+        ))}
+        { modeComp === "alteration_receive" && buttonAltActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
               className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
@@ -871,10 +943,15 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               { selectedButton === 'Summary' && <Summary /> }
               { selectedButton === 'Save' && <Save /> }
               {/* { selectedButton === 'Print' && <Print /> } */}
+
+
+              {/* Alteration Receive */}
+              { selectedButton === 'altjobs' && <AltJobs /> }
             </>
           }
       
-          </>}
+          
+      </>}
     </div>
   );
 };
