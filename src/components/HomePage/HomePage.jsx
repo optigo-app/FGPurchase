@@ -624,7 +624,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           <div className='filter-item_hp'>
             <select name="mode" id="mode" value={modeComp} onChange={(e) => handleModeChangeComp(e)}>
               <option value="" disabled selected>Select Mode</option>
-              <option value="purchase">Purchase</option>
+              <option value="material_purchase">Material Purchase</option>
+              <option value="stock_purchase">Stock Purchase</option>
               <option value="alteration_issue">Alteration Issue</option>
               <option value="alteration_receive">Alteration Receive</option>
             </select>

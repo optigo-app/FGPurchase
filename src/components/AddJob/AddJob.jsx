@@ -6,11 +6,12 @@ import JobBased from '../HomePage/orderComponent/jobbased/JobBased';
 import SaveAndNext from '../../components/HomePage/orderComponent/savennext/SaveNNext';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomizeJob from '../CustomizeJob/CustomizeJob';
+import ScanAddJob from '../AlterationIssue/ScanAddJob/ScanJobAdd';
 const AddJob = () => {
     const [selectOrder, setSelectorder] = useState('neworder');
     const isSaveAndNext = useSelector(state => state?.home?.isSaveAndNext); 
     const customizeJob = useSelector(state => state?.home?.isJobCustomize); 
-    const mode = useSelector(state => state?.fgp?.isJobCustomize); 
+    const mode = useSelector(state => state?.fgp?.mode); 
     const dispatch = useDispatch();
 
     const dropdownRef = useRef(null);
@@ -42,9 +43,14 @@ const AddJob = () => {
          </div>}
           
                { !isSaveAndNext && <div className="order-components">
+                { mode !== "alteration_issue" && <>
               {selectOrder === 'neworder' && <NewOrder />}
               {selectOrder === 'reorder' && <ReOrder />}
               {selectOrder === 'jobbased' && <JobBased />}
+                </>}
+                {
+                  mode === "alteration_issue" && <ScanAddJob />
+                }
             </div>}
             
             { isSaveAndNext && <div className="order-components">

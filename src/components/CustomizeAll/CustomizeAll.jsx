@@ -509,11 +509,7 @@ const CustomizeAll = () => {
                     control={<Radio />}
                     label="Total Criteria Based"
                   />
-                </RadioGroup>
-              </FormControl>
-
-              {criteriaBased && (
-                <Grid container spacing={1} className="checkboxesSection">
+                       { criteriaBased && <span className="d-flex ">
                   <Grid item xs={12} sm={6} md={3} lg={2} style={{ display: "flex" }}>
                     <FormControlLabel
                       control={<Checkbox />}
@@ -540,8 +536,43 @@ const CustomizeAll = () => {
                       label="Labour Rate"
                       />
                       </Grid>
-                </Grid>
-              )}
+                      </span>}
+                </RadioGroup>
+                
+              </FormControl>
+
+              {/* {criteriaBased && (
+                // <Grid container spacing={1} className="checkboxesSection">
+                  <span>
+                  <Grid item xs={12} sm={6} md={3} lg={2} style={{ display: "flex" }}>
+                    <FormControlLabel
+                      control={<Checkbox />}
+                      label="Diamond Rate"
+                    />
+                    
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2}>
+
+                    <FormControlLabel
+                      control={<Checkbox />}
+                      label="Stone Rate"
+                      />
+                      </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2} style={{ display: "flex" }}>
+                    <FormControlLabel
+                      control={<Checkbox />}
+                      label="Metal Rate"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <FormControlLabel
+                      control={<Checkbox />}
+                      label="Labour Rate"
+                      />
+                      </Grid>
+                      </span>
+                // </Grid>
+              )} */}
               <button className="SaveBtnAmaountCZALL" onClick={() => handleSave("amount")} >
                 Discount Apply
               </button>
