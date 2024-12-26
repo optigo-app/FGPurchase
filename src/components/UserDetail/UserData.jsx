@@ -24,6 +24,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 
 const UserData = () => {
+  const mode = useSelector((state) => state?.fgp?.mode);
   const [showTaxDropDown, setShowTaxDropDown] = useState(false);
   const [showModeOfDelDropDown, setShowModeOfDelDropDown] = useState(false);
   const [showAddLess, setShowAddLess] = useState(false);
@@ -352,7 +353,7 @@ const UserData = () => {
       }
 
       {/* Total Summary and Taxes */}
-      <div className={`totalSummary ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}>
+      { mode !== "alteration_issue" && <div className={`totalSummary ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}>
         <div className="totalItem">
           <span>Total</span>
           <span>11,391 /-</span>
@@ -466,7 +467,7 @@ const UserData = () => {
           <span>Final Amount</span>
           <span className="boldText">11,391.46 /-</span>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

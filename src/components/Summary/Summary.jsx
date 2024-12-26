@@ -4,6 +4,7 @@ import { Box, Modal, Tooltip } from "@mui/material";
 // import SummCustomTextField from "./Index";
 import { BiMessageAltDetail } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
+import { useSelector } from "react-redux";
 // import { useRecoilValue } from "recoil";
 // import { homePageDataShow } from "../../../atom/atom";
 
@@ -34,6 +35,7 @@ const styleKyc = {
 };
 
 const Summary = () => {
+  const mode = useSelector((state) => state?.fgp?.mode);
   const [open, setOpen] = useState(false);
   const [openKyc, setOpenKyc] = useState(false);
 
@@ -58,14 +60,14 @@ const Summary = () => {
 
   return (
     <div>
-      <div className="w-100 d-flex justify-content-end">
+          { mode !== "alteration_issue" && <div className="w-100 d-flex justify-content-end">
             <p className="summury_totalValue w-25">
               Balance To Be Paid :
               <span style={{ fontWeight: 600 }}>
                 {"605.50/-"}
               </span>
             </p>
-          </div>
+          </div>}
       {/* <Modal
         open={open}
         onClose={handleClose}
@@ -251,6 +253,7 @@ const Summary = () => {
           className="summuryTabel_BillMain"
           style={{ display: "flex", gap: "50px" }}
         >
+          { mode !== "alteration_issue" && <>
           <table className="summuryDiv1_table1">
             <tr>
               <td colSpan={2} className="tabkeMainTitle">
@@ -345,8 +348,10 @@ const Summary = () => {
               </td>
             </tr>
           </table>
-          <div style={{ width: "33.33%" }}>
-            <table className="summuryDiv1_table2">
+          </>}
+          
+          <div style={{ width: ` ${mode !== "alteration_issue" ? '33.33%' : '40%' } ` }} className={`${mode !== "alteration_issue" ? "d-block" : "d-flex"}`}>
+            <table className="summuryDiv1_table2" style={{marginRight:`${mode !== "alteration_issue" ? '0px' : '10px'}`}}>
               <tr>
                 <td colSpan={2} className="tabkeMainTitle">
                   Metal Summary (Pure)

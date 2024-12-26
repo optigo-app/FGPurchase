@@ -4,7 +4,7 @@ import "./savennext.css";
 import DeleteIcon from "../../../../assets/images/delete.png";
 import  SettingsIcon  from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
-import { handleIssuedMaterialModal, handleMountModal, handleSaveAndNextFlag } from '../../../../redux/slices/HomeSlice';
+import { handleIssuedMaterialModal, handleMountModal, handleSaveAndNextFlag , handleSelectedButton } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import  EditIcon  from '@mui/icons-material/Edit';
@@ -19,6 +19,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 const SaveNNext = () => {
   const dispatch = useDispatch();
+  const mode = useSelector(state => state?.fgp?.mode);
   const mountModal = useSelector(state => state?.home?.mountModal);
   const addSubTag = useSelector(state => state?.home?.addSubtag);
 
@@ -564,11 +565,15 @@ const SaveNNext = () => {
       }, [addFindingInfoPopUp]);
 
 
+
+
+
 const isTableDataValid = (rows) => {
   return rows.some(row => 
     Object.values(row).some(value => value !== "" && value !== null && value !== 0)
   );
 };
+
 const handleTableToggle = () => {
   // Check if any row in each category (diamond, CS, misc, and finding) has valid data
   const hasValidDiamondData = isTableDataValid(addDiamondRows);
@@ -585,6 +590,17 @@ const handleTableToggle = () => {
   // Only show the table if at least one row from any category has valid data
   // setShowTableEntry(hasValidDiamondData || hasValidCsData || hasValidMiscData || hasValidFindingData);
 };
+
+const handleSaveAndNew = () => {
+  dispatch(handleSaveAndNextFlag(false));
+  if(mode === "alteration_issue"){
+    dispatch(handleSelectedButton("add"));
+  }
+  if(mode === "alteration_receive"){
+    dispatch(handleSelectedButton("altjobs"));
+  }
+  // dispatch(handleSaveAndNextFlag(true));
+}
 
   return (
     <>
@@ -875,8 +891,7 @@ const handleTableToggle = () => {
           {  <h5 className='ps-2 mb-0'>{ showTableEntry && ""}</h5>}
           <div className='d-flex justify-content-between align-items-center'>
             {/* <div><Tooltip title="Mount"><button className='p-1 py-0 btn btn-secondary mx-1' onClick={() => dispatch(handleMountModal(true))} >M</button></Tooltip></div> */}
-            <div><Tooltip title="
-Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
+            <div><Tooltip title="Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip></div>
           </div>
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
@@ -2345,7 +2360,8 @@ Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onCl
             <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save</button>
           </div>
           <div className="m-1">
-            <button className='btn btn-success fs_sn_fgp' onClick={() => dispatch(handleSaveAndNextFlag(false))} style={{minWidth:'100px'}}>Save & New</button>
+            {/* <button className='btn btn-success fs_sn_fgp' onClick={() => dispatch(handleSaveAndNextFlag(false))} style={{minWidth:'100px'}}>Save & New</button> */}
+            <button className='btn btn-success fs_sn_fgp' onClick={() => handleSaveAndNew()} style={{minWidth:'100px'}}>Save & New</button>
           </div>
           <div className="m-1">
             <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save & Print</button>

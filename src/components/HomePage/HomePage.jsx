@@ -55,6 +55,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
   const [selectOrder, setSelectorder] = useState('neworder');
   const selectedButton = useSelector((state) => (state?.home?.selectButtonValue));
+  const savedValue = useSelector((state) => (state?.home?.homefilterObject));
+  
   const [selectedButtonFlag, setSelectedButtonFlag] = useState(true);
 
   const [user, setUser] = useState('abcd');
@@ -65,26 +67,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   const [locker, setLocker] = useState('');
   const [counter, setCounter] = useState('');
 
-  const [validationErrors, setValidationErrors] = useState({
-    // user: false,
-    searchUser: false,
-    refno: false,
-    bookName: false,
-    currency: false,
-    locker: false,
-    counter: false,
-    // moreDetails:false
-  });
-  const [filtersValue, setFiltersValue] = useState({
-    // user: '',
-    searchUser: '',
-    refno: '',
-    bookName: '',
-    currency: '',
-    locker: '',
-    counter: '',
-    // moreDetails:''
-  });
+
 
   const isSaveAndNext = useSelector(state => state?.home?.isSaveAndNext); 
   const customizeJob = useSelector(state => state?.home?.isJobCustomize); 
@@ -128,6 +111,34 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
   const [printListModal, setPrintListModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+
+    //alteration issue
+    const [date, setDate] = useState(new Date());
+    const [voucherType, setVoucherType] = useState('');
+
+
+    const [validationErrors, setValidationErrors] = useState({
+      // user: false,
+      searchUser: false,
+      // refno: false,
+      bookName: false,
+      currency: false,
+      locker: false,
+      // counter: false,
+      voucherType:false,
+      // moreDetails:false
+    });
+    const [filtersValue, setFiltersValue] = useState({
+      // user: '',
+      searchUser: '',
+      refno: '',
+      bookName: '',
+      currency: '',
+      locker: '',
+      counter: '',
+      voucherType:''
+      // moreDetails:''
+    });
   
 
   const handleOrderSelection = (e) => {
@@ -155,74 +166,77 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         // setValidationErrors((prev) => ({ ...prev, counter: !value?.toString()?.trim() }));
     }
 
-    const handleSaveFilters = () => {
-      const errors = {
-        // user: !searchCustomer?.toString()?.trim(),
-        searchUser: !searchUser?.toString()?.trim(),
-        // refno: !refno?.toString()?.trim(),
-        bookName: !selectBookName?.toString()?.trim(),
-        currency: !selectCurrency?.toString()?.trim(),
-        locker: !selectLockerName?.toString()?.trim(),
-        // counter: !counter?.toString()?.trim(),
-        // moreDetails:!selectedmoreDetails?.toString()?.trim()
-      };
+
+    // // save and update logic
+    // const handleSaveFilters = () => {
+    //   const errors = {
+    //     // user: !searchCustomer?.toString()?.trim(),
+    //     searchUser: !searchUser?.toString()?.trim(),
+    //     // refno: !refno?.toString()?.trim(),
+    //     bookName: !selectBookName?.toString()?.trim(),
+    //     currency: !selectCurrency?.toString()?.trim(),
+    //     locker: !selectLockerName?.toString()?.trim(),
+    //     // counter: !counter?.toString()?.trim(),
+    //     // moreDetails:!selectedmoreDetails?.toString()?.trim()
+    //   };
       
-      setValidationErrors(errors);
+    //   setValidationErrors(errors);
   
-      const hasErrors = Object?.values(errors)?.some((error) => error);
+    //   const hasErrors = Object?.values(errors)?.some((error) => error);
       
-      // if (!hasErrors) {
-        let obj = {
-          // user:searchCustomer,
-          searchUser: searchUser,
-          refno:refno,
-          bookName:selectBookName,
-          currency:selectCurrency,
-          locker:selectLockerName,
-          counter:counter,
-          moreDetails:selectedmoreDetails
-        }
+    //   if (!hasErrors) {
+    //     let obj = {
+    //       // user:searchCustomer,
+    //       searchUser: searchUser,
+    //       refno:refno,
+    //       bookName:selectBookName,
+    //       currency:selectCurrency,
+    //       locker:selectLockerName,
+    //       counter:counter,
+    //       moreDetails:selectedmoreDetails,
+    //       voucherType:voucherType
+    //     }
 
-        dispatch(handleSave(obj));
-        setFiltersValue(obj);
-        setSaveFiltersFlag(false);
-        setUpdateFiltersFlag(false);
-        if(modeComp === "alteration_receive"){
-          dispatch(handleSelectedButton('altjobs'));
-        }else{
-          dispatch(handleSelectedButton('add'));
-        }
-        setSelectedButtonFlag(false);
-        dispatch(handleCustomizeJobFlag(false));
-        dispatch(handleSaveAndNextFlag(false))
+    //     dispatch(handleSave(obj));
+    //     setFiltersValue(obj);
+    //     setSaveFiltersFlag(false);
+    //     setUpdateFiltersFlag(false);
+    //     if(modeComp === "alteration_receive"){
+    //       dispatch(handleSelectedButton('altjobs'));
+    //     }else{
+    //       dispatch(handleSelectedButton('add'));
+    //     }
+    //     setSelectedButtonFlag(false);
+    //     dispatch(handleCustomizeJobFlag(false));
+    //     dispatch(handleSaveAndNextFlag(false))
 
-      // }
-    };
+    //   }
+    // };
 
-    const handleUpdateFilters = () => {
-      setUpdateFiltersFlag(true);
+    // const handleUpdateFilters = () => {
+    //   setUpdateFiltersFlag(true);
 
-          setCurrency((+filtersValue?.currency));
-          // setBookName((+filtersValue?.bookName));
-          setCounter((+filtersValue?.counter));
-          setLocker((+filtersValue?.locker));
+    //       setCurrency((+filtersValue?.currency));
+    //       // setBookName((+filtersValue?.bookName));
+    //       setCounter((+filtersValue?.counter));
+    //       setLocker((+filtersValue?.locker));
         
-          setRefno(refno);
-          setUser(user);
+    //       setRefno(refno);
+    //       setUser(user);
 
-          if(modeComp === "alteration_receive"){
-            dispatch(handleSelectedButton('altjobs'));
-          }else{
-            dispatch(handleSelectedButton('add'));
-          }
-          setSelectedButtonFlag(false);
-          // setTimeout(() => {setSelectorder('new order');},10);
-          dispatch(handleCustomizeJobFlag(false));
-          dispatch(handleSaveAndNextFlag(false))
+    //       if(modeComp === "alteration_receive"){
+    //         dispatch(handleSelectedButton('altjobs'));
+    //       }else{
+    //         dispatch(handleSelectedButton('add'));
+    //       }
+    //       setSelectedButtonFlag(false);
+    //       // setTimeout(() => {setSelectorder('new order');},10);
+    //       dispatch(handleCustomizeJobFlag(false));
+    //       dispatch(handleSaveAndNextFlag(false))
 
       
 
-    }
+    // }
   
     // const BookNameArr = [
     //   {
@@ -439,13 +453,13 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   const handleBookName = (e) => {
     const value = e.target.value;
     setSelectBookName(value);
-    setBookNamevalidationError(false);
+    // setBookNamevalidationError(false);
     setValidationErrors((prev) => ({ ...prev, bookName: !(value)?.toString()?.trim() }));
-    if(value === ''){
-      setBookNamevalidationError(true);
-    }else{
-      setBookNamevalidationError(false);
-    }
+    // if(value === ''){
+    //   setBookNamevalidationError(true);
+    // }else{
+    //   setBookNamevalidationError(false);
+    // }
   }
 
   //locker logic
@@ -453,11 +467,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     const value = e.target.value;
     setSelectLockerName(value);
     setValidationErrors((prev) => ({ ...prev, locker: !(value)?.toString()?.trim() }));
-      if(value === ''){
-        setLockervalidationError(true);
-      }else{
-        setLockervalidationError(false);
-      }
+      // if(value === ''){
+      //   setLockervalidationError(true);
+      // }else{
+      //   setLockervalidationError(false);
+      // }
   }
 
   //currency logic
@@ -466,11 +480,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     setSelectCurrency(value);
     setValidationErrors((prev) => ({ ...prev, currency: !(value)?.toString()?.trim() }));
 
-    if (value === '') {
-        setCurrencyValidationError(true);
-    }else{
-        setCurrencyValidationError(false);
-    }
+    // if (value === '') {
+    //     setCurrencyValidationError(true);
+    // }else{
+    //     setCurrencyValidationError(false);
+    // }
 
   }
 
@@ -497,8 +511,19 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     { title: "Save", icon: <SaveIcon />, value: "" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
-  const buttonAltActions = [
+  const buttonAltActionsReceive = [
     { title: "Add", icon: <AddIcon />, value: "altjobs" },
+    // { title: "Customize All", icon: <SettingsIcon />, value: "Customize All" },
+    // { title: "Old Gold", icon: <FaGoodreadsG />, value: "Old Gold" },
+    // { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
+    // { title: "Pay", icon: <PaymentIcon />, value: "Pay" },
+    { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
+    // { title: "Save", icon: <SaveIcon />, value: "Save" },
+    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Print", icon: <PrintIcon />, value: "Print" },
+  ];
+  const buttonAltActionsIssue = [
+    { title: "Add", icon: <AddIcon />, value: "add" },
     // { title: "Customize All", icon: <SettingsIcon />, value: "Customize All" },
     // { title: "Old Gold", icon: <FaGoodreadsG />, value: "Old Gold" },
     // { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
@@ -558,11 +583,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       setUserList(filteredUserArr);
       
       setValidationErrors((prev) => ({ ...prev, searchUser: !(value)?.toString()?.trim() }));
-      if(value === ''){
-        setSearchUservalidationError(true);
-      }else{
-        setSearchUservalidationError(false);
-      }
+      // if(value === ''){
+      //   setSearchUservalidationError(true);
+      // }else{
+      //   setSearchUservalidationError(false);
+      // }
 
     }else{
       setShowUserListFlag(false);
@@ -613,7 +638,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   };
 
   const [modeComp, setModeComp] = useState('');
-  const mode = useSelector((state) => state?.fgp);
+  const mode = useSelector((state) => state?.fgp?.mode);
   
   const handleModeChangeComp = (e) => {
       let val = e.target.value;
@@ -629,14 +654,120 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
 
 
-  //alteration issue
-  const [date, setDate] = useState(new Date());
+
   const voucherTypeData = [
     {
       id:1,
       name:'Repairing'
+    },
+    {
+      id:2,
+      name:'Mounting'
+    },
+    {
+      id:3,
+      name:'Polishing'
     }
   ]
+  const handleVoucherType = (e) => {
+    const value = e.target.value;
+    setVoucherType(e.target.value);
+    setValidationErrors((prev) => ({ ...prev, voucherType: !(value)?.toString()?.trim() }));
+  }
+
+
+  const handleSaveFilters = () => {
+    // Validate if required fields are empty or not
+    if (modeComp !== "alteration_issue" && modeComp !== "alteration_receive") {
+      setValidationErrors({
+        searchUser: !searchUser.trim(),
+        bookName: !selectBookName.trim(),
+        currency: !selectCurrency.trim(),
+        locker: !selectLockerName.trim(),
+        voucherType: false, // Not required for this mode
+      });
+    } else {
+      setValidationErrors({
+        searchUser: !searchUser.trim(),
+        bookName: !selectBookName.trim(),
+        currency: !selectCurrency.trim(),
+        locker: !selectLockerName.trim(),
+        voucherType: !voucherType.trim(), // Required for this mode
+      });
+    }
+  
+    // Create the object with field values
+    const obj = {
+      searchUser: searchUser,
+      refno: refno,
+      bookName: selectBookName,
+      currency: selectCurrency,
+      locker: selectLockerName,
+      counter: counter,
+      voucherType: voucherType,
+      date: date,
+      modeType: modeComp,
+    };
+  
+    // // Check if any required field is empty
+    // const isObjEmpty = Object.keys(obj).some(key => {
+    //   // Exclude 'voucherType' if the mode is not 'alteration_issue' or 'alteration_receive'
+    //   if ((modeComp !== "alteration_issue" && modeComp !== "alteration_receive") && key === "voucherType") {
+    //     return false; // Don't check voucherType if not required
+    //   }
+  
+    //   // Exclude 'refno' and 'counter' from the check
+    //   if (key === "refno" || key === "counter") {
+    //     return false; // Skip these fields in the emptiness check
+    //   }
+  
+    //   return obj[key] === ''; // Return true if any value is an empty string
+    // });
+
+    const isObjEmpty = Object.keys(obj).some(key => {
+      // Exclude 'voucherType' from check if not in alteration_issue or alteration_receive
+      if ((modeComp !== "alteration_issue" && modeComp !== "alteration_receive") && key === "voucherType") {
+        return false; // Skip voucherType if not required
+      }
+  
+      // If mode is 'alteration_receive', only check relevant fields
+      if (modeComp === "alteration_receive" && !["searchUser", "voucherType", "date"].includes(key)) {
+        return false; // Skip other fields
+      }
+  
+      // Exclude 'refno' and 'counter' from the check as per your logic
+      if (key === "refno" || key === "counter") {
+        return false; // Skip these fields in the emptiness check
+      }
+  
+      return obj[key] === ''; // Check if the value is empty
+    });
+  
+  
+    // If any required field is empty, don't proceed
+    if (isObjEmpty) {
+      console.log(isObjEmpty); // This will be true if there's any empty required field
+      return; // Prevent further actions
+    } else {
+      dispatch(handleSave(obj));
+      setFiltersValue(obj);
+      setSaveFiltersFlag(false);
+      setUpdateFiltersFlag(false);
+  
+      if (modeComp === "alteration_receive") {
+        dispatch(handleSelectedButton('altjobs'));
+      } else {
+        dispatch(handleSelectedButton('add'));
+      }
+  
+      setSelectedButtonFlag(false);
+      dispatch(handleCustomizeJobFlag(false));
+      dispatch(handleSaveAndNextFlag(false));
+    }
+  };
+  
+  const handleUpdateFilters = () => {
+  }
   
   
 
@@ -734,11 +865,22 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               }
             </select>
           </div>
-          </>}
+          { modeComp === "alteration_issue" && <div className="filter-item_hp" >
+              <select name="voucher" id="voucher" value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
+                <option value="" disabled selected>Voucher Type</option>
+                {
+                  voucherTypeData?.map((e, i) => {
+                    return <option value={e?.id} key={i}>{e?.name}</option>
+                  })
+                }
+              </select>
+            </div>}
+          </>
+          }
           {
             modeComp === "alteration_receive" && <>
             <div className="filter-item_hp" >
-              <select name="locker" id="locker" value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="voucher" id="voucher" value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Voucher Type</option>
                 {
                   voucherTypeData?.map((e, i) => {
@@ -783,7 +925,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
       {/* Customer Line */}
       { !updateFiltersFlag && <div className="customer-info">
-        <div>Customer: <b className="text-primary">Kirti Mane</b></div>
+        <div>Customer: <b className="text-primary">{savedValue?.searchUser}</b></div>
         <div>GST No: <b className="text-primary">GST7896541233</b></div>
         <div>PAN No: <b className="text-primary">AU125479836321</b></div>
         <div>Aadhar No: <b className="text-primary">-</b></div>
@@ -911,7 +1053,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
 
       <div className="action-buttons">
-        { modeComp !== "alteration_receive" && buttonActions?.map((action) => (
+        { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue") && buttonActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
               className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
@@ -921,7 +1063,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </button>
           </Tooltip>
         ))}
-        { modeComp === "alteration_receive" && buttonAltActions?.map((action) => (
+        { (modeComp === "alteration_receive" ) && buttonAltActionsReceive?.map((action) => (
+          <Tooltip title={action.title} arrow placement="top" key={action.value}>
+            <button
+              className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
+              onClick={() => handleButtonClick(action.value)}
+            >
+              {action.icon}
+            </button>
+          </Tooltip>
+        ))}
+        { ( modeComp === "alteration_issue") && buttonAltActionsIssue?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
               className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
@@ -943,7 +1095,6 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               { selectedButton === 'Summary' && <Summary /> }
               { selectedButton === 'Save' && <Save /> }
               {/* { selectedButton === 'Print' && <Print /> } */}
-
 
               {/* Alteration Receive */}
               { selectedButton === 'altjobs' && <AltJobs /> }
