@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import  EditIcon  from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
-import { Tooltip, Modal, Box, Button, Typography } from '@mui/material';
+import { Tooltip, Modal, Box, Button, Typography, IconButton, Icon } from '@mui/material';
 import FileUploaderMultiple from './FileUploaderMultiple';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MountGrid from './MountGrid';
@@ -17,6 +17,7 @@ import IssuedMaterial from './IssuedMaterial';
 import Snackbar from '@mui/material/Snackbar';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import { Trash } from 'tabler-icons-react'; 
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mode = useSelector(state => state?.fgp?.mode);
@@ -938,11 +939,18 @@ const handleSaveAndNew = () => {
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.onPcs} /></td>
                           <td><input type="checkbox" style={{width:'50px'}} checked={e?.addInGrossWt} disabled /></td>
                           <td><EditIcon /></td>
-                          <td><img
+                          <td>
+                            { mode === 'alteration_receive' ? 
+                                <IconButton size='small'>
+                                  <Trash color='red' />
+                                </IconButton>
+                               : 
+                              <img
                                 src={DeleteIcon}
                                 alt="#delete"
                                 title="Delete"
-                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}/>
+                                style={{ height: '20px', width: '20px', cursor: 'pointer' }}
+                              />}
                           </td>
                       </tr>
                     })

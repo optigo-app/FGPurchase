@@ -13,7 +13,7 @@ import JobGrid from "./JobGrid";
 import "./jobgrid.css";
 import  EditIcon  from '@mui/icons-material/Edit';
 import  CancelIcon  from '@mui/icons-material/Cancel';
-import { Box, Button, Checkbox, Modal, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Checkbox, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -25,6 +25,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 
 import scanGif from "../../assets/images/scan.gif";
+import { Trash } from "tabler-icons-react";
 // import { set } from "react-datepicker/dist/date_utils";
 
 const UserData = () => {
@@ -159,12 +160,17 @@ const UserData = () => {
       align: 'center',
       render: () => (
         <Tooltip title="Remove Job">
-          <img
+          <Tooltip title='Delete'>
+                                <IconButton size='small'>
+                                  <Trash color='grey' />
+                                </IconButton>
+                              </Tooltip>
+          {/* <img
             src={DeleteIcon}
             alt="#delete"
             title="Delete"
             style={{ height: '20px', width: '20px', cursor: 'pointer' }}
-          />
+          /> */}
         </Tooltip>
       ),
     },

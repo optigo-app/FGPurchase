@@ -1006,7 +1006,19 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               value={selectedOption}
               onChange={handleOptionChange}
             >
-              <FormControlLabel
+              { (mode === 'alteration_receive' || mode === 'alteration_issue') ? <>
+                <FormControlLabel
+                  value="270"
+                  control={<Radio />}
+                  label="Alteration Print"
+                />
+                <FormControlLabel
+                  value="270"
+                  control={<Radio />}
+                  label="Repair Print"
+                />
+              </> : <>
+                <FormControlLabel
                 value="270"
                 control={<Radio />}
                 label="Bill Sticker"
@@ -1021,7 +1033,6 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 control={<Radio />}
                 label="Detail Print 10"
               />
-              {/* Add more options here as per your needs */}
               <FormControlLabel
                 value="312"
                 control={<Radio />}
@@ -1037,6 +1048,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 control={<Radio />}
                 label="Invoice Print V"
               />
+              </>}
               {/* ... Add all other options */}
             </RadioGroup>
           </FormControl>
