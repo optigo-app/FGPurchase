@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Container, Typography } from '@mui/material';
 import "./altjobs.css"
+import { useDispatch } from 'react-redux';
+import { handleSaveAndNextFlag, handleSelectedButton } from '../../../redux/slices/HomeSlice';
 
-const rows = [
+
+
+
+const AltJobs = () => {
+  const dispatch = useDispatch();
+  const rows = [
     { id: 1, design: 'New-CP', unique: '2TXF2', job: '1/267631', metal: 'GOLD 18K TMCol', netWt: 5.000, grossWt: 5.000, net24k: 3.800, returnValue: 'http://zen/lib/jo/28/images/return.png', returnCheck: false, designImg: 'http://zen/R50B3/UFSImage/orail25TNBVD0LO2UFPRZ4YH_Image/Design_Image/Design_Thumb/2924~1.jpg?0.508774' },
     { id: 2, design: 'New-CP', unique: '8QYD3', job: '1/267632', metal: 'GOLD 18K TMCol', netWt: 3.837, grossWt: 3.888, net24k: 2.916, returnValue: 'http://zen/lib/jo/28/images/return.png', returnCheck: false, designImg: 'http://zen/R50B3/UFSImage/orail25TNBVD0LO2UFPRZ4YH_Image/Design_Image/Design_Thumb/2924~1.jpg?0.508774' },
     { id: 3, design: 'New-CP', unique: '1SHN2', job: '1/267600', metal: 'GOLD 18K TMCol', netWt: 6.250, grossWt: 6.250, net24k: 4.750, returnValue: 'http://zen/lib/jo/28/images/return.png', returnCheck: false, designImg: 'http://zen/R50B3/UFSImage/orail25TNBVD0LO2UFPRZ4YH_Image/Design_Image/Design_Thumb/2924~1.jpg?0.508774' },
@@ -54,13 +61,23 @@ const columns = [
       <img
         src={params.value}
         alt="Design"
-        style={{  objectFit: 'contain' }}
+        style={{  objectFit: 'contain', cursor:'pointer' }}
+        onClick={() => handleReturnManual(params?.row)}
       />
     ),
   },
 ];
-
-const AltJobs = () => {
+  
+const handleReturnAll = () => {
+  console.log("Return All");
+  dispatch(handleSaveAndNextFlag(true));
+  dispatch(handleSelectedButton('add'));  
+}
+const handleReturnManual = () => {
+  console.log("Return All");
+  dispatch(handleSaveAndNextFlag(true));
+  dispatch(handleSelectedButton('add'));  
+}
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 })
   return (
     <Container>
@@ -68,7 +85,7 @@ const AltJobs = () => {
       <Typography variant="h6" gutterBottom>
         Alteration Jobs
       </Typography>
-      <Button color='error' variant='contained'>Return</Button>
+      <Button color='error' variant='contained' onClick={() => handleReturnAll()}>Return</Button>
       </div>
       <div >
         {/* <DataGrid

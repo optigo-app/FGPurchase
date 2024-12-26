@@ -917,7 +917,7 @@ const handleSaveAndNew = () => {
                     <th>On Pcs</th>
                     <th>AddIn GrossWt</th>
                     <th>Update</th>
-                    <th>Remove</th>
+                    <th>{ mode === 'alteration_receive' ? 'Detach' : 'Remove'}</th>
                   </tr>
                 </thead>
                 <tbody>
