@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./userdata.css";
 import {
   handleCustomizeJobFlag,
@@ -12,7 +12,8 @@ import { Settings } from "@mui/icons-material";
 import JobGrid from "./JobGrid";
 import "./jobgrid.css";
 import  EditIcon  from '@mui/icons-material/Edit';
-import { Button, Checkbox, Tooltip } from "@mui/material";
+import  CancelIcon  from '@mui/icons-material/Cancel';
+import { Box, Button, Checkbox, Modal, Tooltip, Typography } from "@mui/material";
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -22,6 +23,9 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
+
+import scanGif from "../../assets/images/scan.gif";
+// import { set } from "react-datepicker/dist/date_utils";
 
 const UserData = () => {
   const mode = useSelector((state) => state?.fgp?.mode);
@@ -46,13 +50,19 @@ const UserData = () => {
     ])
   },[]);
 
-
   const dispatch = useDispatch();
   const MoreJobDetailsFlag = useSelector((state) => state?.fgp?.MoreJobDetails);
   const PopUpJobDetails = useSelector((state) => state?.fgp?.PopUpJobDetails);
-
+  
   const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  
+  const [tagBreakPopUp, setTagBreakPopUp] = useState(false);
+  const [inputValueHidden, setInputValueHidden] = useState("");
+  const [enteredValues, setEnteredValues] = useState([]);
+  const [inputValue, setInputValue] = useState(undefined);
+  const [inputError, setInputError] = useState(false);
+  const ScanRef = useRef(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -69,6 +79,12 @@ const UserData = () => {
       dispatch(handleSaveAndNextFlag(true));
       dispatch(handleCustomizeJobFlag(false));
       dispatch(handleSelectedButton("add"));
+  }
+
+  const handleOpenPopup = (row) => {
+    console.log(row);
+    setTagBreakPopUp(true);
+    
   }
   const columns = [
     {
@@ -87,14 +103,38 @@ const UserData = () => {
               />
             </Tooltip>
             <div>
-            <span
+            <span>
+              {mode === 'alteration_receive' ? (
+                <span  
+                  onClick={(e) => {
+                    console.log('click',e);
+                    e.preventDefault(); // Prevent default anchor behavior
+                    setTagBreakPopUp(true); // Logic to open the popup
+                  }}
+                  style={{
+                    textDecoration: 'underline',
+                    color: 'blue',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {value}
+                </span>
+              ) : (
+                <span style={{cursor:'pointer'}} onClick={() => {
+                  dispatch(handleCustomizeJobFlag(true));
+                  dispatch(handleSelectedButton('add'));
+                }}>{value}</span>
+              )}
+            </span>
+            {/* <span
               onClick={() => {
                 dispatch(handleCustomizeJobFlag(true));
                 dispatch(handleSelectedButton('add'));
               }}
             >
               {value}
-            </span><br/>
+            </span> */}
+            <br/>
             <span className="smallText">D#: {row?.details?.split('/')[1]}</span>
             </div>
           </span>
@@ -147,6 +187,43 @@ const UserData = () => {
 
   const isRowSelected = (id) => selectedRows.includes(id);
 
+  const handleInputChangeHidden = (event) => {
+    setInputValueHidden(event.target.value);
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleGoButtonClick();
+    }
+  };
+
+  const handleGoButtonClick = () => {
+    if (inputValue === "" || inputValue === undefined) {
+      setInputError(true);
+    } else {
+      setInputError(false);
+      setEnteredValues([...enteredValues, inputValue]);
+      setInputValue("");
+    }
+  };
+  const inputStyle = {
+    width: "100%",
+    padding: "8px",
+    borderRadius: "8px",
+    border: "1px solid #ddd",
+    outline: "none",
+    boxSizing: "border-box",
+    fontSize: "14px",
+    color: "#333",
+    transition: "all 0.3s ease",
+    ':focus': {
+      borderColor: "#4caf50",
+      boxShadow: "0 0 5px rgba(76, 175, 80, 0.5)"
+    }
+  }
+
+
+  
   return (
     <div className="userDataContainer">
 
@@ -198,11 +275,12 @@ const UserData = () => {
       </div>
 
       {/* Table */}
-      <div className="d-flex align-items-center w-100">
-        <div className=" w-75">
+      <div className="d-flex justify-content-between align-items-center w-100">
+        <div >
           <input type="Search Job" value={jobSearch} className="jobSearchINP" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
         </div>
-        <div className="w-25"><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div>
+        { mode === "stock_purchase" && <div><Button style={{marginRight:'10px'}} variant="contained" size="small" color="primary">Club</Button></div>}
+        <div ><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div>
       </div>
       <div className="tableContainer mt-2">
         {/* <table className="table">
@@ -307,12 +385,12 @@ const UserData = () => {
                        
                       <TableCell key={column?.id} align={column?.align} sx={{padding:'0px'}} className="fs_usd">
                         {/* {column?.format && typeof value === 'number' ? column?.format(value) : value} */}
-                        {column?.render // If render function exists, call it
-                ? column.render(value, row)
-                : column?.format && typeof value === 'number' // Otherwise, check for format
-                ? column.format(value)
-                : value // Default to raw value
-              }
+                        { column?.render // If render function exists, call it
+                            ? column.render(value, row)
+                            : column?.format && typeof value === 'number' // Otherwise, check for format
+                            ? column.format(value)
+                            : value // Default to raw value
+                        }
                       </TableCell>
                       </>
                     )
@@ -347,9 +425,282 @@ const UserData = () => {
         </div>
       </div>
 
+       {/* {
+        tagBreakPopUp && <>
+          <Modal
+              open={tagBreakPopUp}
+              aria-labelledby="parent-modal-title"
+              aria-describedby="parent-modal-description"
+              onClose={() => setTagBreakPopUp(false)}
+            >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: '99%',
+                maxWidth:'800px',
+                minHeight:'350px',
+                bgcolor: "background.paper",
+                border: "none",
+                pt: 2,
+                px: 4,
+                pb: 3,
+                borderRadius: "8px",
+                boxShadow:'none'
+              }}
+              className="boxShadow_hp"
+            >
+              <div className="d-flex align-items-center justify-content-between mb-3">
+                <div>Tag Break For (1/17409)</div>
+                <div>
+                  <Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => setTagBreakPopUp(false)}><CancelIcon /></Tooltip>
+                </div>
+              </div>
+                <div className="fw-semibold">GWT:30.000 gms NetWt:28.000 gms</div>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  
+              <div style={{position:'relative'}}>
+                <img src={scanGif} className="createImageQrCode"  />
+                <div>
+                  <input
+                    type="text"
+                    id="hiddeninp"
+                    ref={ScanRef}
+                    value={inputValueHidden}
+                    onChange={handleInputChangeHidden}
+                    style={{
+                      width: "100px",
+                      position: "absolute",
+                      top: "30px",
+                      left: "10px",
+                      zIndex: -1,
+                    }}
+                  />
+                  <input type="text" />
+                    <Button
+                    variant="contained"
+                    className="createGoBtn"
+                    style={{
+                      color: "white",
+                      backgroundColor: "#e68900",
+                      borderRadius: "0px",
+                    }}
+                    onClick={handleGoButtonClick}
+                  >
+                    <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                      GO
+                    </Typography>
+                  </Button>
+                </div>
+              </div>
+                </div>
+                <div>
+                  <div><span style={{backgroundColor:'lightgreen', padding:'5px', borderRadius:'5px'}}>1/17409</span> for Stock</div>
+                  <div>
+                    Available Pcs: 15
+                  </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>Split Pcs: </div>
+                      <div>
+                        <input type="text" />
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>Split Gross Wt: </div>
+                      <div>
+                        <input type="text" />
+                      </div>
+                    </div>
+                    <div><Button color="success" onClick={() => setTagBreakPopUp(false)}>Apply</Button></div>
+
+                </div>
+              </div>
+        </Box>
+        </Modal>
+        </>
+       } */}
+{
+  tagBreakPopUp && <>
+    <Modal
+      open={tagBreakPopUp}
+      aria-labelledby="parent-modal-title"
+      aria-describedby="parent-modal-description"
+      onClose={() => setTagBreakPopUp(false)}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: '90%',
+          maxWidth: '1000px',
+          minHeight: '400px',
+          bgcolor: "background.paper",
+          border: "none",
+          pt: 3,
+          px: 5,
+          pb: 4,
+          borderRadius: "12px",
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          background: "linear-gradient(to bottom, #ffffff, #f7f7f7)"
+        }}
+        className="boxShadow_hp"
+      >
+        {/* Modal Header */}
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <div style={{ fontSize: '18px', display:'flex', alignItems:'center', gap:'5px', fontWeight: '600' }}>Tag Break For <Typography color="primary" style={{fontSize:'18px'}} sx={{fontWeight:'bold'}}>(1/17409)</Typography></div>
+          <Tooltip title="Close"  onClick={() => setTagBreakPopUp(false)}>
+            <CancelIcon style={{ fontSize: '24px', color: 'black', cursor: 'pointer' }} />
+          </Tooltip>
+        </div>
+
+        {/* Modal Content */}
+        <div className="fw-semibold mb-3" style={{ fontSize: '16px', color: '#333', display:'flex', alignItems:'center', gap:'5px' }}>
+          Gross Wt: <Typography color="primary" sx={{fontWeight:'bold'}}>30.000 gms</Typography>&nbsp;&nbsp; Net Wt: <Typography color="primary" sx={{fontWeight:'bold'}}>28.000 gms</Typography>
+        </div>
+
+        {/* Row for Scan and PCS Split */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+          
+          {/* Left Section - Scan and Enter Job */}
+          <div style={{ flex: '1', padding: '20px', background: 'white', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+            {/* <div style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px' }}>Scan and Enter Job</div> */}
+            
+            {/* Scan QR and Input */}
+            <div style={{ position: 'relative', marginBottom: '20px' }}>
+              <img src={scanGif} className="createImageQrCode" alt="Scan QR"  />
+              <input
+                type="text"
+                id="hiddeninp"
+                ref={ScanRef}
+                value={inputValueHidden}
+                onChange={handleInputChangeHidden}
+                style={{
+                  width: "100px",
+                  position: "absolute",
+                  top: "30px",
+                  left: "10px",
+                  zIndex: -1,
+                  opacity: 0
+                }}
+              />
+<div className="d-flex justify-content-between align-items-center">
+<input
+                type="text"
+                placeholder="Scan QR Code"
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                  outline: "none",
+                  boxSizing: "border-box",
+                  fontSize: "14px",
+                  color: "#333",
+                  marginTop:'10px',
+                  transition: "all 0.3s ease",
+                  ':focus': {
+                    borderColor: "#4caf50",
+                    boxShadow: "0 0 5px rgba(76, 175, 80, 0.5)"
+                  }
+                }}
+              />
+              <Button
+                variant="contained"
+                className="createGoBtn"
+                style={{
+                  color: "white",
+                  backgroundColor: "#e68900",
+                  borderRadius: "8px",
+                  padding: '8px 16px',
+                  marginTop: '12px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.3s ease',
+                  ':hover': { backgroundColor: '#ff9800' }
+                }}
+                onClick={handleGoButtonClick}
+              >
+                <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>GO</Typography>
+              </Button>
+</div>
+            </div>
+          </div>
+          
+          {/* Right Section - PCS Split */}
+          <div style={{ flex: '1', padding: '20px', background: 'white', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+            <div style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px' }}><span style={{color:'black', backgroundColor:'lightgreen', padding:'5px', borderRadius:'5px'}}>1/17409</span> &nbsp;&nbsp; for stock</div>
+
+            {/* PCS Split Inputs */}
+              <div style={{ fontWeight: '600' }}>Available Pcs: 15</div>
+            <div className="d-flex justify-content-between align-items-center mt-2">
+              <div style={{ fontWeight: '600', width:'150px' }}>Split Pcs :</div>
+              <input
+                type="text"
+                style={{
+                  width: "80%",
+                  padding: "8px",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                  outline: "none",
+                  boxSizing: "border-box",
+                  fontSize: "14px",
+                  color: "#333",
+                }}
+              />
+            </div>
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <div style={{ fontWeight: '600', width:'150px' }}>Split Gross Wt :</div>
+              <input
+                type="text"
+                style={{
+                  width: "80%",
+                  padding: "8px",
+                  borderRadius: "8px",
+                  border: "1px solid #ddd",
+                  outline: "none",
+                  boxSizing: "border-box",
+                  fontSize: "14px",
+                  color: "#333",
+                }}
+              />
+            </div>
+
+            {/* Apply Button */}
+            <div className="d-flex justify-content-center mt-4">
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => setTagBreakPopUp(false)}
+                style={{
+                  padding: '10px 20px',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  backgroundColor: '#4caf50',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+                  transition: 'all 0.3s ease',
+                  ':hover': { backgroundColor: '#45a049' }
+                }}
+              >
+                Apply
+              </Button>
+            </div>
+          </div>
+        </div>
+
+      </Box>
+    </Modal>
+  </>
+}
+
+
+
       {
         PopUpJobDetails && <JobGrid />
-        
       }
 
       {/* Total Summary and Taxes */}
