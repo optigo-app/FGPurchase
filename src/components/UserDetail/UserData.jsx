@@ -95,13 +95,13 @@ const UserData = () => {
       render: (value, row) => (
         <td style={{ cursor: 'pointer' }}>
           <span className="d-flex" style={{minWidth:'100px'}}>
-          <Tooltip title="Edit Job">
+          { mode !== 'alteration_issue' && <Tooltip title="Edit Job">
               <EditIcon
                 fontSize="small"
                 style={{ border: '1px solid #e8e8e8', padding: '2px', marginLeft: '8px' }}
                 onClick={() => moveToSaveNNextPage(true)}
               />
-            </Tooltip>
+            </Tooltip>}
             <div>
             <span>
               {mode === 'alteration_receive' ? (
@@ -144,7 +144,14 @@ const UserData = () => {
     },
     { id: 'gwt', label: 'GWT', minWidth: 60, align: 'center', },
     { id: 'netwt', label: 'NetWt', minWidth: 60, align: 'center', format: value => value?.toLocaleString('en-US') },
-    { id: 'totalamt', label: 'Amount', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
+    // { id: 'totalamt', label: 'Amount', minWidth: 90, align: 'center',  format: value => value?.toFixed(2) },
+    mode !== 'alteration_issue' && {
+      id: 'totalamt',
+      label: 'Amount',
+      minWidth: 90,
+      align: 'center',
+      format: (value) => value?.toFixed(2),
+    },
     {
       id: 'delete',
       label: 'Delete',
@@ -206,21 +213,7 @@ const UserData = () => {
       setInputValue("");
     }
   };
-  const inputStyle = {
-    width: "100%",
-    padding: "8px",
-    borderRadius: "8px",
-    border: "1px solid #ddd",
-    outline: "none",
-    boxSizing: "border-box",
-    fontSize: "14px",
-    color: "#333",
-    transition: "all 0.3s ease",
-    ':focus': {
-      borderColor: "#4caf50",
-      boxShadow: "0 0 5px rgba(76, 175, 80, 0.5)"
-    }
-  }
+
 
 
   

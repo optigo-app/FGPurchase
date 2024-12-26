@@ -896,9 +896,9 @@ const handleSaveAndNew = () => {
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
-          <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Table Entries</Button>
+          <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Material Details</Button>
           {/* <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button> */}
-          { (showTableEntry) && <div className='w-100 d-flex justify-content-center align-items-center'>
+          { (showTableEntry) && <div className='w-100 d-flex justify-content-start align-items-center'>
               <table className='table' style={{width:'90%'}}>
                 <thead>
                   <tr>
