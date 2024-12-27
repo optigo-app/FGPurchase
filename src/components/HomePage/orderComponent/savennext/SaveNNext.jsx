@@ -18,6 +18,7 @@ import Snackbar from '@mui/material/Snackbar';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import { Trash } from 'tabler-icons-react'; 
+import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mode = useSelector(state => state?.fgp?.mode);
@@ -1363,41 +1364,81 @@ const handleSaveAndNew = () => {
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Brand</option>
+              {
+                brandMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Collection</option>
+              {
+                collectionMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Category</option>
+              {
+                categorymainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Sub Category</option>
+              {
+                subCategoryMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Product Type</option>
+              {
+                productTypeMainData?.map((e, i) => {
+                  return <option value={e?.typeCode} key={i}>{e?.typeName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Gender</option>
+              {
+                genderMainData?.map((e, i) => {
+                  return <option value={e?.genderCode} key={i}>{e?.genderName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Occasion</option>
+              {
+                occasionMainData?.map((e, i) => {
+                  return <option value={e?.occasionCode} key={i}>{e?.occasionName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Style</option>
+              {
+                styleMainData?.map((e, i) => {
+                  return <option value={e?.styleCode} key={i}>{e?.styleName}</option>
+                })
+              }
             </select>
           </div>
           <div>

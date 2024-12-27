@@ -1,3 +1,278 @@
+// ** React Imports
+import { useEffect, useState } from 'react'
+
+// ** MUI Imports
+import Paper from '@mui/material/Paper'
+import Table from '@mui/material/Table'
+import TableRow from '@mui/material/TableRow'
+import TableHead from '@mui/material/TableHead'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TablePagination from '@mui/material/TablePagination'
+import { useDispatch, useSelector } from "react-redux";
+import { handlePopUpJobDetails } from "../../redux/slices/FgpSlice";
+import { Modal, Typography } from "@mui/material";
+import { Box } from '@mui/material';
+import  CancelIcon  from '@mui/icons-material/Cancel';
+import { Tooltip } from '@mui/material';
+
+const columns = [
+  { id: 'details', label: 'Details', minWidth: 80 },
+  { id: 'group', label: 'Group#', minWidth: 80 },
+  { id: 'quality', label: 'Quality', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
+  { id: 'Wt(G+D)', label: 'Wt(G+D)', minWidth: 80, align: 'center', format: value => value?.toLocaleString('en-US') },
+  { id: 'grosswt', label: 'GrossWt', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'netwt', label: 'NetWt', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'net(24k)', label: 'Net(24K)', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'amount', label: 'Amount', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'metal', label: 'Metal', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'diactw', label: 'DiaCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'diarate', label: 'DiaRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'diaamt', label: 'DiaAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'csctw', label: 'CSCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'csrate', label: 'CSRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'csamt', label: 'CSAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'miscctw', label: 'MiscCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'miscrate', label: 'MiscRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'miscamt', label: 'MiscAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'makerate', label: 'MakeRate', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'totalamt', label: 'TotalAmt', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+]
+function createData(name, code, population, size) {
+  const density = population / size
+
+  return { name, code, population, size, density }
+}
+
+const rows = [
+  createData('India', 'IN', 1324171354, 3287263),
+  createData('China', 'CN', 1403500365, 9596961),
+  createData('Italy', 'IT', 60483973, 301340),
+  createData('United States', 'US', 327167434, 9833520),
+  createData('Canada', 'CA', 37602103, 9984670),
+  createData('Australia', 'AU', 25475400, 7692024),
+  createData('Germany', 'DE', 83019200, 357578),
+  createData('Ireland', 'IE', 4857000, 70273),
+  createData('Mexico', 'MX', 126577691, 1972550),
+  createData('Japan', 'JP', 126317000, 377973),
+  createData('France', 'FR', 67022000, 640679),
+  createData('United Kingdom', 'GB', 67545757, 242495),
+  createData('Russia', 'RU', 146793744, 17098246),
+  createData('Nigeria', 'NG', 200962417, 923768),
+  createData('Brazil', 'BR', 210147125, 8515767)
+]
+  const data = Array?.from({ length: 30 }, (_, index) => ({
+    id: index + 1,
+    details: `1/271928`,
+    group: index + 1,
+    quality: "PD 18K",
+    ['Wt(G+D)']: "10.400",
+    grosswt: "10.000",
+    netwt: "2.700",
+    ['net(24k)']: "2.900",
+    amount: "20000",
+    metal: "GOld 18K",
+    diactw: "1.040",
+    diarate: "670",
+    diaamt: "3400",
+    csctw: "2.809",
+    csrate: "120",
+    csamt: "680",
+    miscctw: "1.234",
+    miscrate: "230",
+    miscamt: "4500",
+    makerate: "10000",
+    totalamt: "20000"
+  }));
+
+
+const JobGrid = () => {
+  // ** States
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(+event.target.value)
+    setPage(0)
+  }
+  const PopUpJobDetails = useSelector(state => state?.fgp?.PopUpJobDetails);
+  const dispatch = useDispatch();
+
+  const [summaryData, setSummaryData] = useState({
+    w_gd: 0,
+    grosswt: 0,
+    netwt: 0,
+    net24K: 0,
+    amount: 0,
+    diactw: 0,
+    diarate: 0,
+    diaamt: 0,
+    csctw: 0,
+    csrate: 0,
+    csamt: 0,
+    miscctw: 0,
+    miscrate: 0,
+    miscamt: 0,
+    makerate: 0,
+    totalamt: 0,
+  });
+
+
+  useEffect(() => {
+
+    data?.forEach(e => {
+      setSummaryData(prev => ({
+        ...prev,
+        w_gd: prev?.w_gd + +(e?.w_gd),
+        grosswt: prev?.grosswt + +(e?.grosswt),
+        netwt: prev?.netwt + +(e?.netwt),
+        net24K: prev?.net24K + +(e?.['net(24k)']),
+        amount: prev?.amount + +(e?.amount),
+        diactw: prev?.diactw + +(e?.diactw),
+        diarate: prev?.diarate + +(e?.diarate),
+        diaamt: prev?.diaamt + +(e?.diaamt),
+        csctw: prev?.csctw + +(e?.csctw),
+        csrate: prev?.csrate + +(e?.csrate),
+        csamt: prev?.csamt + +(e?.csamt),  
+        miscctw: prev?.miscctw + +(e?.miscctw),
+        miscrate: prev?.miscrate + +(e?.miscrate),
+        miscamt: prev?.miscamt + +(e?.miscamt),
+        makerate: prev?.makerate + +(e?.makerate),
+        totalamt: prev?.totalamt + +(e?.totalamt),
+      }));
+    });
+
+  }, []);
+
+  const summaryBoxes = [
+    { id: 1, label: 'GrossWt', value: summaryData?.grosswt },
+    { id: 2, label: 'NetWt', value: summaryData?.netwt },
+    { id: 3, label: 'Net(24K)', value: summaryData?.net24K },
+    { id: 4, label: 'Amount', value: summaryData?.amount },
+    { id: 5, label: 'DiaCTW', value: summaryData?.diactw },
+    { id: 6, label: 'DiaAmt', value: summaryData?.diaamt },
+    { id: 7, label: 'CSCTW', value: summaryData?.csctw },
+    { id: 8, label: 'CSAmt', value: summaryData?.csamt },
+    { id: 9, label: 'MiscCTW', value: summaryData?.miscctw },
+    { id: 10, label: 'MiscAmt', value: summaryData?.miscamt },
+    { id: 11, label: 'Total Amount', value: summaryData?.totalamt }
+  ];
+  
+
+  return (
+    <>
+    <Modal
+        open={PopUpJobDetails}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+        onClose={() => dispatch(handlePopUpJobDetails(false))}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: '99%',
+            bgcolor: "background.paper",
+            border: "none",
+            pt: 2,
+            px: 4,
+            pb: 3,
+            borderRadius: "8px",
+            boxShadow:'none'
+          }}
+          className="boxShadow_hp"
+        >
+          <div className="d-flex align-items-center justify-content-between mb-3">
+                 <div>&nbsp;</div>
+                 <div className="fs-6 text-secondary fw-bold">Jobs Detail</div>
+                 <div><Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => dispatch(handlePopUpJobDetails(false))}><CancelIcon /></Tooltip></div>
+          </div>
+
+          <div className='mb-2 d-flex justify-content-between align-items-center'>
+            {summaryBoxes?.map(box => (
+              <div key={box?.id} className='boxMinHeight'>
+                <Typography variant='body1'>{box?.label}</Typography>
+                <Typography>{box?.value?.toFixed(3)}</Typography>
+              </div>
+            ))}
+          </div>
+
+      <TableContainer component={Paper} 
+        sx={{
+          maxHeight: 440,
+          overflow: 'auto', // Enable scrolling for both directions
+          '&::-webkit-scrollbar': {
+            height: '6px', // Reduce the scrollbar height for horizontal scrolling
+            width: '6px', // Adjust scrollbar width for vertical scrolling
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0,0,0,0.3)', // Adjust scrollbar thumb color
+            borderRadius: '4px', // Rounded corners for the scrollbar thumb
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'rgba(0,0,0,0.1)', // Adjust scrollbar track color
+            borderRadius: '4px', // Rounded corners for the scrollbar track
+          },
+          boxShadow: 'none',
+          border: '1px solid #e8e8e8',
+        }}
+        >
+        <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
+          <TableHead>
+            <TableRow>
+              {columns?.map(column => (
+                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}}>
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
+              return (
+                <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
+                  {columns?.map(column => {
+                    const value = row[column?.id]
+
+                    return (
+                      <TableCell key={column?.id} align={column?.align}>
+                        {column?.format && typeof value === 'number' ? column?.format(value) : value}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 100]}
+        component='div'
+        count={data?.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        className='jobgrid_fgp'
+      />
+      </Box>
+      </Modal>
+    </>
+  )
+}
+
+export default JobGrid
+
+
+
 // import React, { useState } from 'react'
 // import "./jobgrid.css";
 
@@ -165,204 +440,3 @@
 // }
 
 // export default JobGrid
-
-// ** React Imports
-import { useState } from 'react'
-
-// ** MUI Imports
-import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TablePagination from '@mui/material/TablePagination'
-import { useDispatch, useSelector } from "react-redux";
-import { handlePopUpJobDetails } from "../../redux/slices/FgpSlice";
-import { Modal } from "@mui/material";
-import { Box } from '@mui/material';
-import  CancelIcon  from '@mui/icons-material/Cancel';
-import { Tooltip } from '@mui/material';
-
-const columns = [
-  { id: 'details', label: 'Details', minWidth: 80 },
-  { id: 'group', label: 'Group#', minWidth: 80 },
-  { id: 'quality', label: 'Quality', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
-  { id: 'Wt(G+D)', label: 'Wt(G+D)', minWidth: 80, align: 'center', format: value => value?.toLocaleString('en-US') },
-  { id: 'grosswt', label: 'GrossWt', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'netwt', label: 'NetWt', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'net(24k)', label: 'Net(24K)', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'amount', label: 'Amount', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'metal', label: 'Metal', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'diactw', label: 'DiaCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'diarate', label: 'DiaRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'diaamt', label: 'DiaAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'csctw', label: 'CSCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'csrate', label: 'CSRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'csamt', label: 'CSAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'miscctw', label: 'MiscCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'miscrate', label: 'MiscRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'miscamt', label: 'MiscAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'makerate', label: 'MakeRate', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'totalamt', label: 'TotalAmt', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-]
-function createData(name, code, population, size) {
-  const density = population / size
-
-  return { name, code, population, size, density }
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767)
-]
-  const data = Array?.from({ length: 30 }, (_, index) => ({
-    id: index + 1,
-    details: `1/271928`,
-    group: index + 1,
-    quality: "PD 18K",
-    ['Wt(G+D)']: "10.400",
-    grosswt: "10.000",
-    netwt: "2.700",
-    ['net(24k)']: "2.900",
-    amount: "20000",
-    metal: "GOld 18K",
-    diactw: "1.040",
-    diarate: "670",
-    diaamt: "3400",
-    csctw: "2.809",
-    csrate: "120",
-    csamt: "680",
-    miscctw: "1.234",
-    miscrate: "230",
-    miscamt: "4500",
-    makerate: "10000",
-    totalamt: "20000"
-  }));
-
-
-const JobGrid = () => {
-  // ** States
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
-  }
-  const PopUpJobDetails = useSelector(state => state?.fgp?.PopUpJobDetails);
-  const dispatch = useDispatch();
-  return (
-    <>
-    <Modal
-        open={PopUpJobDetails}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-        onClose={() => dispatch(handlePopUpJobDetails(false))}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: '99%',
-            bgcolor: "background.paper",
-            border: "none",
-            pt: 2,
-            px: 4,
-            pb: 3,
-            borderRadius: "8px",
-            boxShadow:'none'
-          }}
-          className="boxShadow_hp"
-        >
-          <div className="d-flex align-items-center justify-content-between mb-3">
-                 <div>&nbsp;</div>
-                 <div className="fs-6 text-secondary fw-bold">Jobs Detail</div>
-                 <div><Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => dispatch(handlePopUpJobDetails(false))}><CancelIcon /></Tooltip></div>
-             </div>
-      <TableContainer component={Paper} 
-        sx={{
-          maxHeight: 440,
-          overflow: 'auto', // Enable scrolling for both directions
-          '&::-webkit-scrollbar': {
-            height: '6px', // Reduce the scrollbar height for horizontal scrolling
-            width: '6px', // Adjust scrollbar width for vertical scrolling
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: 'rgba(0,0,0,0.3)', // Adjust scrollbar thumb color
-            borderRadius: '4px', // Rounded corners for the scrollbar thumb
-          },
-          '&::-webkit-scrollbar-track': {
-            backgroundColor: 'rgba(0,0,0,0.1)', // Adjust scrollbar track color
-            borderRadius: '4px', // Rounded corners for the scrollbar track
-          },
-          boxShadow: 'none',
-          border: '1px solid #e8e8e8',
-        }}
-        >
-        <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
-          <TableHead>
-            <TableRow>
-              {columns?.map(column => (
-                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
-              return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
-                  {columns?.map(column => {
-                    const value = row[column?.id]
-
-                    return (
-                      <TableCell key={column?.id} align={column?.align}>
-                        {column?.format && typeof value === 'number' ? column?.format(value) : value}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component='div'
-        count={data?.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        className='jobgrid_fgp'
-      />
-      </Box>
-      </Modal>
-    </>
-  )
-}
-
-export default JobGrid

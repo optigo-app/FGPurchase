@@ -4,6 +4,7 @@ import './neworder.css';
 import { handleaddSubtagFlag, handleSaveAndNextFlag } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from '@mui/material';
+import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
 
 const NewOrder = () => {
 
@@ -29,6 +30,11 @@ const NewOrder = () => {
       dispatch(handleaddSubtagFlag(!addSubTag));
   }
 
+  
+  
+  
+  
+
 
   return (
    <>
@@ -42,41 +48,81 @@ const NewOrder = () => {
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Brand</option>
+              {
+                brandMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Collection</option>
+              {
+                collectionMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Category</option>
+              {
+                categorymainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Sub Category</option>
+              {
+                subCategoryMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Product Type</option>
+              {
+                productTypeMainData?.map((e, i) => {
+                  return <option value={e?.typeCode} key={i}>{e?.typeName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Gender</option>
+              {
+                genderMainData?.map((e, i) => {
+                  return <option value={e?.genderCode} key={i}>{e?.genderName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Occasion</option>
+              {
+                occasionMainData?.map((e, i) => {
+                  return <option value={e?.occasionCode} key={i}>{e?.occasionName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Style</option>
+              {
+                styleMainData?.map((e, i) => {
+                  return <option value={e?.styleCode} key={i}>{e?.styleName}</option>
+                })
+              }
             </select>
           </div>
           <div>
@@ -109,41 +155,82 @@ const NewOrder = () => {
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Brand</option>
+              {
+                brandMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Collection</option>
+            {
+              collectionMainData?.map((e, i) => {
+                return <option value={e?.code} key={i}>{e?.name}</option>
+              })
+            }
+              
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Category</option>
+              {
+                categorymainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Sub Category</option>
+              {
+                subCategoryMainData?.map((e, i) => {
+                  return <option value={e?.code} key={i}>{e?.name}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Product Type</option>
+              {
+                productTypeMainData?.map((e, i) => {
+                  return <option value={e?.typeCode} key={i}>{e?.typeName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Gender</option>
+              {
+                genderMainData?.map((e, i) => {
+                  return <option value={e?.genderCode} key={i}>{e?.genderName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Occasion</option>
+              {
+                occasionMainData?.map((e, i) => {
+                  return <option value={e?.occasionCode} key={i}>{e?.occasionName}</option>
+                })
+              }
             </select>
           </div>
           <div>
             <select name="" id="" className='categoryNewOrder'>
               <option value="" disabled selected>Style</option>
+              {
+                styleMainData?.map((e, i) => {
+                  return <option value={e?.styleCode} key={i}>{e?.styleName}</option>
+                })
+              }
             </select>
           </div>
           <div>

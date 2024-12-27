@@ -7,3 +7,17 @@
 .jobgrid_fgp  .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
     margin: 0px !important;
 }
+
+.boxMinHeight{
+    height: 100px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 4px;
+}
