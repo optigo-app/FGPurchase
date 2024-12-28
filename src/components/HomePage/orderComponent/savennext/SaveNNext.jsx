@@ -1353,7 +1353,7 @@ const handleSaveAndNew = () => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: 600,
+                width: 400,
                 maxHeight: 700,
                 bgcolor: 'background.paper',
                 borderRadius: '12px',
@@ -1364,6 +1364,7 @@ const handleSaveAndNew = () => {
                 alignItems: 'center',
                 minHeight: '200px',
                 border: 'none',
+                outline: 'none',
               }}
             >
               <div className='w-100'>
@@ -1448,9 +1449,38 @@ const handleSaveAndNew = () => {
                       <input type="text" placeholder="HUID No" id="huid" disabled className="filter_input_i" />
                     </div>
                   </div> */}
-                  <div className='mt-3'>
+                  {/* <div className='mt-3'>
                     <Typography variant='body1' className='text-secondary text-break'>Metal Type was <strong>Gold</strong> and Its HSN no is <strong>7113</strong> with the referece no <strong>REF12345</strong>, certificate type is <strong>IGI</strong> with certificate no <strong>CERT56789</strong> and HUID no is <strong>HUID1234</strong>.</Typography>
-                  </div>
+                  </div> */}
+                  <div className="mt-3">
+  <Typography variant="body1" className="text-secondary">
+    <div className="d-flex justify-content-between">
+      <div><strong>Metal Type</strong></div>
+      <div><strong>Gold 18K YW</strong></div>
+    </div>
+    <div className="d-flex justify-content-between mt-2">
+      <div><strong>HSN</strong></div>
+      <div><strong>7113</strong></div>
+    </div>
+    <div className="d-flex justify-content-between mt-2">
+      <div><strong>Reference No</strong></div>
+      <div><strong>REF12345</strong></div>
+    </div>
+    <div className="d-flex justify-content-between mt-2">
+      <div><strong>Certificate Type</strong></div>
+      <div><strong>IGI</strong></div>
+    </div>
+    <div className="d-flex justify-content-between mt-2">
+      <div><strong>Certificate No</strong></div>
+      <div><strong>CERT56789</strong></div>
+    </div>
+    <div className="d-flex justify-content-between mt-2">
+      <div><strong>HUID No</strong></div>
+      <div><strong>HUID1234</strong></div>
+    </div>
+  </Typography>
+</div>
+
 
                       {/* <div className='text-center  applyBtnRec'>
                         <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setAltReceiveTimeHide(false)}>Apply</Button>
