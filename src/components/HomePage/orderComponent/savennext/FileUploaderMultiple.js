@@ -129,7 +129,7 @@ const FileUploaderMultiple = () => {
           style={{
             width: '100%',
             objectFit: 'contain',
-            height: '330px',
+            height: '290px',
             padding: '5px',
             boxSizing: 'border-box',
             borderRadius: '10px',

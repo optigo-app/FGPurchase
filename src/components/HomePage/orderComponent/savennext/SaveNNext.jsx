@@ -674,7 +674,7 @@ const handleSaveAndNew = () => {
            { mode === 'alteration_receive' && <Tooltip title="Change Criteria" style={{cursor:'pointer', marginLeft:'10px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>}
         {/* </div> */}
       </div>
-      <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'100px', objectFit:'contain'}} /></div>
+      <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /></div>
       </div>
 
       <div className="filters-container_sn">
@@ -913,7 +913,7 @@ const handleSaveAndNew = () => {
           <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Material Details</Button>
           {/* <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button> */}
           { (showTableEntry) && <div className='w-100 d-flex justify-content-start align-items-center'>
-              <table className='table' style={{width:'90%'}}>
+              <table className='table tableCus' style={{width:'90%',  overflow:'auto'}}>
                 <thead>
                   <tr>
                     <th>Sr</th>
@@ -1353,7 +1353,7 @@ const handleSaveAndNew = () => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: 800,
+                width: 600,
                 maxHeight: 700,
                 bgcolor: 'background.paper',
                 borderRadius: '12px',
@@ -1417,7 +1417,7 @@ const handleSaveAndNew = () => {
                   </div>
                       
                 </div> */}
-                <div className="filter_grid2 mt-3">
+                {/* <div className="filter_grid2 mt-3">
                     <div className="filter_item_i">
                       <label htmlFor="metaltype" className="filter_label_i">Metal Type:</label>
                       <input type="text" placeholder="Metal Type" id="metaltype" disabled className="filter_input_i" />
@@ -1447,6 +1447,9 @@ const handleSaveAndNew = () => {
                       <label htmlFor="huid" className="filter_label_i">HUID No.:</label>
                       <input type="text" placeholder="HUID No" id="huid" disabled className="filter_input_i" />
                     </div>
+                  </div> */}
+                  <div className='mt-3'>
+                    <Typography variant='body1' className='text-secondary text-break'>Metal Type was <strong>Gold</strong> and Its HSN no is <strong>7113</strong> with the referece no <strong>REF12345</strong>, certificate type is <strong>IGI</strong> with certificate no <strong>CERT56789</strong> and HUID no is <strong>HUID1234</strong>.</Typography>
                   </div>
 
                       {/* <div className='text-center  applyBtnRec'>

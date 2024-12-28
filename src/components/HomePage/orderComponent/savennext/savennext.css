@@ -316,3 +316,9 @@
     }
   }
   
+
+
+  .tableCus th {
+    color: #6c757d !important; /* Grey color */
+    font-weight: normal !important; /* Remove bold */
+  }
