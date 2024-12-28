@@ -195,7 +195,7 @@ const JobGrid = () => {
                  <div><Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => dispatch(handlePopUpJobDetails(false))}><CancelIcon /></Tooltip></div>
           </div>
 
-          <div className='mb-2 d-flex justify-content-between align-items-center'>
+          <div className='mb-2 d-flex justify-content-between align-items-center overflow-auto'>
             {summaryBoxes?.map(box => (
               <div key={box?.id} className='boxMinHeight'>
                 <Typography variant='body1'>{box?.label}</Typography>
@@ -229,7 +229,7 @@ const JobGrid = () => {
             <TableRow>
               {columns?.map(column => (
                 <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}}>
-                  {column.label}
+                  <Typography sx={{fontSize:'14px'}} variant='body1'>{column?.label}</Typography>
                 </TableCell>
               ))}
             </TableRow>
@@ -243,7 +243,7 @@ const JobGrid = () => {
 
                     return (
                       <TableCell key={column?.id} align={column?.align}>
-                        {column?.format && typeof value === 'number' ? column?.format(value) : value}
+                        <Typography sx={{fontSize:'14px'}}>{column?.format && typeof value === 'number' ? column?.format(value) : value}</Typography>
                       </TableCell>
                     )
                   })}

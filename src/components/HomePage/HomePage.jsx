@@ -731,7 +731,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       }
   
       // If mode is 'alteration_receive', only check relevant fields
-      if (modeComp === "alteration_receive" && !["searchUser", "voucherType", "date"].includes(key)) {
+      if (modeComp === "alteration_receive" && !["searchUser", "voucherType", "date", "bookName", "currency", "refno"].includes(key)) {
         return false; // Skip other fields
       }
   
@@ -880,6 +880,16 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           {
             modeComp === "alteration_receive" && <>
             <div className="filter-item_hp" >
+              <select name="bookname" id="bookname" value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors.bookName ? '1px solid red' : '1px solid #ccc' }}>
+                <option value="" disabled selected>Select BookName</option>
+                {
+                  bookNameData?.map((e, i) => {
+                    return <option value={e?.id} key={i}>{e?.BookName}</option>
+                  })
+                }
+              </select>
+            </div>
+            <div className="filter-item_hp" >
               <select name="voucher" id="voucher" value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Voucher Type</option>
                 {
@@ -889,6 +899,21 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 }
               </select>
             </div>
+            <div className="filter-item_hp">
+            <input type="text" placeholder="reference No." value={refno} onChange={(el) => handleRefNoChange(el)}
+              style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
+             />
+          </div> 
+          <div className="filter-item_hp" >
+            <select name="currency" id="currency" value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
+              <option value="" disabled selected>select Currency</option>
+              {
+                currecyData?.map((e, i) => {
+                  return <option value={e?.id} key={i}>{e?.Currencycode}</option>
+                })
+              }
+            </select>
+          </div>
             <div className="filter-item_hp" >
               <DatePicker
                 selected={date}
@@ -900,6 +925,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 customInput={<CustomInput  />}
               />
             </div>
+            
             </>
           }
           {/* <div className="filter-item_hp" >

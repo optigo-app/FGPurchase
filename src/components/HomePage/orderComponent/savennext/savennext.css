@@ -156,7 +156,17 @@
     min-width: 120px !important;
 }
 
-
+.filter_grid2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 16px;
+}
+.applyBtnRec{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
 
 
 .filters-container2 {

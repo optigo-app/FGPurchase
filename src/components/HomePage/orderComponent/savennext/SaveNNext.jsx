@@ -19,6 +19,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import { Trash } from 'tabler-icons-react'; 
 import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
+import InfoIcon from '@mui/icons-material/Info';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mode = useSelector(state => state?.fgp?.mode);
@@ -148,8 +149,11 @@ const SaveNNext = () => {
   const [showFindingrows, setShowFindingRows] = useState(null);
 
 
-  //Change Criteria logics
+  //Change Criteria logic
   const [changeCriteria, setChangeCriteria] = useState(false);
+
+  //alt receive time hide logic
+  const [altReceiveTimeHide, setAltReceiveTimeHide] = useState(false);
 
 
   const [isEditing, setIsEditing] = useState(false);
@@ -663,10 +667,14 @@ const handleSaveAndNew = () => {
           }
           </>
         </div>
+        {/* <div className="filter-item d-flex justify-content-center align-items-center w-100"> */}
+           { mode === 'alteration_receive' && <Tooltip title="More Details" style={{cursor:'pointer', marginLeft:'10px'}} color='primary' onClick={() => setAltReceiveTimeHide(true)}><InfoIcon  /></Tooltip>}
+           { mode === 'alteration_receive' && <Tooltip title="Change Criteria" style={{cursor:'pointer', marginLeft:'10px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>}
+        {/* </div> */}
       </div>
 
       <div className="filters-container_sn">
-        <div className="filter-item">
+        { mode !== 'alteration_receive' && <><div className="filter-item">
           <div>
             <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
             <input type="text" id="HSN" placeholder="HSN" autoFocus />
@@ -698,7 +706,7 @@ const handleSaveAndNew = () => {
         </div>
         <div className="filter-item d-flex justify-content-center align-items-center w-100">
           <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
-        </div>
+        </div></>}
       </div>
       <div className="filters-container2">
         <div className="filter-item">
@@ -1323,6 +1331,78 @@ const handleSaveAndNew = () => {
                 <div className='text-center w-100'>
                   <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setMarkUpModal(false)}>Apply</Button>
                 </div>
+              </div>
+            </Box>
+          </Modal>
+        }
+
+        {
+          altReceiveTimeHide && <Modal
+            open={altReceiveTimeHide}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description"
+            onClose={() => setAltReceiveTimeHide(false)}
+          >
+            <Box
+               sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 800,
+                maxHeight: 700,
+                bgcolor: 'background.paper',
+                borderRadius: '12px',
+                boxShadow: 24,
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                minHeight: '200px',
+                border: 'none',
+              }}
+            >
+              <div className='w-100'>
+                <div className='d-flex align-items-center justify-content-between pb-2'>
+                  <div>&nbsp;</div>
+                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>More Details</h4>
+                  <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setAltReceiveTimeHide(false)} /></Tooltip></div>
+                </div>
+                <div className="filter_grid2 mt-3">
+                <div className="filter-item">
+                  <div>
+                    <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
+                    <input type="text" id="HSN" placeholder="HSN" autoFocus />
+                  </div>
+                </div>
+                <div className="filter-item">
+                  <div>
+                    <label htmlFor="refno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Ref No.</label>
+                    <input type="text" id="refno" placeholder="Ref No" />
+                  </div>
+                </div>
+                <div className="filter-item">
+                  <div>
+                    <label htmlFor="ctype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. Type</label>
+                    <input type="text" id="ctype" placeholder="CertificateType" />
+                  </div>
+                </div>
+                <div className="filter-item">
+                  <div>
+                    <label htmlFor="certno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. No.</label>
+                    <input type="text" placeholder="Certificate No." id='certno' />
+                  </div>
+                </div>
+                <div className="filter-item">
+                  <div>
+                    <label htmlFor="huid" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HUID. No.</label>
+                    <input type="text" placeholder="HUID No" id='huid' />
+                  </div>
+                </div>
+                <div className='text-center  applyBtnRec'>
+                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setAltReceiveTimeHide(false)}>Apply</Button>
+                </div>
+              </div>
               </div>
             </Box>
           </Modal>
