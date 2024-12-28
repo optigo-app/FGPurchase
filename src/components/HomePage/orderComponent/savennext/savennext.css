@@ -276,3 +276,43 @@
     font-size: 14px;
     text-align: center;
   }
+
+
+
+  /* i button pop up field and label in receive time */
+  .filter_grid2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .filter_item_i {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%; /* Ensures each field takes up a full row */
+  }
+  
+  .filter_label_i {
+    font-size: 0.9rem;
+    color: #797979;
+    width: 120px; /* Fixed width for the label */
+    text-align: right; /* Aligns the text of the label to the right */
+    padding-right: 10px; /* Adds space between label and input */
+  }
+  
+  .filter_input_i {
+    flex-grow: 1;
+    width: 200px; /* Fixed width for the input */
+    padding: 5px;
+    font-size: 0.8rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+  
+  @media (min-width: 768px) {
+    .filter_item_i {
+      width: 48%; /* Two columns on larger screens */
+    }
+  }
+  

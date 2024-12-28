@@ -19,17 +19,40 @@ import { useDropzone } from 'react-dropzone';
 import "./fileUpload.css"
 import { Tooltip, Modal,  } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { TbEye, TbEyeBitcoin } from 'react-icons/tb'
 
 const FileUploaderMultiple = () => {
   // ** State
   const [files, setFiles] = useState([]);
   const [showImgListPopUp, setShowImgPopUp] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex + 1 === files.length ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? files.length - 1 : prevIndex - 1
+    );
+  };
 
   // ** Hooks
   const { getRootProps, getInputProps } = useDropzone({
+    multiple: true,
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file)))
+      setFiles(prevFiles => [
+        ...prevFiles,
+        ...acceptedFiles.filter(
+          newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
+        )
+      ])
     }
+    // onDrop: acceptedFiles => {
+    //   setFiles(acceptedFiles.map(file => Object.assign(file)))
+    // }
   })
 
   const renderFilePreview = file => {
@@ -97,6 +120,30 @@ const FileUploaderMultiple = () => {
   const handleRemoveAllFiles = () => {
     setFiles([])
   }
+  const renderFilePreviewLarge = file => {
+    if (file.type.startsWith('image')) {
+      return (
+        <>
+        <img
+          alt={file.name}
+          style={{
+            width: '100%',
+            objectFit: 'contain',
+            height: '330px',
+            padding: '5px',
+            boxSizing: 'border-box',
+            borderRadius: '10px',
+          }}
+          src={URL.createObjectURL(file)}
+        />
+        <div className='d-flex justify-content-center' style={{paddingTop:'10px'}}><Button size='small' variant='contained' color='error' onClick={() => handleRemoveFile(file)}>Remove</Button></div>
+
+        </>
+      )
+    } else {
+      return ''
+    }
+  }
 
   return (
     <Fragment>
@@ -134,17 +181,23 @@ const FileUploaderMultiple = () => {
       {files.length ? (
         <Fragment>
           {/* <List >{fileList}</List> */}
-          <Tooltip title="Uploaded Image" style={{cursor:'pointer'}}><div onClick={() => setShowImgPopUp(true)}>{fileList}</div></Tooltip>
+          <Tooltip title="Preview Uploaded Image" style={{cursor:'pointer'}}>
+            <div onClick={() => setShowImgPopUp(true)}>
+              {/* {fileList} */}
+              {/* <TbEyeBitcoin size={30} /> */}
+              <TbEye size={30} />
+            </div>
+            </Tooltip>
           <div className='buttons'>
             {/* <Button variant='contained' size='small' className='me-1'>Upload Image</Button> */}
-            <Button color='error' variant='contained' size='small' onClick={handleRemoveAllFiles}  >
+            {/* <Button color='error' variant='contained' size='small' onClick={handleRemoveAllFiles}  >
               <Tooltip title="Remove Uploaded Image">Remove</Tooltip>
-            </Button>
+            </Button> */}
           </div>
         </Fragment>
       ) : null}
     </div>
-
+{/* 
     {
           showImgListPopUp && <Modal
             open={showImgListPopUp}
@@ -181,13 +234,86 @@ const FileUploaderMultiple = () => {
                     </div>
                 </div>
                 <div>
-                {fileList2}
+                
+                <div className='d-flex flex-wrap'>
+              {files?.map(file => (
+                <div key={file.name} className='file-preview'>
+                  {renderFilePreviewLarge(file)}
+                </div>
+              ))}
+            </div>
                 </div>
               </div>
             </Box>
 
           </Modal>
-        }
+        } */}
+        
+      {showImgListPopUp && (
+        <Modal
+          open={showImgListPopUp}
+          onClose={() => setShowImgPopUp(false)}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              bgcolor: 'background.paper',
+              borderRadius: '12px',
+              boxShadow: 24,
+              p: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxHeight: '500px',
+              border: 'none',
+              minWidth: '600px',
+              minHeight:'410px'
+            }}
+          >
+            <div className="w-100">
+              <div className="d-flex align-items-center justify-content-between p-1">
+                <div></div>
+                <Typography variant="h6">Uploaded Images</Typography>
+                <Tooltip title="Close" onClick={() => setShowImgPopUp(false)} style={{ cursor: 'pointer' }}>
+                  <CancelIcon />
+                </Tooltip>
+              </div>
+              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                {files?.length > 0 && renderFilePreviewLarge(files[currentImageIndex])}
+                <IconButton
+                  onClick={handlePrevImage}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '10px',
+                    transform: 'translateY(-50%)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                >
+                  <Icon icon="tabler:chevron-left" />
+                </IconButton>
+                <IconButton
+                  onClick={handleNextImage}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    right: '10px',
+                    transform: 'translateY(-50%)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                >
+                  <Icon icon="tabler:chevron-right" />
+                </IconButton>
+              </div>
+            </div>
+          </Box>
+        </Modal>
+      )}
 
     </Fragment>
   )

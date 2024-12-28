@@ -20,6 +20,7 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import { Trash } from 'tabler-icons-react'; 
 import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
 import InfoIcon from '@mui/icons-material/Info';
+import imgShow from '../../../../assets/images/projectlogo.png';
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const mode = useSelector(state => state?.fgp?.mode);
@@ -616,14 +617,15 @@ const handleSaveAndNew = () => {
         </div>
         
       {/* Job Line */}
+      <div className='d-flex justify-content-between align-items-center'>
       <div className="job-info">
         <div>Tag No: <b className="text-primary">1/12566</b></div>
         <div>Net Wt: <b className="text-primary">2.256 gm</b></div>
         <div>Pure Wt: <b className="text-primary">1.256</b></div>
         <div>Dia: <b className="text-primary">2.256 cts 12000 Amount</b></div>
-        <div className=' '>
+        { mode !== 'alteration_receive' && <div className=' '>
                 <FileUploaderMultiple />
-        </div>
+        </div>}
         <div>
           {/* <Button size='small' color='warning' variant='outlined' onClick={() => handleAddRemark()}>Add Remark</Button> */}
           <Tooltip title="Add Remark"><NoteAltIcon  style={{cursor:'pointer'}} onClick={() => handleAddRemark()} /></Tooltip>
@@ -672,6 +674,8 @@ const handleSaveAndNew = () => {
            { mode === 'alteration_receive' && <Tooltip title="Change Criteria" style={{cursor:'pointer', marginLeft:'10px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>}
         {/* </div> */}
       </div>
+      <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'100px', objectFit:'contain'}} /></div>
+      </div>
 
       <div className="filters-container_sn">
         { mode !== 'alteration_receive' && <><div className="filter-item">
@@ -709,12 +713,12 @@ const handleSaveAndNew = () => {
         </div></>}
       </div>
       <div className="filters-container2">
-        <div className="filter-item">
+        { mode !== 'alteration_receive' && <div className="filter-item">
           <div>
             <label htmlFor="metaltype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MetalType</label>
             <input type="text" placeholder="Metal Type" id='metaltype' />
           </div>
-        </div>
+        </div>}
         <div className="filter-item">
           <div>
             <label htmlFor="grosswt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>GrossWt</label>
@@ -1368,41 +1372,86 @@ const handleSaveAndNew = () => {
                   <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>More Details</h4>
                   <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setAltReceiveTimeHide(false)} /></Tooltip></div>
                 </div>
+                {/* <div className="filter_grid2 mt-3">
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="metaltype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MetalType</label>
+                      <input type="text" placeholder="Metal Type" id='metaltype' />
+                    </div>
+                  </div>
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
+                      <input type="text" id="HSN" placeholder="HSN" autoFocus />
+                    </div>
+                  </div>
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
+                      <input type="text" id="HSN" placeholder="HSN" autoFocus />
+                    </div>
+                  </div>
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="refno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Ref No.</label>
+                      <input type="text" id="refno" placeholder="Ref No" />
+                    </div>
+                  </div>
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="ctype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. Type</label>
+                      <input type="text" id="ctype" placeholder="CertificateType" />
+                    </div>
+                  </div>
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="certno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. No.</label>
+                      <input type="text" placeholder="Certificate No." id='certno' />
+                    </div>
+                  </div>
+                  <div className="filter-item">
+                    <div>
+                      <label htmlFor="huid" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HUID. No.</label>
+                      <input type="text" placeholder="HUID No" id='huid' />
+                    </div>
+                  </div>
+                      
+                </div> */}
                 <div className="filter_grid2 mt-3">
-                <div className="filter-item">
-                  <div>
-                    <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
-                    <input type="text" id="HSN" placeholder="HSN" autoFocus />
+                    <div className="filter_item_i">
+                      <label htmlFor="metaltype" className="filter_label_i">Metal Type:</label>
+                      <input type="text" placeholder="Metal Type" id="metaltype" disabled className="filter_input_i" />
+                    </div>
+
+                    <div className="filter_item_i">
+                      <label htmlFor="HSN" className="filter_label_i">HSN:</label>
+                      <input type="text" id="HSN" placeholder="HSN" autoFocus disabled className="filter_input_i" />
+                    </div>
+
+                    <div className="filter_item_i">
+                      <label htmlFor="refno" className="filter_label_i">Ref No.:</label>
+                      <input type="text" id="refno" placeholder="Ref No" disabled className="filter_input_i" />
+                    </div>
+
+                    <div className="filter_item_i">
+                      <label htmlFor="ctype" className="filter_label_i">Cert. Type:</label>
+                      <input type="text" id="ctype" placeholder="Certificate Type" disabled className="filter_input_i" />
+                    </div>
+
+                    <div className="filter_item_i">
+                      <label htmlFor="certno" className="filter_label_i">Cert. No.:</label>
+                      <input type="text" placeholder="Certificate No." id="certno" disabled className="filter_input_i" />
+                    </div>
+
+                    <div className="filter_item_i">
+                      <label htmlFor="huid" className="filter_label_i">HUID No.:</label>
+                      <input type="text" placeholder="HUID No" id="huid" disabled className="filter_input_i" />
+                    </div>
                   </div>
-                </div>
-                <div className="filter-item">
-                  <div>
-                    <label htmlFor="refno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Ref No.</label>
-                    <input type="text" id="refno" placeholder="Ref No" />
-                  </div>
-                </div>
-                <div className="filter-item">
-                  <div>
-                    <label htmlFor="ctype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. Type</label>
-                    <input type="text" id="ctype" placeholder="CertificateType" />
-                  </div>
-                </div>
-                <div className="filter-item">
-                  <div>
-                    <label htmlFor="certno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>Cert. No.</label>
-                    <input type="text" placeholder="Certificate No." id='certno' />
-                  </div>
-                </div>
-                <div className="filter-item">
-                  <div>
-                    <label htmlFor="huid" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HUID. No.</label>
-                    <input type="text" placeholder="HUID No" id='huid' />
-                  </div>
-                </div>
-                <div className='text-center  applyBtnRec'>
-                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setAltReceiveTimeHide(false)}>Apply</Button>
-                </div>
-              </div>
+
+                      {/* <div className='text-center  applyBtnRec'>
+                        <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setAltReceiveTimeHide(false)}>Apply</Button>
+                      </div> */}
               </div>
             </Box>
           </Modal>
