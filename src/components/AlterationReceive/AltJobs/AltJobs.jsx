@@ -80,7 +80,7 @@ const handleReturnManual = () => {
 }
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 })
   return (
-    <Container>
+    <Container sx={{marginLeft:'0px'}}>
       <div className='d-flex justify-content-between align-items-center mb-2'>
       <Typography variant="h6" gutterBottom>
         Alteration Jobs
