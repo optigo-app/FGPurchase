@@ -4,7 +4,7 @@ import "./savennext.css";
 import DeleteIcon from "../../../../assets/images/delete.png";
 import  SettingsIcon  from '@mui/icons-material/Settings';
 import AddIcon from '@mui/icons-material/Add';
-import { handleIssuedMaterialModal, handleMountModal, handleSaveAndNextFlag , handleSelectedButton } from '../../../../redux/slices/HomeSlice';
+import { handleIssuedMaterialModal, handleMountModal, handleSaveAndNextFlag , handleSelectedButton, handleShowImgListPopUp } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import  EditIcon  from '@mui/icons-material/Edit';
@@ -26,6 +26,7 @@ const SaveNNext = () => {
   const mode = useSelector(state => state?.fgp?.mode);
   const mountModal = useSelector(state => state?.home?.mountModal);
   const addSubTag = useSelector(state => state?.home?.addSubtag);
+  const showImgListPopUp = useSelector(state => state?.home?.showImgListPopUp);
 
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
   const uploadImage = useSelector(state => state?.home?.uploadImage);
@@ -610,15 +611,62 @@ const handleSaveAndNew = () => {
   // dispatch(handleSaveAndNextFlag(true));
 }
 
-const renderFilePreview = file => {
-  if (file.type.startsWith('image')) {
-    // return <img width={28} height={28} alt={file.name} src={URL.createObjectURL(file)} />
-    return <Avatar src={URL.createObjectURL(file)} sx={{height:28, width:28}} />
-  } else {
-  //   return <Icon icon='tabler:file-description' />
-    return ''
+// const renderFilePreview = (file, index) => {
+//   if (file.type.startsWith('image')) {
+//     // return <img width={28} height={28} alt={file.name} src={URL.createObjectURL(file)} />
+//     return <Avatar src={URL.createObjectURL(file)} sx={{height:28, width:28}} key={index} style={{cursor:'pointer', border:'1px solid #989898', }}  />
+//   } else {
+//   //   return <Icon icon='tabler:file-description' />
+//     return ''
+//   }
+// }
+const [hoveredIndex, setHoveredIndex] = React.useState(null);
+
+const renderFilePreview = (file, index) => {
+  // const [hoveredIndex, setHoveredIndex] = React.useState(null); // State to track hovered image
+  
+
+  return (
+    <Avatar
+      src={URL.createObjectURL(file)}
+      key={index}
+      sx={{
+        height: hoveredIndex === index ? 42 : 39, // Larger size on hover
+        width: hoveredIndex === index ? 42 : 39,
+        transition: "transform 0.2s ease, height 0.2s ease, width 0.2s ease", // Smooth transition
+        cursor: "pointer",
+        border: hoveredIndex === index ? "2px solid grey !important" : "1px solid #989898", // Distinct border on hover
+      }}
+      onClick={() => {
+        console.log('clicked', index);
+        setHoveredIndex(null);
+        dispatch(handleShowImgListPopUp(true));
+      }}
+      onMouseEnter={() => {
+        setHoveredIndex(index); // Update hovered index
+      }}
+      onMouseLeave={() => {
+        setHoveredIndex(null); // Reset hovered index
+      }}
+    />
+  );
+};
+useEffect(() => {
+  const avatar = document.querySelector('.css-18k2bs-MuiAvatar-root');
+  
+  if (avatar) {
+
+    avatar.addEventListener('click', () => {
+      dispatch(handleShowImgListPopUp(true));
+    })
+    // avatar.style.backgroundColor = 'red';
+    // avatar.style.color = 'green';
+    avatar.style.height = '28px !important';
+    avatar.style.width = '28px !important';
+    avatar.style.cursor = 'pointer !important';
   }
-}
+}, [uploadImage]);
+
 
   return (
     <>
@@ -688,8 +736,7 @@ const renderFilePreview = file => {
       {/* <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /></div> */}
       <div className='me-5 ps-5' style={{marginBottom:'20px'}}>
         {/* <img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /> */}
-        {console.log(uploadImage)}
-        <AvatarGroup className='pull-up'>
+        <AvatarGroup className='pull-up snv_custom'>
           {
           // [
           //   { avatar: '/images/avatars/1.png', name: 'Vinnie Mostowy' },
@@ -698,7 +745,7 @@ const renderFilePreview = file => {
           //   { avatar: '/images/avatars/4.png', name: 'George Burrill' }
           // ]
           uploadImage?.map((file, index) => (
-            renderFilePreview(file)
+            renderFilePreview(file, index)
             // <CustomAvatar key={index} src={src} sx={{ height: 26, width: 26 }} />
             // <Avatar key={index} src={src} sx={{ height: 26, width: 26 }} />
           ))}

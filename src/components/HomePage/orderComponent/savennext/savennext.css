@@ -322,3 +322,13 @@
     color: #6c757d !important; /* Grey color */
     font-weight: normal !important; /* Remove bold */
   }
+
+   .css-1sx06gy-MuiAvatarGroup-root .MuiAvatar-root:first-child {
+    background-color: orange;
+    &:hover{
+        scale: 1.1;
+        transition: scale 0.3s ease-in-out;
+        cursor: pointer;
+    }
+  }
+

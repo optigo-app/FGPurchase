@@ -21,14 +21,15 @@ import { Tooltip, Modal,  } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { TbEye, TbEyeBitcoin } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
-import { handleUploadImageList } from '../../../../redux/slices/HomeSlice'
+import { handleShowImgListPopUp, handleUploadImageList } from '../../../../redux/slices/HomeSlice'
 
 const FileUploaderMultiple = () => {
   // ** State
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
   const uploadImage = useSelector(state => state?.home?.uploadImage);
-  const [showImgListPopUp, setShowImgPopUp] = useState(false);
+  const showImgListPopUp = useSelector(state => state?.home?.showImgListPopUp);
+  // const [showImgListPopUp, setShowImgPopUp] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleNextImage = () => {
@@ -47,13 +48,45 @@ const FileUploaderMultiple = () => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop: acceptedFiles => {
+      console.log(acceptedFiles);
+      
       setFiles(prevFiles => [
         ...prevFiles,
-        ...acceptedFiles.filter(
-          newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
-        )
+        ...acceptedFiles
+        // .filter(
+        //   newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
+        // )
       ])
-      dispatch(handleUploadImageList([...files]))
+      // setFiles(prevFiles => {
+      //   if (prevFiles.length > 0) {
+      //     // Only apply filter condition if there are existing files
+      //     return [
+      //       ...prevFiles,
+      //       ...acceptedFiles
+      //       // .filter(
+      //         // newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
+      //       // )
+      //     ];
+      //   } else {
+      //     // If no previous files, just add all accepted files
+      //     return [...acceptedFiles];
+      //   }
+      // });
+      let arr = [...files, ...acceptedFiles];
+
+      // Filter to store only unique images based on their name
+      const uniqueImages = arr.reduce((acc, current) => {
+        if (!acc.some(file => file.name === current.name)) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+      
+      // Dispatch the unique images
+      dispatch(handleUploadImageList(uniqueImages));
+      
+      
+      // dispatch(handleUploadImageList([...acceptedFiles]))
 
     }
     // onDrop: acceptedFiles => {
@@ -188,7 +221,8 @@ const FileUploaderMultiple = () => {
         <Fragment>
           {/* <List >{fileList}</List> */}
           <Tooltip title="Preview Uploaded Image" style={{cursor:'pointer'}}>
-            <div onClick={() => setShowImgPopUp(true)}>
+            {/* <div onClick={() => setShowImgPopUp(true)}> */}
+            <div onClick={() => dispatch(handleShowImgListPopUp(true))}>
               {/* {fileList} */}
               {/* <TbEyeBitcoin size={30} /> */}
               <TbEye size={30} />
@@ -258,7 +292,8 @@ const FileUploaderMultiple = () => {
       {showImgListPopUp && (
         <Modal
           open={showImgListPopUp}
-          onClose={() => setShowImgPopUp(false)}
+          // onClose={() => setShowImgPopUp(false)}
+          onClose={() => dispatch(handleShowImgListPopUp(false))}
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
         >
@@ -285,12 +320,13 @@ const FileUploaderMultiple = () => {
               <div className="d-flex align-items-center justify-content-between p-1">
                 <div></div>
                 <Typography variant="h6">Uploaded Images</Typography>
-                <Tooltip title="Close" onClick={() => setShowImgPopUp(false)} style={{ cursor: 'pointer' }}>
+                {/* <Tooltip title="Close" onClick={() => setShowImgPopUp(false)} style={{ cursor: 'pointer' }}> */}
+                <Tooltip title="Close" onClick={() => dispatch(handleShowImgListPopUp(false))} style={{ cursor: 'pointer' }}>
                   <CancelIcon />
                 </Tooltip>
               </div>
               <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                {files?.length > 0 && renderFilePreviewLarge(files[currentImageIndex])}
+                {uploadImage?.length > 0 && renderFilePreviewLarge(files[currentImageIndex])}
                 <IconButton
                   onClick={handlePrevImage}
                   style={{

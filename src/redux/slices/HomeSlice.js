@@ -9,7 +9,8 @@ const homeObject = {
     mountModal:false,
     issuedMaterialModal:false,
     addSubtag:false,
-    uploadImage:[]
+    uploadImage:[],
+    showImgListPopUp:false
 }
 
 const HomeSlice = createSlice({
@@ -18,6 +19,9 @@ const HomeSlice = createSlice({
     reducers:{
         handleUploadImageList: (state, action) => {
             state.uploadImage = action.payload;
+        },
+        handleShowImgListPopUp: (state, action) => {
+            state.showImgListPopUp = action.payload;
         },
         handleSaveAndNextFlag: (state, action) => {
             state.isSaveAndNext = action.payload;
@@ -46,5 +50,5 @@ const HomeSlice = createSlice({
     }
 })
 
-export const { handleUploadImageList, handleSaveAndNextFlag, handleCustomizeJobFlag, handleSave, handleSelectedButton, handleMultiPartPayFlag, handleMountModal, handleIssuedMaterialModal, handleaddSubtagFlag } = HomeSlice?.actions;
+export const { handleShowImgListPopUp, handleUploadImageList, handleSaveAndNextFlag, handleCustomizeJobFlag, handleSave, handleSelectedButton, handleMultiPartPayFlag, handleMountModal, handleIssuedMaterialModal, handleaddSubtagFlag } = HomeSlice?.actions;
 export default HomeSlice.reducer;
