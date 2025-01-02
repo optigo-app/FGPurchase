@@ -20,10 +20,14 @@ import "./fileUpload.css"
 import { Tooltip, Modal,  } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { TbEye, TbEyeBitcoin } from 'react-icons/tb'
+import { useDispatch, useSelector } from 'react-redux'
+import { handleUploadImageList } from '../../../../redux/slices/HomeSlice'
 
 const FileUploaderMultiple = () => {
   // ** State
   const [files, setFiles] = useState([]);
+  const dispatch = useDispatch();
+  const uploadImage = useSelector(state => state?.home?.uploadImage);
   const [showImgListPopUp, setShowImgPopUp] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -49,6 +53,8 @@ const FileUploaderMultiple = () => {
           newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
         )
       ])
+      dispatch(handleUploadImageList([...files]))
+
     }
     // onDrop: acceptedFiles => {
     //   setFiles(acceptedFiles.map(file => Object.assign(file)))

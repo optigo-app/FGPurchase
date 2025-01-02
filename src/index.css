@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@font-face {
+  font-family: "Public Sans, sans-serif";
+  src: url("./assets/Font/static/PublicSans-Light.ttf");
+}
+
+@font-face {
+  font-family: "Public Sans Bold, sans-serif";
+  src: url("./assets/Font/static/PublicSans-Bold.ttf");
+}
+
+.fs_fgp{
+  font-family: "Public Sans, sans-serif !important";
+}
+

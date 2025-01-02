@@ -57,9 +57,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import { FormControlLabel, Radio, RadioGroup, useTheme } from '@mui/material';
 
 const JobBased = () => {
+  const [selectedValue, setSelectedValue] = useState('job'); // Default value is 'small'
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value); // Update selected value
+  };
+
+  // Checking the selected value (true or false for job or memo)
+  const isJobSelected = selectedValue === 'job';
+  const isMemoSelected = selectedValue === 'memo';
+  
   const dispatch = useDispatch();
+  const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const columns = [
@@ -97,13 +109,28 @@ const JobBased = () => {
   return (
     <>
       <div className='jobbased_container'>
+      <div className='ms-2'>
+          <RadioGroup row aria-label='sizes'  name='sizes' defaultValue='job' onChange={handleChange} value={selectedValue}>
+            <FormControlLabel value='job' control={<Radio sx={{
+              '&.Mui-checked': {
+                color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+              },
+            }} />} label='Job Based' className='fs_fgp' />
+            <FormControlLabel value='memo' control={<Radio sx={{
+              '&.Mui-checked': {
+                color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+              },
+            }} />} label='Memo Purchase' className='fs_fgp' />
+          </RadioGroup>
+          </div>
         <div className='mt-3 mb-3 d-flex justify-content-start align-items-end'>
           {/* <select name="" id="" className='search-select mx-2'>
             <option value="">Search By</option>
           </select> */}
-          <div className='mb-2 fw-semibold mx-1'>Search By</div>
+          
+          <div className='mb-2 fw-semibold mx-1 '>Search By</div>
           <div className='d-flex flex-column'>
-            <label htmlFor="searchBy" className='text-secondary search-label'>Jobno/ PO no/ customer code/ designno/ all</label>
+            <label htmlFor="searchBy" className='text-secondary search-label '>Jobno/ PO no/ customer code/ designno/ all</label>
             <input type="text" style={{ height: '35px' }} id='searchBy' autoFocus className='search-input' />
           </div>
         </div>
@@ -177,7 +204,7 @@ const JobBased = () => {
                       sx={{ cursor: 'pointer', color: 'blue', textDecoration:'underline' }}
                       onClick={() => dispatch(handleSaveAndNextFlag(true))}
                     >
-                      Proceed
+                      {selectedValue === 'memo' ? 'Memo Purchase' : 'Proceed'}
                     </TableCell>
                   );
                 }

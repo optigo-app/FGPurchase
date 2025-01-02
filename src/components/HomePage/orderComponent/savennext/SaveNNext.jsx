@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import  EditIcon  from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
-import { Tooltip, Modal, Box, Button, Typography, IconButton, Icon } from '@mui/material';
+import { Tooltip, Modal, Box, Button, Typography, IconButton, Icon, AvatarGroup, Avatar } from '@mui/material';
 import FileUploaderMultiple from './FileUploaderMultiple';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MountGrid from './MountGrid';
@@ -28,6 +28,7 @@ const SaveNNext = () => {
   const addSubTag = useSelector(state => state?.home?.addSubtag);
 
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
+  const uploadImage = useSelector(state => state?.home?.uploadImage);
   
   const [materialSelectedValue, setMaterialSelectedValue] = useState('diamond');
   const [showUpdateFields, setShowUpdateFields] = useState(false);
@@ -609,6 +610,16 @@ const handleSaveAndNew = () => {
   // dispatch(handleSaveAndNextFlag(true));
 }
 
+const renderFilePreview = file => {
+  if (file.type.startsWith('image')) {
+    // return <img width={28} height={28} alt={file.name} src={URL.createObjectURL(file)} />
+    return <Avatar src={URL.createObjectURL(file)} sx={{height:28, width:28}} />
+  } else {
+  //   return <Icon icon='tabler:file-description' />
+    return ''
+  }
+}
+
   return (
     <>
     <div className='savennext_container'>
@@ -674,7 +685,25 @@ const handleSaveAndNew = () => {
            { mode === 'alteration_receive' && <Tooltip title="Change Criteria" style={{cursor:'pointer', marginLeft:'10px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>}
         {/* </div> */}
       </div>
-      <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /></div>
+      {/* <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /></div> */}
+      <div className='me-5 ps-5' style={{marginBottom:'20px'}}>
+        {/* <img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /> */}
+        {console.log(uploadImage)}
+        <AvatarGroup className='pull-up'>
+          {
+          // [
+          //   { avatar: '/images/avatars/1.png', name: 'Vinnie Mostowy' },
+          //   { avatar: '/images/avatars/2.png', name: 'Allen Rieske' },
+          //   { avatar: '/images/avatars/3.png', name: 'Julee Rossignol' },
+          //   { avatar: '/images/avatars/4.png', name: 'George Burrill' }
+          // ]
+          uploadImage?.map((file, index) => (
+            renderFilePreview(file)
+            // <CustomAvatar key={index} src={src} sx={{ height: 26, width: 26 }} />
+            // <Avatar key={index} src={src} sx={{ height: 26, width: 26 }} />
+          ))}
+        </AvatarGroup>
+      </div>
       </div>
 
       <div className="filters-container_sn">
@@ -1370,7 +1399,7 @@ const handleSaveAndNew = () => {
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between pb-2'>
                   <div>&nbsp;</div>
-                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>More Details</h4>
+                  <h4 className='text-primary  px-0 text-center w-100  fw-semibold'>Item Information</h4>
                   <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setAltReceiveTimeHide(false)} /></Tooltip></div>
                 </div>
                 {/* <div className="filter_grid2 mt-3">
@@ -1455,27 +1484,27 @@ const handleSaveAndNew = () => {
                   <div className="mt-3">
   <Typography variant="body1" className="text-secondary">
     <div className="d-flex justify-content-between">
-      <div><strong>Metal Type</strong></div>
+      <div>MetalType</div>
       <div><strong>Gold 18K YW</strong></div>
     </div>
     <div className="d-flex justify-content-between mt-2">
-      <div><strong>HSN</strong></div>
+      <div>HSN No.</div>
       <div><strong>7113</strong></div>
     </div>
     <div className="d-flex justify-content-between mt-2">
-      <div><strong>Reference No</strong></div>
+      <div>Reference No.</div>
       <div><strong>REF12345</strong></div>
     </div>
     <div className="d-flex justify-content-between mt-2">
-      <div><strong>Certificate Type</strong></div>
+      <div>Certificate Type</div>
       <div><strong>IGI</strong></div>
     </div>
     <div className="d-flex justify-content-between mt-2">
-      <div><strong>Certificate No</strong></div>
+      <div>Certificate No.</div>
       <div><strong>CERT56789</strong></div>
     </div>
     <div className="d-flex justify-content-between mt-2">
-      <div><strong>HUID No</strong></div>
+      <div>HUID No.</div>
       <div><strong>HUID1234</strong></div>
     </div>
   </Typography>

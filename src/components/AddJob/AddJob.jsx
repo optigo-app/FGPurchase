@@ -36,9 +36,9 @@ const AddJob = () => {
  {   mode !== "alteration_issue"  && <> <label htmlFor="inwardas" className="order-label">Inward As:</label>
            <select name="inwardas" id="inwardas" value={selectOrder} onChange={handleOrderSelection} ref={dropdownRef}  >
              <option value="" disabled selected>Select Order</option>
-             <option value="neworder">New Order</option>
-             <option value="reorder">Re-Order</option>
-             <option value="jobbased">Job Based</option>
+             <option value="neworder">New Purchase</option>
+             <option value="reorder">Re Purchase</option>
+             <option value="jobbased">PO Based</option>
            </select></>}
          </div>}
           

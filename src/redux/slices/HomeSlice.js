@@ -8,13 +8,17 @@ const homeObject = {
     multiPartPayFlag:false,
     mountModal:false,
     issuedMaterialModal:false,
-    addSubtag:false
+    addSubtag:false,
+    uploadImage:[]
 }
 
 const HomeSlice = createSlice({
     name:'home',
     initialState:homeObject,
     reducers:{
+        handleUploadImageList: (state, action) => {
+            state.uploadImage = action.payload;
+        },
         handleSaveAndNextFlag: (state, action) => {
             state.isSaveAndNext = action.payload;
         },
@@ -42,5 +46,5 @@ const HomeSlice = createSlice({
     }
 })
 
-export const { handleSaveAndNextFlag, handleCustomizeJobFlag, handleSave, handleSelectedButton, handleMultiPartPayFlag, handleMountModal, handleIssuedMaterialModal, handleaddSubtagFlag } = HomeSlice?.actions;
+export const { handleUploadImageList, handleSaveAndNextFlag, handleCustomizeJobFlag, handleSave, handleSelectedButton, handleMultiPartPayFlag, handleMountModal, handleIssuedMaterialModal, handleaddSubtagFlag } = HomeSlice?.actions;
 export default HomeSlice.reducer;

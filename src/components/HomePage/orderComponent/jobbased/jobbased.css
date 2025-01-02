@@ -115,3 +115,6 @@
     }
   }
   
+  .fs_fgp .MuiTypography-root{
+    font-family: "Public Sans, sans-serif" !important;
+  }
