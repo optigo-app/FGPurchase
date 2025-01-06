@@ -11,6 +11,7 @@
 } */
 
 
+
 .center_fgp {
     display: flex;
     position: relative;
@@ -23,9 +24,32 @@
     opacity: 0; /* Initially hidden */
     box-sizing: border-box;
     font-size: 14px;
-    transition: width 1s ease, opacity 1s ease; /* Smooth transition for both width and opacity */
+    transition: width 1s ease, opacity 1s ease; 
     overflow: hidden; /* Hide content when sidebar is collapsed */
   }
+
+
+
+  .homediv {
+    width: 100%; /* Full width when sidebar is closed */
+    box-sizing: border-box;
+    font-size: 14px;
+    flex: 1;
+    transition: width 0.5s ease-in-out; 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   .userdiv.open {
     width: 25%; /* When open, set the width */
@@ -36,12 +60,7 @@
     width: 75%; /* Reduced width when sidebar is open */
   }
   
-  .homediv {
-    width: 100%; /* Full width when sidebar is closed */
-    box-sizing: border-box;
-    font-size: 14px;
-    transition: width 0.5s ease; /* Transition for width */
-  }
+
 
   /* Button styling */
   .toggle-btn {

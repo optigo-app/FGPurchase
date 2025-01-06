@@ -49,7 +49,7 @@ const NewOrder = () => {
         </div>
         <div className="filter_grid mt-3">
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Brand</option>
               {
                 brandMainData?.map((e, i) => {
@@ -59,7 +59,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Collection</option>
               {
                 collectionMainData?.map((e, i) => {
@@ -69,7 +69,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Category</option>
               {
                 categorymainData?.map((e, i) => {
@@ -79,7 +79,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Sub Category</option>
               {
                 subCategoryMainData?.map((e, i) => {
@@ -89,7 +89,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Product Type</option>
               {
                 productTypeMainData?.map((e, i) => {
@@ -99,7 +99,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Gender</option>
               {
                 genderMainData?.map((e, i) => {
@@ -109,7 +109,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Occasion</option>
               {
                 occasionMainData?.map((e, i) => {
@@ -119,7 +119,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Style</option>
               {
                 styleMainData?.map((e, i) => {
@@ -129,7 +129,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>HSN</option>
             </select>
           </div>
@@ -157,7 +157,7 @@ const NewOrder = () => {
         </div>
         <div className="filter_grid mt-3">
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Brand</option>
               {
                 brandMainData?.map((e, i) => {
@@ -167,7 +167,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Collection</option>
             {
               collectionMainData?.map((e, i) => {
@@ -178,7 +178,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Category</option>
               {
                 categorymainData?.map((e, i) => {
@@ -188,7 +188,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Sub Category</option>
               {
                 subCategoryMainData?.map((e, i) => {
@@ -198,7 +198,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Product Type</option>
               {
                 productTypeMainData?.map((e, i) => {
@@ -208,7 +208,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Gender</option>
               {
                 genderMainData?.map((e, i) => {
@@ -218,7 +218,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Occasion</option>
               {
                 occasionMainData?.map((e, i) => {
@@ -228,7 +228,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Style</option>
               {
                 styleMainData?.map((e, i) => {
@@ -238,7 +238,7 @@ const NewOrder = () => {
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp'>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>HSN</option>
             </select>
           </div>

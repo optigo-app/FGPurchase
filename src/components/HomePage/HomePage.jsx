@@ -794,7 +794,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       { (SaveFiltersFlag || updateFiltersFlag) && <div className='d-flex justify-content-start align-items-center mb-4'>
         <div className="filters-container_hm">
           <div className='filter-item_hp'>
-            <select name="mode" id="mode"  value={modeComp} onChange={(e) => handleModeChangeComp(e)} className='fs_fgp'>
+            <select name="mode" id="mode"  value={modeComp} onChange={(e) => handleModeChangeComp(e)} className='fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Select Mode</option>
               <option value="material_purchase">Material Purchase</option>
               <option value="stock_purchase">Stock Purchase</option>
@@ -827,7 +827,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           </div>
           { modeComp !== "alteration_receive" && <>
             <div className="filter-item_hp" >
-            <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
+            <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp fs_fgp_select' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
               <option value="" disabled selected>Select BookName</option>
               {
                 bookNameData?.map((e, i) => {
@@ -837,12 +837,12 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
           <div className="filter-item_hp">
-            <input type="text" placeholder="reference No." className='fs_fgp' value={refno} onChange={(el) => handleRefNoChange(el)}
+            <input type="text" placeholder="reference No." className='fs_fgp ' value={refno} onChange={(el) => handleRefNoChange(el)}
               style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
              />
           </div> 
           <div className="filter-item_hp" >
-            <select name="currency" id="currency" className='fs_fgp' value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="currency" id="currency" className='fs_fgp fs_fgp_select' value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
               <option value="" disabled selected>Select Currency</option>
               {
                 currecyData?.map((e, i) => {
@@ -852,7 +852,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
           <div className="filter-item_hp" >
-            <select name="locker" id="locker" className='fs_fgp' value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="locker" id="locker" className='fs_fgp fs_fgp_select' value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
               <option value="" disabled selected>Select Locker</option>
               {
                 lockerData?.map((e, i) => {
@@ -862,7 +862,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
           <div className="filter-item_hp" >
-            <select name="counter" id="counter" className='fs_fgp' value={counter} onChange={(el) => handleCounter(el)} style={{ border: validationErrors.counter ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="counter" id="counter" className='fs_fgp fs_fgp_select' value={counter} onChange={(el) => handleCounter(el)} style={{ border: validationErrors.counter ? '1px solid red' : '1px solid #ccc' }}>
             <option value="" disabled selected>Select Counter</option>
               {
                 CounterArr?.map((e, i) => {
@@ -872,7 +872,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
           { modeComp === "alteration_issue" && <div className="filter-item_hp" >
-              <select name="voucher" id="voucher" className='fs_fgp' value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="voucher" id="voucher" className='fs_fgp fs_fgp_select' value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Voucher Type</option>
                 {
                   voucherTypeData?.map((e, i) => {
@@ -886,7 +886,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           {
             modeComp === "alteration_receive" && <>
             <div className="filter-item_hp" >
-              <select name="bookname" id="bookname" className='fs_fgp' value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors.bookName ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="bookname" id="bookname" className='fs_fgp fs_fgp_select' value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors.bookName ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Select BookName</option>
                 {
                   bookNameData?.map((e, i) => {
@@ -896,7 +896,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               </select>
             </div>
             <div className="filter-item_hp" >
-              <select name="voucher" id="voucher" value={voucherType} className='fs_fgp' onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="voucher" id="voucher" value={voucherType} className='fs_fgp fs_fgp_select' onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Voucher Type</option>
                 {
                   voucherTypeData?.map((e, i) => {
@@ -906,12 +906,12 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               </select>
             </div>
             <div className="filter-item_hp">
-            <input type="text" placeholder="reference No." value={refno} className='fs_fgp' onChange={(el) => handleRefNoChange(el)}
+            <input type="text" placeholder="reference No." value={refno} className='fs_fgp fs_fgp_select' onChange={(el) => handleRefNoChange(el)}
               style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
              />
           </div> 
           <div className="filter-item_hp" >
-            <select name="currency" id="currency" value={selectCurrency} className='fs_fgp' onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="currency" id="currency" value={selectCurrency} className='fs_fgp fs_fgp_select' onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
               <option value="" disabled selected>select Currency</option>
               {
                 currecyData?.map((e, i) => {

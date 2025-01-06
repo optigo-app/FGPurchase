@@ -122,7 +122,8 @@
   
   .taxOption,
   .addLessOption {
-    color: #007bff;
+    /* color: #007bff; */
+    color: grey;
     text-decoration: underline;
     cursor: pointer;
     padding: 10px 0;
@@ -134,6 +135,10 @@
     align-items: center;
     justify-content: space-between;
     
+  }
+
+  .taxOption_hover:hover{
+    color: #7367F0 !important;
   }
   
   .taxOptionDropdown select,
@@ -275,3 +280,5 @@ overflow: scroll;    }
     border-color: #007bff;
     box-shadow: 0 0 4px rgba(0, 2, 255, 1);
   }
+
+  

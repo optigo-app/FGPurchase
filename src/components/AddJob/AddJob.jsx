@@ -36,7 +36,7 @@ const AddJob = () => {
         { !customizeJob && <>
          {  !isSaveAndNext && <div className="order-dropdown">
  {   mode !== "alteration_issue"  && <> <label htmlFor="inwardas" className="order-label fs_fgp">Inward As:</label>
-           <select name="inwardas" id="inwardas" value={selectOrder} className='fs_fgp' onChange={handleOrderSelection} ref={dropdownRef}  >
+           <select name="inwardas" id="inwardas" value={selectOrder} className='fs_fgp fs_fgp_select' onChange={handleOrderSelection} ref={dropdownRef}  >
              <option value="" disabled selected>Select Order</option>
              <option value="neworder">New Purchase</option>
              <option value="reorder">Re Purchase</option>

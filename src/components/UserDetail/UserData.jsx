@@ -55,6 +55,7 @@ const UserData = () => {
   },[]);
 
   const dispatch = useDispatch();
+  const [trashColor, setTrashColor] = useState('grey');
   const MoreJobDetailsFlag = useSelector((state) => state?.fgp?.MoreJobDetails);
   const PopUpJobDetails = useSelector((state) => state?.fgp?.PopUpJobDetails);
   
@@ -139,7 +140,7 @@ const UserData = () => {
               {value}
             </span> */}
             <br/>
-            <span className="smallText">Design: {row?.details?.split('/')[1]}</span>
+            <span className="smallText"><span className="fs_fgp text_color fw-normal">Details:</span> {row?.details?.split('/')[1]}</span>
             </div>
           </span>
           
@@ -158,14 +159,14 @@ const UserData = () => {
     },
     {
       id: 'delete',
-      label: 'Delete',
+      label: 'Actions',
       minWidth: 40,
       align: 'center',
       render: () => (
         <Tooltip title="Remove Job">
           <Tooltip title='Delete'>
                                 <IconButton size='small'>
-                                  <Trash color='grey' />
+                                  <Trash color={trashColor} onMouseEnter={() => setTrashColor('#6B62DC')} onMouseLeave={() => setTrashColor('grey')} />
                                 </IconButton>
                               </Tooltip>
           {/* <img
@@ -302,20 +303,20 @@ const handleRowClick = (row) => {
     <div className="userDataContainer">
 
       {/* Bill Info */}
-      <div className={`billInfo px-0 ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}>
-        <div className="billItem p-1   fw-bold fs_fgp">
+      <div className={`billInfo px-0 ${MoreJobDetailsFlag ? "w-25" : "w-100"} bg_color_all`}>
+        <div className="billItem p-1   fw-bold fs_fgp bg_color_all">
           <span>BILL NO</span>
           <span>SK15012024</span>
         </div>
       </div>
       <div
-        className={`mb-3 d-flex flex-wrap justify-content-between align-items-center ${
+        className={`mb-3 d-flex flex-wrap justify-content-between align-items-center bg_color_all ${
           MoreJobDetailsFlag ? "w-25" : "w-100"
         } bg_info px-1 py-2`}
       >
         {/* <div className="summaryItem"> */}
         <div
-          className="d-flex flex-column justify-content-center align-items-start fs_fgp"
+          className="d-flex flex-column justify-content-center align-items-start fs_fgp "
           style={{ width: "33.33%" }}
         >
           <div>Amount</div>
@@ -353,7 +354,7 @@ const handleRowClick = (row) => {
         <div >
           <input type="Search Job" value={jobSearch} className="jobSearchINP fs_fgp" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
         </div>
-        { mode === "stock_purchase" && <div><Button style={{marginRight:'10px'}} variant="contained" size="small" color="primary">Club</Button></div>}
+        {/* { mode === "stock_purchase" && <div><Button style={{marginRight:'10px'}} variant="contained" size="small" color="primary">Club</Button></div>} */}
         {/* <div ><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div> */}
         <Button variant="contained" size="small" sx={{color:'white', backgroundColor:theme?.palette?.customColors?.red}} disabled={selectedRows.length === 0}>Delete All</Button>
       </div>
@@ -427,8 +428,13 @@ const handleRowClick = (row) => {
             <TableRow>
             <TableCell padding="checkbox" style={{backgroundColor:'#F6F6F7'}}>
                 <Checkbox
-                size="small"
-                  color="primary"
+                  size="small"
+                  sx={{
+                    // backgroundColor: theme?.palette?.customColors?.primary,
+                    '&.Mui-checked': {
+                      color: theme?.palette?.customColors?.purple, // Change this to the color you want when checked
+                    },
+                  }}
                   indeterminate={selectedRows?.length > 0 && selectedRows?.length < jobListData?.length}
                   checked={selectedRows?.length === jobListData?.length}
                   onChange={handleSelectAll}
@@ -447,6 +453,12 @@ const handleRowClick = (row) => {
                 <TableRow hover role='checkbox' tabIndex={-1} key={row?.id} onClick={() => handleRowClick(row)}>
                    <TableCell padding="checkbox">
                   <Checkbox
+                       sx={{
+                        // backgroundColor: theme?.palette?.customColors?.primary,
+                        '&.Mui-checked': {
+                          color: theme?.palette?.customColors?.purple, // Change this to the color you want when checked
+                        },
+                      }}
                   size="small"
                     color="primary"
                     checked={isRowSelected(row.id)}
@@ -485,15 +497,15 @@ const handleRowClick = (row) => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        className='jobgrid_fgp fs_fgp'
+        className='jobgrid_fgp fs_fgp text_color'
       />    
 
         <div className="d-flex justify-content-center mt-2">
           {/* { !MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(true))}>Show More Job Details</span>}
           { MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(false))}>Show Less Job Details</span>} */}
           <span
-            className="text-decoration-underline text-primary user-select-none fs_fgp"
-            style={{ cursor: "pointer" }}
+            className="text-decoration-underline  user-select-none fs_fgp taxOption_hover"
+            style={{ cursor: "pointer", color:'black' }}
             onClick={() => dispatch(handlePopUpJobDetails(true))}
           >
             Show Job Details
@@ -797,14 +809,14 @@ const handleRowClick = (row) => {
         {/* Tax and Add/Less Dropdowns */}
         {!showTaxDropDown ? (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div className="taxOption" onClick={() => setShowTaxDropDown(true)}>
+            <div className="taxOption taxOption_hover" onClick={() => setShowTaxDropDown(true)}>
               <span>Taxes</span>
             </div>
             <span className="text-dark">340/-</span>
           </div>
         ) : (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div className="taxOptionDropdown">
+            <div className="taxOptionDropdown taxOption_hover">
               <select
                 onChange={handleTaxSelectionChange}
                 className="tax_select_us"
@@ -829,7 +841,7 @@ const handleRowClick = (row) => {
         {!showModeOfDelDropDown ? (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
             <div
-              className="taxOption"
+              className="taxOption taxOption_hover"
               onClick={() => setShowModeOfDelDropDown(true)}
             >
               <span>Mode of Delivery</span>
@@ -861,7 +873,7 @@ const handleRowClick = (row) => {
 
         {!showAddLess ? (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div className="addLessOption" onClick={() => setShowAddLess(true)}>
+            <div className="addLessOption taxOption_hover" onClick={() => setShowAddLess(true)}>
               <span>Add/Less</span>
             </div>
             <span className="text-dark">1234/-</span>
