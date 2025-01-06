@@ -13,7 +13,7 @@ import JobGrid from "./JobGrid";
 import "./jobgrid.css";
 import  EditIcon  from '@mui/icons-material/Edit';
 import  CancelIcon  from '@mui/icons-material/Cancel';
-import { Box, Button, Checkbox, IconButton, Modal, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Checkbox, IconButton, Modal, Tooltip, Typography, useTheme } from "@mui/material";
 
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -29,6 +29,9 @@ import { Trash } from "tabler-icons-react";
 // import { set } from "react-datepicker/dist/date_utils";
 
 const UserData = () => {
+
+  const theme = useTheme();
+
   const mode = useSelector((state) => state?.fgp?.mode);
   const [showTaxDropDown, setShowTaxDropDown] = useState(false);
   const [showModeOfDelDropDown, setShowModeOfDelDropDown] = useState(false);
@@ -84,9 +87,9 @@ const UserData = () => {
 
   const handleOpenPopup = (row) => {
     console.log(row);
-    setTagBreakPopUp(true);
-    
+    setTagBreakPopUp(true);  
   }
+
   const columns = [
     {
       id: 'details',
@@ -97,11 +100,11 @@ const UserData = () => {
         <td style={{ cursor: 'pointer' }}>
           <span className="d-flex" style={{minWidth:'100px'}}>
           { mode !== 'alteration_issue' && <Tooltip title="Edit Job">
-              <EditIcon
+              {/* <EditIcon
                 fontSize="small"
                 style={{ border: '1px solid #e8e8e8', padding: '2px', marginLeft: '8px' }}
                 onClick={() => moveToSaveNNextPage(true)}
-              />
+              /> */}
             </Tooltip>}
             <div>
             <span>
@@ -136,7 +139,7 @@ const UserData = () => {
               {value}
             </span> */}
             <br/>
-            <span className="smallText">D#: {row?.details?.split('/')[1]}</span>
+            <span className="smallText">Design: {row?.details?.split('/')[1]}</span>
             </div>
           </span>
           
@@ -174,6 +177,75 @@ const UserData = () => {
         </Tooltip>
       ),
     },
+    // {
+    //   id: 'more',
+    //   label: 'More',
+    //   minWidth: 40,
+    //   align: 'center',
+    //   render: () => (
+    //     <div
+    //       style={{
+    //         display: 'inline-block',
+    //         position: 'relative',
+    //       }}
+    //       className="hover-container"
+    //     >
+    //       {/* Small Dot Initially */}
+    //       <span
+    //         style={{
+    //           fontSize: '20px',
+    //           cursor: 'pointer',
+    //           color: 'grey',
+    //         }}
+    //         className="hover-dot"
+    //       >
+    //         .
+    //       </span>
+    
+    //       {/* Hover Icons */}
+    //       <div
+    //         style={{
+    //           position: 'absolute',
+    //           top: '-10px',
+    //           left: '-30px',
+    //           background: 'white',
+    //           boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+    //           borderRadius: '4px',
+    //           padding: '5px',
+    //           display: 'none', // Initially hidden
+    //         }}
+    //         className="hover-icons"
+    //       >
+    //         <Tooltip title="Settings">
+    //           <IconButton size="small">
+    //             <Settings color="grey" />
+    //           </IconButton>
+    //         </Tooltip>
+    //         <Tooltip title="Delete">
+    //           <IconButton size="small">
+    //             <Trash color="grey" />
+    //           </IconButton>
+    //         </Tooltip>
+    //       </div>
+    
+    //       {/* Hover Behavior */}
+    //       <style>
+    //         {`
+    //           .hover-container:hover .hover-icons {
+    //             display: flex;
+    //             gap: 5px;
+    //           }
+    
+    //           .hover-container:hover .hover-dot {
+    //             display: none; /* Hide the dot on hover */
+    //           }
+    //         `}
+    //       </style>
+    //     </div>
+    //   ),
+    // }
+    
+    
   ];
 
   const handleJobSearch = (e) => {
@@ -220,7 +292,10 @@ const UserData = () => {
     }
   };
 
-
+const handleRowClick = (row) => {
+  console.log(row);
+  moveToSaveNNextPage(true);
+}
 
   
   return (
@@ -228,7 +303,7 @@ const UserData = () => {
 
       {/* Bill Info */}
       <div className={`billInfo px-0 ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}>
-        <div className="billItem p-1   fw-bold">
+        <div className="billItem p-1   fw-bold fs_fgp">
           <span>BILL NO</span>
           <span>SK15012024</span>
         </div>
@@ -240,21 +315,21 @@ const UserData = () => {
       >
         {/* <div className="summaryItem"> */}
         <div
-          className="d-flex flex-column justify-content-center align-items-start"
+          className="d-flex flex-column justify-content-center align-items-start fs_fgp"
           style={{ width: "33.33%" }}
         >
           <div>Amount</div>
           <div className="boldText">7908149.86 Dr</div>
         </div>
         <div
-          className="d-flex flex-column justify-content-center align-items-center"
+          className="d-flex flex-column justify-content-center align-items-center fs_fgp"
           style={{ width: "33.33%" }}
         >
           <div>Metal</div>
           <div className="boldText">242.922</div>
         </div>
         <div
-          className="d-flex flex-column justify-content-center align-items-end"
+          className="d-flex flex-column justify-content-center align-items-end fs_fgp"
           style={{ width: "33.33%" }}
         >
           <div>Diamond</div>
@@ -276,10 +351,11 @@ const UserData = () => {
       {/* Table */}
       <div className="d-flex justify-content-between align-items-center w-100">
         <div >
-          <input type="Search Job" value={jobSearch} className="jobSearchINP" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
+          <input type="Search Job" value={jobSearch} className="jobSearchINP fs_fgp" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
         </div>
         { mode === "stock_purchase" && <div><Button style={{marginRight:'10px'}} variant="contained" size="small" color="primary">Club</Button></div>}
-        <div ><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div>
+        {/* <div ><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div> */}
+        <Button variant="contained" size="small" sx={{color:'white', backgroundColor:theme?.palette?.customColors?.red}} disabled={selectedRows.length === 0}>Delete All</Button>
       </div>
       <div className="tableContainer mt-2">
         {/* <table className="table">
@@ -324,7 +400,7 @@ const UserData = () => {
           </tbody>
         </table> */}
 
-        <TableContainer component={Paper} 
+        <TableContainer component={Paper} className='fs_fgp'
         sx={{
           maxHeight: 440,
           // height: 323.5, 
@@ -343,9 +419,10 @@ const UserData = () => {
           },
           boxShadow: 'none',
           border: '1px solid #e8e8e8',
+          
         }}
         >
-        <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
+        <Table stickyHeader aria-label='sticky table' className='fs_fgp' sx={{boxShadow:'none'}}>
           <TableHead>
             <TableRow>
             <TableCell padding="checkbox" style={{backgroundColor:'#F6F6F7'}}>
@@ -358,7 +435,7 @@ const UserData = () => {
                 />
               </TableCell>
               {columns?.map(column => (
-                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}} className="fs_usd">
+                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7', color:'grey'}} className="fs_usd fs_fgp text_color">
                   {column.label}
                 </TableCell>
               ))}
@@ -367,7 +444,7 @@ const UserData = () => {
           <TableBody>
             {jobListData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
               return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
+                <TableRow hover role='checkbox' tabIndex={-1} key={row?.id} onClick={() => handleRowClick(row)}>
                    <TableCell padding="checkbox">
                   <Checkbox
                   size="small"
@@ -382,7 +459,7 @@ const UserData = () => {
                     return (
                       <>
                        
-                      <TableCell key={column?.id} align={column?.align} sx={{padding:'0px'}} className="fs_usd">
+                      <TableCell key={column?.id} align={column?.align} sx={{padding:'0px'}} className="fs_usd fs_fgp">
                         {/* {column?.format && typeof value === 'number' ? column?.format(value) : value} */}
                         { column?.render // If render function exists, call it
                             ? column.render(value, row)
@@ -408,14 +485,14 @@ const UserData = () => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        className='jobgrid_fgp'
+        className='jobgrid_fgp fs_fgp'
       />    
 
         <div className="d-flex justify-content-center mt-2">
           {/* { !MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(true))}>Show More Job Details</span>}
           { MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(false))}>Show Less Job Details</span>} */}
           <span
-            className="text-decoration-underline text-primary user-select-none"
+            className="text-decoration-underline text-primary user-select-none fs_fgp"
             style={{ cursor: "pointer" }}
             onClick={() => dispatch(handlePopUpJobDetails(true))}
           >
@@ -558,7 +635,7 @@ const UserData = () => {
         </div>
 
         {/* Modal Content */}
-        <div className="fw-semibold mb-3" style={{ fontSize: '16px', color: '#333', display:'flex', alignItems:'center', gap:'5px' }}>
+        <div className="fw-semibold mb-3 fs_fgp" style={{ fontSize: '16px', color: '#333', display:'flex', alignItems:'center', gap:'5px' }}>
           Gross Wt: <Typography color="primary" sx={{fontWeight:'bold'}}>30.000 gms</Typography>&nbsp;&nbsp; Net Wt: <Typography color="primary" sx={{fontWeight:'bold'}}>28.000 gms</Typography>
         </div>
 
@@ -704,29 +781,29 @@ const UserData = () => {
 
       {/* Total Summary and Taxes */}
       { mode !== "alteration_issue" && <div className={`totalSummary ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}>
-        <div className="totalItem">
-          <span>Total</span>
-          <span>11,391 /-</span>
+        <div className="totalItem fs_fgp  ">
+          <span className="text_color">Total</span>
+          <span className="text-dark">11,391 /-</span>
         </div>
-        <div className="totalItem">
-          <span> Discount </span>
-          <span>0.00 /-</span>
+        <div className="totalItem fs_fgp">
+          <span className="text_color"> Discount </span>
+          <span className="text-dark">0.00 /-</span>
         </div>
-        <div className="totalItem">
-          <span>Amount After Discount</span>
-          <span>11,391 /-</span>
+        <div className="totalItem fs_fgp">
+          <span className="text_color">Amount After Discount</span>
+          <span className="text-dark">11,391 /-</span>
         </div>
 
         {/* Tax and Add/Less Dropdowns */}
         {!showTaxDropDown ? (
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center fs_fgp">
             <div className="taxOption" onClick={() => setShowTaxDropDown(true)}>
               <span>Taxes</span>
             </div>
-            <span>340/-</span>
+            <span className="text-dark">340/-</span>
           </div>
         ) : (
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center fs_fgp">
             <div className="taxOptionDropdown">
               <select
                 onChange={handleTaxSelectionChange}
@@ -744,23 +821,23 @@ const UserData = () => {
                 Close
               </button>
             </div>
-            <span>340/-</span>
+            <span className="text-dark">340/-</span>
           </div>
         )}
 
         {/* Tax and Add/Less Dropdowns */}
         {!showModeOfDelDropDown ? (
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center fs_fgp">
             <div
               className="taxOption"
               onClick={() => setShowModeOfDelDropDown(true)}
             >
               <span>Mode of Delivery</span>
             </div>
-            <span>340/-</span>
+            <span className="text-dark">340/-</span>
           </div>
         ) : (
-          <div className="d-flex justify-content-between align-items-center mt-1">
+          <div className="d-flex justify-content-between align-items-center mt-1 fs_fgp">
             <div className="taxOptionDropdown">
               <select
                 onChange={handleTaxSelectionChange}
@@ -783,14 +860,14 @@ const UserData = () => {
         )}
 
         {!showAddLess ? (
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center fs_fgp">
             <div className="addLessOption" onClick={() => setShowAddLess(true)}>
               <span>Add/Less</span>
             </div>
-            <span>1234/-</span>
+            <span className="text-dark">1234/-</span>
           </div>
         ) : (
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center fs_fgp">
             <div className="addLessOptionDropdown mt-1">
               <input type="radio" id="add" name="addless" className="me-1" />
               <label htmlFor="add" className="me-1 fw-normal">
@@ -809,13 +886,13 @@ const UserData = () => {
                 ROUNDUP
               </button>
             </div>
-            <div>1234 /-</div>
+            <div className="text-dark">1234 /-</div>
           </div>
         )}
 
-        <div className="finalAmount">
-          <span>Final Amount</span>
-          <span className="boldText">11,391.46 /-</span>
+        <div className="finalAmount fs_fgp">
+          <span className="text_color"  >Final Amount</span>
+          <span className="boldText text-dark">11,391.46 /-</span>
         </div>
       </div>}
     </div>

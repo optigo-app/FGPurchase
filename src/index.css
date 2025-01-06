@@ -24,6 +24,13 @@ code {
 }
 
 .fs_fgp{
-  font-family: "Public Sans, sans-serif !important";
+  font-family: "Public Sans, sans-serif" !important;
 }
 
+.fs_fgp .MuiButtonBase-root{
+  font-family: "Public Sans, sans-serif"  !important;
+}
+
+.text_color{
+  color: grey !important;
+}

@@ -25,6 +25,7 @@ const SaveNNext = () => {
   const dispatch = useDispatch();
   const mode = useSelector(state => state?.fgp?.mode);
   const mountModal = useSelector(state => state?.home?.mountModal);
+  const selectedTabValue = useSelector(state => state?.home?.selectedTabValue);
   const addSubTag = useSelector(state => state?.home?.addSubtag);
   const showImgListPopUp = useSelector(state => state?.home?.showImgListPopUp);
 
@@ -601,7 +602,9 @@ const handleTableToggle = () => {
 };
 
 const handleSaveAndNew = () => {
-  dispatch(handleSaveAndNextFlag(false));
+    // if(selectedTabValue !== 'neworder'){
+      dispatch(handleSaveAndNextFlag(false));
+    // }
   if(mode === "alteration_issue"){
     dispatch(handleSelectedButton("add"));
   }
@@ -683,7 +686,7 @@ useEffect(() => {
         <div>Pure Wt: <b className="text-primary">1.256</b></div>
         <div>Dia: <b className="text-primary">2.256 cts 12000 Amount</b></div>
         { mode !== 'alteration_receive' && <div className=' '>
-                <FileUploaderMultiple />
+                <FileUploaderMultiple fs="30px" classApply="" />
         </div>}
         <div>
           {/* <Button size='small' color='warning' variant='outlined' onClick={() => handleAddRemark()}>Add Remark</Button> */}

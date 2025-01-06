@@ -443,7 +443,7 @@ const Pay = () => {
           </>
         )}
       </div>
-      <div className="payDiv_part2">
+      {/* <div className="payDiv_part2">
         <div>
           <p className="payTotalValueTitle">Total Remaining :</p>
           <p className="payTotalValue">0.00/- </p>
@@ -536,7 +536,81 @@ const Pay = () => {
             </td>
           </tr>
         </table>
-      </div>
+      </div> */}
+      <div className="payment-summary border">
+  <div className="summary-header px-2 pb-2 border-bottom-0">
+    <div className="total-remaining-title">Total Remaining:</div>
+    <div className="total-remaining-value">0.00/-</div>
+  </div>
+
+  <table className="payment-table">
+    <thead>
+      <tr className="payment-table-header">
+        <th className="payment-table-header-title">Type</th>
+        <th className="payment-table-header-title d-flex justify-content-end align-items-center">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="payment-table-row">
+        <td><b>Total Amount :</b></td>
+        <td className="payment-table-amount"><b>623.00/-</b></td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Cash</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Cheque</td>
+        <td className="payment-table-amount">623.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Debit Card</td>
+        <td className="payment-table-amount" id="debit-card-amt">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Credit Card</td>
+        <td className="payment-table-amount" id="credit-card-amt">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">RTGS</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">NEFT</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">IMPS</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">UPI</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Etransfer</td>
+        <td className="payment-table-amount" id="etransfer-amt">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Wire</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Advance</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-row">
+        <td className="payment-table-subtitle">Due Payment</td>
+        <td className="payment-table-amount">0.00/-</td>
+      </tr>
+      <tr className="payment-table-summary">
+        <td>Total Pay</td>
+        <td className="payment-table-amount text-white">623.00/-</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
       {/* { multiPartFlag && <Modal
                                   open={multiPartFlag}

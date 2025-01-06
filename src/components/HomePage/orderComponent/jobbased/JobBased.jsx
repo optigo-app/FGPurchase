@@ -108,7 +108,7 @@ const JobBased = () => {
 
   return (
     <>
-      <div className='jobbased_container'>
+      <div className='jobbased_container fs_fgp'>
       <div className='ms-2'>
           <RadioGroup row aria-label='sizes'  name='sizes' defaultValue='job' onChange={handleChange} value={selectedValue}>
             <FormControlLabel value='job' control={<Radio sx={{
@@ -186,7 +186,7 @@ const JobBased = () => {
         <TableHead stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
           <TableRow style={{backgroundColor:'#F6F6F7', fontWeight:'bolder'}}>
             {columns?.map((column) => (
-              <TableCell key={column.id} align="center">
+              <TableCell key={column.id} align="center" className='fs_fgp text_color'>
                 {column.label}
               </TableCell>
             ))}
@@ -201,15 +201,16 @@ const JobBased = () => {
                     <TableCell
                       key={column.id}
                       align="center"
-                      sx={{ cursor: 'pointer', color: 'blue', textDecoration:'underline' }}
+                      sx={{ cursor: 'pointer', color: 'blue', textDecoration:'underline' , minWidth:'190px'}}
                       onClick={() => dispatch(handleSaveAndNextFlag(true))}
+                      className='fs_fgp '
                     >
-                      {selectedValue === 'memo' ? 'Memo Purchase' : 'Proceed'}
+                      {selectedValue === 'memo' ? ' Purchase' : 'Proceed'}
                     </TableCell>
                   );
                 }
                 return (
-                  <TableCell key={column.id} align="center">
+                  <TableCell key={column.id} align="center" className='fs_fgp '>
                     {row[column.id]}
                   </TableCell>
                 );

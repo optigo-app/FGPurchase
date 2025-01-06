@@ -7,6 +7,7 @@ import SaveAndNext from '../../components/HomePage/orderComponent/savennext/Save
 import { useDispatch, useSelector } from 'react-redux';
 import CustomizeJob from '../CustomizeJob/CustomizeJob';
 import ScanAddJob from '../AlterationIssue/ScanAddJob/ScanJobAdd';
+import { handleSelectedTabValue } from '../../redux/slices/HomeSlice';
 const AddJob = () => {
     const [selectOrder, setSelectorder] = useState('neworder');
     const isSaveAndNext = useSelector(state => state?.home?.isSaveAndNext); 
@@ -25,6 +26,7 @@ const AddJob = () => {
     
   const handleOrderSelection = (e) => {
     setSelectorder(e.target.value);
+    dispatch(handleSelectedTabValue(e.target.value));
   };
 
   
@@ -33,8 +35,8 @@ const AddJob = () => {
         <>    
         { !customizeJob && <>
          {  !isSaveAndNext && <div className="order-dropdown">
- {   mode !== "alteration_issue"  && <> <label htmlFor="inwardas" className="order-label">Inward As:</label>
-           <select name="inwardas" id="inwardas" value={selectOrder} onChange={handleOrderSelection} ref={dropdownRef}  >
+ {   mode !== "alteration_issue"  && <> <label htmlFor="inwardas" className="order-label fs_fgp">Inward As:</label>
+           <select name="inwardas" id="inwardas" value={selectOrder} className='fs_fgp' onChange={handleOrderSelection} ref={dropdownRef}  >
              <option value="" disabled selected>Select Order</option>
              <option value="neworder">New Purchase</option>
              <option value="reorder">Re Purchase</option>

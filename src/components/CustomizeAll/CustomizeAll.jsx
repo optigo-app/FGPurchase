@@ -314,7 +314,7 @@ const CustomizeAll = () => {
         
           </div>
           <div >
-            <div style={{overflowX:'scroll'}} className="w-100 sclbar_czall">
+            <div style={{overflow:'auto'}} className="w-100 sclbar_czall">
             <table style={{ width: "100%", minWidth:'800px' }}>
               <tr className="tableMainTitle">
                 <th className="single_tableTr1 p-1">Sr#</th>

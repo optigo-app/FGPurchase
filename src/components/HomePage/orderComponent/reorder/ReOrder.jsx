@@ -82,12 +82,12 @@
 
 // export default ReOrder;
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./reorder.css"
-import { handleSaveAndNextFlag } from '../../../../redux/slices/HomeSlice';
-import { useDispatch } from 'react-redux';
+import { handleSaveAndNextFlag, handleShowImgListPopUp } from '../../../../redux/slices/HomeSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Button, FormControlLabel, Modal, Radio, RadioGroup, Typography, useTheme } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 import Paper from '@mui/material/Paper';
@@ -98,10 +98,14 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import FileUploaderMultiple from '../savennext/FileUploaderMultiple';
 
 const ReOrder = () => {
   
   const dispatch = useDispatch();
+  const mode = useSelector(state => state?.fgp?.mode);
+  const uploadImage = useSelector(state => state?.home?.uploadImage);
+
   const [markUpModal, setMarkUpModal] = useState(false);
   const [addWtModal, setAddWtModal] = useState(false);
   const remainingWt = 15;
@@ -113,9 +117,10 @@ const ReOrder = () => {
   const markUpModalOpen = () => {
     setMarkUpModal(true);
   }
-  const handleWtChange = (e) => {
-      setWt(e.target.value);
-      if(e.target.value > remainingWt){
+  const handleWtChange = (e, val) => {
+    // console.log(e.target.value);
+      setWt(val);
+      if(val > remainingWt){
         setAddWtModal(true);
       }
   }
@@ -164,9 +169,61 @@ const ReOrder = () => {
     setPage(0);
   };
 
+  const [hoveredIndex, setHoveredIndex] = React.useState(null);
+
+const renderFilePreview = (file, index) => {
+  // const [hoveredIndex, setHoveredIndex] = React.useState(null); // State to track hovered image
+  
 
   return (
-    <div className="reorder_component">
+    <Avatar
+      src={URL.createObjectURL(file)}
+      key={index}
+      sx={{
+        height: hoveredIndex === index ? 42 : 39, // Larger size on hover
+        width: hoveredIndex === index ? 42 : 39,
+        transition: "transform 0.2s ease, height 0.2s ease, width 0.2s ease", // Smooth transition
+        cursor: "pointer",
+        border: hoveredIndex === index ? "2px solid grey !important" : "1px solid #989898", // Distinct border on hover
+      }}
+      onClick={() => {
+        console.log('clicked', index);
+        setHoveredIndex(null);
+        dispatch(handleShowImgListPopUp(true));
+      }}
+      onMouseEnter={() => {
+        setHoveredIndex(index); // Update hovered index
+      }}
+      onMouseLeave={() => {
+        setHoveredIndex(null); // Reset hovered index
+      }}
+    />
+  );
+};
+useEffect(() => {
+  const avatar = document.querySelector('.css-18k2bs-MuiAvatar-root');
+  
+  if (avatar) {
+
+    avatar.addEventListener('click', () => {
+      dispatch(handleShowImgListPopUp(true));
+    })
+    // avatar.style.backgroundColor = 'red';
+    // avatar.style.color = 'green';
+    avatar.style.height = '28px !important';
+    avatar.style.width = '28px !important';
+    avatar.style.cursor = 'pointer !important';
+  }
+}, [uploadImage]);
+
+const [selectedValue, setSelectedValue] = useState('job'); // Default value is 'small'
+const theme = useTheme();
+const handleChange = (event) => {
+  setSelectedValue(event.target.value); // Update selected value
+};
+
+  return (
+    <div className="reorder_component fs_fgp">
       <div className='d-flex align-items-end '>
         <div className='mx-1'>
           <select name="jdwise" id="jdwise" className='reorder_dropdwon' style={{maxWidth:'150px'}}>
@@ -182,7 +239,7 @@ const ReOrder = () => {
       </div>
 
       {/* Radio Buttons and Button */}
-      <div className="radio-buttons mt-4 mb-4">
+      {/* <div className="radio-buttons mt-4 mb-4">
         <div className="radio-option">
           <input type="radio" value="tag" name="addtag" id="tag" />
           <label htmlFor="tag" className="mx-1">Apply As Tag</label>
@@ -191,13 +248,32 @@ const ReOrder = () => {
           <input type="radio" value="subtag" name="addtag" id="subtag" />
           <label htmlFor="subtag" className="mx-1">Add Sub Tag</label>
         </div>
-        {/* <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button> */}
-      </div>
+        // {/* <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button> */}
+      {/* </div> */}
+      <div className="pt-3 pb-0 px-2">
+
+      <RadioGroup row aria-label='sizes'  name='sizes'  onChange={handleChange} value={selectedValue}>
+            <FormControlLabel value='tag' control={<Radio sx={{
+              '&.Mui-checked': {
+                color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+              },
+            }} />} label='Apply As Tag' className='fs_fgp' />
+            <FormControlLabel value='subtag' control={<Radio sx={{
+              '&.Mui-checked': {
+                color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+              },
+            }} />} label='Add Sub tag' className='fs_fgp' />
+          </RadioGroup>
+            </div>
 
       {/* Table Section */}
       <div className="table-container border p-2">
-        <div className="table-header d-flex justify-content-between align-items-center flexCol_re">
-          <div>DESIGN NO: L-1245455</div>
+        <div className="table-header d-flex justify-content-between align-items-center flexCol_re pt-1">
+          <div className="d-flex justify-content-between align-items-center" style={{minWidth:'800px', maxWidth:'800px'}}>
+            <div>DESIGN NO: L-1245455</div>
+            {/* <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button> */}
+            <Button variant='contained'  sx={{fontWeight:'bold', color:theme?.palette?.customColors?.white, backgroundColor:theme?.palette?.customColors?.purple}} size='small' onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</Button>
+          </div>
           <div className="d-flex align-items-center flexCol_re">
             {/* <select name="" id="" className="select-box me-2">
               <option value="" selected disabled>Issue By</option>
@@ -208,7 +284,7 @@ const ReOrder = () => {
             </select> */}
             {/* <button className="btn btn-secondary action-btn">Receive Now</button>
             <button className="btn btn-secondary action-btn">Receive & Close</button> */}
-            <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button>
+            {/* <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button> */}
           </div>
         </div>
 
@@ -245,7 +321,8 @@ const ReOrder = () => {
             </tbody>
           </table>
         </div> */}
-        <div className='d-flex flex-column justify-content-center align-items-start w-100'>
+        <div className='d-flex flex-wrap  align-items-center w-100 justify-content-between'>
+        <div className='d-flex flex-column justify-content-center align-items-start '>
           <div style={{maxWidth:'1200px'}}>
           <TableContainer  component={Paper}         sx={{
           maxHeight: 440,
@@ -268,13 +345,13 @@ const ReOrder = () => {
         }}>
             <Table>
               <TableHead stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
-                <TableRow style={{backgroundColor:'#F6F6F7', fontWeight:'bolder'}}>
-                  <TableCell>Material</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Issue Pcs</TableCell>
-                  <TableCell>Issue Wt</TableCell>
-                  <TableCell>Mark Up</TableCell>
-                  <TableCell>Remaining Wt</TableCell>
+                <TableRow style={{backgroundColor:'#F6F6F7', fontWeight:'bolder'}} >
+                  <TableCell className='fs_fgp text_color'  >Material</TableCell>
+                  <TableCell className='fs_fgp text_color'>Description</TableCell>
+                  <TableCell className='fs_fgp text_color'>Issue Pcs</TableCell>
+                  <TableCell className='fs_fgp text_color'>Issue Wt</TableCell>
+                  <TableCell className='fs_fgp text_color'>Mark Up</TableCell>
+                  <TableCell className='fs_fgp text_color'>Remaining Wt</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -282,12 +359,12 @@ const ReOrder = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow key={row.id} hover >
-                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} >{row.material}</TableCell>
-                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} >{row.description}</TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} className='fs_fgp' >{row.material}</TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} className='fs_fgp' >{row.description}</TableCell>
                       <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>
                         <input
                           type="text"
-                          className='onfocus_snv'
+                          className='onfocus_snv fs_fgp'
                           value={row.issuePcs || ''}
                           style={{maxWidth:'60px'}}
                           onChange={(e) => {
@@ -305,16 +382,17 @@ const ReOrder = () => {
                       <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>
                         <input
                           type="text"
-                          disabled
-                          value={row.issueWt || ''}
+                          value={wt}
+                          className='onfocus_snv fs_fgp'
+                          // value={row.issueWt || ''}
                           onChange={(e) => handleWtChange(row.id, e.target.value)}
                           style={{maxWidth:'80px'}}
                         />
                       </TableCell>
                       <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>
-                        <VisibilityIcon style={{cursor:'pointer'}} onClick={markUpModalOpen} />
+                        <VisibilityIcon style={{cursor:'pointer'}} onClick={markUpModalOpen} className='fs_fgp'   />
                       </TableCell>
-                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center'>{row.remainingWt}</TableCell>
+                      <TableCell sx={{p:1, fontSize:'0.75rem', verticalAlign: 'middle' }} align='center' className='fs_fgp' >{row.remainingWt}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
@@ -332,8 +410,37 @@ const ReOrder = () => {
             />
           </div>
           </div>
+
         </div>
-      
+        <div style={{minWidth:'200px'}} className='d-flex align-items-center ms-1'>
+                  
+              { mode !== 'alteration_receive' && <div className='uploadImgBlock me-2'>
+                <FileUploaderMultiple fs="40px" classApply="uploadImgBlock" />
+                </div>
+              }
+                    <div  style={{marginBottom:'20px'}}>
+        {/* <img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /> */}
+        <AvatarGroup className='pull-up snv_custom'>
+          {
+          // [
+          //   { avatar: '/images/avatars/1.png', name: 'Vinnie Mostowy' },
+          //   { avatar: '/images/avatars/2.png', name: 'Allen Rieske' },
+          //   { avatar: '/images/avatars/3.png', name: 'Julee Rossignol' },
+          //   { avatar: '/images/avatars/4.png', name: 'George Burrill' }
+          // ]
+          uploadImage?.map((file, index) => (
+            renderFilePreview(file, index)
+            // <CustomAvatar key={index} src={src} sx={{ height: 26, width: 26 }} />
+            // <Avatar key={index} src={src} sx={{ height: 26, width: 26 }} />
+          ))}
+        </AvatarGroup>
+      </div>
+        </div>
+        <div className="me-4 d-flex flex-column justify-content-center align-items-start ms-1">
+          <label className="remakrTitle text_color" htmlFor="printremark">Print Remarks :</label>
+          <textarea className="summury_textArea" id="printremark" />
+        </div>
+        </div>
       </div>
       {
           markUpModal && <Modal

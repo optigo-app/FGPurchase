@@ -12,32 +12,34 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import { useDispatch, useSelector } from "react-redux";
 import { handlePopUpJobDetails } from "../../redux/slices/FgpSlice";
-import { Modal, Typography } from "@mui/material";
+import { Modal, Typography, useTheme } from "@mui/material";
 import { Box } from '@mui/material';
 import  CancelIcon  from '@mui/icons-material/Cancel';
 import { Tooltip } from '@mui/material';
 
 const columns = [
-  { id: 'details', label: 'Details', minWidth: 80 },
-  { id: 'group', label: 'Group#', minWidth: 80 },
-  { id: 'quality', label: 'Quality', minWidth: 100, align: 'center', format: value => value?.toLocaleString('en-US') },
-  { id: 'Wt(G+D)', label: 'Wt(G+D)', minWidth: 80, align: 'center', format: value => value?.toLocaleString('en-US') },
-  { id: 'grosswt', label: 'GrossWt', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'netwt', label: 'NetWt', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'net(24k)', label: 'Net(24K)', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'amount', label: 'Amount', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'metal', label: 'Metal', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'diactw', label: 'DiaCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'diarate', label: 'DiaRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'diaamt', label: 'DiaAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'csctw', label: 'CSCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'csrate', label: 'CSRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'csamt', label: 'CSAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'miscctw', label: 'MiscCtw', minWidth: 80, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'miscrate', label: 'MiscRate', minWidth: 90, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'miscamt', label: 'MiscAmt.', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'makerate', label: 'MakeRate', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
-  { id: 'totalamt', label: 'TotalAmt', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'details', label: 'Details', minWidth: 80, align: 'left' },
+  { id: 'group', label: 'Group#', minWidth: 80, align: 'center' },
+  { id: 'quality', label: 'Quality', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+  { id: 'Wt(G+D)', label: 'Wt(G+D)', minWidth: 80, align: 'right', format: value => value?.toLocaleString('en-US') },
+  { id: 'grosswt', label: 'GrossWt', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'netwt', label: 'NetWt', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'net(24k)', label: 'Net(24K)', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'amount', label: 'Amount', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'metal', label: 'Metal', minWidth: 100, align: 'left', format: value => value?.toFixed(2) },
+  { id: 'diactw', label: 'DiaCtw', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'diarate', label: 'DiaRate', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'diaamt', label: 'DiaAmt.', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'csctw', label: 'CSCtw', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'csrate', label: 'CSRate', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'csamt', label: 'CSAmt.', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'miscctw', label: 'MiscCtw', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'miscrate', label: 'MiscRate', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'miscamt', label: 'MiscAmt.', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'makerate', label: 'MakeRate', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'makeamt', label: 'MakeAmt', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+  { id: 'makeon', label: 'MakeOn', minWidth: 100, align: 'center', format: value => value?.toFixed(2) },
+  { id: 'totalamt', label: 'TotalAmt', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
 ]
 function createData(name, code, population, size) {
   const density = population / size
@@ -72,7 +74,7 @@ const rows = [
     netwt: "2.700",
     ['net(24k)']: "2.900",
     amount: "20000",
-    metal: "GOld 18K",
+    metal: "Gold 18K",
     diactw: "1.040",
     diarate: "670",
     diaamt: "3400",
@@ -83,11 +85,14 @@ const rows = [
     miscrate: "230",
     miscamt: "4500",
     makerate: "10000",
+    makeamt: "12000",
+    makeon: "Pcs",
     totalamt: "20000"
   }));
 
 
 const JobGrid = () => {
+  const theme = useTheme();
   // ** States
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -119,6 +124,8 @@ const JobGrid = () => {
     miscrate: 0,
     miscamt: 0,
     makerate: 0,
+    makeamt: 0,
+    // makeon: '',
     totalamt: 0,
   });
 
@@ -143,6 +150,8 @@ const JobGrid = () => {
         miscrate: prev?.miscrate + +(e?.miscrate),
         miscamt: prev?.miscamt + +(e?.miscamt),
         makerate: prev?.makerate + +(e?.makerate),
+        makeamt: prev?.makerate + +(e?.makeamt),
+        // makeon: prev?.makeon,
         totalamt: prev?.totalamt + +(e?.totalamt),
       }));
     });
@@ -160,6 +169,8 @@ const JobGrid = () => {
     { id: 8, label: 'CSAmt', value: summaryData?.csamt },
     { id: 9, label: 'MiscCTW', value: summaryData?.miscctw },
     { id: 10, label: 'MiscAmt', value: summaryData?.miscamt },
+    { id: 10, label: 'MakingAmt', value: summaryData?.miscamt },
+    // { id: 10, label: 'MakingOn', value: summaryData?.miscamt },
     { id: 11, label: 'Total Amount', value: summaryData?.totalamt }
   ];
   
@@ -191,14 +202,14 @@ const JobGrid = () => {
         >
           <div className="d-flex align-items-center justify-content-between mb-3">
                  <div>&nbsp;</div>
-                 <div className="fs-6 text-secondary fw-bold">Jobs Detail</div>
+                 <div className="fs-6  fw-bold fs_fgp" style={{color:theme?.palette?.customColors?.purple}}>Jobs Detail</div>
                  <div><Tooltip title="Close" style={{cursor:'pointer'}} onClick={() => dispatch(handlePopUpJobDetails(false))}><CancelIcon /></Tooltip></div>
           </div>
 
           <div className='mb-2 d-flex justify-content-between align-items-center overflow-auto'>
             {summaryBoxes?.map(box => (
-              <div key={box?.id} className='boxMinHeight'>
-                <Typography variant='body1'>{box?.label}</Typography>
+              <div key={box?.id} className='boxMinHeight fs_fgp'>
+                <Typography variant='body1' sx={{color:'grey'}}>{box?.label}</Typography>
                 <Typography>{box?.value?.toFixed(3)}</Typography>
               </div>
             ))}
@@ -228,8 +239,8 @@ const JobGrid = () => {
           <TableHead>
             <TableRow>
               {columns?.map(column => (
-                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}}>
-                  <Typography sx={{fontSize:'14px'}} variant='body1'>{column?.label}</Typography>
+                <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7'}} className='fs_fgp'>
+                  <Typography sx={{fontSize:'14px', color:'grey'}} variant='body1'>{column?.label}</Typography>
                 </TableCell>
               ))}
             </TableRow>
@@ -242,7 +253,7 @@ const JobGrid = () => {
                     const value = row[column?.id]
 
                     return (
-                      <TableCell key={column?.id} align={column?.align}>
+                      <TableCell key={column?.id} align={column?.align} className='fs_fgp'>
                         <Typography sx={{fontSize:'14px'}}>{column?.format && typeof value === 'number' ? column?.format(value) : value}</Typography>
                       </TableCell>
                     )
@@ -261,7 +272,7 @@ const JobGrid = () => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        className='jobgrid_fgp'
+        className='jobgrid_fgp fs_fgp'
       />
       </Box>
       </Modal>

@@ -12,7 +12,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import { Tooltip,  Modal, Box, Typography, RadioGroup, FormControlLabel, Radio, FormControl } from '@mui/material';
+import { Tooltip,  Modal, Box, Typography, RadioGroup, FormControlLabel, Radio, FormControl, Button, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomizeJob from '../CustomizeJob/CustomizeJob';
 import { handleCustomizeJobFlag, handleSave, handleSaveAndNextFlag, handleSelectedButton } from '../../redux/slices/HomeSlice';
@@ -32,6 +32,9 @@ import CustomInput from '../pickers/PickersComponent';
 import "react-datepicker/dist/react-datepicker.css";
 import ".././pickers/reactcustomdatepicker.css"
 import AltJobs from '../AlterationReceive/AltJobs/AltJobs';
+import { FaAnglesRight } from "react-icons/fa6";
+import { FaAnglesLeft } from "react-icons/fa6";
+import { capitalizeWords } from '../../master/global';
 // import OldGold from '../OldGold/OldGold';
 
 const style = {
@@ -52,6 +55,8 @@ const style = {
 const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
   const userListRef = useRef(null); 
+
+  const theme = useTheme();
 
   const [selectOrder, setSelectorder] = useState('neworder');
   const selectedButton = useSelector((state) => (state?.home?.selectButtonValue));
@@ -773,14 +778,15 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
   return (
     <div className="homepage_container">
-      <div>
-        <button 
+      <div className='mb-3'>
+        {/* <button 
           className="toggle_btn_hp mb-2"
           onClick={toggleSidebar}
-        >
+        > */}
           {/* {isSidebarOpen ? <Tooltip title="Close User Details"><ArrowBackIcon /></Tooltip> : <Tooltip title="Open User Details"><ArrowForwardIcon  /></Tooltip>} */}
-          {isSidebarOpen ? <Tooltip title="Close User Details">Hide Details</Tooltip> : <Tooltip title="Open User Details">Show Details</Tooltip>}
-        </button>
+          {/* {isSidebarOpen ? <Tooltip title="Close User Details">Hide Details</Tooltip> : <Tooltip title="Open User Details">Show Details</Tooltip>} */}
+          {isSidebarOpen ? <Tooltip title="Close User Details"><FaAnglesLeft color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip> : <Tooltip title="Open User Details"><FaAnglesRight color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>}
+        {/* </button> */}
       </div>
 
 
@@ -788,7 +794,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       { (SaveFiltersFlag || updateFiltersFlag) && <div className='d-flex justify-content-start align-items-center mb-4'>
         <div className="filters-container_hm">
           <div className='filter-item_hp'>
-            <select name="mode" id="mode" value={modeComp} onChange={(e) => handleModeChangeComp(e)}>
+            <select name="mode" id="mode"  value={modeComp} onChange={(e) => handleModeChangeComp(e)} className='fs_fgp'>
               <option value="" disabled selected>Select Mode</option>
               <option value="material_purchase">Material Purchase</option>
               <option value="stock_purchase">Stock Purchase</option>
@@ -797,12 +803,12 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
           <div className="filter-item_hp userBox_hm" >
-              <input type="text" placeholder="user" autoFocus value={searchUser} onBlur={() => handleUserBlur()} onChange={(el) => handleUserTypo(el)} onKeyDown={handleKeyDown} 
+              <input type="text" placeholder="user" autoFocus value={searchUser} onBlur={() => handleUserBlur()} className='fs_fgp' onChange={(el) => handleUserTypo(el)} onKeyDown={handleKeyDown} 
                 style={{ border: validationErrors?.searchUser ? '1px solid red' : '1px solid #ccc' }}
               />
               {
                 showUserListFlag && <>
-                <div className='userSuggestionList_hm'>
+                <div className='userSuggestionList_hm fs_fgp'>
                   <ul ref={userListRef}>
                     {
                       userList?.length > 0 && userList?.map((e, index) => {
@@ -810,7 +816,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                           <li key={e?.id} value={selectedUser} onClick={() => handleUserList(e)}  
                           style={{
                             backgroundColor: index === selectedUserIndex ? '#d3d3d3' : 'transparent', // Highlight selected item
-                        }}>{e?.TypoLabel}</li>
+                        }}>{capitalizeWords(e?.TypoLabel)}</li>
                         )
                       })
                     }
@@ -821,56 +827,56 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           </div>
           { modeComp !== "alteration_receive" && <>
             <div className="filter-item_hp" >
-            <select name="bookname" id="bookname"  value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
-              <option value="" disabled selected>select BookName</option>
+            <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
+              <option value="" disabled selected>Select BookName</option>
               {
                 bookNameData?.map((e, i) => {
-                  return <option value={e?.id} key={i}>{e?.BookName}</option>
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.BookName)}</option>
                 })
               }
             </select>
           </div>
           <div className="filter-item_hp">
-            <input type="text" placeholder="reference No." value={refno} onChange={(el) => handleRefNoChange(el)}
+            <input type="text" placeholder="reference No." className='fs_fgp' value={refno} onChange={(el) => handleRefNoChange(el)}
               style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
              />
           </div> 
           <div className="filter-item_hp" >
-            <select name="currency" id="currency" value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
-              <option value="" disabled selected>select Currency</option>
+            <select name="currency" id="currency" className='fs_fgp' value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
+              <option value="" disabled selected>Select Currency</option>
               {
                 currecyData?.map((e, i) => {
-                  return <option value={e?.id} key={i}>{e?.Currencycode}</option>
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.Currencycode)}</option>
                 })
               }
             </select>
           </div>
           <div className="filter-item_hp" >
-            <select name="locker" id="locker" value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="locker" id="locker" className='fs_fgp' value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
               <option value="" disabled selected>Select Locker</option>
               {
                 lockerData?.map((e, i) => {
-                  return <option value={e?.id} key={i}>{e?.Lockername}</option>
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.Lockername)}</option>
                 })
               }
             </select>
           </div>
           <div className="filter-item_hp" >
-            <select name="counter" id="counter" value={counter} onChange={(el) => handleCounter(el)} style={{ border: validationErrors.counter ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="counter" id="counter" className='fs_fgp' value={counter} onChange={(el) => handleCounter(el)} style={{ border: validationErrors.counter ? '1px solid red' : '1px solid #ccc' }}>
             <option value="" disabled selected>Select Counter</option>
               {
                 CounterArr?.map((e, i) => {
-                  return <option value={e?.id} key={i}>{e?.name}</option>
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.name)}</option>
                 })
               }
             </select>
           </div>
           { modeComp === "alteration_issue" && <div className="filter-item_hp" >
-              <select name="voucher" id="voucher" value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="voucher" id="voucher" className='fs_fgp' value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Voucher Type</option>
                 {
                   voucherTypeData?.map((e, i) => {
-                    return <option value={e?.id} key={i}>{e?.name}</option>
+                    return <option value={e?.id} key={i}>{capitalizeWords(e?.name)}</option>
                   })
                 }
               </select>
@@ -880,41 +886,42 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           {
             modeComp === "alteration_receive" && <>
             <div className="filter-item_hp" >
-              <select name="bookname" id="bookname" value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors.bookName ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="bookname" id="bookname" className='fs_fgp' value={selectBookName} onChange={(el) => handleBookName(el)} style={{ border: validationErrors.bookName ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Select BookName</option>
                 {
                   bookNameData?.map((e, i) => {
-                    return <option value={e?.id} key={i}>{e?.BookName}</option>
+                    return <option value={e?.id} key={i}>{capitalizeWords(e?.BookName)}</option>
                   })
                 }
               </select>
             </div>
             <div className="filter-item_hp" >
-              <select name="voucher" id="voucher" value={voucherType} onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
+              <select name="voucher" id="voucher" value={voucherType} className='fs_fgp' onChange={(el) => handleVoucherType(el)} style={{ border: validationErrors.voucherType ? '1px solid red' : '1px solid #ccc' }}>
                 <option value="" disabled selected>Voucher Type</option>
                 {
                   voucherTypeData?.map((e, i) => {
-                    return <option value={e?.id} key={i}>{e?.name}</option>
+                    return <option value={e?.id} key={i}>{capitalizeWords(e?.name)}</option>
                   })
                 }
               </select>
             </div>
             <div className="filter-item_hp">
-            <input type="text" placeholder="reference No." value={refno} onChange={(el) => handleRefNoChange(el)}
+            <input type="text" placeholder="reference No." value={refno} className='fs_fgp' onChange={(el) => handleRefNoChange(el)}
               style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
              />
           </div> 
           <div className="filter-item_hp" >
-            <select name="currency" id="currency" value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
+            <select name="currency" id="currency" value={selectCurrency} className='fs_fgp' onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
               <option value="" disabled selected>select Currency</option>
               {
                 currecyData?.map((e, i) => {
-                  return <option value={e?.id} key={i}>{e?.Currencycode}</option>
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.Currencycode)}</option>
                 })
               }
             </select>
           </div>
-            <div className="filter-item_hp" >
+            {/* <div className="filter-item_hp fs_fgp" > */}
+            <div className=" fs_fgp" >
               <DatePicker
                 selected={date}
                 id='basic-input'
@@ -922,7 +929,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 // popperPlacement="bottom-end"
                 onChange={date => setDate(date)}
                 placeholderText='Click to select a date'
-                customInput={<CustomInput  />}
+                customInput={<CustomInput className='rounded' style={{border:'1px solid rgb(204, 204, 204)'}}  />}
+                className='fs_fgp'
               />
             </div>
             
@@ -940,8 +948,9 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
           </div> */}
           
         </div>
-        <div style={{minWidth:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor:'pointer'}}><button className='btn btn-success' title='Save' 
-          onClick={() => handleSaveFilters()}>Procced To Bill</button>
+        <div style={{minWidth:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor:'pointer'}}>
+          {/* <button className='btn btn-success' title='Save' onClick={() => handleSaveFilters()}>Procced To Bill</button> */}
+          <Button variant='contained' title='Save' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveFilters()}>Procced To Bill</Button>
         </div>
       </div>}
               
@@ -950,13 +959,13 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         { !SaveFiltersFlag && <>
 
       {/* Customer Line */}
-      { !updateFiltersFlag && <div className="customer-info">
-        <div>Customer: <b className="text-primary">{savedValue?.searchUser}</b></div>
-        <div>GST No: <b className="text-primary">GST7896541233</b></div>
-        <div>PAN No: <b className="text-primary">AU125479836321</b></div>
-        <div>Aadhar No: <b className="text-primary">-</b></div>
-        <div> Date: 
-          { !dateUpdateFlag && <b className="text-primary" style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setDateUpdateFlag(true)}>11 Oct 2024</b>}
+      { !updateFiltersFlag && <div className="customer-info fs_fgp">
+        <div><span className='text_color'>Customer: </span> <b className="text-dark">{savedValue?.searchUser}</b></div>
+        {/* <div>GST No: <b className="text-primary">GST7896541233</b></div>
+        <div>PAN No: <b className="text-primary">AU125479836321</b></div> */}
+        {/* <div>Aadhar No: <b className="text-primary">-</b></div> */}
+        <div><span className='text_color'>Date: </span> 
+          { !dateUpdateFlag && <b className="text-dark" style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setDateUpdateFlag(true)}>11 Oct 2024</b>}
           { dateUpdateFlag && <Modal
                                   open={dateUpdateFlag}
                                   aria-labelledby="parent-modal-title"
@@ -986,8 +995,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                                   </Box>
                                 </Modal> }
         </div>
-        <div>Currency Exch Rate : 
-          { !currExchRateFlag && <b className="text-primary" style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setCurrExchRateFlag(true)}>7.81</b>}
+        <div><span className='text_color'>Currency Exch Rate : </span>
+          { !currExchRateFlag && <b className="text-dark" style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setCurrExchRateFlag(true)}>7.81</b>}
           { currExchRateFlag && <Modal
                                   open={currExchRateFlag}
                                   aria-labelledby="parent-modal-title"
@@ -1094,7 +1103,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue") && buttonActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
-              className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
+              className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
               onClick={() => handleButtonClick(action.value)}
             >
               {action.icon}
@@ -1104,7 +1113,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         { (modeComp === "alteration_receive" ) && buttonAltActionsReceive?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
-              className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
+              className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
               onClick={() => handleButtonClick(action.value)}
             >
               {action.icon}
@@ -1114,7 +1123,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         { ( modeComp === "alteration_issue") && buttonAltActionsIssue?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
-              className={`btn ${selectedButton === action.value ? 'btn-primary text-white' : 'btn-warning'}`}
+              className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
               onClick={() => handleButtonClick(action.value)}
             >
               {action.icon}

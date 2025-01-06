@@ -23,7 +23,7 @@ import { TbEye, TbEyeBitcoin } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleShowImgListPopUp, handleUploadImageList } from '../../../../redux/slices/HomeSlice'
 
-const FileUploaderMultiple = () => {
+const FileUploaderMultiple = ({fs, classApply}) => {
   // ** State
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
@@ -187,8 +187,8 @@ const FileUploaderMultiple = () => {
   return (
     <Fragment>
     {/* <div className='d-flex align-items-center minHeight_file'> */}
-    <div className='d-flex align-items-center '>
-      <div {...getRootProps({ className: 'dropzone' })} className='me-2'>
+    <div className={`d-flex align-items-center ${classApply}`}>
+      <div {...getRootProps({ className: 'dropzone' })} className=''>
         <input {...getInputProps()} />
         <Box sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column',  }}>
           <Box
@@ -206,7 +206,7 @@ const FileUploaderMultiple = () => {
             }}
           >
             {/* <Tooltip title="Upload Image" style={{cursor:'pointer'}}><Icon icon='tabler:upload' fontSize='1.75rem' /></Tooltip> */}
-            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><UploadFileIcon  /></Tooltip>
+            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><UploadFileIcon style={{ fontSize: `${fs}` }} /></Tooltip>
           </Box>
           {/* <Typography variant='h6' sx={{ mb: 1.5, minWidth:50, fontSize:'10px' }}>
             Upload Image
@@ -225,7 +225,7 @@ const FileUploaderMultiple = () => {
             <div onClick={() => dispatch(handleShowImgListPopUp(true))}>
               {/* {fileList} */}
               {/* <TbEyeBitcoin size={30} /> */}
-              <TbEye size={30} />
+              {/* <TbEye size={30} /> */}
             </div>
             </Tooltip>
           <div className='buttons'>

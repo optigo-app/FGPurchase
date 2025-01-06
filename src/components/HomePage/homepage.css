@@ -287,3 +287,25 @@
   
   height: 6px;
 }
+
+/* select option:hover,
+select option:focus,
+select option:active,
+select option:checked {
+    background: linear-gradient(#7367F0, #7367F0) !important;
+    background-color: #7367F0 !important; 
+    color: #fff !important;
+} */
+
+/* option:nth-child(n){
+    background-color: #7367F0 !important;
+} */
+
+
+.btn_custom{
+  background-color: lightgray !important;
+  border-color: lightgray !important;
+}
+.btn_c{
+  background-color: #7367F0 !important;
+}

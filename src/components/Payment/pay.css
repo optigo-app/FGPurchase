@@ -118,3 +118,137 @@
     outline: none;
     border: 1px solid #0d6efd;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  /* -------------------- */
+  .payment-summary {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-width: 400px;
+    width: 100%;
+    /* margin: auto; */
+  }
+  
+  .summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1px;
+  }
+  
+  .total-remaining-title {
+    font-size: 18px;
+    color: #555;
+    font-weight: normal;
+  }
+  
+  .total-remaining-value {
+    font-size: 22px;
+    color: #1a73e8;  /* Professional blue */
+    font-weight: bold;
+  }
+  
+  .payment-table {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    border-collapse: collapse;
+  }
+  
+  .payment-table-header {
+    background-color: #2c3e50; /* Darker color for header */
+    color: #fff;
+    text-align: left;
+  }
+  
+  .payment-table-header-title {
+    padding: 10px 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .payment-table-row:nth-child(even) {
+    background-color: #f2f2f2; /* Light grey for alternating rows */
+  }
+  
+  .payment-table-row:nth-child(odd) {
+    background-color: #ffffff; /* White for alternating rows */
+  }
+  
+  .payment-table-row:hover {
+    background-color: #e9ecef;  /* Highlight on hover */
+  }
+  
+  .payment-table-subtitle {
+    padding: 10px 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .payment-table-amount {
+    padding: 10px 10px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    text-align: right;
+  }
+  
+  .payment-table-summary {
+    background-color: #1a73e8; /* Blue background for summary row */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px;
+  }
+  
+  .payment-table-row td {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .payment-table-amount {
+    color: #27ae60; /* Green for amounts */
+  }
+  
+  .payment-table-summary td {
+    background-color: #2188c6; /* Darker blue for summary */
+  }
+  
+  .payment-table-summary td:first-child {
+    padding-left: 15px;
+  }
+  
+  .payment-table-summary td:last-child {
+    padding-right: 15px;
+  }
+
+  
+  @media (max-width: 768px) {
+    .payment-summary {
+      padding: 15px;
+    }
+    .total-remaining-value {
+      font-size: 18px;
+    }
+    .payment-table-header-title {
+      font-size: 14px;
+    }
+    .payment-table-subtitle,
+    .payment-table-amount {
+      font-size: 12px;
+      padding: 10px 12px;
+    }
+  }
+  
