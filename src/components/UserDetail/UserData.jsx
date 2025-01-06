@@ -164,11 +164,11 @@ const UserData = () => {
       align: 'center',
       render: () => (
         <Tooltip title="Remove Job">
-          <Tooltip title='Delete'>
+          
                                 <IconButton size='small'>
                                   <Trash color={trashColor} onMouseEnter={() => setTrashColor('#6B62DC')} onMouseLeave={() => setTrashColor('grey')} />
                                 </IconButton>
-                              </Tooltip>
+                              
           {/* <img
             src={DeleteIcon}
             alt="#delete"
