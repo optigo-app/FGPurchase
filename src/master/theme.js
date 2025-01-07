@@ -21,10 +21,16 @@ const customTheme = createTheme({
       trackBg: mode === 'light' ? '#F1F0F2' : '#363B54',
       avatarBg: mode === 'light' ? '#DBDADE' : '#4A5072',
       tableHeaderBg: mode === 'light' ? '#F6F6F7' : '#4A5072',
+
+      //centralized color
       purple:'#7367F0',
+      lightBgPurple:'#E8E7FD',
+
+
       info:'#00CFE8',
       green:'#2CC872',
       grey:'#A8AAAE',
+      lightgrey:'#D3D3D3',
       red:'#EA5455',
       orange:'#FF9F43',
       lightBgOrange:'#FFF0E1',
@@ -32,7 +38,6 @@ const customTheme = createTheme({
       littlelightBgGrey:'#F1F1F2',
       lightBgGreen:'#DCF6E8',
       lightBgInfo:'#D6F7FB',
-      lightBgPurple:'#E8E7FD',
       littlelightBgPurple:'#A49CF5',
       lightBgRed:'#FCE4E4',
 

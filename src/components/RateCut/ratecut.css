@@ -6,7 +6,8 @@
 }
 
 .valueMainDivP{
-    min-width: 120px;
+    /* min-width: 120px; */
+    min-width: 135px;
     font-size: 15px;
     font-weight: 600;
     margin: 0px;

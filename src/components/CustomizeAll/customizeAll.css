@@ -58,6 +58,10 @@
     margin: 0px;
 }
 
+.valueMainDivP + div { 
+  width: 100% !important;
+}
+
 .SaveBtnAmaountCZALL{
     height: 35px;
     width: 120px;
@@ -85,7 +89,7 @@
 
 .sclbar_czall {
     overflow-x: scroll;
-    scrollbar-height: 5px; /* For Firefox */
+    /* scrollbar-height: 5px;  */
   }
   
   /* Webkit Browsers */
@@ -111,11 +115,18 @@
   }
 
 
-  .cinputfield{
-    width: 100px !important;
+  .cinputfieldAll{
+    /* width: 100px !important; */
     min-width: 100px !important;
   }
-  .cinputfield .MuiInputBase-root{
-    width: 100px !important;
+
+  .cinputfieldAll .MuiInputBase-root{
+    /* width: 100px !important; */
     min-width: 100px !important;
   }
+  .cinputfieldAll > div {
+    /* width: 100px !important; */
+    min-width: 100px !important;
+    width: 100% !important;
+  }
+

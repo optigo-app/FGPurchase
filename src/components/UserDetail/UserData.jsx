@@ -166,7 +166,7 @@ const UserData = () => {
         <Tooltip title="Remove Job">
           
                                 <IconButton size='small'>
-                                  <Trash color={trashColor} onMouseEnter={() => setTrashColor('#6B62DC')} onMouseLeave={() => setTrashColor('grey')} />
+                                  <Trash color={trashColor} onMouseEnter={() => setTrashColor(`${theme?.palette?.customColors?.purple}`)} onMouseLeave={() => setTrashColor('grey')} />
                                 </IconButton>
                               
           {/* <img
@@ -298,21 +298,25 @@ const handleRowClick = (row) => {
   moveToSaveNNextPage(true);
 }
 
-  
+const [hovered, setHovered] = useState(false);
+const [hoveredTax, setHoveredTax] = useState(false);
+const [hoveredModeOfDel, setHoveredModeOfDel] = useState(false);
+const [hoveredAddLess, setHoveredAddLess] = useState(false);
   return (
     <div className="userDataContainer">
 
       {/* Bill Info */}
-      <div className={`billInfo px-0 ${MoreJobDetailsFlag ? "w-25" : "w-100"} bg_color_all`}>
-        <div className="billItem p-1   fw-bold fs_fgp bg_color_all">
+      <div className={`billInfo px-0 ${MoreJobDetailsFlag ? "w-25" : "w-100"} `}>
+        <div className="billItem p-1   fw-bold fs_fgp " style={{backgroundColor:theme?.palette?.customColors?.lightBgPurple}}>
           <span>BILL NO</span>
           <span>SK15012024</span>
         </div>
       </div>
       <div
-        className={`mb-3 d-flex flex-wrap justify-content-between align-items-center bg_color_all ${
+        className={`mb-3 d-flex flex-wrap justify-content-between align-items-center  ${
           MoreJobDetailsFlag ? "w-25" : "w-100"
         } bg_info px-1 py-2`}
+        style={{backgroundColor:theme?.palette?.customColors?.lightBgPurple}}
       >
         {/* <div className="summaryItem"> */}
         <div
@@ -503,11 +507,21 @@ const handleRowClick = (row) => {
         <div className="d-flex justify-content-center mt-2">
           {/* { !MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(true))}>Show More Job Details</span>}
           { MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(false))}>Show Less Job Details</span>} */}
-          <span
+          {/* <span
             className="text-decoration-underline  user-select-none fs_fgp taxOption_hover"
             style={{ cursor: "pointer", color:'black' }}
             onClick={() => dispatch(handlePopUpJobDetails(true))}
-          >
+          > */}
+           <span
+                className="text-decoration-underline user-select-none fs_fgp"
+                style={{
+                  cursor: "pointer",
+                  color: hovered ? `${theme?.palette?.customColors?.purple}` : "black",
+                }}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                onClick={() => dispatch(handlePopUpJobDetails(true))}
+              >
             Show Job Details
           </span>
         </div>
@@ -809,14 +823,25 @@ const handleRowClick = (row) => {
         {/* Tax and Add/Less Dropdowns */}
         {!showTaxDropDown ? (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div className="taxOption taxOption_hover" onClick={() => setShowTaxDropDown(true)}>
+            {/* <div className="taxOption " onClick={() => setShowTaxDropDown(true)}> */}
+            <div
+                className="taxOption"
+                style={{
+                  cursor: "pointer",
+                  color: hoveredTax ? `${theme?.palette?.customColors?.purple}` : "",
+                }}
+                onMouseEnter={() => setHoveredTax(true)}
+                onMouseLeave={() => setHoveredTax(false)}
+                onClick={() => setShowTaxDropDown(true)}
+              >
               <span>Taxes</span>
             </div>
             <span className="text-dark">340/-</span>
           </div>
         ) : (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div className="taxOptionDropdown taxOption_hover">
+            {/* <div className="taxOptionDropdown taxOption_hover"> */}
+            <div>
               <select
                 onChange={handleTaxSelectionChange}
                 className="tax_select_us"
@@ -825,7 +850,7 @@ const handleRowClick = (row) => {
                 <option value="igst">IGST</option>
                 <option value="gst">GST</option>
               </select>
-              <button className="btnApply">Apply</button>
+              <button className="btnApply ms-1">Apply</button>
               <button
                 className="btnClose"
                 onClick={() => setShowTaxDropDown(false)}
@@ -840,17 +865,28 @@ const handleRowClick = (row) => {
         {/* Tax and Add/Less Dropdowns */}
         {!showModeOfDelDropDown ? (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div
+            {/* <div
               className="taxOption taxOption_hover"
               onClick={() => setShowModeOfDelDropDown(true)}
-            >
+            > */}
+                    <div
+                      className="taxOption"
+                      style={{
+                        cursor: "pointer",
+                        color: hoveredModeOfDel ? `${theme?.palette?.customColors?.purple}` : "",
+                      }}
+                      onMouseEnter={() => setHoveredModeOfDel(true)}
+                      onMouseLeave={() => setHoveredModeOfDel(false)}
+                      onClick={() => setShowModeOfDelDropDown(true)}
+                    >
               <span>Mode of Delivery</span>
             </div>
             <span className="text-dark">340/-</span>
           </div>
         ) : (
           <div className="d-flex justify-content-between align-items-center mt-1 fs_fgp">
-            <div className="taxOptionDropdown">
+            {/* <div className="taxOptionDropdown"> */}
+            <div className="">
               <select
                 onChange={handleTaxSelectionChange}
                 className="tax_select_us"
@@ -859,7 +895,7 @@ const handleRowClick = (row) => {
                 <option value="igst">By DTDC</option>
                 <option value="gst">By Courier</option>
               </select>
-              <button className="btnApply">Apply</button>
+              <button className="btnApply ms-1">Apply</button>
               <button
                 className="btnClose"
                 onClick={() => setShowModeOfDelDropDown(false)}
@@ -873,7 +909,17 @@ const handleRowClick = (row) => {
 
         {!showAddLess ? (
           <div className="d-flex justify-content-between align-items-center fs_fgp">
-            <div className="addLessOption taxOption_hover" onClick={() => setShowAddLess(true)}>
+            {/* <div className="addLessOption taxOption_hover" onClick={() => setShowAddLess(true)}> */}
+            <div
+                      className="addLessOption"
+                      style={{
+                        cursor: "pointer",
+                        color: hoveredAddLess ? `${theme?.palette?.customColors?.purple}` : "",
+                      }}
+                      onMouseEnter={() => setHoveredAddLess(true)}
+                      onMouseLeave={() => setHoveredAddLess(false)}
+                      onClick={() => setShowAddLess(true)}
+                    >
               <span>Add/Less</span>
             </div>
             <span className="text-dark">1234/-</span>

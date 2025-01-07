@@ -785,7 +785,10 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         > */}
           {/* {isSidebarOpen ? <Tooltip title="Close User Details"><ArrowBackIcon /></Tooltip> : <Tooltip title="Open User Details"><ArrowForwardIcon  /></Tooltip>} */}
           {/* {isSidebarOpen ? <Tooltip title="Close User Details">Hide Details</Tooltip> : <Tooltip title="Open User Details">Show Details</Tooltip>} */}
-          {isSidebarOpen ? <Tooltip title="Close User Details"><FaAnglesLeft color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip> : <Tooltip title="Open User Details"><FaAnglesRight color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>}
+          {isSidebarOpen ? <Tooltip title="Close User Details">
+            <FaAnglesLeft color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>
+               : 
+            <Tooltip title="Open User Details"><FaAnglesRight color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>}
         {/* </button> */}
       </div>
 
@@ -813,7 +816,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                     {
                       userList?.length > 0 && userList?.map((e, index) => {
                         return (
-                          <li key={e?.id} value={selectedUser} onClick={() => handleUserList(e)}  
+                          <li key={e?.id} value={selectedUser} className='py-1 fs_size_14' onClick={() => handleUserList(e)}  
                           style={{
                             backgroundColor: index === selectedUserIndex ? '#d3d3d3' : 'transparent', // Highlight selected item
                         }}>{capitalizeWords(e?.TypoLabel)}</li>
@@ -921,7 +924,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
             {/* <div className="filter-item_hp fs_fgp" > */}
-            <div className=" fs_fgp" >
+            <div className="datePicker_hp fs_fgp" >
               <DatePicker
                 selected={date}
                 id='basic-input'
@@ -1103,8 +1106,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue") && buttonActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
-              className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
+              className={`btn`}
+              // className={`btn ${selectedButton === action.value ? 'btn_c text-white' : `${theme?.palette?.customColors?.lightgrey}`}`}
               onClick={() => handleButtonClick(action.value)}
+              style={{backgroundColor: selectedButton === action.value ? theme?.palette?.customColors?.purple : theme?.palette?.customColors?.lightgrey, 
+                color: selectedButton === action.value ? 'white' : 'black'}}
             >
               {action.icon}
             </button>
@@ -1112,9 +1118,16 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         ))}
         { (modeComp === "alteration_receive" ) && buttonAltActionsReceive?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
-            <button
+            {/* <button
               className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
               onClick={() => handleButtonClick(action.value)}
+            > */}
+              <button
+              className={`btn`}
+              // className={`btn ${selectedButton === action.value ? 'btn_c text-white' : `${theme?.palette?.customColors?.lightgrey}`}`}
+              onClick={() => handleButtonClick(action.value)}
+              style={{backgroundColor: selectedButton === action.value ? theme?.palette?.customColors?.purple : theme?.palette?.customColors?.lightgrey, 
+                color: selectedButton === action.value ? 'white' : 'black'}}
             >
               {action.icon}
             </button>
@@ -1122,9 +1135,16 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         ))}
         { ( modeComp === "alteration_issue") && buttonAltActionsIssue?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
-            <button
+            {/* <button
               className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
               onClick={() => handleButtonClick(action.value)}
+            > */}
+              <button
+              className={`btn`}
+              // className={`btn ${selectedButton === action.value ? 'btn_c text-white' : `${theme?.palette?.customColors?.lightgrey}`}`}
+              onClick={() => handleButtonClick(action.value)}
+              style={{backgroundColor: selectedButton === action.value ? theme?.palette?.customColors?.purple : theme?.palette?.customColors?.lightgrey, 
+                color: selectedButton === action.value ? 'white' : 'black'}}
             >
               {action.icon}
             </button>

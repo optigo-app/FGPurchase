@@ -154,7 +154,8 @@ const CustomizeAll = () => {
                 <CustomTextField
                   type="text"
                   placeholder=""
-                  className="cinputfield"
+                  className="cinputfieldAll"
+                  customTextColor="#7367F0"
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} className="valueMainDiv">
@@ -162,11 +163,11 @@ const CustomizeAll = () => {
                 <CustomTextField
                   select
                   customBorderColor="rgba(47, 43, 61, 0.2)"
-                  borderoutlinedColor="#00CFE8"
+                  borderoutlinedColor="#7367F0"
                   customTextColor="#2F2B3DC7"
                   customFontSize="0.8125rem"
                   size="small"
-                  className="cinputfield"
+                  className="cinputfieldAll"
                   variant="filled"
                 >
                       <MenuItem value="" selected disabled></MenuItem>
@@ -188,7 +189,7 @@ const CustomizeAll = () => {
                   customTextColor="#2F2B3DC7"
                   customFontSize="0.8125rem"
                   size="small"
-                  className="cinputfield"
+                  className="cinputfieldAll"
                   variant="filled"
                 >
                       <MenuItem value="" selected disabled></MenuItem>
@@ -207,7 +208,7 @@ const CustomizeAll = () => {
                 <CustomTextField
                   type="text"
                   placeholder=""
-                  className="cinputfield"
+                  className="cinputfieldAll"
                 />
               </Grid>
 
@@ -220,7 +221,7 @@ const CustomizeAll = () => {
                   customTextColor="#2F2B3DC7"
                   customFontSize="0.8125rem"
                   size="small"
-                  className="cinputfield"
+                  className="cinputfieldAll"
                   variant="filled"
                 >
                   <MenuItem value="">
@@ -240,7 +241,7 @@ const CustomizeAll = () => {
                 <CustomTextField
                   type="text"
                   placeholder=""
-                  className="cinputfield"
+                  className="cinputfieldAll"
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3} className="valueMainDiv">
@@ -252,7 +253,7 @@ const CustomizeAll = () => {
                   customTextColor="#2F2B3DC7"
                   customFontSize="0.8125rem"
                   size="small"
-                  className="cinputfield"
+                  className="cinputfieldAll"
                   variant="filled"
                 >
                     <MenuItem value="">
@@ -272,7 +273,7 @@ const CustomizeAll = () => {
                 <CustomTextField
                   type="text"
                   placeholder=""
-                  className="cinputfield"
+                  className="cinputfieldAll"
                 />
               </Grid>
             </Grid>
@@ -339,10 +340,10 @@ const CustomizeAll = () => {
                 <td className="single_tableTr2_td">2.750</td>
                 <td className="single_tableTr2_td">2</td>
                 <td className="single_tableTr2_td">
-                <CustomTextField className="cinputfield" />
+                <CustomTextField className="cinputfieldAll" />
                 </td>
                 <td className="single_tableTr2_td">
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </td>
                 <td className="single_tableTr7_td">
                   <div>
@@ -355,7 +356,7 @@ const CustomizeAll = () => {
                   </div>
                 </td>
                 <td>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </td>
               </tr>
 
@@ -371,10 +372,10 @@ const CustomizeAll = () => {
                 <td className="single_tableTr2_td">2.750</td>
                 <td className="single_tableTr2_td">2</td>
                 <td className="single_tableTr2_td">
-                <CustomTextField className="cinputfield" />
+                <CustomTextField className="cinputfieldAll" />
                 </td>
                 <td className="single_tableTr2_td">
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </td>
                 <td className="single_tableTr7_td">
                   <div>
@@ -387,7 +388,7 @@ const CustomizeAll = () => {
                   </div>
                 </td>
                 <td>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </td>
               </tr>
               <tr>
@@ -402,10 +403,10 @@ const CustomizeAll = () => {
                 <td className="single_tableTr2_td">2.750</td>
                 <td className="single_tableTr2_td">2</td>
                 <td className="single_tableTr2_td">
-                <CustomTextField className="cinputfield" />
+                <CustomTextField className="cinputfieldAll" />
                 </td>
                 <td className="single_tableTr2_td">
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </td>
                 <td className="single_tableTr7_td">
                   <div>
@@ -418,7 +419,7 @@ const CustomizeAll = () => {
                   </div>
                 </td>
                 <td>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </td>
               </tr>
             </table>
@@ -429,23 +430,23 @@ const CustomizeAll = () => {
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                   <div className="valueMainDivP"> Certification Charge </div>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                   <div className="valueMainDivP">Vermal charges</div>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                   <div className="valueMainDivP">HallMark Charges</div>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                   <div className="valueMainDivP">Dancing Collet</div>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                   <div className="valueMainDivP"> Magnet Charges</div>
-                  <CustomTextField className="cinputfield" />
+                  <CustomTextField className="cinputfieldAll" />
                 </Grid>
               </Grid>
               <div>
@@ -468,15 +469,24 @@ const CustomizeAll = () => {
           </div>
           <Grid container spacing={1} className="pb-2">
             <Grid item xs={12} sm={6} md={3} lg={2} className="valueMainDiv">
-              <div>
+              <div className="w-100">
                 <p className="valueMainDivP">Discount</p>
-                <CustomTextField type="text" placeholder="Discount" className="cinputfield" />
+                <CustomTextField type="text" placeholder="Discount" className="cinputfieldAll" />
               </div>
             </Grid>
             <Grid item xs={12} sm={6} md={3} lg={2} className="valueMainDiv">
-              <div>
+              <div className="w-100">
                 <p className="valueMainDivP">On</p>
-                <CustomTextField select customBorderColor="rgba(47, 43, 61, 0.2)" borderoutlinedColor="#00CFE8" customTextColor="#2F2B3DC7" customFontSize="0.8125rem" size="small" variant="filled" className="cinputfield" >
+                {/* <CustomTextField select customBorderColor="rgba(47, 43, 61, 0.2)"  borderoutlinedColor="#00CFE8" customTextColor="#2F2B3DC7" customFontSize="0.8125rem" size="small" variant="filled" className="cinputfieldAll" > */}
+                <CustomTextField 
+                    select 
+                    customBorderColor="rgba(47, 43, 61, 0.2)"  
+                    borderoutlinedColor="#00CFE8" 
+                    customTextColor="#2F2B3DC7" 
+                    customFontSize="0.8125rem" 
+                    size="small" 
+                    variant="filled" 
+                    className="cinputfieldAll" >
                     <MenuItem value="">
                       <em></em>
                     </MenuItem>
@@ -593,7 +603,7 @@ const CustomizeAll = () => {
               <td>Ring</td>
               <td>Light ring</td>
               <td>
-                <CustomTextField className="cinputfield" />
+                <CustomTextField className="cinputfieldAll" />
               </td>
               <td>
                 <CustomTextField
@@ -604,7 +614,7 @@ const CustomizeAll = () => {
                   customTextColor="#2F2B3DC7"
                   customFontSize="0.8125rem"
                   size="small"
-                  className="cinputfield"
+                  className="cinputfieldAll"
                   variant="filled"
                   style={{ width: "200px" }}
                 >

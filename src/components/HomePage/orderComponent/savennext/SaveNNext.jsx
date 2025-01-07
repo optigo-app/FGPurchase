@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import  EditIcon  from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
-import { Tooltip, Modal, Box, Button, Typography, IconButton, Icon, AvatarGroup, Avatar } from '@mui/material';
+import { Tooltip, Modal, Box, Button, Typography, IconButton, Icon, AvatarGroup, Avatar, useTheme } from '@mui/material';
 import FileUploaderMultiple from './FileUploaderMultiple';
 import CancelIcon from '@mui/icons-material/Cancel';
 import MountGrid from './MountGrid';
@@ -670,6 +670,8 @@ useEffect(() => {
   }
 }, [uploadImage]);
 
+const theme = useTheme();
+
 
   return (
     <>
@@ -681,10 +683,10 @@ useEffect(() => {
       {/* Job Line */}
       <div className='d-flex justify-content-between align-items-center'>
       <div className="job-info">
-        <div>Tag No: <b className="text-primary">1/12566</b></div>
-        <div>Net Wt: <b className="text-primary">2.256 gm</b></div>
-        <div>Pure Wt: <b className="text-primary">1.256</b></div>
-        <div>Dia: <b className="text-primary">2.256 cts 12000 Amount</b></div>
+        <div><span className='text_color'>Tag No:</span> <b className="text-dark">1/12566</b></div>
+        <div><span className='text_color'>Net Wt:</span> <b className="text-dark">2.256 gm</b></div>
+        <div><span className='text_color'>Pure Wt:</span> <b className="text-dark">1.256</b></div>
+        <div><span className='text_color'>Dia:</span> <b className="text-dark">2.256 cts 12000 Amount</b></div>
         { mode !== 'alteration_receive' && <div className=' '>
                 <FileUploaderMultiple fs="30px" classApply="" />
         </div>}
@@ -1598,8 +1600,8 @@ useEffect(() => {
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between pb-2'>
                   <div>&nbsp;</div>
-                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>Change Criteria</h4>
-                  <div><CancelIcon style={{cursor:'pointer'}} onClick={() => setChangeCriteria(false)} /></div>
+                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold fs_fgp'>Change Criteria</h4>
+                  <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setChangeCriteria(false)} /></Tooltip></div>
                 </div>
                 <div className="filter_grid mt-3">
           <div>
@@ -1688,7 +1690,7 @@ useEffect(() => {
             </select>
           </div>
           <div className='text-center pt-2 categoryNewOrder'>
-                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
+                  <Button variant='contained'  sx={{fontWeight:'bold', backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
                 </div>
         </div>
                 {/* <div className='text-center w-100 pt-2'>

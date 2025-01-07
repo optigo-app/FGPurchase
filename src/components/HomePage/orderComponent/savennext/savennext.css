@@ -30,7 +30,8 @@
     margin-bottom: 20px;
     align-items: center; */
     display: grid;
-    gap: 16px;
+    /* gap: 16px; */
+    gap: 5px;
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
@@ -59,7 +60,8 @@
 .filter-item input:focus,
 .filter-item select:focus {
     outline: none;
-    border-color: #007bff; /* Highlight color on focus */
+    /* border-color: #007bff;  */
+    border-color: #7367F0; /* Highlight color on focus */
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 .m_x_inp_snv{
@@ -171,7 +173,8 @@
 
 .filters-container2 {
     display: grid;
-    gap: 16px;
+    /* gap: 16px; */
+    gap: 5px;
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
@@ -285,7 +288,9 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  
+  .categoryNewOrder:focus{
+    border-color: #7367F0 !important;
+  }
   .filter_item_i {
     display: flex;
     align-items: center;
