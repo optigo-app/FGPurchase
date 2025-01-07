@@ -124,6 +124,14 @@ const CustomizeAll = () => {
 
   ]
 
+  const handleToggleLabel = (btn) => {
+
+    if(btn === 'btn1'){
+      setSelectedButton('CustomizeAll');
+    }else{
+      setSelectedButton('Making_Category_Wise');
+    }
+  }
   return (
     <div>
 
@@ -131,8 +139,18 @@ const CustomizeAll = () => {
         Product Info
       </div>
 
+      <div className="my-2 mt-3">
+          <input type="checkbox" id="toggle" className="toggleCheckbox" />
+          <label for="toggle" className='toggleContainer'>
+            <div className="fs_fgp fw-normal" onClick={() => handleToggleLabel('btn1')}>CustomizeAll</div>   
+            <div className="fs_fgp fw-normal" onClick={() => handleToggleLabel('btn2')}>Making Category Wise</div>
+          </label>
+      </div>
+
+
+
       {/* Toggle Buttons */}
-      <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+      {/* <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
         <button
           className={`btn ${
             selectedButton === "CustomizeAll" ? "btn-primary" : "btn-warning"
@@ -151,7 +169,7 @@ const CustomizeAll = () => {
         >
           Making Category Wise
         </button>
-      </div>
+      </div> */}
 
       {selectedButton === "CustomizeAll" && (
         <div className="mt-3 sm:mt-2 xs:mt-1 ">
@@ -779,12 +797,15 @@ const CustomizeAll = () => {
               </td>
             </tr>
           </table>
-          <button
+          <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSave("metal")} >
+            Save
+          </Button>
+          {/* <button
             className="SaveBtnAmaountCZALL"
             onClick={() => handleSave("metal")}
           >
             Save
-          </button>
+          </button> */}
         </div>
       )}
     </div>
