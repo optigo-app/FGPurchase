@@ -162,13 +162,14 @@
 
 
 import React, { useState } from 'react';
-import { Modal, Box } from '@mui/material';
+import { Modal, Box, Tooltip, Button, useTheme } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useDispatch } from 'react-redux';
 import { handleMultiPartPayFlag } from '../../redux/slices/HomeSlice';
 
 function MultipartPay({ multiPartPayFlag }) {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   // State to manage the metal and amount rows
   const [metalRows, setMetalRows] = useState([
@@ -239,22 +240,25 @@ function MultipartPay({ multiPartPayFlag }) {
         >
           <div className="d-flex justify-content-between align-items-center w-100 mb-3">
             <div></div>
-            <h4 className="text-center  text-primary font-bold">
+            <h4 className="text-center   font-bold fs_fgp" style={{color: theme?.palette?.customColors?.purple}}>
               Multipart Payment
             </h4>
             <div>
+              <Tooltip title="Close">
+
               <CancelIcon
                 style={{ cursor: 'pointer' }}
                 onClick={() => dispatch(handleMultiPartPayFlag(false))}
-              />
+                />
+                </Tooltip>
             </div>
           </div>
           <div className="w-full">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <div className="text-secondary">
+              <div className="text-secondary fs_fgp">
                 Total Metal: <strong>4.089</strong>
               </div>
-              <div className="text-secondary">
+              <div className="text-secondary fs_fgp">
                 Total Amount: <strong>2,588.91</strong>
               </div>
             </div>
@@ -262,7 +266,7 @@ function MultipartPay({ multiPartPayFlag }) {
             {/* Metal Rows Section */}
             {metalRows?.map((row) => (
               <div
-                className="d-flex flex-wrap justify-content-between align-items-center gap-3 my-3"
+                className="d-flex flex-wrap justify-content-between align-items-center gap-3 my-3 fs_fgp"
                 key={row.id}
               >
                 <div className="d-flex align-items-center w-45">
@@ -271,7 +275,7 @@ function MultipartPay({ multiPartPayFlag }) {
                     type="text"
                     value={row.metal}
                     className="focus_pay"
-                    style={{ maxWidth: '120px', fontWeight: '500' }}
+                    style={{ maxWidth: '120px',  }}
                   />
                 </div>
                 <div className="d-flex align-items-center w-45">
@@ -286,20 +290,23 @@ function MultipartPay({ multiPartPayFlag }) {
                 <div className="d-flex justify-content-center w-20 text-muted">
                   {row.date}
                 </div>
-                <div
+                {/* <div
                   className="d-flex justify-content-center w-20 text-white bg-danger p-1 rounded fw-semibold"
                   onClick={() => handleMLTEntryRemove(row.id, 'metal')}
                   style={{ cursor: 'pointer' }}
                 >
                   Remove
-                </div>
+                </div> */}
+                <Button variant="contained" size="small" onClick={() => handleMLTEntryRemove(row.id, 'metal')} className='fs_fgp' sx={{backgroundColor: theme?.palette?.customColors?.red, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+                  Remove
+                </Button>
               </div>
             ))}
 
             {/* Amount Rows Section */}
             {amountRows?.map((row) => (
               <div
-                className="d-flex flex-wrap justify-content-between gap-3 my-3"
+                className="d-flex flex-wrap justify-content-between gap-3 my-3 fs_fgp"
                 key={row.id}
               >
                 <div className="d-flex align-items-center w-45">
@@ -308,7 +315,7 @@ function MultipartPay({ multiPartPayFlag }) {
                     type="text"
                     value={row.amount}
                     className="focus_pay"
-                    style={{ maxWidth: '120px', fontWeight: '500' }}
+                    style={{ maxWidth: '120px',  }}
                   />
                 </div>
                 <div className="d-flex align-items-center w-45">
@@ -323,43 +330,55 @@ function MultipartPay({ multiPartPayFlag }) {
                 <div className="d-flex justify-content-center w-20 text-muted">
                   {row.date}
                 </div>
-                <div
+                {/* <div
                   className="d-flex justify-content-center w-20 text-white bg-danger p-1 rounded fw-semibold"
                   onClick={() => handleMLTEntryRemove(row.id, 'amount')}
                   style={{ cursor: 'pointer' }}
                 >
                   Remove
-                </div>
+                </div> */}
+                <Button variant="contained" size="small" onClick={() => handleMLTEntryRemove(row.id, 'amount')} className='fs_fgp' sx={{backgroundColor: theme?.palette?.customColors?.red, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+                  Remove
+                </Button>
               </div>
             ))}
 
-            <div className="text-secondary d-flex text-start mt-3">
+            <div className="text-secondary d-flex text-start mt-3 fs_fgp">
               Remaining Metal: <strong className="mx-2">0.0000</strong>
               Remaining Amount: <strong className="mx-2">0.00</strong>
             </div>
 
-            <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
-              <button
+            <div className="d-flex justify-content-between align-items-center mt-3 gap-2 fs_fgp">
+              {/* <button
                 className="btn btn-success p-1 px-2"
                 style={{ borderRadius: '8px', fontWeight: 'bold' }}
                 onClick={() => handleCloseMultiPartPay()}
               >
                 Apply & Close
-              </button>
-              <button
+              </button> */}
+              <Button variant="contained" size="small" onClick={() => handleCloseMultiPartPay()} className='fs_fgp' sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+                Apply & Close
+              </Button>
+              {/* <button
                 className="btn btn-primary p-1 px-2"
                 style={{ borderRadius: '8px', fontWeight: 'bold' }}
                 onClick={addMetalRow}
               >
                 Add Metal Row
-              </button>
-              <button
+              </button> */}
+              <Button variant="contained" size="small" onClick={addMetalRow} className='fs_fgp' sx={{backgroundColor: theme?.palette?.customColors?.purple, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+                Add Metal Row
+              </Button>
+              {/* <button
                 className="btn btn-primary p-1 px-2"
                 style={{ borderRadius: '8px', fontWeight: 'bold' }}
                 onClick={addAmountRow}
               >
                 Add Amount Row
-              </button>
+              </button> */}
+              <Button variant="contained" size="small" onClick={addAmountRow} className='fs_fgp' sx={{backgroundColor: theme?.palette?.customColors?.purple, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+                Add Amount Row
+              </Button>
             </div>
           </div>
         </Box>
