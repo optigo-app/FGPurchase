@@ -172,7 +172,7 @@ const CustomizeAll = () => {
       </div> */}
 
       {selectedButton === "CustomizeAll" && (
-        <div className="mt-3 sm:mt-2 xs:mt-1 ">
+        <div className="mt-3 sm:mt-2 xs:mt-1 fs_fgp">
           <div style={{ width: "100%" }} className="mb-3 sm:mb-2 xs:mb-1">
             <Grid container spacing={1}>
               {/* <Grid item xs={12} sm={6} md={4} lg={3}  className="valueMainDiv"> */}
@@ -747,7 +747,7 @@ const CustomizeAll = () => {
       )}
 
       {selectedButton === "Making_Category_Wise" && (
-        <div className="maskingCategoryWiseMain my-4" >
+        <div className="maskingCategoryWiseMain my-4 fs_fgp" >
           <table className="maskingCategoryWiseMain_table text_color" style={{maxWidth:'600px', width:'100%'}}>
             <tr>
               <th>Category</th>
