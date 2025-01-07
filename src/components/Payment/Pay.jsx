@@ -16,6 +16,7 @@ import {
   Box,
   Select,
   Typography,
+  useTheme,
 } from "@mui/material";
 import CustomTextField from "../TextField/index";
 import MultipartPay from "./MultiPartPay";
@@ -23,6 +24,7 @@ import {  useDispatch, useSelector } from "react-redux";
 import { handleMultiPartPayFlag } from "../../redux/slices/HomeSlice";
 
 const Pay = () => {
+  const theme = useTheme();
   const [selectedButton, setSelectedButton] = useState("Cash");
   const [formTouched, setFormTouched] = useState(false);
   const inputRefs = useRef([]); 
@@ -162,15 +164,19 @@ const Pay = () => {
       <div className="payDiv_part1">
         <div className="button_group">
           {["Cash", "Bank", "Advance", "Pay A/C"].map((type) => (
-            <button
-              key={type}
-              className={`btn ${
-                selectedButton === type ? "btn-primary" : "btn-warning"
-              }`}
-              onClick={() => setSelectedButton(type)}
-            >
-              {type}
-            </button>
+            <Button key={type} size="small" variant="contained" className="fs_fgp" 
+            sx={{backgroundColor: selectedButton === type ? 
+              theme?.palette?.customColors?.red : 
+              theme?.palette?.customColors?.primary}} onClick={() => setSelectedButton(type)}>{type}</Button>
+            // <button
+            //   key={type}
+            //   className={`btn ${
+            //     selectedButton === type ? "btn-primary" : "btn-warning"
+            //   }`}
+            //   onClick={() => setSelectedButton(type)}
+            // >
+            //   {type}
+            // </button>
           ))}
         </div>
     
@@ -197,20 +203,24 @@ const Pay = () => {
             </div> */}
             <div className="pb-4"></div>
             <div className="form-group">
-              <CustomTextField
+            <input type="text" placeholder="" autoFocus   id="metalRate"  className='categoryNewOrder filter_item_call fs_fgp'   />
+              {/* <CustomTextField
                 type="text"
                 name="amount"
                 value={formData.amount}
                 onChange={handleChange}
                 placeholder="Enter Amount"
-              />
+              /> */}
               {formTouched && !formData.amount && (
-                <p className="error">Amount is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Amount is required!</p>
               )}
             </div>
-            <button onClick={handleApply} className="ApllyBtnPay">
+            <Button onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white}}>
               Apply
-            </button>
+            </Button>
+            {/* <button onClick={handleApply} className="ApllyBtnPay">
+              Apply
+            </button> */}
           </div>
         )}
 
@@ -226,9 +236,15 @@ const Pay = () => {
             }}
           >
             <div className="pay_form_group">
-              <label className="pay_form_group_label">Payment By :</label>
+              <label className="pay_form_group_label text_color fs_fgp" htmlFor="payby">Payment By :</label>
 
-              <CustomTextField
+              <select name="" id="payby" className='categoryNewOrder filter_item_call fs_fgp fs_fgp_select'>
+                <option value="" disabled selected></option>
+                <option value="Net Banking">Net Banking</option>
+                <option value="Cheque">Cheque</option>
+              </select>
+
+              {/* <CustomTextField
                 select
                 fullWidth
                 value={formData.paymentBy}
@@ -247,15 +263,21 @@ const Pay = () => {
                 </MenuItem>
                 <MenuItem value="Net Banking">Net Banking</MenuItem>
                 <MenuItem value="Cheque">Cheque</MenuItem>
-              </CustomTextField>
+              </CustomTextField> */}
 
               {formTouched && !formData.paymentBy && (
-                <p className="error">Payment By is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Payment By is required!</p>
               )}
             </div>
             <div className="pay_form_group">
-              <label className="pay_form_group_label">Bank :</label>
-              <CustomTextField
+              <label className="pay_form_group_label text_color fs_fgp" htmlFor="bank">Bank :</label>
+              <select name="" id="bank" className='categoryNewOrder filter_item_call fs_fgp fs_fgp_select'>
+                <option value="" disabled selected></option>
+                <option value="Bank A">Bank A</option>
+                <option value="Bank B">Bank A</option>
+                <option value="Bank C">Bank A</option>
+              </select>
+              {/* <CustomTextField
                 select
                 fullWidth
                 value={formData.bank}
@@ -275,104 +297,121 @@ const Pay = () => {
                 <MenuItem value="Bank A">Bank A</MenuItem>
                 <MenuItem value="Bank B">Bank B</MenuItem>
                 <MenuItem value="Bank C">Bank C</MenuItem>
-              </CustomTextField>
+              </CustomTextField> */}
 
               {formTouched && !formData.bank && (
-                <p className="error">Bank is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Bank is required!</p>
               )}
             </div>
             <div className="pay_form_group">
-              <label className="pay_form_group_label">Transaction ID:</label>
-              <CustomTextField
+              <label className="pay_form_group_label text_color fs_fgp" htmlFor="transactionId">Transaction ID:</label>
+              <input type="text" placeholder="" autoFocus  id="transactionId"  className='categoryNewOrder filter_item_call fs_fgp'   />
+              {/* <CustomTextField
                 type="text"
                 name="transactionId"
                 value={formData.transactionId}
                 onChange={handleChange}
                 style={{ width: "200px" }}
                 placeholder="Enter Transaction ID"
-              />
+              /> */}
               {formTouched && !formData.transactionId && (
-                <p className="error">Transaction ID is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Transaction ID is required!</p>
               )}
             </div>
             <div className="pay_form_group">
-              <label className="pay_form_group_label">Amount:</label>
-              <CustomTextField
+              <label className="pay_form_group_label text_color fs_fgp" htmlFor="amount">Amount:</label>
+              <input type="text" placeholder="" autoFocus  id="amount"  className='categoryNewOrder filter_item_call fs_fgp'   />
+              {/* <CustomTextField
                 type="text"
                 name="amount"
                 value={formData.amount}
                 style={{ width: "200px" }}
                 onChange={handleChange}
                 placeholder="Enter Amount"
-              />
+              /> */}
               {formTouched && !formData.amount && (
-                <p className="error">Amount is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Amount is required!</p>
               )}
             </div>
-            <button onClick={handleApply} className="ApllyBtnPay">
+            {/* <button onClick={handleApply} className="ApllyBtnPay">
               Apply
-            </button>
+            </button> */}
+             <Button  onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white, maxWidth:'77px'}}>
+              Apply
+            </Button>
           </div>
         )}
 
         {selectedButton === "Advance" && (
           <div className="form-section" style={{ marginTop: "30px" }}>
             <div className="form-group">
-              <CustomTextField
+                <input type="text" placeholder="" autoFocus  id="metalRate"  className='categoryNewOrder filter_item_call fs_fgp'   />
+              {/* <CustomTextField
                 type="text"
                 name="amount"
                 value={formData.amount}
                 onChange={handleChange}
                 placeholder="Enter Amount"
-              />
+              /> */}
               {formTouched && !formData.amount && (
-                <p className="error">Amount is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Amount is required!</p>
               )}
             </div>
-            <button onClick={handleApply} className="ApllyBtnPay">
+            <Button onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white}}>
               Apply
-            </button>
+            </Button>
+            {/* <button onClick={handleApply} className="ApllyBtnPay">
+              Apply
+            </button> */}
           </div>
         )}
 
         {selectedButton === "Pay A/C" && (
           <>
-              <div>
-                  <button onClick={handleMultiPartFlag} className="ApllyBtnPay2">
+              <div className="mt-3">
+                <Button size="small" onClick={handleMultiPartFlag} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.orange, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
                   Multipart Payment
-                  </button>
+                </Button>
+                  {/* <button onClick={handleMultiPartFlag} className="ApllyBtnPay2">
+                  Multipart Payment
+                  </button> */}
               </div>
-          <div className="form-section" style={{ marginTop: "30px" }}>
+          <div className="form-section" style={{ marginTop: "10px",  }}>
             
             <div className="pay_form_group">
               
-              <label className="pay_form_group_label"> Due Days :</label>
-              <CustomTextField
+              <label className="pay_form_group_label text_color fs_fgp" htmlFor="dueDays"> Due Days :</label>
+              <input type="text" placeholder="" autoFocus  id="dueDays"  className='categoryNewOrder filter_item_call fs_fgp'   />
+              {/* <CustomTextField
                 type="text"
                 value={formData.amount}
                 style={{ width: "200px" }}
                 onChange={handleChange}
-              />
+              /> */}
               {formTouched && !formData.amount && (
-                <p className="error">Amount is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Amount is required!</p>
               )}
             </div>
 
             <div className="pay_form_group" style={{ marginTop: "15px" }}>
-              <label className="pay_form_group_label">Remarks :</label>
-              <CustomTextField
+              <label className="pay_form_group_label text_color fs_fgp" htmlFor="remarks">Remarks :</label>
+              <input type="text" placeholder="" autoFocus  id="remarks"  className='categoryNewOrder filter_item_call fs_fgp'   />
+              {/* <CustomTextField
                 type="textarea"
                 value={formData.amount}
                 style={{ width: "200px" }}
                 onChange={handleChange}
-              />
+              /> */}
               {formTouched && !formData.amount && (
-                <p className="error">Amount is required!</p>
+                <p style={{color: theme?.palette?.customColors?.red}}>Amount is required!</p>
               )}
             </div>
-            <button onClick={handleApply} className="ApllyBtnPay">
+              <Button onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, marginTop:'10px', color: theme?.palette?.customColors?.white, maxWidth:'77px' }}>
+                Apply
+              </Button>
+            {/* <button onClick={handleApply} className="ApllyBtnPay">
               Apply
-            </button>
+            </button> */}
 
             {/* {rows.map((row, index) => (
               <div
