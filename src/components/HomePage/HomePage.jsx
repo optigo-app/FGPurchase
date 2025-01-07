@@ -1047,43 +1047,75 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               { (mode === 'alteration_receive' || mode === 'alteration_issue') ? <>
                 <FormControlLabel
                   value="270"
-                  control={<Radio />}
+                  control={<Radio sx={{
+                    '&.Mui-checked': {
+                      color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                    },
+                  }} />}
                   label="Alteration Print"
                 />
                 <FormControlLabel
-                  value="270"
-                  control={<Radio />}
+                  value="271"
+                  control={<Radio sx={{
+                    '&.Mui-checked': {
+                      color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                    },
+                  }} />}
                   label="Repair Print"
                 />
               </> : <>
                 <FormControlLabel
                 value="270"
-                control={<Radio />}
+                control={<Radio sx={{
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                  },
+                }} />}
                 label="Bill Sticker"
               />
               <FormControlLabel
                 value="10"
-                control={<Radio />}
+                control={<Radio sx={{
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                  },
+                }} />}
                 label="Daily Statement"
               />
               <FormControlLabel
                 value="232"
-                control={<Radio />}
+                control={<Radio sx={{
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                  },
+                }} />}
                 label="Detail Print 10"
               />
               <FormControlLabel
                 value="312"
-                control={<Radio />}
+                control={<Radio sx={{
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                  },
+                }} />}
                 label="Export Invoice A"
               />
               <FormControlLabel
                 value="244"
-                control={<Radio />}
+                control={<Radio sx={{
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                  },
+                }} />}
                 label="Invoice print R"
               />
               <FormControlLabel
                 value="283"
-                control={<Radio />}
+                control={<Radio sx={{
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                  },
+                }} />}
                 label="Invoice Print V"
               />
               </>}

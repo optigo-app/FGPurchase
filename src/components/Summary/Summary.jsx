@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./summary.css";
-import { Box, Modal, Tooltip } from "@mui/material";
+import { Box, Button, Modal, Tooltip, useTheme } from "@mui/material";
 // import SummCustomTextField from "./Index";
 import { BiMessageAltDetail } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
@@ -35,6 +35,7 @@ const styleKyc = {
 };
 
 const Summary = () => {
+  const theme = useTheme();
   const mode = useSelector((state) => state?.fgp?.mode);
   const [open, setOpen] = useState(false);
   const [openKyc, setOpenKyc] = useState(false);
@@ -61,7 +62,7 @@ const Summary = () => {
   return (
     <div>
           { mode !== "alteration_issue" && <div className="w-100 d-flex justify-content-end">
-            <p className="summury_totalValue w-25">
+            <p className="summury_totalValue w_responsive_sum fs_fgp">
               Balance To Be Paid :
               <span style={{ fontWeight: 600 }}>
                 {"605.50/-"}
@@ -248,7 +249,7 @@ const Summary = () => {
         </div>
       )} */}
       
-      <div style={{ marginTop: "30px" }} className="summuryDiv1">
+      <div style={{ marginTop: "30px" }} className="summuryDiv1 fs_fgp">
         <div
           className="summuryTabel_BillMain"
           style={{ display: "flex", gap: "50px" }}
@@ -395,7 +396,7 @@ const Summary = () => {
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-start align-items-center">
+      <div className="d-flex justify-content-start align-items-center flex-wrap fs_fgp">
         <div style={{ display: "flex", marginTop: "10px" }} className="me-4">
           <label className="remakrTitle" htmlFor="remark">Remarks : </label>
           <textarea className="summury_textArea" id="remark" />
@@ -404,8 +405,10 @@ const Summary = () => {
           <label className="remakrTitle" htmlFor="printremark">Print Remarks :</label>
           <textarea className="summury_textArea" id="printremark" />
         </div>
-
-        <button className="ApllyBtnPay">Save Remarks</button>
+            <Button className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.purple, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+              Save Remarks
+            </Button>
+        {/* <button className="ApllyBtnPay">Save Remarks</button> */}
       </div>
     </div>
   );
