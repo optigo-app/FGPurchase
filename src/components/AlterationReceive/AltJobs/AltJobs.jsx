@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, useTheme } from '@mui/material';
 import "./altjobs.css"
 import { useDispatch } from 'react-redux';
 import { handleSaveAndNextFlag, handleSelectedButton } from '../../../redux/slices/HomeSlice';
@@ -10,6 +10,7 @@ import { handleSaveAndNextFlag, handleSelectedButton } from '../../../redux/slic
 
 const AltJobs = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const rows = [
     { id: 1, design: 'New-CP', unique: '2TXF2', job: '1/267631', metal: 'GOLD 18K TMCol', netWt: 5.000, grossWt: 5.000, net24k: 3.800, returnValue: 'http://zen/lib/jo/28/images/return.png', returnCheck: false, designImg: 'http://zen/R50B3/UFSImage/orail25TNBVD0LO2UFPRZ4YH_Image/Design_Image/Design_Thumb/2924~1.jpg?0.508774' },
     { id: 2, design: 'New-CP', unique: '8QYD3', job: '1/267632', metal: 'GOLD 18K TMCol', netWt: 3.837, grossWt: 3.888, net24k: 2.916, returnValue: 'http://zen/lib/jo/28/images/return.png', returnCheck: false, designImg: 'http://zen/R50B3/UFSImage/orail25TNBVD0LO2UFPRZ4YH_Image/Design_Image/Design_Thumb/2924~1.jpg?0.508774' },
@@ -31,43 +32,43 @@ const AltJobs = () => {
   ];
   
 
-const columns = [
-  { field: 'id', headerName: 'Sr#', width: 80 },
-  { field: 'design', headerName: 'Design#', width: 130 },
-  {
-    field: 'designImg',
-    headerName: 'DesignImage#',
-    width: 90,
-    renderCell: (params) => (
-      <img
-        src={params.value}
-        alt="Design"
-        style={{ width: 45, height: 45, objectFit: 'cover' }}
-      />
-    ),
-  },
-  { field: 'unique', headerName: 'Unique#', width: 130 },
-  { field: 'job', headerName: 'Job#', width: 130 },
-  { field: 'metal', headerName: 'Metal', width: 150 },
-  { field: 'netWt', headerName: 'Net Wt.', width: 100 },
-  { field: 'grossWt', headerName: 'Gross Wt.', width: 100 },
-  { field: 'net24k', headerName: 'Net (24k)', width: 100 },
-  {
-    field: 'returnValue',
-    headerName: 'Return',
-    width: 80,
-    align:"center",
-    renderCell: (params) => (
-      <img
-        src={params.value}
-        alt="Design"
-        style={{  objectFit: 'contain', cursor:'pointer' }}
-        onClick={() => handleReturnManual(params?.row)}
-      />
-    ),
-  },
-];
-  
+  const columns = [
+    { field: 'id', headerName: 'Sr#', width: 80 },
+    { field: 'design', headerName: 'Design#', width: 130 },
+    {
+      field: 'designImg',
+      headerName: 'DesignImage#',
+      width: 90,
+      renderCell: (params) => (
+        <img
+          src={params.value}
+          alt="Design"
+          style={{ width: 45, height: 45, objectFit: 'cover' }}
+        />
+      ),
+    },
+    { field: 'unique', headerName: 'Unique#', width: 130 },
+    { field: 'job', headerName: 'Job#', width: 130 },
+    { field: 'metal', headerName: 'Metal', width: 150 },
+    { field: 'netWt', headerName: 'Net Wt.', width: 100 },
+    { field: 'grossWt', headerName: 'Gross Wt.', width: 100 },
+    { field: 'net24k', headerName: 'Net (24k)', width: 100 },
+    {
+      field: 'returnValue',
+      headerName: 'Return',
+      width: 80,
+      align:"center",
+      renderCell: (params) => (
+        <img
+          src={params.value}
+          alt="Design"
+          style={{  objectFit: 'contain', cursor:'pointer' }}
+          onClick={() => handleReturnManual(params?.row)}
+        />
+      ),
+    },
+  ];
+    
 const handleReturnAll = () => {
   console.log("Return All");
   dispatch(handleSaveAndNextFlag(true));
@@ -82,10 +83,10 @@ const handleReturnManual = () => {
   return (
     <Container sx={{marginLeft:'0px', paddingLeft:'0px'}} className='alt_jobs_container'>
       <div className='d-flex justify-content-between align-items-center mb-2'>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" className='fs_fgp' gutterBottom>
         Alteration Jobs
       </Typography>
-      <Button color='error' variant='contained' onClick={() => handleReturnAll()}>Return</Button>
+      <Button color='error' variant='contained' className='fs_fgp' onClick={() => handleReturnAll()}>Return</Button>
       </div>
       <div >
         {/* <DataGrid
@@ -97,7 +98,7 @@ const handleReturnManual = () => {
           
         /> */}
         <DataGrid
-        className='fs_analytics_l'
+        className='fs_analytics_l fs_fgp'
         pagination
         rows={rows}
         rowHeight={62}
@@ -109,13 +110,13 @@ const handleReturnManual = () => {
         onPaginationModelChange={setPaginationModel}
         sx={{
           height: '421px',
-          overflow:'auto',
+          // overflow:'auto',
           '& .MuiDataGrid-cell:focus': {
             outline: 'none', // Removes the outline when a cell is focused
           },
           '& .MuiDataGrid-columnHeader': {
-            backgroundColor: '#f0f0f0', // Light grey background for column headers
-            color: '#333', // Darker text color for better contrast
+            // backgroundColor: '#e8e8e8', // Light grey background for column headers
+            color: `${theme?.palette?.customColors?.grey}`, // Darker text color for better contrast
           },
           '& .MuiDataGrid-cell:focus-visible': {
             outline: 'none', // Ensures no outline when the cell is clicked or focused
@@ -135,6 +136,18 @@ const handleReturnManual = () => {
           },
           '& .MuiDataGrid-root::-webkit-scrollbar-track': {
             backgroundColor: '#f0f0f0', // Custom background for the scrollbar track
+          },
+          '& .MuiCheckbox-root.Mui-checked': {
+            color: theme?.palette?.customColors?.purple, // Purple color for the checked checkbox
+          },
+          '& .MuiTablePagination-actions': {
+            color: theme?.palette?.customColors?.grey, // Change color of pagination arrows
+          },
+          '& .MuiTablePagination-root': {
+            color: theme?.palette?.customColors?.grey, // Change pagination text color to grey
+          },
+          '& .MuiTablePagination-selectLabel, & .MuiTablePagination-select, & .MuiTablePagination-displayedRows': {
+            color: theme?.palette?.customColors?.grey, // Change text color in rows per page, etc.
           },
         }}
       />

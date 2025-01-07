@@ -909,7 +909,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               </select>
             </div>
             <div className="filter-item_hp">
-            <input type="text" placeholder="reference No." value={refno} className='fs_fgp fs_fgp_select' onChange={(el) => handleRefNoChange(el)}
+            <input type="text" placeholder="reference No." value={refno} className='fs_fgp ' onChange={(el) => handleRefNoChange(el)}
               style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
              />
           </div> 

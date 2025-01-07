@@ -25,10 +25,10 @@ const customTheme = createTheme({
       //centralized color
       purple:'#7367F0',
       lightBgPurple:'#E8E7FD',
-
-
+      
+      
+      green:'#28C76F',
       info:'#00CFE8',
-      green:'#2CC872',
       grey:'#A8AAAE',
       lightgrey:'#D3D3D3',
       red:'#EA5455',

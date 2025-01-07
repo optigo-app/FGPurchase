@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./scanaddjob.css"
-import { Box, Button, FormControlLabel, Modal, Radio, RadioGroup, Typography } from "@mui/material";
+import { Box, Button, FormControlLabel, Modal, Radio, RadioGroup, Typography, useTheme } from "@mui/material";
 import scanGif from "../../../assets/images/scan.gif"
 const ScanAddJob = () => {
     const [inputValueHidden, setInputValueHidden] = useState("");
@@ -10,7 +10,7 @@ const ScanAddJob = () => {
     const [viewType, setViewType] = useState("tag");
     const [openModal, setOpenModal] = useState(false);
     const ScanRef = useRef(null);
-  
+    const theme = useTheme();
     useEffect(() => {
       if (inputValueHidden.length) {
         setTimeout(() => {
@@ -119,24 +119,34 @@ const ScanAddJob = () => {
         </Modal> */}
         <div>
           <div style={{ display: "flex", margin: "10px 0" }}>
-            <FormControlLabel
+            <FormControlLabel className='fs_fgp'
               control={
                 <Radio
                   checked={viewType === "tag"}
                   onChange={handleViewTypeChange}
                   value="tag"
                   name="viewType"
+                  sx={{
+                    '&.Mui-checked': {
+                      color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                    },
+                  }}
                 />
               }
               label="Tag Wise"
             />
-            <FormControlLabel
+            <FormControlLabel className='fs_fgp'
               control={
                 <Radio
                   checked={viewType === "design"}
                   onChange={handleViewTypeChange}
                   value="design"
                   name="viewType"
+                  sx={{
+                    '&.Mui-checked': {
+                      color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                    },
+                  }}
                 />
               }
               label="Design Wise"
@@ -144,7 +154,7 @@ const ScanAddJob = () => {
           </div>
   
           {viewType === "tag" && (
-            <div>
+            <div className='fs_fgp'>
               <div>
                 {/* <p style={{ margin: "20px 0px 0px 0px", fontSize: "15px" }}>
                   Order and Memo items pending to bill{" "}
@@ -219,27 +229,43 @@ const ScanAddJob = () => {
           )}
   
           {viewType === "design" && (
-            <div style={{ marginTop: "20px", display: "flex" }}>
+            <div style={{ marginTop: "20px", display: "flex" }} className='fs_fgp'>
               <div>
                 <RadioGroup>
                   <FormControlLabel
                     value="customerStock"
-                    control={<Radio />}
+                    control={<Radio sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
                     label="Customer Stock"
                   />
                   <FormControlLabel
                     value="companyStock"
-                    control={<Radio />}
+                    control={<Radio sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
                     label="Company Stock"
                   />
                   <FormControlLabel
                     value="memoToSale"
-                    control={<Radio />}
+                    control={<Radio sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
                     label="Memo to Sale"
                   />
                   <FormControlLabel
                     value="engageToOtherCustomer"
-                    control={<Radio />}
+                    control={<Radio sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
                     label="Engage To Other Customer"
                   />
                 </RadioGroup>
@@ -275,7 +301,7 @@ const ScanAddJob = () => {
                   }}
                   onClick={handleGoButtonClick}
                 >
-                  <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                  <Typography className='fs_fgp' sx={{ fontWeight: "bold", fontSize: "16px" }}>
                     GO
                   </Typography>
                 </Button>

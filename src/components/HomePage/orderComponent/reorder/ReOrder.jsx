@@ -169,6 +169,8 @@ const ReOrder = () => {
     setPage(0);
   };
 
+
+
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
 
 const renderFilePreview = (file, index) => {
@@ -216,11 +218,15 @@ useEffect(() => {
   }
 }, [uploadImage]);
 
+
+
 const [selectedValue, setSelectedValue] = useState('job'); // Default value is 'small'
 const theme = useTheme();
 const handleChange = (event) => {
   setSelectedValue(event.target.value); // Update selected value
 };
+
+
 
   return (
     <div className="reorder_component fs_fgp">
@@ -407,6 +413,7 @@ const handleChange = (event) => {
               page={page}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
+              className='fs_fgp text_color'
             />
           </div>
           </div>

@@ -677,12 +677,12 @@ const theme = useTheme();
     <>
     <div className='savennext_container'>
         <div>
-          <h5 className='header_title_fgp'>Add Product Details</h5>
+          <h5 className='header_title_fgp fs_fgp'>Add Product Details</h5>
         </div>
         
       {/* Job Line */}
       <div className='d-flex justify-content-between align-items-center'>
-      <div className="job-info">
+      <div className="job-info fs_fgp">
         <div><span className='text_color'>Tag No:</span> <b className="text-dark">1/12566</b></div>
         <div><span className='text_color'>Net Wt:</span> <b className="text-dark">2.256 gm</b></div>
         <div><span className='text_color'>Pure Wt:</span> <b className="text-dark">1.256</b></div>
@@ -723,8 +723,8 @@ const theme = useTheme();
                 >
                   <div className='w-100 d-flex flex-column my-1'>
                     <div className='mb-3 d-flex align-items-center justify-content-between'><span></span><Tooltip title="Close"><span style={{cursor:'pointer'}} onClick={() => setRemarkModal(false)}><CancelIcon /></span></Tooltip></div>
-                    <textarea placeholder='Enter Your Remark' rows={5} className='mb-2 textareadRemark_snv' onChange={(e) => handleRemarkChange(e)} ></textarea>
-                    <Tooltip title="Save & Close"><Button color='success' variant='contained' size='small' onClick={() => handleSaveRemark()} >Save Remark</Button></Tooltip>
+                    <textarea placeholder='Enter Your Remark' rows={5} className='mb-2 textareadRemark_snv fs_fgp' onChange={(e) => handleRemarkChange(e)} ></textarea>
+                    <Button className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white', fontWeight:'bold'}} variant='contained' size='small' onClick={() => handleSaveRemark()} >Save Remark</Button>
                   </div>
                 </Box>
 
@@ -758,7 +758,7 @@ const theme = useTheme();
       </div>
       </div>
 
-      <div className="filters-container_sn">
+      <div className="filters-container_sn fs_fgp">
         { mode !== 'alteration_receive' && <><div className="filter-item">
           <div>
             <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
@@ -793,7 +793,7 @@ const theme = useTheme();
           <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
         </div></>}
       </div>
-      <div className="filters-container2">
+      <div className="filters-container2 fs_fgp">
         { mode !== 'alteration_receive' && <div className="filter-item">
           <div>
             <label htmlFor="metaltype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MetalType</label>
@@ -867,7 +867,7 @@ const theme = useTheme();
         { addSubTag &&
           <>
           <hr />
-            <div className="filters-container_sn">
+            <div className="filters-container_sn fs_fgp">
         <div className="filter-item">
           <div>
             <label htmlFor="HSN" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>HSN</label>
@@ -902,7 +902,7 @@ const theme = useTheme();
           <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
         </div>
       </div>
-      <div className="filters-container2">
+      <div className="filters-container2 fs_fgp">
         <div className="filter-item">
           <div>
             <label htmlFor="metaltype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MetalType</label>
@@ -991,10 +991,10 @@ const theme = useTheme();
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
-          <Button color='warning' size='small' variant='contained' onClick={() => setShowTableEntry(!showTableEntry)}>Material Details</Button>
+          <Button color='warning' size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => setShowTableEntry(!showTableEntry)}>Material Details</Button>
           {/* <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button> */}
           { (showTableEntry) && <div className='w-100 d-flex justify-content-start align-items-center'>
-              <table className='table tableCus' style={{width:'90%',  overflow:'auto'}}>
+              <table className='table tableCus fs_fgp' style={{width:'90%',  overflow:'auto'}}>
                 <thead>
                   <tr>
                     <th>Sr</th>
@@ -1394,27 +1394,27 @@ const theme = useTheme();
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between pb-2'>
                   <div>&nbsp;</div>
-                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold'>Apply Sale Mark Up</h4>
-                  <div><CancelIcon style={{cursor:'pointer'}} onClick={() => setMarkUpModal(false)} /></div>
+                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold fs_fgp'>Apply Sale Mark Up</h4>
+                  <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setMarkUpModal(false)} /></Tooltip></div>
                 </div>
                 <div className='pt-2'>
-                  <label htmlFor="applyon" className='form-label text-primary mb-1 px-1'>Apply On</label>
-                  <select name="applyon" id="applyon" className='form-control'>
+                  <label htmlFor="applyon" className='form-label fs_fgp mb-1 px-1' style={{color:theme?.palette?.customColors?.purple}}>Apply On</label>
+                  <select name="applyon" id="applyon" className='form-control fs_fgp'>
                     <option value="" selected disabled>Select</option>
                     <option value="amount">Amount</option>
                     <option value="percentage">Percentage</option>
                   </select>
                 </div>
                 <div className='pt-2'>
-                  <label htmlFor="salerate" className='form-label text-primary mb-1 px-1'>Mark Rate</label>
+                  <label htmlFor="salerate" className='form-label  mb-1 px-1 fs_fgp' style={{color:theme?.palette?.customColors?.purple}}>Mark Rate</label>
                   <input type="text" id="salerate" className='form-control' placeholder='50000' />
                 </div>
                 <div className='pt-2 w-100 ps-2'>
                   <input type="checkbox" id="onpcsmarkup" placeholder='50000' />
-                  <label htmlFor="onpcsmarkup"  className='form-label mb-1 px-1 text-primary user-select-none'>On Pcs</label>
+                  <label htmlFor="onpcsmarkup"  className='form-label mb-1 px-1  user-select-none fs_fgp' style={{color:theme?.palette?.customColors?.purple}}>On Pcs</label>
                 </div>
                 <div className='text-center w-100'>
-                  <Button variant='contained' color='success' sx={{fontWeight:'bold'}} size='small' onClick={() => setMarkUpModal(false)}>Apply</Button>
+                  <Button variant='contained' className='fs_fgp' sx={{fontWeight:'bold', backgroundColor:theme?.palette?.customColors?.green, color:'white'}} size='small' onClick={() => setMarkUpModal(false)}>Apply</Button>
                 </div>
               </div>
             </Box>
@@ -1451,7 +1451,7 @@ const theme = useTheme();
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between pb-2'>
                   <div>&nbsp;</div>
-                  <h4 className='text-primary  px-0 text-center w-100  fw-semibold'>Item Information</h4>
+                  <h4 className='px-0 text-center w-100  fw-normal fs_fgp' style={{color:theme?.palette?.customColors?.purple}}>Item Information</h4>
                   <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setAltReceiveTimeHide(false)} /></Tooltip></div>
                 </div>
                 {/* <div className="filter_grid2 mt-3">
@@ -1533,7 +1533,7 @@ const theme = useTheme();
                   {/* <div className='mt-3'>
                     <Typography variant='body1' className='text-secondary text-break'>Metal Type was <strong>Gold</strong> and Its HSN no is <strong>7113</strong> with the referece no <strong>REF12345</strong>, certificate type is <strong>IGI</strong> with certificate no <strong>CERT56789</strong> and HUID no is <strong>HUID1234</strong>.</Typography>
                   </div> */}
-                  <div className="mt-3">
+                  <div className="mt-3 fs_fgp">
   <Typography variant="body1" className="text-secondary">
     <div className="d-flex justify-content-between">
       <div>MetalType</div>
@@ -1605,7 +1605,7 @@ const theme = useTheme();
                 </div>
                 <div className="filter_grid mt-3">
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Brand</option>
               {
                 brandMainData?.map((e, i) => {
@@ -1615,7 +1615,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Collection</option>
               {
                 collectionMainData?.map((e, i) => {
@@ -1625,7 +1625,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Category</option>
               {
                 categorymainData?.map((e, i) => {
@@ -1635,7 +1635,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Sub Category</option>
               {
                 subCategoryMainData?.map((e, i) => {
@@ -1645,7 +1645,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Product Type</option>
               {
                 productTypeMainData?.map((e, i) => {
@@ -1655,7 +1655,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp  '>
               <option value="" disabled selected>Gender</option>
               {
                 genderMainData?.map((e, i) => {
@@ -1665,7 +1665,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Occasion</option>
               {
                 occasionMainData?.map((e, i) => {
@@ -1675,7 +1675,7 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>Style</option>
               {
                 styleMainData?.map((e, i) => {
@@ -1685,12 +1685,12 @@ const theme = useTheme();
             </select>
           </div>
           <div>
-            <select name="" id="" className='categoryNewOrder'>
+            <select name="" id="" className='categoryNewOrder fs_fgp'>
               <option value="" disabled selected>HSN</option>
             </select>
           </div>
           <div className='text-center pt-2 categoryNewOrder'>
-                  <Button variant='contained'  sx={{fontWeight:'bold', backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
+                  <Button variant='contained'  className='fs_fgp' sx={{fontWeight:'bold', backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
                 </div>
         </div>
                 {/* <div className='text-center w-100 pt-2'>
@@ -1732,7 +1732,7 @@ const theme = useTheme();
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
-                    <div><Typography variant='h6'>Add Diamond Details</Typography></div>
+                    <div><Typography variant='h6' className='fs_fgp' sx={{color:theme?.palette?.customColors?.purple}}>Add Diamond Details</Typography></div>
                     <div className='d-flex align-items-center'>
                       <Tooltip title="Receive From Vendor"><button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button></Tooltip>
                       <Tooltip title="Close" onClick={() => setAddDiaInfoPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
@@ -1742,23 +1742,23 @@ const theme = useTheme();
                 <table className='table'>
             <thead>
               <tr>
-                <th align='center'>Sr</th>
-                <th align='center'>Material</th>
-                <th align='center'>Type</th>
-                <th align='center'>Criteria</th>
-                <th align='center'>Pcs/Wt</th>
-                <th align='center'>Supplier</th>
-                <th align='center'>Rate</th>
-                <th align='center'>Sale Rate</th>
-                <th align='center'>Mark Up</th>
-                <th align='center'>On Pcs</th>
-                <th align='center'>Add</th>
+                <th align='center' className='text_color fs_fgp'>Sr</th>
+                <th align='center' className='text_color fs_fgp'>Material</th>
+                <th align='center' className='text_color fs_fgp'>Type</th>
+                <th align='center' className='text_color fs_fgp'>Criteria</th>
+                <th align='center' className='text_color fs_fgp'>Pcs/Wt</th>
+                <th align='center' className='text_color fs_fgp'>Supplier</th>
+                <th align='center' className='text_color fs_fgp'>Rate</th>
+                <th align='center' className='text_color fs_fgp'>Sale Rate</th>
+                <th align='center' className='text_color fs_fgp'>Mark Up</th>
+                <th align='center' className='text_color fs_fgp'>On Pcs</th>
+                <th align='center' className='text_color fs_fgp'>Add</th>
               </tr>
             </thead>
             <tbody>
                     {
                       addDiamondRows?.map((rowData, i) => {
-                        return <tr key={i}>
+                        return <tr key={i} className='fs_fgp'>
                         <td align="center" width={"50px"}>{i + 1}</td>
                         <td align='center' width={"80px"}>
                         <input
@@ -1906,7 +1906,7 @@ const theme = useTheme();
                               <AddCircleIcon
                                   titleAccess="Add Entry"
                                   onClick={handleAddRow}
-                                  style={{ cursor: "pointer" }}
+                                  style={{ cursor: "pointer", color:theme?.palette?.customColors?.purple }}
                               />
                             </Button>
                         </td>
@@ -1917,7 +1917,7 @@ const theme = useTheme();
           </table>
       
                 <div className='d-flex justify-content-center align-items-center w-100'>
-                  <Button variant='contained' onClick={() => handleSaveDiamondDetails()}>Save Diamond Details</Button></div>
+                  <Button variant='contained' size='small' className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSaveDiamondDetails()}>Save Diamond Details</Button></div>
                 </div>
               </div>
             </Box>
@@ -1954,7 +1954,7 @@ const theme = useTheme();
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
-                    <div><Typography variant='h6'>Add ColorStone Details</Typography></div>
+                    <div><Typography variant='h6' className='fs_fgp' sx={{color:theme?.palette?.customColors?.purple}}>Add ColorStone Details</Typography></div>
                     <div className='d-flex align-items-center'>
                       <Tooltip title="Receive From Vendor">
                           <button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button>
@@ -1966,23 +1966,23 @@ const theme = useTheme();
                 <table className='table'>
             <thead>
               <tr>
-                <th align='center'>Sr</th>
-                <th align='center'>Material</th>
-                <th align='center'>Type</th>
-                <th align='center'>Criteria</th>
-                <th align='center'>Pcs/Wt</th>
-                <th align='center'>Supplier</th>
-                <th align='center'>Rate</th>
-                <th align='center'>Sale Rate</th>
-                <th align='center'>Mark Up</th>
-                <th align='center'>On Pcs</th>
-                <th align='center'>Add</th>
+                <th align='center' className='text_color fs_fgp'>Sr</th>
+                <th align='center' className='text_color fs_fgp'>Material</th>
+                <th align='center' className='text_color fs_fgp'>Type</th>
+                <th align='center' className='text_color fs_fgp'>Criteria</th>
+                <th align='center' className='text_color fs_fgp'>Pcs/Wt</th>
+                <th align='center' className='text_color fs_fgp'>Supplier</th>
+                <th align='center' className='text_color fs_fgp'>Rate</th>
+                <th align='center' className='text_color fs_fgp'>Sale Rate</th>
+                <th align='center' className='text_color fs_fgp'>Mark Up</th>
+                <th align='center' className='text_color fs_fgp'>On Pcs</th>
+                <th align='center' className='text_color fs_fgp'>Add</th>
               </tr>
             </thead>
             <tbody>
                     {
                       addCsRows?.map((rowData, i) => {
-                        return <tr key={i}>
+                        return <tr key={i} className='fs_fgp'>
                         <td align="center" width={"80px"}>1</td>
                         <td align='left' width={"100px"}>
                               <input
@@ -2133,7 +2133,7 @@ const theme = useTheme();
                             <Button sx={{width:'50px'}} onKeyDown={handleColorstoneKeyDown}><AddCircleIcon
                             titleAccess="Add Entry"
                             onClick={handleCSAddRow}
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: "pointer", color:theme?.palette?.customColors?.purple }}
                           /></Button>
                         </td>
                       </tr>
@@ -2142,7 +2142,8 @@ const theme = useTheme();
             </tbody>
           </table>
       
-              <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveColorstoneDetails()}>Save ColorStone Details</Button></div>
+              <div className='d-flex justify-content-center align-items-center w-100'>
+                <Button variant='contained' size='small' className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSaveColorstoneDetails()}>Save ColorStone Details</Button></div>
 
                 </div>
               </div>
@@ -2180,7 +2181,7 @@ const theme = useTheme();
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
-                    <div><Typography variant='h6'>Add Misc Details</Typography></div>
+                    <div><Typography variant='h6' className='fs_fgp' sx={{color:theme?.palette?.customColors?.purple}}>Add Misc Details</Typography></div>
                     <div className='d-flex justify-content-center'>
                       <Tooltip title="Receive From Vendor">
                         <button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button>
@@ -2192,24 +2193,24 @@ const theme = useTheme();
                 <table className='table'>
             <thead>
               <tr>
-                <th align='center'>Sr</th>
-                <th align='center'>Material</th>
-                <th align='center'>Type</th>
-                <th align='center'>Criteria</th>
-                <th align='center'>Pcs/Wt</th>
-                <th align='center'>Supplier</th>
-                <th align='center'>Rate</th>
-                <th align='center'>Sale Rate</th>
-                <th align='center'>Mark Up</th>
-                <th align='center'>On Pcs</th>
-                <th align='center'>AddIn GrossWt</th>
-                <th align='center'>Add</th>
+                <th align='center' className='text_color fs_fgp'>Sr</th>
+                <th align='center' className='text_color fs_fgp'>Material</th>
+                <th align='center' className='text_color fs_fgp'>Type</th>
+                <th align='center' className='text_color fs_fgp'>Criteria</th>
+                <th align='center' className='text_color fs_fgp'>Pcs/Wt</th>
+                <th align='center' className='text_color fs_fgp'>Supplier</th>
+                <th align='center' className='text_color fs_fgp'>Rate</th>
+                <th align='center' className='text_color fs_fgp'>Sale Rate</th>
+                <th align='center' className='text_color fs_fgp'>Mark Up</th>
+                <th align='center' className='text_color fs_fgp'>On Pcs</th>
+                <th align='center' className='text_color fs_fgp'>AddIn GrossWt</th>
+                <th align='center' className='text_color fs_fgp'>Add</th>
               </tr>
             </thead>
             <tbody>
                     {
                       addMiscRows?.map((rowData, i) => {
-                        return <tr key={i}>
+                        return <tr key={i} className='fs_fgp'>
                         <td align="center" width={"50px"}>1</td>
                         <td align='left' width={"100px"}>
                               <input
@@ -2373,7 +2374,7 @@ const theme = useTheme();
                             <Button sx={{width:'50px'}} onKeyDown={handleMiscKeyDown}><AddCircleIcon
                                   titleAccess="Add Entry"
                                   onClick={handleMiscAddRow}
-                                  style={{ cursor: "pointer" }}
+                                  style={{ cursor: "pointer", color:theme?.palette?.customColors?.purple }}
                           /></Button>
                         </td>
                       </tr>
@@ -2382,7 +2383,8 @@ const theme = useTheme();
                   </tbody>
                 </table>
       
-                  <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveMiscDetails()}>Save Misc Details</Button></div>
+                  <div className='d-flex justify-content-center align-items-center w-100'>
+                    <Button variant='contained' size='small' className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSaveMiscDetails()}>Save Misc Details</Button></div>
 
                 </div>
               </div>
@@ -2420,7 +2422,7 @@ const theme = useTheme();
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between p-1'>
                     <div></div>
-                    <div><Typography variant='h6'>Add Finding Details</Typography></div>
+                    <div><Typography variant='h6' className='fs_fgp' sx={{color:theme?.palette?.customColors?.purple}}>Add Finding Details</Typography></div>
                     <div className='d-flex align-items-center'>
                       <Tooltip title="Receive From Vendor">
                         <button className='p-1 py-0 px-2 btn btn-primary mx-1' onClick={() => dispatch(handleIssuedMaterialModal(true))} >i</button>
@@ -2432,24 +2434,24 @@ const theme = useTheme();
                 <table className='table'>
             <thead>
               <tr>
-                <th align='center'>Sr</th>
-                <th align='center'>Material</th>
-                <th align='center'>Type</th>
-                <th align='center'>Criteria</th>
-                <th align='center'>Pcs/Wt</th>
-                <th align='center'>Tunch/Wastage</th>
-                <th align='center'>Supplier</th>
-                <th align='center'>Rate</th>
-                <th align='center'>Sale Rate</th>
-                <th align='center'>Mark Up</th>
-                <th align='center'>On Pcs</th>
-                <th align='center'>Add</th>
+                <th align='center' className='text_color fs_fgp'>Sr</th>
+                <th align='center' className='text_color fs_fgp'>Material</th>
+                <th align='center' className='text_color fs_fgp'>Type</th>
+                <th align='center' className='text_color fs_fgp'>Criteria</th>
+                <th align='center' className='text_color fs_fgp'>Pcs/Wt</th>
+                <th align='center' className='text_color fs_fgp'>Tunch/Wastage</th>
+                <th align='center' className='text_color fs_fgp'>Supplier</th>
+                <th align='center' className='text_color fs_fgp'>Rate</th>
+                <th align='center' className='text_color fs_fgp'>Sale Rate</th>
+                <th align='center' className='text_color fs_fgp'>Mark Up</th>
+                <th align='center' className='text_color fs_fgp'>On Pcs</th>
+                <th align='center' className='text_color fs_fgp'>Add</th>
               </tr>
             </thead>
             <tbody>
                     {
                       addFindingRows?.map((rowData, i) => {
-                        return <tr key={i}>
+                        return <tr key={i} className='fs_fgp'>
                         <td align="center" width={"60px"}>1</td>
                         <td align='left' width={"100px"}>
                               <input
@@ -2625,7 +2627,7 @@ const theme = useTheme();
                             <Button sx={{width:'50px'}} onKeyDown={handleFindingKeyDown}><AddCircleIcon
                                   titleAccess="Add Entry"
                                   onClick={handleFindingAddRow}
-                                  style={{ cursor: "pointer" }}
+                                  style={{ cursor: "pointer", color:theme?.palette?.customColors?.purple }}
                           /></Button>
                         </td>
                       </tr>
@@ -2634,7 +2636,8 @@ const theme = useTheme();
                   </tbody>
                 </table>
       
-                  <div className='d-flex justify-content-center align-items-center w-100'><Button variant='contained' onClick={() => handleSaveFindingDetails()}>Save Finding Details</Button></div>
+                  <div className='d-flex justify-content-center align-items-center w-100'>
+                    <Button variant='contained' size='small' className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSaveFindingDetails()}>Save Finding Details</Button></div>
 
                 </div>
               </div>
@@ -2649,14 +2652,17 @@ const theme = useTheme();
 
         <div className='d-flex align-items-center justify-content-center pb-2'>
           <div className="m-1">
-            <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save</button>
+            {/* <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save</button> */}
+            <Button variant='contained' className='fs_fgp' size='small' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white'}} style={{minWidth:'100px'}}>Save</Button>
           </div>
           <div className="m-1">
             {/* <button className='btn btn-success fs_sn_fgp' onClick={() => dispatch(handleSaveAndNextFlag(false))} style={{minWidth:'100px'}}>Save & New</button> */}
-            <button className='btn btn-success fs_sn_fgp' onClick={() => handleSaveAndNew()} style={{minWidth:'100px'}}>Save & New</button>
+            {/* <button className='btn btn-success fs_sn_fgp' onClick={() => handleSaveAndNew()} style={{minWidth:'100px'}}>Save & New</button> */}
+            <Button variant='contained' className='fs_fgp' size='small' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white'}} style={{minWidth:'100px'}} onClick={() => handleSaveAndNew()}>Save & New</Button>
           </div>
           <div className="m-1">
-            <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save & Print</button>
+            {/* <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save & Print</button> */}
+            <Button variant='contained' className='fs_fgp' size='small' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white'}} style={{minWidth:'100px'}}>Save & Print</Button>
           </div>
         </div>
 

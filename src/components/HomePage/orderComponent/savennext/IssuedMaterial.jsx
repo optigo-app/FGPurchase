@@ -17,6 +17,7 @@ import "./issuedmaterial.css";
 const IssuedMaterial = () => {
     const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
     const dispatch = useDispatch();
+    const theme = useTheme();
 
     const [tabValue, setTabValue] = useState(1);
 
@@ -144,6 +145,15 @@ const IssuedMaterial = () => {
         }
       }
       
+      const getTabStyle = (isSelected) => ({
+        color: isSelected ? `${theme?.palette?.customColors?.purple}` : 'black', // Purple for selected, black for others
+        fontWeight: isSelected ? 'bold' : 'normal',
+      });
+    
+      const indicatorStyle = {
+        backgroundColor: `${theme?.palette?.customColors?.purple}`, // Purple underline for selected tab
+        height: '2px',
+      };
 
   return (
     <>
@@ -173,13 +183,13 @@ const IssuedMaterial = () => {
             >
                   <div className='d-flex justify-content-between align-items-center w-100 py-2 pb-2 px-0 border-bottom mb-2'>
                     <div>&nbsp;</div>
-                    <div><Typography variant='h5' color='primary'>Receive From Vendor</Typography></div>
-                    <div><CancelIcon style={{cursor:'pointer'}} onClick={() => dispatch(handleIssuedMaterialModal(false))} /></div>
+                    <div><Typography variant='h5' className='fs_fgp' sx={{color:theme?.palette?.customColors?.purple}} >Receive From Vendor</Typography></div>
+                    <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => dispatch(handleIssuedMaterialModal(false))} /></Tooltip></div>
                 </div>
                 <div className='pb-2 w-100 d-flex align-items-center justify-content-end px-1'>
                   <Grid2 container spacing={2}>
                     <Grid2 item xs={12} sm={6} md={3} >
-                      <select name="issueBy" id="issueBy" className='p-1'>
+                      <select name="issueBy" id="issueBy" className='p-1 fs_fgp'>
                         <option value="" selected disabled>Search By</option>
                         <option value="design">Design#</option>
                         <option value="po">PO#</option>
@@ -188,26 +198,36 @@ const IssuedMaterial = () => {
                       </select>
                     </Grid2>
                     <Grid2 item xs={12} sm={6} md={3} >
-                      <Button size='small' variant='contained' color='success'>Receive Now</Button>
+                      <Button size='small' variant='contained' className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white', }}>Receive Now</Button>
                     </Grid2>
                     <Grid2 item xs={12} sm={6} md={3} >
-                      <Button size='small' variant='contained' color='success'>Receive & Close</Button>
+                      <Button size='small' variant='contained' className='fs_fgp' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white', }}>Receive & Close</Button>
                     </Grid2>
                   </Grid2>
                 </div>
                 
                 <div className='mb-1'>
-                  <Tabs value={tabValue} onChange={handleTabsChange}>
+                  {/* <Tabs value={tabValue} onChange={handleTabsChange}>
                       <Tab color='primary' label="Diamond" value={1}></Tab>
                       <Tab color='primary' label="Colorstone" value={2}></Tab>
                       <Tab color='primary' label="Misc" value={3}></Tab>
                       <Tab color='primary' label="Finding" value={4}></Tab>
-                  </Tabs>
+                  </Tabs> */}
+                        <Tabs
+                          value={tabValue}
+                          onChange={handleTabsChange}
+                          TabIndicatorProps={{ style: indicatorStyle }} // Inline style for the indicator
+                        >
+                          <Tab style={getTabStyle(tabValue === 1)} className='fs_fgp' label="Diamond" value={1} />
+                          <Tab style={getTabStyle(tabValue === 2)} className='fs_fgp' label="Colorstone" value={2} />
+                          <Tab style={getTabStyle(tabValue === 3)} className='fs_fgp' label="Misc" value={3} />
+                          <Tab style={getTabStyle(tabValue === 4)} className='fs_fgp' label="Finding" value={4} />
+                        </Tabs>
                 </div>
 
                 <div>
-                  { (tabValue === 1 || tabValue === 2 || tabValue === 3) && <div className='mt-1 mb-2 d-flex align-items-center'>
-                    <div style={{width:'100px'}} className='d-flex justify-content-center'><Button size='small' variant='contained' color='success'>All</Button></div>
+                  { (tabValue === 1 || tabValue === 2 || tabValue === 3) && <div className='mt-1 mb-2 d-flex align-items-center fs_fgp'>
+                    <div style={{width:'100px'}} className='d-flex justify-content-center'><Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white', }}>All</Button></div>
                     <input type='text' placeholder='Customer#' style={{width:'93px'}} className='mx-1 ibtninput' />
                     <input type='text' placeholder='Lot' style={{width:'93px'}} className='mx-1 ibtninput' />
                     <input type='text' placeholder='Type' style={{width:'93px'}} className='mx-1 ibtninput' />
@@ -217,8 +237,8 @@ const IssuedMaterial = () => {
                     <input type='text' placeholder='Size' style={{width:'93px'}} className='mx-1 ibtninput' />
                   </div>}
                   
-                  { tabValue === 4 && <div className='mt-1 mb-2 d-flex align-items-center'>
-                    <div style={{width:'100px'}} className='d-flex justify-content-center'><Button size='small' variant='contained' color='success'>All</Button></div>
+                  { tabValue === 4 && <div className='mt-1 mb-2 d-flex align-items-center fs_fgp'>
+                    <div style={{width:'100px'}} className='d-flex justify-content-center'><Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white', }}>All</Button></div>
                     <input type='text' placeholder='Customer#' style={{width:'93px'}} className='mx-1 ibtninput' />
                     <input type='text' placeholder='Lot' style={{width:'93px'}} className='mx-1 ibtninput' />
                     <input type='text' placeholder='FType' style={{width:'93px'}} className='mx-1 ibtninput' />
@@ -248,11 +268,11 @@ const IssuedMaterial = () => {
                     minWidth:'1350px'
                   }}
                   >
-                    <Table stickyHeader aria-label='sticky table' sx={{boxShadow:'none'}}>
+                    <Table stickyHeader aria-label='sticky table' className='fs_fgp' sx={{boxShadow:'none'}}>
                       <TableHead>
                         <TableRow>
                           {columns?.map(column => (
-                            <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }} style={{backgroundColor:'#F6F6F7', border:'1px solid #e8e8e8', borderCollapse:'collapse', fontSize:'12px'}}>
+                            <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth, color:'grey' }} style={{backgroundColor:'#F6F6F7', border:'1px solid #e8e8e8', borderCollapse:'collapse', fontSize:'12px'}}>
                               {column.label}
                             </TableCell>
                           ))}
@@ -263,7 +283,7 @@ const IssuedMaterial = () => {
                           return (
                             <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
                               {columns?.map(column => {
-                                const value = row[column?.id]
+                                const value = row[column?.id] 
 
                                 return (
                                   <TableCell key={column?.id} align={column?.align} sx={{color:'#595959', border:'1px solid #e8e8e8',  fontSize: '12px',padding:'3px' }}>
@@ -285,7 +305,8 @@ const IssuedMaterial = () => {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  className='jobgrid_fgp'
+                  className='jobgrid_fgp text_color fs_fgp'
+
                 />
                 </div>
             </Box>

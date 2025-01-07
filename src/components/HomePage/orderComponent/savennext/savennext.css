@@ -237,7 +237,8 @@
 
 .onfocus_snv:focus{
     outline: none;
-    border: 1px solid #007bff !important;
+    /* border: 1px solid #007bff !important; */
+    border: 1px solid #7367F0 !important;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
@@ -257,7 +258,8 @@
 }
 .textareadRemark_snv:focus{
     outline: none;
-    border: 1px solid #007bff !important;
+    /* border: 1px solid #007bff !important; */
+    border: 1px solid #7367F0 !important;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
