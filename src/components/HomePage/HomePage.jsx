@@ -35,6 +35,10 @@ import AltJobs from '../AlterationReceive/AltJobs/AltJobs';
 import { FaAnglesRight } from "react-icons/fa6";
 import { FaAnglesLeft } from "react-icons/fa6";
 import { capitalizeWords } from '../../master/global';
+
+// ** Third Party Imports
+// import DatePicker from 'react-datepicker'
+
 // import OldGold from '../OldGold/OldGold';
 
 const style = {
@@ -50,6 +54,7 @@ const style = {
   outline: "none",
   boxShadow: 24,
   p: 4,
+  outline:'none'
 };
 
 const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
@@ -986,6 +991,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                                   open={dateUpdateFlag}
                                   aria-labelledby="parent-modal-title"
                                   aria-describedby="parent-modal-description"
+                                  onClose={() => setDateUpdateFlag(false)}
                                 >
                                   <Box 
                                   sx={{
@@ -1006,7 +1012,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                                   >
                                     <h4 className='text-center fs_fgp' style={{color:theme?.palette?.customColors?.purple}}>Update Date</h4>
                                     <div className='d-flex justify-content-center align-items-center pt-2'>
-                                      <input type="date" className='fs_fgp' />
+                                      {/* <input type="date" className='fs_fgp' /> */}
+                                      <div style={{border:'1px solid #ccc'}}>
+                                          <DatePicker
+                                            selected={date}
+                                            id='basic-input'
+                                            // popperPlacement={popperPlacement}
+                                            onChange={date => setDate(date)}
+                                            placeholderText='Click to select a date'
+                                            customInput={<CustomInput  />}
+                                          />
+                                        </div>
                                       {/* <button className='btn btn-warning py-1 mx-1' onClick={() => setDateUpdateFlag(false)}>Update</button> */}
                                       <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp ms-1' onClick={() => setDateUpdateFlag(false)}>Update</Button>
                                     </div>

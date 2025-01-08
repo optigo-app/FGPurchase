@@ -61,9 +61,9 @@ const Summary = () => {
 
   return (
     <div>
-          { mode !== "alteration_issue" && <div className="w-100 d-flex justify-content-end">
+          { mode !== "alteration_issue" && <div className="w-100 d-flex justify-content-center">
             <p className="summury_totalValue w_responsive_sum fs_fgp">
-              Balance To Be Paid :
+              <span style={{color: theme?.palette?.customColors?.orange}}>Balance To Be Paid :</span>
               <span style={{ fontWeight: 600 }}>
                 {"605.50/-"}
               </span>

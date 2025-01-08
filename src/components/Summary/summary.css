@@ -239,14 +239,14 @@ td {
   margin-top: 10px;
 }
 .summury_totalValue{
-  font-size: 25px;
+  font-size: 22px;
   display: flex;
   justify-content: center;
   gap: 10px;
   margin: 0px;
   border: 1px solid lightgray;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 60px;
 }
 
 .titleForUpload{

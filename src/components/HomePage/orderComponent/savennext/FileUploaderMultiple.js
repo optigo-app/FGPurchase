@@ -202,6 +202,7 @@ const FileUploaderMultiple = ({fs, classApply}) => {
                 borderRadius: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
+                outline:'none',
                 // backgroundColor: '#e8e8e8'
                 //   backgroundColor: theme => `rgba(${theme.palette.customColors.main}, 0.08)`
             }}

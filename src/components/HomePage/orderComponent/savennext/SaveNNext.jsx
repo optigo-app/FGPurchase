@@ -603,9 +603,9 @@ const handleTableToggle = () => {
 };
 
 const handleSaveAndNew = () => {
-    // if(selectedTabValue !== 'neworder'){
+    if(selectedTabValue === 'neworder'){
       dispatch(handleSaveAndNextFlag(false));
-    // }
+    }
   if(mode === "alteration_issue"){
     dispatch(handleSelectedButton("add"));
   }

@@ -167,7 +167,7 @@ const Pay = () => {
             <Button key={type} size="small" variant="contained" className="fs_fgp" 
             sx={{backgroundColor: selectedButton === type ? 
               theme?.palette?.customColors?.red : 
-              theme?.palette?.customColors?.primary}} onClick={() => setSelectedButton(type)}>{type}</Button>
+              theme?.palette?.customColors?.grey}} onClick={() => setSelectedButton(type)}>{type}</Button>
             // <button
             //   key={type}
             //   className={`btn ${

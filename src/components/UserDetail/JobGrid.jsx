@@ -196,7 +196,8 @@ const JobGrid = () => {
             px: 4,
             pb: 3,
             borderRadius: "8px",
-            boxShadow:'none'
+            boxShadow:'none',
+            outline:'none'
           }}
           className="boxShadow_hp"
         >
