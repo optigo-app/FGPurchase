@@ -398,14 +398,14 @@ const Summary = () => {
       </div>
       <div className="d-flex justify-content-start align-items-center flex-wrap fs_fgp">
         <div style={{ display: "flex", marginTop: "10px" }} className="me-4">
-          <label className="remakrTitle" htmlFor="remark">Remarks : </label>
+          <label className="remakrTitle text_color fs_fgp" htmlFor="remark">Remarks : </label>
           <textarea className="summury_textArea" id="remark" />
         </div>
         <div style={{ display: "flex", marginTop: "10px" }} className="me-4">
-          <label className="remakrTitle" htmlFor="printremark">Print Remarks :</label>
+          <label className="remakrTitle text_color fs_fgp" htmlFor="printremark">Print Remarks :</label>
           <textarea className="summury_textArea" id="printremark" />
         </div>
-            <Button className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.purple, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
+            <Button className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
               Save Remarks
             </Button>
         {/* <button className="ApllyBtnPay">Save Remarks</button> */}

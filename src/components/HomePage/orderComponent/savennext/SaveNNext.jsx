@@ -20,6 +20,7 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import { Trash } from 'tabler-icons-react'; 
 import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
 import InfoIcon from '@mui/icons-material/Info';
+import Grid4x4SharpIcon from '@mui/icons-material/Grid4x4Sharp';
 import imgShow from '../../../../assets/images/projectlogo.png';
 const SaveNNext = () => {
   const dispatch = useDispatch();
@@ -687,12 +688,15 @@ const theme = useTheme();
         <div><span className='text_color'>Net Wt:</span> <b className="text-dark">2.256 gm</b></div>
         <div><span className='text_color'>Pure Wt:</span> <b className="text-dark">1.256</b></div>
         <div><span className='text_color'>Dia:</span> <b className="text-dark">2.256 cts 12000 Amount</b></div>
+        <div>
+          <Tooltip title="Material Details" style={{cursor:'pointer'}}><Grid4x4SharpIcon  onClick={() => setShowTableEntry(!showTableEntry)} style={{color:theme?.palette?.customColors?.purple, cursor:'pointer'}} /></Tooltip>
+        </div>
         { mode !== 'alteration_receive' && <div className=' '>
-                <FileUploaderMultiple fs="30px" classApply="" />
+                <FileUploaderMultiple fs="30px" classApply="" style={{color:theme?.palette?.customColors?.purple}} />
         </div>}
         <div>
           {/* <Button size='small' color='warning' variant='outlined' onClick={() => handleAddRemark()}>Add Remark</Button> */}
-          <Tooltip title="Add Remark"><NoteAltIcon  style={{cursor:'pointer'}} onClick={() => handleAddRemark()} /></Tooltip>
+          <Tooltip title="Add Remark"><NoteAltIcon  style={{cursor:'pointer', color:theme?.palette?.customColors?.purple}} onClick={() => handleAddRemark()} /></Tooltip>
           <>
           {
             remarkModal && 
@@ -734,8 +738,8 @@ const theme = useTheme();
           </>
         </div>
         {/* <div className="filter-item d-flex justify-content-center align-items-center w-100"> */}
-           { mode === 'alteration_receive' && <Tooltip title="More Details" style={{cursor:'pointer', marginLeft:'10px'}} color='primary' onClick={() => setAltReceiveTimeHide(true)}><InfoIcon  /></Tooltip>}
-           { mode === 'alteration_receive' && <Tooltip title="Change Criteria" style={{cursor:'pointer', marginLeft:'10px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>}
+           { mode === 'alteration_receive' && <Tooltip title="More Details" style={{cursor:'pointer', marginLeft:'10px'}} color='primary' onClick={() => setAltReceiveTimeHide(true)}><InfoIcon style={{color:theme?.palette?.customColors?.purple, cursor:'pointer'}}  /></Tooltip>}
+           { mode === 'alteration_receive' && <Tooltip title="Change Criteria" style={{cursor:'pointer', marginLeft:'10px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon style={{color:theme?.palette?.customColors?.purple, cursor:'pointer'}}  /></Tooltip>}
         {/* </div> */}
       </div>
       {/* <div className='me-5 ps-5'><img src={imgShow} alt="#" style={{maxWidth:'50px', maxHeight:'50px', border:'1px solid #e8e8e8', padding:'5px', objectFit:'contain'}} /></div> */}
@@ -790,7 +794,7 @@ const theme = useTheme();
           </div>
         </div>
         <div className="filter-item d-flex justify-content-center align-items-center w-100">
-          <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
+          <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon style={{color:theme?.palette?.customColors?.purple, cursor:'pointer'}}  /></Tooltip>
         </div></>}
       </div>
       <div className="filters-container2 fs_fgp">
@@ -899,7 +903,7 @@ const theme = useTheme();
           </div>
         </div>
         <div className="filter-item d-flex justify-content-center align-items-center w-100">
-          <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon  /></Tooltip>
+          <Tooltip title="Change Criteria" style={{cursor:'pointer', marginTop:'20px'}} onClick={() => setChangeCriteria(true)}><SettingsIcon style={{color:theme?.palette?.customColors?.purple, cursor:'pointer'}}  /></Tooltip>
         </div>
       </div>
       <div className="filters-container2 fs_fgp">
@@ -991,7 +995,7 @@ const theme = useTheme();
           { mountModal && <MountGrid /> }
           { issuedMaterialModal && <IssuedMaterial /> }
           </div>
-          <Button color='warning' size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => setShowTableEntry(!showTableEntry)}>Material Details</Button>
+          {/* <Button color='warning' size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => setShowTableEntry(!showTableEntry)}>Material Details</Button> */}
           {/* <Button color='warning' size='small' variant='contained' onClick={() => handleTableToggle()}>Table Entries</Button> */}
           { (showTableEntry) && <div className='w-100 d-flex justify-content-start align-items-center'>
               <table className='table tableCus fs_fgp' style={{width:'90%',  overflow:'auto'}}>
@@ -1689,8 +1693,8 @@ const theme = useTheme();
               <option value="" disabled selected>HSN</option>
             </select>
           </div>
-          <div className='text-center pt-2 categoryNewOrder'>
-                  <Button variant='contained'  className='fs_fgp' sx={{fontWeight:'bold', backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => setChangeCriteria(false)}>Apply</Button>
+          <div className='text-center  categoryNewOrder'>
+                  <Button variant='contained'  className='fs_fgp' sx={{fontWeight:'bold', backgroundColor:theme?.palette?.customColors?.green}} size='small' onClick={() => setChangeCriteria(false)}>Save</Button>
                 </div>
         </div>
                 {/* <div className='text-center w-100 pt-2'>
@@ -2651,10 +2655,10 @@ const theme = useTheme();
 
 
         <div className='d-flex align-items-center justify-content-center pb-2'>
-          <div className="m-1">
             {/* <button className='btn btn-success fs_sn_fgp' style={{minWidth:'100px'}}>Save</button> */}
+          {/* <div className="m-1">
             <Button variant='contained' className='fs_fgp' size='small' sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white'}} style={{minWidth:'100px'}}>Save</Button>
-          </div>
+          </div> */}
           <div className="m-1">
             {/* <button className='btn btn-success fs_sn_fgp' onClick={() => dispatch(handleSaveAndNextFlag(false))} style={{minWidth:'100px'}}>Save & New</button> */}
             {/* <button className='btn btn-success fs_sn_fgp' onClick={() => handleSaveAndNew()} style={{minWidth:'100px'}}>Save & New</button> */}

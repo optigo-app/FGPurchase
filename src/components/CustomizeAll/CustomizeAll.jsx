@@ -797,7 +797,7 @@ const CustomizeAll = () => {
               </td>
             </tr>
           </table>
-          <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSave("metal")} >
+          <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.green, color:'white'}} onClick={() => handleSave("metal")} >
             Save
           </Button>
           {/* <button

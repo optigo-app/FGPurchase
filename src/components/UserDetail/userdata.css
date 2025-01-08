@@ -112,6 +112,7 @@
     padding: 15px;
     border-radius: 5px;
     margin-top: 20px;
+    width: 300px !important;
   }
   
   .totalItem {
@@ -282,3 +283,16 @@ overflow: scroll;    }
   }
 
   
+
+  .fs_custome_size{
+    font-size: 15px;
+  }
+  .fs_weight{
+    font-weight: bold;
+    color: #726F7B !important;
+  }
+
+  .labelColor{
+    color: #726F7B !important;
+    font-weight: 400 !important;
+  }

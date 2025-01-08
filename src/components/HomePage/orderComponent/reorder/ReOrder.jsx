@@ -89,6 +89,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Avatar, AvatarGroup, Box, Button, FormControlLabel, Modal, Radio, RadioGroup, Typography, useTheme } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -278,7 +279,9 @@ const handleChange = (event) => {
           <div className="d-flex justify-content-between align-items-center" style={{minWidth:'800px', maxWidth:'800px'}}>
             <div>DESIGN NO: L-1245455</div>
             {/* <button className="btn btn-warning save-btn" onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</button> */}
-            <Button variant='contained'  sx={{fontWeight:'bold', color:theme?.palette?.customColors?.white, backgroundColor:theme?.palette?.customColors?.purple}} size='small' onClick={() => dispatch(handleSaveAndNextFlag(true))}>SAVE AND NEXT</Button>
+            <Button variant='contained'  sx={{fontWeight:'bold', color:theme?.palette?.customColors?.white, backgroundColor:theme?.palette?.customColors?.purple}} size='small' onClick={() => dispatch(handleSaveAndNextFlag(true))} 
+            endIcon={<ArrowForwardIcon style={{ color: 'white',  }} />}
+              >SAVE</Button>
           </div>
           <div className="d-flex align-items-center flexCol_re">
             {/* <select name="" id="" className="select-box me-2">

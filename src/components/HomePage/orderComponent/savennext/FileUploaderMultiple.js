@@ -17,7 +17,7 @@ import { Icon } from '@iconify/react';
 // ** Third Party Imports
 import { useDropzone } from 'react-dropzone';
 import "./fileUpload.css"
-import { Tooltip, Modal,  } from '@mui/material';
+import { Tooltip, Modal, useTheme,  } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { TbEye, TbEyeBitcoin } from 'react-icons/tb'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ import { handleShowImgListPopUp, handleUploadImageList } from '../../../../redux
 const FileUploaderMultiple = ({fs, classApply}) => {
   // ** State
   const [files, setFiles] = useState([]);
+  const theme = useTheme();
   const dispatch = useDispatch();
   const uploadImage = useSelector(state => state?.home?.uploadImage);
   const showImgListPopUp = useSelector(state => state?.home?.showImgListPopUp);
@@ -206,7 +207,7 @@ const FileUploaderMultiple = ({fs, classApply}) => {
             }}
           >
             {/* <Tooltip title="Upload Image" style={{cursor:'pointer'}}><Icon icon='tabler:upload' fontSize='1.75rem' /></Tooltip> */}
-            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><UploadFileIcon style={{ fontSize: `${fs}` }} /></Tooltip>
+            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><UploadFileIcon style={{ fontSize: `${fs}`, color:theme?.palette?.customColors?.purple, cursor:'pointer' }} /></Tooltip>
           </Box>
           {/* <Typography variant='h6' sx={{ mb: 1.5, minWidth:50, fontSize:'10px' }}>
             Upload Image

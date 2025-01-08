@@ -215,7 +215,7 @@ const RateCut = () => {
             id="metalIn24K"
           />
           </div>
-          <Button size="small" variant="contained" sx={{backgroundColor:theme.palette.customColors?.purple, color:'white'}} className=" fs_fgp">
+          <Button size="small" variant="contained" sx={{backgroundColor:theme.palette.customColors?.green, color:'white'}} className=" fs_fgp">
             Save
           </Button>
           {/* <button

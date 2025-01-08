@@ -52,12 +52,12 @@
 
   
   .userdiv.open {
-    width: 25%; /* When open, set the width */
+    width: 30%; /* When open, set the width */
     opacity: 1; /* Make it visible */
   }
     
   .homediv.expanded {
-    width: 75%; /* Reduced width when sidebar is open */
+    width: 70%; /* Reduced width when sidebar is open */
   }
   
 
@@ -104,22 +104,22 @@
 
 @media screen and (max-width:1770px){
   .userdiv.open {
-    width: 26%; /* When open, set the width */
+    width: 30%; /* When open, set the width */
     opacity: 1; /* Make it visible */
   }
     
   .homediv.expanded {
-    width: 74%; /* Reduced width when sidebar is open */
+    width: 70%; /* Reduced width when sidebar is open */
   }
 }
 @media screen and (max-width:1700px){
   .userdiv.open {
-    width: 28% ; /* When open, set the width */
+    width: 30% ; /* When open, set the width */
     opacity: 1; /* Make it visible */
   }
     
   .homediv.expanded {
-    width: 72%; /* Reduced width when sidebar is open */
+    width: 70%; /* Reduced width when sidebar is open */
   }
 }
 @media screen and (max-width:1535px){
@@ -142,23 +142,33 @@
     width: 66%; /* Reduced width when sidebar is open */
   }
 }
-@media screen and (max-width:1320px){
+@media screen and (max-width:1370px){
   .userdiv.open {
-    width: 36%; /* When open, set the width */
+    width: 40%; /* When open, set the width */
     opacity: 1; /* Make it visible */
   }
     
   .homediv.expanded {
-    width: 64%; /* Reduced width when sidebar is open */
+    width: 60%; /* Reduced width when sidebar is open */
+  }
+}
+@media screen and (max-width:1320px){
+  .userdiv.open {
+    width: 40%; /* When open, set the width */
+    opacity: 1; /* Make it visible */
+  }
+    
+  .homediv.expanded {
+    width: 60%; /* Reduced width when sidebar is open */
   }
 }
 @media screen and (max-width:1250px){
   .userdiv.open {
-    width: 38%; /* When open, set the width */
+    width: 40%; /* When open, set the width */
     opacity: 1; /* Make it visible */
   }
     
   .homediv.expanded {
-    width: 62%; /* Reduced width when sidebar is open */
+    width: 60%; /* Reduced width when sidebar is open */
   }
 }

@@ -216,7 +216,7 @@ const Pay = () => {
               )}
             </div>
             <Button onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white}}>
-              Apply
+              SAVE
             </Button>
             {/* <button onClick={handleApply} className="ApllyBtnPay">
               Apply
@@ -337,7 +337,7 @@ const Pay = () => {
               Apply
             </button> */}
              <Button  onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white, maxWidth:'77px'}}>
-              Apply
+              SAVE
             </Button>
           </div>
         )}
@@ -358,7 +358,7 @@ const Pay = () => {
               )}
             </div>
             <Button onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white}}>
-              Apply
+              SAVE
             </Button>
             {/* <button onClick={handleApply} className="ApllyBtnPay">
               Apply
@@ -407,7 +407,7 @@ const Pay = () => {
               )}
             </div>
               <Button onClick={handleApply} className="fs_fgp" variant="contained" sx={{backgroundColor: theme?.palette?.customColors?.green, marginTop:'10px', color: theme?.palette?.customColors?.white, maxWidth:'77px' }}>
-                Apply
+                SAVE
               </Button>
             {/* <button onClick={handleApply} className="ApllyBtnPay">
               Apply

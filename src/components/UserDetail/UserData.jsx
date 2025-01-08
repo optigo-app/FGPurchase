@@ -26,6 +26,8 @@ import TablePagination from '@mui/material/TablePagination'
 
 import scanGif from "../../assets/images/scan.gif";
 import { Trash } from "tabler-icons-react";
+import MergeIcon from '@mui/icons-material/Merge';
+import GridOnSharpIcon from '@mui/icons-material/GridOnSharp';
 // import { set } from "react-datepicker/dist/date_utils";
 
 const UserData = () => {
@@ -355,8 +357,22 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
 
       {/* Table */}
       <div className="d-flex justify-content-between align-items-center w-100">
-        <div >
-          <input type="Search Job" value={jobSearch} className="jobSearchINP fs_fgp" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
+        <div className='d-flex  align-items-center'>
+          <div >
+            <input type="Search Job" value={jobSearch} className="jobSearchINP fs_fgp" style={{maxWidth:'120px', padding:'5px'}} placeholder="Search job" onChange={e => handleJobSearch(e)} />
+          </div>
+          <div>
+            <Tooltip title="Club Job" style={{cursor:'pointer'}}><MergeIcon /></Tooltip>
+          </div>
+          <div>
+            <Tooltip title="Show Job Details" style={{cursor:'pointer'}}><GridOnSharpIcon style={{
+                  cursor: "pointer",
+                  color: hovered ? `${theme?.palette?.customColors?.purple}` : "black",
+                }}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                onClick={() => dispatch(handlePopUpJobDetails(true))} /></Tooltip>
+          </div>
         </div>
         {/* { mode === "stock_purchase" && <div><Button style={{marginRight:'10px'}} variant="contained" size="small" color="primary">Club</Button></div>} */}
         {/* <div ><Button variant="contained" size="small" color="error" disabled={selectedRows.length === 0}>Delete All</Button></div> */}
@@ -504,14 +520,14 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
         className='jobgrid_fgp fs_fgp text_color'
       />    
 
-        <div className="d-flex justify-content-center mt-2">
-          {/* { !MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(true))}>Show More Job Details</span>}
-          { MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(false))}>Show Less Job Details</span>} */}
-          {/* <span
+        {/* <div className="d-flex justify-content-center mt-2">
+          { !MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(true))}>Show More Job Details</span>}
+          { MoreJobDetailsFlag && <span className='text-decoration-underline text-primary' style={{cursor:'pointer'}} onClick={() => dispatch(handleMoreJobDetails(false))}>Show Less Job Details</span>}
+          <span
             className="text-decoration-underline  user-select-none fs_fgp taxOption_hover"
             style={{ cursor: "pointer", color:'black' }}
             onClick={() => dispatch(handlePopUpJobDetails(true))}
-          > */}
+          >
            <span
                 className="text-decoration-underline user-select-none fs_fgp"
                 style={{
@@ -524,7 +540,7 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
               >
             Show Job Details
           </span>
-        </div>
+        </div> */}
       </div>
 
        {/* {
@@ -806,23 +822,27 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
       }
 
       {/* Total Summary and Taxes */}
-      { mode !== "alteration_issue" && <div className={`totalSummary ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}>
+      {/* { mode !== "alteration_issue" && <div className={`totalSummary pt-0 mt-0 ${MoreJobDetailsFlag ? "w-25" : "w-100"}`}> */}
+      { mode !== "alteration_issue" && 
+      <>
+      <div className="d-flex justify-content-end">
+      <div className={`totalSummary pt-0 mt-0 `}>
         <div className="totalItem fs_fgp  ">
-          <span className="text_color">Total</span>
-          <span className="text-dark">11,391 /-</span>
+          <span className="text_color fs_custome_size fs_weight labelColor">Total</span>
+          <span className=" fs_custome_size fs_weight">11,391</span>
         </div>
         <div className="totalItem fs_fgp">
-          <span className="text_color"> Discount </span>
-          <span className="text-dark">0.00 /-</span>
+          <span className="text_color fs_custome_size fs_weight labelColor"> Discount </span>
+          <span className=" fs_custome_size fs_weight">0.00</span>
         </div>
         <div className="totalItem fs_fgp">
-          <span className="text_color">Amount After Discount</span>
-          <span className="text-dark">11,391 /-</span>
+          <span className="text_color fs_custome_size fs_weight labelColor">Amount After Discount</span>
+          <span className=" fs_custome_size fs_weight">11,391</span>
         </div>
 
         {/* Tax and Add/Less Dropdowns */}
         {!showTaxDropDown ? (
-          <div className="d-flex justify-content-between align-items-center fs_fgp">
+          <div className="d-flex justify-content-between align-items-center fs_fgp" style={{minHeight:'45px'}}>
             {/* <div className="taxOption " onClick={() => setShowTaxDropDown(true)}> */}
             <div
                 className="taxOption"
@@ -834,12 +854,12 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
                 onMouseLeave={() => setHoveredTax(false)}
                 onClick={() => setShowTaxDropDown(true)}
               >
-              <span>Taxes</span>
+              <span className="fs_custome_size fs_weight labelColor">Taxes</span>
             </div>
-            <span className="text-dark">340/-</span>
+            <span className=" fs_custome_size fs_weight">340</span>
           </div>
         ) : (
-          <div className="d-flex justify-content-between align-items-center fs_fgp">
+          <div className="d-flex justify-content-between align-items-center fs_fgp" style={{minHeight:'45px'}}>
             {/* <div className="taxOptionDropdown taxOption_hover"> */}
             <div>
               <select
@@ -858,13 +878,13 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
                 Close
               </button>
             </div>
-            <span className="text-dark">340/-</span>
+            <span className="fs_custome_size fs_weight">340</span>
           </div>
         )}
 
         {/* Tax and Add/Less Dropdowns */}
         {!showModeOfDelDropDown ? (
-          <div className="d-flex justify-content-between align-items-center fs_fgp">
+          <div className="d-flex justify-content-between align-items-center fs_fgp" style={{minHeight:'45px'}}>
             {/* <div
               className="taxOption taxOption_hover"
               onClick={() => setShowModeOfDelDropDown(true)}
@@ -879,12 +899,12 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
                       onMouseLeave={() => setHoveredModeOfDel(false)}
                       onClick={() => setShowModeOfDelDropDown(true)}
                     >
-              <span>Mode of Delivery</span>
+              <span className="fs_custome_size fs_weight labelColor">Mode of Delivery</span>
             </div>
-            <span className="text-dark">340/-</span>
+            <span className=" fs_custome_size fs_weight">340</span>
           </div>
         ) : (
-          <div className="d-flex justify-content-between align-items-center mt-1 fs_fgp">
+          <div className="d-flex justify-content-between align-items-center  fs_fgp" style={{minHeight:'45px'}}>
             {/* <div className="taxOptionDropdown"> */}
             <div className="">
               <select
@@ -903,12 +923,12 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
                 Close
               </button>
             </div>
-            <span>340/-</span>
+            <span className="fs_custome_size fs_weight">340</span>
           </div>
         )}
 
         {!showAddLess ? (
-          <div className="d-flex justify-content-between align-items-center fs_fgp">
+          <div className="d-flex justify-content-between align-items-center fs_fgp" style={{minHeight:'45px'}}>
             {/* <div className="addLessOption taxOption_hover" onClick={() => setShowAddLess(true)}> */}
             <div
                       className="addLessOption"
@@ -920,12 +940,12 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
                       onMouseLeave={() => setHoveredAddLess(false)}
                       onClick={() => setShowAddLess(true)}
                     >
-              <span>Add/Less</span>
+              <span className="fs_custome_size fs_weight labelColor" >Add/Less</span>
             </div>
-            <span className="text-dark">1234/-</span>
+            <span className=" fs_custome_size fs_weight">1234</span>
           </div>
         ) : (
-          <div className="d-flex justify-content-between align-items-center fs_fgp">
+          <div className="d-flex justify-content-between align-items-center fs_fgp" style={{minHeight:'45px'}}>
             <div className="addLessOptionDropdown mt-1">
               <input type="radio" id="add" name="addless" className="me-1" />
               <label htmlFor="add" className="me-1 fw-normal">
@@ -944,15 +964,18 @@ const [hoveredAddLess, setHoveredAddLess] = useState(false);
                 ROUNDUP
               </button>
             </div>
-            <div className="text-dark">1234 /-</div>
+            <div className=" fs_custome_size fs_weight">1234</div>
           </div>
         )}
-
+  <hr />  
         <div className="finalAmount fs_fgp">
-          <span className="text_color"  >Final Amount</span>
-          <span className="boldText text-dark">11,391.46 /-</span>
+          <span className=" fs_custome_size fs_weight labelColor"  >Final Amount</span>
+          <span className=" fs_custome_size fs_weight">11,391.46</span>
         </div>
-      </div>}
+      </div>
+      </div>
+      </>
+      }
     </div>
   );
 };

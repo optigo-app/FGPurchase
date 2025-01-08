@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import './neworder.css';
 import { handleaddSubtagFlag, handleSaveAndNextFlag } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Tooltip, useTheme } from '@mui/material';
+import { Button, Icon, Tooltip, useTheme } from '@mui/material';
 import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
 import { capitalizeWords } from '../../../../master/global';
-
+import { TbSend } from 'react-icons/tb';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 const NewOrder = () => {
 
   const theme = useTheme();
@@ -48,6 +49,16 @@ const NewOrder = () => {
           <div style={{height:'32px'}}>{ addSubTag ? <h4 className='text-secondary fs_fgp'>Make Your Sub Entry</h4> : <h4 className='text-secondary fs_fgp' style={{ display: tagGenerate ? 'none' : 'block' }}></h4>}</div>
         </div>
         <div className="filter_grid mt-3">
+        <div>
+            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
+              <option value="" disabled selected>Product Type</option>
+              {
+                productTypeMainData?.map((e, i) => {
+                  return <option value={e?.typeCode} key={i}>{capitalizeWords(e?.typeName)}</option>
+                })
+              }
+            </select>
+          </div>
           <div>
             <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Brand</option>
@@ -88,16 +99,7 @@ const NewOrder = () => {
               }
             </select>
           </div>
-          <div>
-            <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
-              <option value="" disabled selected>Product Type</option>
-              {
-                productTypeMainData?.map((e, i) => {
-                  return <option value={e?.typeCode} key={i}>{capitalizeWords(e?.typeName)}</option>
-                })
-              }
-            </select>
-          </div>
+          
           <div>
             <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Gender</option>
@@ -145,7 +147,8 @@ const NewOrder = () => {
             <label htmlFor="subtag" className='user-select-none pb-0 pt-1 fs_fgp'>Add Sub Tag</label>
           </div>
           {/* <button className="btn btn-warning save_button" onClick={() => handleSaveNNext()}>SAVE AND NEXT</button> */}
-          <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveNNext()}>SAVE AND NEXT</Button>
+          {/* <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveNNext()}>SAVE AND NEXT</Button> */}
+          <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} endIcon={<ArrowForwardIcon style={{ color: 'white',  }} />} className='fs_fgp' onClick={() => handleSaveNNext()}>Next </Button>
         </div>
       </div>
       {
@@ -254,7 +257,10 @@ const NewOrder = () => {
             <label htmlFor="subtag" className='user-select-none pb-0 pt-1'>Add Sub Tag</label>
           </div>
           {/* <button className="btn btn-warning save_button" onClick={() => handleSaveNNext()}>SAVE AND NEXT</button> */}
-          <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveNNext()}>SAVE AND NEXT</Button>
+          {/* <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveNNext()}>SAVE AND NEXT</Button> */}
+          <Button variant='contained' size='small' endIcon={<ArrowForwardIcon style={{ color: 'white', }} />}
+          sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} 
+          className='fs_fgp' onClick={() => handleSaveNNext()}>NEXT </Button>
         </div>
       </div>
       }

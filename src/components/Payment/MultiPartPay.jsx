@@ -357,7 +357,7 @@ function MultipartPay({ multiPartPayFlag }) {
                 Apply & Close
               </button> */}
               <Button variant="contained" size="small" onClick={() => handleCloseMultiPartPay()} className='fs_fgp' sx={{backgroundColor: theme?.palette?.customColors?.green, color: theme?.palette?.customColors?.white, maxWidth:'250px' }}>
-                Apply & Close
+                SAVE & Close
               </Button>
               {/* <button
                 className="btn btn-primary p-1 px-2"

@@ -777,24 +777,30 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   
 
   return (
-    <div className="homepage_container">
-      <div className='mb-3'>
-        {/* <button 
+    <div className="homepage_container pt-0">
+      {/* <div className='mb-3'>
+        <button 
           className="toggle_btn_hp mb-2"
           onClick={toggleSidebar}
-        > */}
-          {/* {isSidebarOpen ? <Tooltip title="Close User Details"><ArrowBackIcon /></Tooltip> : <Tooltip title="Open User Details"><ArrowForwardIcon  /></Tooltip>} */}
-          {/* {isSidebarOpen ? <Tooltip title="Close User Details">Hide Details</Tooltip> : <Tooltip title="Open User Details">Show Details</Tooltip>} */}
+        >
+          {isSidebarOpen ? <Tooltip title="Close User Details"><ArrowBackIcon /></Tooltip> : <Tooltip title="Open User Details"><ArrowForwardIcon  /></Tooltip>}
+          {isSidebarOpen ? <Tooltip title="Close User Details">Hide Details</Tooltip> : <Tooltip title="Open User Details">Show Details</Tooltip>}
           {isSidebarOpen ? <Tooltip title="Close User Details">
             <FaAnglesLeft color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>
                : 
             <Tooltip title="Open User Details"><FaAnglesRight color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>}
-        {/* </button> */}
-      </div>
+        </button>
+      </div> */}
 
 
       {/* Extra Filters */}
-      { (SaveFiltersFlag || updateFiltersFlag) && <div className='d-flex justify-content-start align-items-center mb-4'>
+      { (SaveFiltersFlag || updateFiltersFlag) && <div className='d-flex justify-content-start align-items-center mb-4 pt-1'>
+        <div className='pe-4'>
+          {isSidebarOpen ? <Tooltip title="Close User Details">
+            <FaAnglesLeft color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>
+               : 
+            <Tooltip title="Open User Details"><FaAnglesRight color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>}
+        </div>
         <div className="filters-container_hm">
           <div className='filter-item_hp'>
             <select name="mode" id="mode"  value={modeComp} onChange={(e) => handleModeChangeComp(e)} className='fs_fgp fs_fgp_select'>
@@ -953,7 +959,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         </div>
         <div style={{minWidth:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor:'pointer'}}>
           {/* <button className='btn btn-success' title='Save' onClick={() => handleSaveFilters()}>Procced To Bill</button> */}
-          <Button variant='contained' title='Save' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveFilters()}>Procced To Bill</Button>
+          {/* <Button variant='contained' title='Save' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveFilters()}>Procced To Bill</Button> */}
+          <Button variant='contained' title='Save' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp' onClick={() => handleSaveFilters()}>Procced</Button>
         </div>
       </div>}
               
@@ -962,8 +969,14 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         { !SaveFiltersFlag && <>
 
       {/* Customer Line */}
-      { !updateFiltersFlag && <div className="customer-info fs_fgp">
-        <div><span className='text_color'>Customer: </span> <b className="text-dark">{savedValue?.searchUser}</b></div>
+      { !updateFiltersFlag && <div className="customer-info fs_fgp mb-0 pt-0 pb-1">
+        <div>
+        {isSidebarOpen ? <Tooltip title="Close User Details">
+            <FaAnglesLeft color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>
+               : 
+            <Tooltip title="Open User Details"><FaAnglesRight color={theme?.palette?.customColors?.purple} onClick={toggleSidebar} cursor='pointer' /></Tooltip>}
+        </div>
+        <div><span className='text_color'>User: </span> <b className="text-dark">{savedValue?.searchUser}</b></div>
         {/* <div>GST No: <b className="text-primary">GST7896541233</b></div>
         <div>PAN No: <b className="text-primary">AU125479836321</b></div> */}
         {/* <div>Aadhar No: <b className="text-primary">-</b></div> */}
@@ -986,14 +999,16 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                                     pt: 2,
                                     px: 4,
                                     pb: 3,
-                                    borderRadius:'8px'
+                                    borderRadius:'8px',
+                                    outline:'none'
                                   }}
                                   className="boxShadow_hp"
                                   >
-                                    <h4 className='text-center'>Update Date</h4>
+                                    <h4 className='text-center fs_fgp' style={{color:theme?.palette?.customColors?.purple}}>Update Date</h4>
                                     <div className='d-flex justify-content-center align-items-center pt-2'>
-                                      <input type="date" />
-                                      <button className='btn btn-warning py-1 mx-1' onClick={() => setDateUpdateFlag(false)}>Update</button>
+                                      <input type="date" className='fs_fgp' />
+                                      {/* <button className='btn btn-warning py-1 mx-1' onClick={() => setDateUpdateFlag(false)}>Update</button> */}
+                                      <Button variant='contained' size='small' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} className='fs_fgp ms-1' onClick={() => setDateUpdateFlag(false)}>Update</Button>
                                     </div>
                                   </Box>
                                 </Modal> }
