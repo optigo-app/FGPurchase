@@ -30,7 +30,7 @@
     background-color: rgba(47, 43, 61, 0.06);
     border-radius: 25px;
     height: 28px;
-    width: 28px;
+    width: 28px !important;
   }
 
   .react-datepicker__year-read-view--down-arrow,

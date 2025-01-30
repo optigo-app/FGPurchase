@@ -1,0 +1,139 @@
+        <div className="filters-container_cr fs_fgp">
+          <div className="filter-item">
+            <div>
+              <label htmlFor="material" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MATERIAL</label>
+              <input type="text" id="material" placeholder="material" />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="metal" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>METAL</label>
+              <input type="text" id="metal" placeholder="metal" />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="mtype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MTYPE</label>
+              <input type="text" id="mtype" placeholder="mtype" />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="lot" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>LOT#</label>
+              <input type="text" placeholder="lot#" id='lot' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="ftype" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>FTYPE</label>
+              <input type="text" placeholder="ftype" id='ftype' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="ascr" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>ACCESSORIES</label>
+              <input type="text" placeholder="accessories" id='ascr' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="ctg" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>CATEORY</label>
+              <input type="text" placeholder="category" id='ctg' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="shape" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>SHAPE</label>
+              <input type="text" placeholder="shape" id='shape' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="quality" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>QUALITY</label>
+              <input type="text" placeholder="shape" id='shape' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="color" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>COLOR</label>
+              <input type="text" placeholder="color" id='color' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="size" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>SIZE</label>
+              <input type="text" placeholder="size" id='size' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="pcs" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>PCS</label>
+              <input type="text" placeholder="pcs" id='pcs' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="wt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>WEIGHT</label>
+              <input type="text" placeholder="weight" id='wt' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="tunch" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>TUNCH</label>
+              <input type="text" placeholder="tunch" id='wt' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="acwt" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>ACTUAL WEIGHT</label>
+              <input type="text" placeholder="actual weight" id='acwt' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="rate" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>RATE</label>
+              <input type="text" placeholder="rate" id='rate' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="locker" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>LOCKER</label>
+              <input type="text" placeholder="locker" id='locker' />
+            </div>
+          </div>
+          <div className="filter-item">
+            <div>
+              <label htmlFor="desc" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>DESCRIPTION</label>
+              <input type="text" placeholder="desription" id='desc' />
+            </div>
+          </div>
+          <div style={{paddingTop:'12px'}}>
+            <div>
+            <Button sx={{width:'50px'}} ><AddCircleIcon
+                            titleAccess="Add Entry"
+                            
+                            style={{ cursor: "pointer", color:theme?.palette?.customColors?.purple }}
+                          /></Button>
+            </div>
+          </div>
+        </div>
+
+
+
+        i have this all fields in which i want to do hide show based on material write or select, like 
+
+        material = metal, show = material, metal, qaulity, color, wt, rate, tunch, actual weight, locker, description
+
+        material = Diamond, show = material, lot#, shape, quality, color, size, pcs, weight, rate, locker, description
+
+        material = colorstone, show = material, lot#, shape, quality, color, size, pcs, weight, rate, locker, description
+
+        material = misc, show = material, mtype, lot#, shape, quality, color, size, pcs, weight, rate, locker, description
+
+        material = finding, show = material,  lot#, ftype, accessies, metal,  quality, color, pcs, weight, rate, tunch, actual weight, locker, description
+
+        material = mount, show = material,  lot#, category, metal,  quality, color, pcs, weight, rate, tunch, actual weight, locker, description
+
+        material = alloy, show = material,  quality, color,  weight, rate,  locker, description
+
+        how to make it reusable code and reduced and flag wise.

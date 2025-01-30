@@ -1,0 +1,116 @@
+.cust_receive_container{
+    
+}
+
+.filter_item_call{
+    width: 100%;
+    max-width: 220px;
+    padding: 7.5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter_grid select, .filter_grid .hsn_input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    max-width: 220px;
+}
+.custrec:focus{
+    border-color: #7367F0 !important;
+}
+.filter_item_call2{
+    width: 100%;
+    max-width: 90px;
+    padding: 6.5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.filter_item_call3{
+    width: 100%;
+    max-width: 280px;
+    padding: 6.5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filters-container_cr {
+    display: grid
+;
+    /* gap: 16px; */
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)) !important;
+}
+.filters_container_cr {
+    display: grid
+;
+    /* gap: 16px; */
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+}
+.filters_container_cr_2 {
+    display: grid
+;
+    /* gap: 16px; */
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: flex-end;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+}
+
+/* Buttons Styling */
+.filter-item button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: white;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-item button:hover {
+    background-color: #e8e8e8;
+}
+
+
+.suggestion_dropdown_material{
+    position: absolute;
+    background-color: white;
+    border: 1px solid #e8e8e8;
+    padding: 5px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+.suggestion_dropdown_material > ul  {
+    padding-left: 0px;
+    margin-bottom: 0px;
+}
+.suggestion_dropdown_material > ul > li {
+    list-style-type: none;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.suggestion_dropdown_material > ul > li:hover{
+    background-color: #989898 !important;
+    color: white;
+    
+}

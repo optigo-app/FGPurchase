@@ -1,3 +1,41 @@
+export const MaterialList = [
+  {
+    id:1,
+    materialVal:"metal",
+    materialLabel:"METAL",
+  },
+  {
+    id:2,
+    materialVal:"mount",
+    materialLabel:"MOUNT",
+  },
+  {
+    id:3,
+    materialVal:"diamond",
+    materialLabel:"DIAMOND",
+  },
+  {
+    id:4,
+    materialVal:"colorstone",
+    materialLabel:"COLORSTONE",
+  },
+  {
+    id:5,
+    materialVal:"finding",
+    materialLabel:"FINDING",
+  },
+  {
+    id:6,
+    materialVal:"alloy",
+    materialLabel:"ALLOY",
+  },
+  {
+    id:7,
+    materialVal:"misc",
+    materialLabel:"MISC",
+  },
+]
+
 
 export const brandMainData = [
     { sr: 1, code: "Cartier", name: "Cartier", description: "", displayOrder: 0 },

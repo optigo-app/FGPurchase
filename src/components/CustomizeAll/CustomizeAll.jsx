@@ -13,8 +13,13 @@ import {
   useTheme,
   useMediaQuery,
   Button,
+  Box,
+  Modal,
+  Typography,
+  Tooltip,
 } from "@mui/material";
 import { capitalizeWords } from "../../master/global";
+import { Cancel } from "@mui/icons-material";
 
 const CustomizeAll = () => {
   const theme = useTheme();
@@ -25,6 +30,7 @@ const CustomizeAll = () => {
   const [selectedOption, setSelectedOption] = useState("CustomizeAll");
   const [makingChargeOn, setMakingChargeOn] = useState('');
   const [criteriaBased, setCriteriaBased] = useState(false);
+  const [openDiscountPopUp, setOpenDiscountPopUp] = useState(false);
   const [amountData, setAmountData] = useState({
     value1: "",
     value2: "",
@@ -604,12 +610,6 @@ const CustomizeAll = () => {
     </div>
   </Grid>
 
-  <Grid item xs={12} sm={6} md={2} lg={2}>
-    <div className="d-flex align-items-start flex-column w-100">
-      <label htmlFor="dis" className="fs_fgp text_color">Discount</label>
-      <input type="text" placeholder="" id="dis" className='categoryNewOrder filter_item_call fs_fgp' />
-    </div>
-  </Grid>
 
   <Grid item xs={12} sm={6} md={2} lg={2}>
     <div className="d-flex align-items-start flex-column w-100">
@@ -622,9 +622,153 @@ const CustomizeAll = () => {
       </select>
     </div>
   </Grid>
+  <Grid item xs={12} sm={6} md={2} lg={2}>
+    {/* <div className="d-flex align-items-start flex-column w-100">
+      <label htmlFor="dis" className="fs_fgp text_color">Discount</label>
+      <input type="text" placeholder="" id="dis" className='categoryNewOrder filter_item_call fs_fgp' />
+    </div> */}
+      {/* <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', marginTop:'20px'}} onClick={() => handleSave("amount")} > */}
+      <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', marginTop:'20px'}} onClick={() => setOpenDiscountPopUp(true)} >
+        Discount
+      </Button>
+  </Grid>
+  {
+    openDiscountPopUp && <Modal
+      open={openDiscountPopUp}
+      aria-labelledby="parent-modal-title"
+      aria-describedby="parent-modal-description"
+      onClose={() => setOpenDiscountPopUp(false)}
+    >
+      <Box
+               sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 700,
+                maxHeight: 200,
+                bgcolor: 'background.paper',
+                borderRadius: '12px',
+                boxShadow: 24,
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent:'flex-start',
+                alignItems: 'flex-start',
+                minHeight: '200px',
+                height:'100%',
+                border: 'none',
+                outline:'none'
+              }}
+            >
+              <div className="d-flex justify-content-between align-items-center w-100">
+                <div>&nbsp;</div>
+                <Typography className="fs_fgp" sx={{color:theme?.palette?.customColors?.purple, fontWeight:'bold'}}>Apply Discount</Typography>
+                <div><Tooltip title="Close">
+                        <Cancel sx={{cursor:'pointer', color:theme?.palette?.customColors?.purple}} onClick={() => setOpenDiscountPopUp(false)} />
+                      </Tooltip>
+                  </div>
+              </div>
+                  <div className="d-flex flex-wrap">
+                    <span className="d-flex align-items-start flex-column me-1">
+                      <label htmlFor="dis" className="fs_fgp text_color">Discount</label>
+                      <input type="text" placeholder="" id="dis" className='categoryNewOrder filter_item_call fs_fgp' />
+                    </span>
+                    <span className="d-flex align-items-start flex-column ms-1">
+                      <label htmlFor="dison" className="fs_fgp text_color">Making On</label>
+                      <select id="dison" className='categoryNewOrder filter_item_call fs_fgp fs_fgp_select'>
+                        <option value="" disabled selected></option>
+                        {discountArr?.map((e, i) => (
+                          <option value={e?.code} key={i}>{capitalizeWords(e?.name)}</option>
+                        ))}
+                      </select>
+                    </span>
+                  </div>
+              <FormControl component="fieldset" style={{width:'100%'}}>
+                <RadioGroup
+                  row
+                  value={selectedOption}
+                  onChange={handleOptionChange}
+                  aria-label="total-option"
+                >
+                  <FormControlLabel
+                  sx={{color:'grey'}}
+                    value="amount"
+                    control={<Radio sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
+                    label="Total Amount"
+                  />
+                  <FormControlLabel
+                  sx={{color:'grey'}}
+                    value="criteria"
+                    control={<Radio sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
+                    label="Total Criteria Based"
+                  />
+                       { criteriaBased && <span className="d-flex w-100 justify-content-between align-items-center">
+                  <Grid item xs={12} sm={6} md={3} lg={2} style={{ display: "flex" }}>
+                    <FormControlLabel
+                    sx={{color:'grey', minWidth:'160px'}}
+                      control={<Checkbox sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
+                      label="Diamond Rate"
+                      
+                    />
+                    
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2}>
+
+                    <FormControlLabel
+                    sx={{color:'grey', minWidth:'160px'}}
+                      control={<Checkbox sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
+                      label="Stone Rate"
+                      />
+                      </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2} style={{ display: "flex" }}>
+                    <FormControlLabel
+                    sx={{color:'grey', minWidth:'160px'}}
+                      control={<Checkbox sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
+                      label="Metal Rate"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <FormControlLabel
+                    sx={{color:'grey', minWidth:'160px'}}
+                      control={<Checkbox sx={{
+                      '&.Mui-checked': {
+                        color: theme?.palette?.customColors?.purple, // Change selected radio color to purple
+                      },
+                    }} />}
+                      label="Labour Rate"
+                      />
+                      </Grid>
+                      </span>}
+                </RadioGroup>
+                
+              </FormControl>
+            </Box>
+    </Modal>
+  }
 </Grid>
 
-          <div className="pb-4 pt-3">
+          {/* <div className="pb-4 pt-3">
               <FormControl component="fieldset">
                 <RadioGroup
                   row
@@ -704,7 +848,12 @@ const CustomizeAll = () => {
                 
               </FormControl>
 
-              {/* {criteriaBased && (
+             
+              <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSave("amount")} >
+                Discount Apply
+              </Button>
+            </div> */}
+             {/* {criteriaBased && (
                 // <Grid container spacing={1} className="checkboxesSection">
                   <span>
                   <Grid item xs={12} sm={6} md={3} lg={2} style={{ display: "flex" }}>
@@ -739,10 +888,6 @@ const CustomizeAll = () => {
               {/* <button className="SaveBtnAmaountCZALL" onClick={() => handleSave("amount")} >
                 Discount Apply
               </button> */}
-              <Button size="small" variant="contained" sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleSave("amount")} >
-                Discount Apply
-              </Button>
-            </div>
         </div>
       )}
 

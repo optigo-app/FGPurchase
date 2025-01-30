@@ -142,6 +142,8 @@ const SaveNNext = () => {
     },
   ]);
   const [isFindingAdding, setFindingAdding] = useState(false);
+
+   
   const findingWtFocus = useRef();
   const finding_focus = useRef();
 
@@ -603,7 +605,10 @@ const handleTableToggle = () => {
 };
 
 const handleSaveAndNew = () => {
+  
     if(selectedTabValue === 'neworder'){
+      dispatch(handleSaveAndNextFlag(true));
+    }else{
       dispatch(handleSaveAndNextFlag(false));
     }
   if(mode === "alteration_issue"){
@@ -612,7 +617,6 @@ const handleSaveAndNew = () => {
   if(mode === "alteration_receive"){
     dispatch(handleSelectedButton("altjobs"));
   }
-  // dispatch(handleSaveAndNextFlag(true));
 }
 
 // const renderFilePreview = (file, index) => {
@@ -1599,12 +1603,13 @@ const theme = useTheme();
                 alignItems: 'center',
                 minHeight: '200px',
                 border: 'none',
+                outline:'none'
               }}
             >
               <div className='w-100'>
                 <div className='d-flex align-items-center justify-content-between pb-2'>
                   <div>&nbsp;</div>
-                  <h4 className='text-secondary  px-0 text-center w-100  fw-bold fs_fgp'>Change Criteria</h4>
+                  <h4 className='  px-0 text-center w-100  fw-bold fs_fgp' style={{color:theme?.palette?.customColors?.purple}}>Change Criteria</h4>
                   <div><Tooltip title="Close"><CancelIcon style={{cursor:'pointer'}} onClick={() => setChangeCriteria(false)} /></Tooltip></div>
                 </div>
                 <div className="filter_grid mt-3">

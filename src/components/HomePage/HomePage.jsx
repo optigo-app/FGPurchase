@@ -35,6 +35,7 @@ import AltJobs from '../AlterationReceive/AltJobs/AltJobs';
 import { FaAnglesRight } from "react-icons/fa6";
 import { FaAnglesLeft } from "react-icons/fa6";
 import { capitalizeWords } from '../../master/global';
+import NewCustomerReceive from '../customerReceive/NewCustomerReceive';
 
 // ** Third Party Imports
 // import DatePicker from 'react-datepicker'
@@ -543,6 +544,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     { title: "Save", icon: <SaveIcon />, value: "" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
+  const buttonCustReceiveActionsIssue = [
+    { title: "Add", icon: <AddIcon />, value: "custReceive" },
+    // { title: "Customize All", icon: <SettingsIcon />, value: "Customize All" },
+    // { title: "Old Gold", icon: <FaGoodreadsG />, value: "Old Gold" },
+    // { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
+    // { title: "Pay", icon: <PaymentIcon />, value: "Pay" },
+    { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
+    // { title: "Save", icon: <SaveIcon />, value: "Save" },
+    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Print", icon: <PrintIcon />, value: "Print" },
+  ];
 
   const handleButtonClick = (value) => {
     if(value === "Print"){
@@ -766,6 +778,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   
       if (modeComp === "alteration_receive") {
         dispatch(handleSelectedButton('altjobs'));
+      } else if (modeComp === "customer_receive") {
+        dispatch(handleSelectedButton('custReceive'));
       } else {
         dispatch(handleSelectedButton('add'));
       }
@@ -811,6 +825,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             <select name="mode" id="mode"  value={modeComp} onChange={(e) => handleModeChangeComp(e)} className='fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Select Mode</option>
               <option value="material_purchase">Material Purchase</option>
+              <option value="customer_receive">Customer Receive</option>
               <option value="stock_purchase">Stock Purchase</option>
               <option value="alteration_issue">Alteration Issue</option>
               <option value="alteration_receive">Alteration Receive</option>
@@ -839,7 +854,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 </>
               }
           </div>
-          { modeComp !== "alteration_receive" && <>
+          { (modeComp !== "alteration_receive" && modeComp !== "customer_receive") && <>
             <div className="filter-item_hp" >
             <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp fs_fgp_select' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
               <option value="" disabled selected>Select BookName</option>
@@ -948,6 +963,56 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               />
             </div>
             
+            </>
+          }
+          {
+            modeComp === "customer_receive" && <>
+                  <div className="filter-item_hp" >
+            <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp fs_fgp_select' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
+              <option value="" disabled selected>Select BookName</option>
+              {
+                bookNameData?.map((e, i) => {
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.BookName)}</option>
+                })
+              }
+            </select>
+          </div>
+          <div className="filter-item_hp">
+            <input type="text" placeholder="reference No." className='fs_fgp ' value={refno} onChange={(el) => handleRefNoChange(el)}
+              style={{ border: validationErrors.refno ? '1px solid red' : '1px solid #ccc' }}
+             />
+          </div> 
+          <div className="filter-item_hp" >
+            <select name="currency" id="currency" className='fs_fgp fs_fgp_select' value={selectCurrency} onChange={(el) => handleCurrency(el)}  style={{ border: validationErrors?.currency ? '1px solid red' : '1px solid #ccc' }}>
+              <option value="" disabled selected>Select Currency</option>
+              {
+                currecyData?.map((e, i) => {
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.Currencycode)}</option>
+                })
+              }
+            </select>
+          </div>
+          <div className="filter-item_hp" >
+            <select name="locker" id="locker" className='fs_fgp fs_fgp_select' value={selectLockerName} onChange={(el) => handleLocker(el)} style={{ border: validationErrors.locker ? '1px solid red' : '1px solid #ccc' }}>
+              <option value="" disabled selected>Select Locker</option>
+              {
+                lockerData?.map((e, i) => {
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.Lockername)}</option>
+                })
+              }
+            </select>
+          </div>
+          <div className="filter-item_hp" >
+            <select name="counter" id="counter" className='fs_fgp fs_fgp_select' value={counter} onChange={(el) => handleCounter(el)} style={{ border: validationErrors.counter ? '1px solid red' : '1px solid #ccc' }}>
+            <option value="" disabled selected>Select Counter</option>
+              {
+                CounterArr?.map((e, i) => {
+                  return <option value={e?.id} key={i}>{capitalizeWords(e?.name)}</option>
+                })
+              }
+            </select>
+          </div>
+
             </>
           }
           {/* <div className="filter-item_hp" >
@@ -1166,7 +1231,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
 
       <div className="action-buttons">
-        { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue") && buttonActions?.map((action) => (
+        { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue" && modeComp !== "customer_receive") && buttonActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
               className={`btn`}
@@ -1213,6 +1278,23 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </button>
           </Tooltip>
         ))}
+        { ( modeComp === "customer_receive") && buttonCustReceiveActionsIssue?.map((action) => (
+          <Tooltip title={action.title} arrow placement="top" key={action.value}>
+            {/* <button
+              className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
+              onClick={() => handleButtonClick(action.value)}
+            > */}
+              <button
+              className={`btn`}
+              // className={`btn ${selectedButton === action.value ? 'btn_c text-white' : `${theme?.palette?.customColors?.lightgrey}`}`}
+              onClick={() => handleButtonClick(action.value)}
+              style={{backgroundColor: selectedButton === action.value ? theme?.palette?.customColors?.purple : theme?.palette?.customColors?.lightgrey, 
+                color: selectedButton === action.value ? 'white' : 'black'}}
+            >
+              {action.icon}
+            </button>
+          </Tooltip>
+        ))}
       </div>
       
           { !selectedButtonFlag && 
@@ -1228,6 +1310,11 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
               {/* Alteration Receive */}
               { selectedButton === 'altjobs' && <AltJobs /> }
+
+              {/* Customer Receive */}
+              { selectedButton === 'custReceive' && <NewCustomerReceive /> }
+
+
             </>
           }
       

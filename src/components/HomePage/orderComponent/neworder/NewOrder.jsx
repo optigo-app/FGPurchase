@@ -49,7 +49,7 @@ const NewOrder = () => {
           <div style={{height:'32px'}}>{ addSubTag ? <h4 className='text-secondary fs_fgp'>Make Your Sub Entry</h4> : <h4 className='text-secondary fs_fgp' style={{ display: tagGenerate ? 'none' : 'block' }}></h4>}</div>
         </div>
         <div className="filter_grid mt-3">
-        <div>
+          <div>
             <select name="" id="" className='categoryNewOrder fs_fgp fs_fgp_select'>
               <option value="" disabled selected>Product Type</option>
               {
