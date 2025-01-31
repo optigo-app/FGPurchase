@@ -909,7 +909,7 @@ const handleRemove = (obj) => {
 
 const handleSave = () => {
   
-  let finalDataMainArray = [
+  const finalDataMainArray = [
     ...metalList, 
     ...mountList, 
     ...alloyList, 
