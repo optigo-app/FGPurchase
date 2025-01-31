@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./newcustomerreceive.css"
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip, Typography, useTheme } from '@mui/material';
+import { Button, Icon, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip, Typography, useTheme } from '@mui/material';
 import CustomInput from '../pickers/PickersComponent';
 import DatePicker from 'react-datepicker';
 import { CustomerData } from '../HomePage/dummyData';
@@ -8,9 +8,11 @@ import { capitalizeWords } from '../../master/global';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { MaterialList } from '../../master/MasterData';
+import { Trash } from 'tabler-icons-react';
 const NewCustomerReceive = () => {
     const theme = useTheme();
     const [date, setDate] = useState(new Date());
+    const [trashColor, setTrashColor] = useState('grey');
     const matRef = useRef();
 
     // ** States
@@ -194,13 +196,13 @@ const NewCustomerReceive = () => {
 
 
     const [materialObj, setMaterialObj] = useState({
-      metalObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      mountObj: { customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      findingObj: { customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      alloyObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+      metalObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      findingObj: { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      alloyObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
     });
     const [materialObjError, setMaterialObjError] = useState({
       metalObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
@@ -365,18 +367,24 @@ const NewCustomerReceive = () => {
       
           if (Object.keys(errors).length === 0) {
               // If no errors, add the diamond object to the list
-              setMetalList((prev) => (
-                  [...prev, materialObj.metalObj]
-              ));
+              setMetalList((prev) => {
+                const updatedMetalObj = { 
+                  ...materialObj.metalObj, 
+                  customer: searchUser,
+                  id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                };
+                
+                return [...prev, updatedMetalObj];
+              });
               
               setMaterialObj({
-                metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -411,18 +419,24 @@ const NewCustomerReceive = () => {
       
           if (Object.keys(errors).length === 0) {
               // If no errors, add the diamond object to the list
-              setMountList((prev) => (
-                  [...prev, materialObj.mountObj]
-              ));
+              setMountList((prev) => {
+                const updatedMountObj = { 
+                  ...materialObj.mountObj, 
+                  customer: searchUser,
+                  id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                };
+                
+                return [...prev, updatedMountObj];
+              });
               
               setMaterialObj({
-                metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -475,18 +489,24 @@ const NewCustomerReceive = () => {
         
             if (Object.keys(errors).length === 0) {
                 // If no errors, add the diamond object to the list
-                setDiamondList((prev) => (
-                    [...prev, materialObj.diamondObj]
-                ));
+                setDiamondList((prev) => {
+                  const updatedDiamondObj = { 
+                    ...materialObj.diamondObj, 
+                    customer: searchUser,
+                    id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                  };
+                  
+                  return [...prev, updatedDiamondObj];
+                });
                 
         setMaterialObj({
-          metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-          mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-          diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-          colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-          miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-          findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-          alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+          metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+          mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+          diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+          colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+          miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+          findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+          alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
         });
 
         matRef.current.focus();
@@ -519,18 +539,24 @@ const NewCustomerReceive = () => {
         
             if (Object.keys(errors).length === 0) {
                 // If no errors, add the diamond object to the list
-                setColorStoneList((prev) => (
-                    [...prev, materialObj.colorstoneObj]
-                ));
+                setColorStoneList((prev) => {
+                  const updatedColorStoneObj = { 
+                    ...materialObj.colorstoneObj, 
+                    customer: searchUser,
+                    id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                  };
+                  
+                  return [...prev, updatedColorStoneObj];
+                });
                 
                 setMaterialObj({
-                  metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
                 });
 
                 matRef.current.focus();
@@ -564,18 +590,24 @@ const NewCustomerReceive = () => {
       
           if (Object.keys(errors).length === 0) {
               // If no errors, add the diamond object to the list
-              setFindingList((prev) => (
-                  [...prev, materialObj.findingObj]
-              ));
+              setFindingList((prev) => {
+                const updatedFindingObj = { 
+                  ...materialObj.findingObj, 
+                  customer: searchUser,
+                  id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                };
+                
+                return [...prev, updatedFindingObj];
+              });
               
               setMaterialObj({
-                metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -609,18 +641,24 @@ const NewCustomerReceive = () => {
       
           if (Object.keys(errors).length === 0) {
               // If no errors, add the diamond object to the list
-              setAlloyList((prev) => (
-                  [...prev, materialObj.alloyObj]
-              ));
+              setAlloyList((prev) => {
+                const updatedAlloyObj = { 
+                  ...materialObj.alloyObj, 
+                  customer: searchUser,
+                  id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                };
+                
+                return [...prev, updatedAlloyObj];
+              });
               
               setMaterialObj({
-                metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -654,18 +692,25 @@ const NewCustomerReceive = () => {
         
             if (Object.keys(errors).length === 0) {
                 // If no errors, add the diamond object to the list
-                setMiscList((prev) => (
-                    [...prev, materialObj.miscObj]
-                ));
+                setMiscList((prev) => {
+                  const updatedMiscObj = { 
+                    ...materialObj.miscObj, 
+                    customer: searchUser,
+                    id: Math.floor(Math.random() * 100000)  // Generating a random ID
+                  };
+                  
+                  return [...prev, updatedMiscObj];
+                });
+                
                 
                 setMaterialObj({
-                  metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
                 });
 
                 matRef.current.focus();
@@ -751,7 +796,8 @@ const NewCustomerReceive = () => {
       { id: 'tunch', label: 'Tunch', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
       { id: 'actualWeight', label: 'Actual Weight', minWidth: 100, align: 'left', format: value => value?.toFixed(2) },
       { id: 'locker', label: 'Locker', minWidth: 80, align: 'left', format: value => value?.toFixed(2) },
-      { id: 'description', label: 'Description', minWidth: 90, align: 'right', format: value => value?.toFixed(2) }
+      { id: 'description', label: 'Description', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
+      { id: 'action', label: 'Remove', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
     ]
  
 
@@ -826,6 +872,45 @@ useEffect(() => {
   setMaterialList(materialList);
   setFilterMaterialList(materialList);
 },[]);
+
+
+const handleRemove = (obj) => {
+
+  if(obj?.material?.toLowerCase() === "metal"){
+    const updatedMetalList = metalList?.filter((e) => +e?.id !== +obj?.id);
+    setMetalList(updatedMetalList);
+  }
+  if(obj?.material?.toLowerCase() === "mount"){
+    const updatedMountList = mountList?.filter((e) => +e?.id !== +obj?.id);
+    setMountList(updatedMountList);
+  }
+  if(obj?.material?.toLowerCase() === "alloy"){
+    const updatedAlloyList = alloyList?.filter((e) => +e?.id !== +obj?.id);
+    setAlloyList(updatedAlloyList);
+  }
+  if(obj?.material?.toLowerCase() === "diamond"){
+    const updatedDiamondList = diamondList?.filter((e) => +e?.id !== +obj?.id);
+    setDiamondList(updatedDiamondList);
+  }
+  if(obj?.material?.toLowerCase() === "colorstone"){
+    const updatedColorStoneList = colorstoneList?.filter((e) => +e?.id !== +obj?.id);
+    setColorStoneList(updatedColorStoneList);
+  }
+  if(obj?.material?.toLowerCase() === "misc"){
+    const updatedMiscList = miscList?.filter((e) => +e?.id !== +obj?.id);
+    setMiscList(updatedMiscList);
+  }
+  if(obj?.material?.toLowerCase() === "finding"){
+    const updatedFindingList = findingList?.filter((e) => +e?.id !== +obj?.id);
+    setFindingList(updatedFindingList);
+  }
+  
+}
+
+const handleSave = () => {
+    let finalDataMainArray = [...metalList, ...mountList, ...alloyList, ...diamondList, ...colorstoneList, ...miscList, ...findingList]?.sort((a, b) => a?.material?.toLowerCase()?.localeCompare(b?.material?.toLowerCase()));
+    console.log(finalDataMainArray);
+}
 
   return (
     <div className='cust_receive_container'>
@@ -910,6 +995,7 @@ useEffect(() => {
             </div>
             
         </div>
+        { selectedUser === '' ? '' : <>
         <div className='my-4'><Typography variant='h5' className='fs_fgp text_color' >MATERIAL ENTRY</Typography></div>
         <div className="filters-container_cr fs_fgp">      
           <div className="filter-item">
@@ -919,7 +1005,7 @@ useEffect(() => {
                 onBlur={() => handleMaterialBlur()}
                 onChange={(e) => handleMaterialChange(e)} onKeyDown={(e) => handleKeyDownMaterial(e)}
                />
-                { materialFlag && <div className='suggestion_dropdown_material'>
+                {materialFlag && <div className='suggestion_dropdown_material'>
                   <ul>
                     {
                       filterMaterialList?.map((e, i) => {
@@ -1071,27 +1157,28 @@ useEffect(() => {
               </Tooltip>
               </Button>
               <Button sx={{minWidth:'max-content'}}  
-                onClick={() =>  setMaterialObj({
-                  metalObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  mountObj: { customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  findingObj: { customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  alloyObj: { customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
-                })}
+                onClick={() => <> {setMaterialValue('')}{
+                  setMaterialObj({
+                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                })} </>} 
               >
               <Tooltip title="Reset">
                 <RefreshIcon
                   style={{ cursor: "pointer", color:theme?.palette?.customColors?.purple }}
-                />
+                /> 
               </Tooltip>
             </Button>
             </div>
           </div>
         </div>
         <div className='my-5'><Typography variant='h5' className='fs_fgp text_color'>MATERIAL DETAILS</Typography></div>
-        <div style={{maxWidth:'1450px', paddingBottom:'3rem'}}>
+        <div style={{maxWidth:'1550px', paddingBottom:'3rem'}}>
           <TableContainer component={Paper} 
             sx={{
               maxHeight: 440,
@@ -1123,14 +1210,14 @@ useEffect(() => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {[...diamondList, ...colorstoneList, ...miscList, ...findingList, ...metalList, ...mountList, ...alloyList]?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map(row => {
+                {[...diamondList, ...colorstoneList, ...miscList, ...findingList, ...metalList, ...mountList, ...alloyList]?.sort((a, b) => a?.material?.toLowerCase()?.localeCompare(b?.material?.toLowerCase()))?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((row, i) => {
                   return (
                     <TableRow hover role='checkbox' tabIndex={-1} key={row?.id}>
                       {columns?.map(column => {
-                        const value = row[column?.id]
-                        console.log(row);
+                        const value = row[column?.id];
                         
                         return (
+                          <>
                           <TableCell key={column?.id} align={column?.align} className='fs_fgp'>
                             <Typography sx={{fontSize:'14px'}}>
                               {/* {column?.format && typeof value === 'number' ? column?.format(value) : ( value)} */}
@@ -1153,6 +1240,9 @@ useEffect(() => {
                                         ) : (
                                             value
                                         )
+                                      ):
+                                   column?.id === 'srno' ? (
+                                        i + 1
                                     ) : column?.id === 'type' ? (
                                         // Handling Type column logic
                                         (row.material === 'FINDING' || row?.material === "METAL" || row?.material === "ALLOY") ?  (
@@ -1166,7 +1256,13 @@ useEffect(() => {
                                         column?.format && typeof value === 'number' ? column?.format(value) : value
                                     )}
                               </Typography>
+                              {column?.id === 'action' && (
+                                  <IconButton size='small'>
+                                    <Trash color={trashColor} onMouseEnter={() => setTrashColor(`${theme?.palette?.customColors?.purple}`)} onMouseLeave={() => setTrashColor('grey')} onClick={() => handleRemove(row)} />
+                                  </IconButton>
+                              )}
                           </TableCell>
+                          </>
                         )
                       })}
                     </TableRow>
@@ -1185,8 +1281,14 @@ useEffect(() => {
               onRowsPerPageChange={handleChangeRowsPerPage}
               className='jobgrid_fgp fs_fgp'
             />
-            <div className='d-flex justify-content-end align-items-center'><Button variant='contained' className='fs_fgp' size='small' sx={{bgcolor:theme?.palette?.customColors?.purple}}>SAVE</Button></div>
+            <div className='d-flex justify-content-end align-items-center'>
+              <Button variant='contained' className='fs_fgp' size='small' 
+                sx={{bgcolor:theme?.palette?.customColors?.purple}}
+                onClick={() => handleSave()}
+              >FINAL SAVE</Button>
+            </div>
         </div>
+        </>}
     </div>
   )
 }
