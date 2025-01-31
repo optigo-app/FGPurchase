@@ -908,9 +908,23 @@ const handleRemove = (obj) => {
 }
 
 const handleSave = () => {
-    let finalDataMainArray = [...metalList, ...mountList, ...alloyList, ...diamondList, ...colorstoneList, ...miscList, ...findingList]?.sort((a, b) => a?.material?.toLowerCase()?.localeCompare(b?.material?.toLowerCase()));
+  
+  let finalDataMainArray = [
+    ...metalList, 
+    ...mountList, 
+    ...alloyList, 
+    ...diamondList, 
+    ...colorstoneList, 
+    ...miscList, 
+    ...findingList
+  ]?.sort((a, b) => a?.material?.toLowerCase()?.localeCompare(b?.material?.toLowerCase()))
+    .map((item, index) => ({
+      ...item, // Copy all existing properties
+      srno: index + 1 // Add the serial number as the index + 1
+    }));
+
     console.log(finalDataMainArray);
-}
+};
 
   return (
     <div className='cust_receive_container'>
