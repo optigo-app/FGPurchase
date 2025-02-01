@@ -48,7 +48,7 @@
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
 }
 .filters_container_cr {
     display: grid
