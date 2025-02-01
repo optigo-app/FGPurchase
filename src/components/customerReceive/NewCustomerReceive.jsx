@@ -7,9 +7,12 @@ import { CustomerData } from '../HomePage/dummyData';
 import { capitalizeWords } from '../../master/global';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { MaterialList } from '../../master/MasterData';
+import { currencyRates, MaterialList, taxProfiles, tdsProfiles } from '../../master/MasterData';
 import { Trash } from 'tabler-icons-react';
+import { useSelector } from 'react-redux';
 const NewCustomerReceive = () => {
+    const mode = useSelector((state) => state?.fgp?.mode);
+    
     const theme = useTheme();
     const [date, setDate] = useState(new Date());
     const [trashColor, setTrashColor] = useState('grey');
@@ -18,6 +21,47 @@ const NewCustomerReceive = () => {
     // ** States
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(15);
+
+    const [selectUser, setSelectUser] = useState(mode === "material_purchase" ? 'manufacturer' : 'customer');
+    const [exchRate, setExchRate] = useState("");
+    const [currencyRate, setCurrencyRate] = useState("");
+
+   // State to manage the selected material
+   const [material, setMaterial] = useState('');
+   const [materialList, setMaterialList] = useState(MaterialList);
+   const [filterMaterialList, setFilterMaterialList] = useState(MaterialList);
+   const [materialFlag, setMaterialFlag] = useState(false);
+   const [materialValue, setMaterialValue] = useState('');
+   const [materialId, setMaterialId] = useState('');
+   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(-1);
+
+    const [materialObj, setMaterialObj] = useState({
+      metalObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      findingObj: { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      alloyObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+    });
+    const [materialObjError, setMaterialObjError] = useState({
+      metalObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      mountObj: { customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+      findingObj: { customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      alloyObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+    });
+
+    const [diamondList, setDiamondList] = useState([]);
+    const [colorstoneList, setColorStoneList] = useState([]);
+    const [miscList, setMiscList] = useState([]);
+    const [findingList, setFindingList] = useState([]);
+    const [metalList, setMetalList] = useState([]);
+    const [mountList, setMountList] = useState([]);
+    const [alloyList, setAlloyList] = useState([]);
+
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage)
@@ -126,14 +170,7 @@ const NewCustomerReceive = () => {
     description:''
   })
 
-   // State to manage the selected material
-   const [material, setMaterial] = useState('');
-   const [materialList, setMaterialList] = useState(MaterialList);
-   const [filterMaterialList, setFilterMaterialList] = useState(MaterialList);
-   const [materialFlag, setMaterialFlag] = useState(false);
-   const [materialValue, setMaterialValue] = useState('');
-   const [materialId, setMaterialId] = useState('');
-   const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(-1);
+
 
    // Handle material change (can be a dropdown or other input)
     const handleMaterialChange = (event) => {
@@ -195,31 +232,8 @@ const NewCustomerReceive = () => {
     }
 
 
-    const [materialObj, setMaterialObj] = useState({
-      metalObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      findingObj: { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      alloyObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
-    });
-    const [materialObjError, setMaterialObjError] = useState({
-      metalObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      mountObj: { customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-      findingObj: { customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-      alloyObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
-    });
-    const [diamondList, setDiamondList] = useState([]);
-    const [colorstoneList, setColorStoneList] = useState([]);
-    const [miscList, setMiscList] = useState([]);
-    const [findingList, setFindingList] = useState([]);
-    const [metalList, setMetalList] = useState([]);
-    const [mountList, setMountList] = useState([]);
-    const [alloyList, setAlloyList] = useState([]);
+
+
 
     const handleDynamicChange = (e) => {
       const { name, value } = e.target;
@@ -781,7 +795,7 @@ const NewCustomerReceive = () => {
       }
     }
 
-    const columns = [
+    const columns = [ 
       { id: 'srno', label: 'SrNo', minWidth: 80, align: 'center' },
       { id: 'customer', label: 'Customer', minWidth: 80, align: 'center' },
       { id: 'material', label: 'Material', minWidth: 80, align: 'left' },
@@ -802,8 +816,18 @@ const NewCustomerReceive = () => {
  
 
 
+    const handleSelectUser = (e) => {
+      setSelectUser(e.target.value);
+    }
 
 
+    const handleExchRate = (e) => {
+      setExchRate(e.target.value);
+    }
+    const handleCurrencyRate = (e) => {
+      setCurrencyRate(e.target.value);
+      setExchRate(e.target.value);
+    }
     
     
 
@@ -938,8 +962,8 @@ const handleSave = () => {
             </div>
             <div className="filter-item">
               <div>
-                  <label htmlFor="custDropDown" className='fs_fgp' style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>SELECT USER</label>
-                  <select name="custDropDown" id="custDropDown" className='fs_fgp custrec'>
+                  <label htmlFor="custDropDown" className='fs_fgp'  style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}} >SELECT USER</label>
+                  <select name="custDropDown" id="custDropDown" className='fs_fgp custrec' value={selectUser} onChange={(e) => handleSelectUser(e)}>
                     <option value="customer">Customer</option>
                     <option value="manufacturer">Manufacturer</option>
                     <option value="supplier">Supplier</option>
@@ -954,7 +978,7 @@ const handleSave = () => {
             </div>
             <div className="filter-item">
               <div>
-                  <label htmlFor="inwardno" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>DATE</label>
+                  <label htmlFor="basic-input" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>DATE</label>
                   <div className="datePicker_hp fs_fgp" >
                     <DatePicker
                       selected={date}
@@ -967,48 +991,103 @@ const handleSave = () => {
                   </div>
               </div>
             </div>
-        </div>
-        <div className='filters_container_cr_2 my-1'>
+            <div className="filter-item">
               <div>
-                <div className="d-flex align-items-start flex-column w-100 userBox_hm">
-                    <label htmlFor="customer_rec" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>CUSTOMER</label>
-                    <input type="text" placeholder="customer" id='customer_rec' autoComplete='off' value={searchUser}  className='categoryNewOrder filter_item_call3 fs_fgp' onBlur={() => handleUserBlur()}  onChange={(el) => handleUserTypo(el)} onKeyDown={handleKeyDown}   />
-                    {
-                    showUserListFlag && <>
-                    <div className='userSuggestionList_hm fs_fgp'>
-                      {/* <ul ref={userListRef}> */}
-                      <ul>
-                        {
-                          userList?.length > 0 && userList?.map((e, index) => {
-                            return (
-                              <li key={e?.id} value={selectedUser} className='py-1 fs_size_14' onClick={() => handleUserList(e)}  
-                              style={{
-                                backgroundColor: index === selectedUserIndex ? '#d3d3d3' : 'transparent', // Highlight selected item
-                            }}>{capitalizeWords(e?.TypoLabel)}</li>
-                            )
-                          })
-                        }
-                      </ul>
-                    </div>
-                    </>
-                  }
+                  <label htmlFor="bill" className='fs_fgp' style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>BILL MODE</label>
+                  <select name="bill" id="bill" className='fs_fgp custrec'>
+                    <option value="customer">Material Purchase</option>
+                    <option value="manufacturer">Labour Purchase</option>
+                  </select>
+              </div>
+            </div>
+        </div>
+          <div className='filters_container_cr_2 my-1'>
+                <div>
+                  <div className="d-flex align-items-start flex-column w-100 userBox_hm">
+                      <label htmlFor="customer_rec" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>{selectUser?.toUpperCase()}</label>
+                      <input type="text" placeholder={selectUser} id='customer_rec' autoComplete='off' value={searchUser}  className='categoryNewOrder filter_item_call3 fs_fgp' onBlur={() => handleUserBlur()}  onChange={(el) => handleUserTypo(el)} onKeyDown={handleKeyDown}   />
+                      {
+                      showUserListFlag && <>
+                      <div className='userSuggestionList_hm fs_fgp'>
+                        {/* <ul ref={userListRef}> */}
+                        <ul>
+                          {
+                            userList?.length > 0 && userList?.map((e, index) => {
+                              return (
+                                <li key={e?.id} value={selectedUser} className='py-1 fs_size_14' onClick={() => handleUserList(e)}  
+                                style={{
+                                  backgroundColor: index === selectedUserIndex ? '#d3d3d3' : 'transparent', // Highlight selected item
+                              }}>{capitalizeWords(e?.TypoLabel)}</li>
+                              )
+                            })
+                          }
+                        </ul>
+                      </div>
+                      </>
+                    }
+                  </div>
+                </div>
+              <div className='d-flex justify-content-start align-items-end fw-bold fs_fgp'>
+                (0017248) |  
+                Admin :
+                admin |  
+                T:
+                874-551-4122
+              </div>
+              { mode !== "material_purchase" && <div className='d-flex align-items-end justify-content-start' style={{minWidth:'410px'}}>
+                <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1, marginLeft:"0px"}} className='fs_fgp'>ADD NEW</Button>
+                <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1,}} className='fs_fgp'>INWARD VIEW</Button>
+                <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1}} className='fs_fgp'>DETAIL VIEW</Button>
+                <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1,  marginRight:"0px"}} className='fs_fgp'>PRINT</Button>
+              </div>}
+              
+              
+              
+          </div>
+          <div className='filters_container_cr my-1'>
+              <div className="filter-item">
+                <div>
+                    <label htmlFor="taxtype" className='fs_fgp' style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>TAX TYPE</label>
+                    <select name="taxtype" id="taxtype" className='fs_fgp custrec'>
+                      {
+                        taxProfiles?.map((e, i) => {
+                          return <option key={i} value={e?.value}>{e?.label}</option>
+                        })
+                      }
+                    </select>
                 </div>
               </div>
-            <div className='d-flex justify-content-start align-items-end fw-bold fs_fgp'>
-              (0017248) |  
-               Admin :
-               admin |  
-               T:
-               874-551-4122
-            </div>
-            <div className='d-flex align-items-end justify-content-start' style={{minWidth:'410px'}}>
-              <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1, marginLeft:"0px"}} className='fs_fgp'>ADD NEW</Button>
-              <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1,}} className='fs_fgp'>INWARD VIEW</Button>
-              <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1}} className='fs_fgp'>DETAIL VIEW</Button>
-              <Button size='small' variant='contained' sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white', mx:1,  marginRight:"0px"}} className='fs_fgp'>PRINT</Button>
-            </div>
-            
-        </div>
+              <div className="filter-item">
+                <div>
+                    <label htmlFor="tdstype" className='fs_fgp' style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>TDS TYPE</label>
+                    <select name="tdstype" id="tdstype" className='fs_fgp custrec'>
+                      {
+                        tdsProfiles?.map((e, i) => {
+                          return <option key={i} value={e?.value}>{e?.label}</option>
+                        })
+                      }
+                    </select>
+                </div>
+              </div>
+              <div className="filter-item">
+                <div>
+                    <label htmlFor="currrate" className='fs_fgp' style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>CURRENCY RATE</label>
+                    <select name="currrate" id="currrate" className='fs_fgp custrec' value={currencyRate} onChange={(e) => handleCurrencyRate(e)}>
+                      {
+                        currencyRates?.map((e, i) => {
+                          return <option key={i} value={e?.value}>{e?.label}</option>
+                        })
+                      }
+                    </select>
+                </div>
+              </div>
+              <div className="filter-item">
+                  <div>
+                    <label htmlFor="exchrate" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>EXCHANGE RATE</label>
+                    <input type="text" placeholder="exch. rate" id='exchrate' value={exchRate} onChange={handleExchRate} className='categoryNewOrder filter_item_call fs_fgp'  />
+                  </div>
+              </div>
+          </div>
         { selectedUser === '' ? '' : <>
         <div className='my-4'><Typography variant='h5' className='fs_fgp text_color' >MATERIAL ENTRY</Typography></div>
         <div className="filters-container_cr fs_fgp">      
@@ -1306,5 +1385,4 @@ const handleSave = () => {
     </div>
   )
 }
-
 export default NewCustomerReceive

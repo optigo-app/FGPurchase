@@ -555,6 +555,17 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     { title: "Save", icon: <SaveIcon />, value: "" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
+  const buttonMatPurchaseActionsIssue = [
+    { title: "Add", icon: <AddIcon />, value: "custReceive" },
+    // { title: "Customize All", icon: <SettingsIcon />, value: "Customize All" },
+    // { title: "Old Gold", icon: <FaGoodreadsG />, value: "Old Gold" },
+    // { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
+    // { title: "Pay", icon: <PaymentIcon />, value: "Pay" },
+    { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
+    // { title: "Save", icon: <SaveIcon />, value: "Save" },
+    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Print", icon: <PrintIcon />, value: "Print" },
+  ];
 
   const handleButtonClick = (value) => {
     if(value === "Print"){
@@ -778,7 +789,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   
       if (modeComp === "alteration_receive") {
         dispatch(handleSelectedButton('altjobs'));
-      } else if (modeComp === "customer_receive") {
+      } else if (modeComp === "customer_receive" || modeComp === "material_purchase") {
         dispatch(handleSelectedButton('custReceive'));
       } else {
         dispatch(handleSelectedButton('add'));
@@ -854,7 +865,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
                 </>
               }
           </div>
-          { (modeComp !== "alteration_receive" && modeComp !== "customer_receive") && <>
+          { (modeComp !== "alteration_receive" && modeComp !== "customer_receive" && modeComp !== "material_purchase") && <>
             <div className="filter-item_hp" >
             <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp fs_fgp_select' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
               <option value="" disabled selected>Select BookName</option>
@@ -966,7 +977,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </>
           }
           {
-            modeComp === "customer_receive" && <>
+            (modeComp === "customer_receive" || modeComp === "material_purchase") && <>
                   <div className="filter-item_hp" >
             <select name="bookname" id="bookname"  value={selectBookName} className='fs_fgp fs_fgp_select' onChange={(el) => handleBookName(el)} style={{ border: validationErrors?.bookName ? '1px solid red' : '1px solid #ccc' }} >
               <option value="" disabled selected>Select BookName</option>
@@ -1231,7 +1242,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
 
       <div className="action-buttons">
-        { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue" && modeComp !== "customer_receive") && buttonActions?.map((action) => (
+        { (modeComp !== "alteration_receive" && modeComp !== "alteration_issue" && modeComp !== "customer_receive" && modeComp !== "material_purchase") && buttonActions?.map((action) => (
           <Tooltip title={action.title} arrow placement="top" key={action.value}>
             <button
               className={`btn`}
@@ -1295,6 +1306,23 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             </button>
           </Tooltip>
         ))}
+        { ( modeComp === "material_purchase") && buttonMatPurchaseActionsIssue?.map((action) => (
+          <Tooltip title={action.title} arrow placement="top" key={action.value}>
+            {/* <button
+              className={`btn ${selectedButton === action.value ? 'btn_c text-white' : 'btn_custom'}`}
+              onClick={() => handleButtonClick(action.value)}
+            > */}
+              <button
+              className={`btn`}
+              // className={`btn ${selectedButton === action.value ? 'btn_c text-white' : `${theme?.palette?.customColors?.lightgrey}`}`}
+              onClick={() => handleButtonClick(action.value)}
+              style={{backgroundColor: selectedButton === action.value ? theme?.palette?.customColors?.purple : theme?.palette?.customColors?.lightgrey, 
+                color: selectedButton === action.value ? 'white' : 'black'}}
+            >
+              {action.icon}
+            </button>
+          </Tooltip>
+        ))}
       </div>
       
           { !selectedButtonFlag && 
@@ -1313,6 +1341,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
 
               {/* Customer Receive */}
               { selectedButton === 'custReceive' && <NewCustomerReceive /> }
+              { selectedButton === 'material_purchase' && <NewCustomerReceive /> }
 
 
             </>

@@ -1,3 +1,64 @@
+export const taxProfiles = [
+  { value: "0", label: "Select" },
+  { value: "1", label: "CGST + SGST" },
+  { value: "2", label: "IGST" },
+  { value: "29", label: "GST" },
+  { value: "34", label: "CGST 1.5%" },
+  { value: "35", label: "TCS" },
+  { value: "36", label: "TCS 0.075%" },
+  { value: "37", label: "TCS IGST 0.075%" },
+  { value: "38", label: "TaxPr" },
+  { value: "39", label: "Ammu" },
+  { value: "40", label: "VGST" },
+  { value: "41", label: "New Tax" },
+  { value: "42", label: "p_gst" },
+  { value: "43", label: "TCS(0.125)" },
+  { value: "44", label: "TCS on 0.075%" },
+  { value: "45", label: "tex" },
+  { value: "47", label: "Additional Charges" }
+];
+
+export const tdsProfiles = [
+  { value: "0", label: "Select" },
+  { value: "1", label: "TDS 0.1%" },
+  { value: "2", label: "TDS 2%" },
+  { value: "3", label: "tax3" },
+  { value: "4", label: "TDS" },
+  { value: "5", label: "TDS 194-Q" },
+  { value: "6", label: "TDS 194-C" },
+  { value: "7", label: "Tds 194-J" },
+  { value: "8", label: "Tds 194-I" },
+  { value: "9", label: "Tds 194-N" },
+  { value: "10", label: "Tds 194-H" },
+  { value: "11", label: "Tds 192-B" },
+  { value: "12", label: "Shiv@123" },
+  { value: "15", label: "tax" },
+  { value: "16", label: "taxs" },
+  { value: "17", label: "test" }
+];
+
+export const currencyRates = [
+  { value: "0", label: "Select" },
+  { value: "131", label: "INR" },
+  { value: "132", label: "AUD" },
+  { value: "133", label: "US$" },
+  { value: "134", label: "CAD" },
+  { value: "135", label: "AED" },
+  { value: "136", label: "EURO" },
+  { value: "137", label: "GBP" },
+  { value: "142", label: "Won-A" },
+  { value: "143", label: "S1" },
+  { value: "145", label: "QA1" },
+  { value: "147", label: "HKD" },
+  { value: "149", label: "yen" },
+  { value: "151", label: "AOA" },
+  { value: "154", label: "$" },
+  { value: "156", label: "BD" },
+  { value: "157", label: "pu" },
+  { value: "158", label: "ID" }
+];
+
+
 export const MaterialList = [
   {
     id:1,
