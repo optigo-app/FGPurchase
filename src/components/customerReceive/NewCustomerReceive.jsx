@@ -36,28 +36,28 @@ const NewCustomerReceive = () => {
    const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(-1);
 
     const [materialObj, setMaterialObj] = useState({
-      metalObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+      metalObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', amount:'' },
       mountObj: mode === "customer_receive" ?
       { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-      : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
+      : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", amount:'', locker: '', description: '' },
       diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
       colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
       miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
       findingObj: 
         mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-        : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-      alloyObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+        : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '', amount:'' },
+      alloyObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"" }
     });
     const [materialObjError, setMaterialObjError] = useState({
       metalObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
       mountObj: mode === "customer_receive" ?
       { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-      : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
+      : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", amount:'', locker: '', description: '' },
       diamondObj: { customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
       colorstoneObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
       miscObj: { customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
       findingObj: mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-      : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
+      : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '' },
       alloyObj: { customer:'', material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
     });
 
@@ -202,12 +202,12 @@ const NewCustomerReceive = () => {
         metalObj: { material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
         mountObj: mode === "customer_receive" ?
         { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-        : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
+        : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", amount:'', locker: '', description: '' },
         diamondObj: { material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
         colorstoneObj: { material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
         miscObj: { material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:'', locker: '', description: '' },
         findingObj: mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-        : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
+        : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '' },
         alloyObj: { material: '', mtype: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
       })
       setMaterialFlag(false);
@@ -270,19 +270,18 @@ const NewCustomerReceive = () => {
         }));
         }
         if(materialId === 2){
-          console.log(value, checked);
           
           updatedObj.mountObj['customer'] = searchUser;
           updatedObj.mountObj['material'] = "MOUNT";
           updatedObj.mountObj[name] = value;
-          // if(updatedObj.mountObj[name] === "onpcsrate"){
-          //   updatedObj.mountObj[name] = checked;
-          // }
+          if(name === "onpcsrate" || name === "onpcslbws"){
+            updatedObj.mountObj[name] = checked ? 1 : 0;
+          }
+          
           setMaterialObjError((prev) => ({
             ...prev, // Keep the previous error objects intact
             mountObj: {
                 ...prev.mountObj, // Ensure diamondObj is updated properly
-                [name] : checked,
                 category:"",
                 metal:"",
                 quality:"",
@@ -296,6 +295,11 @@ const NewCustomerReceive = () => {
           updatedObj.diamondObj['customer'] = searchUser;
           updatedObj.diamondObj['material'] = "DIAMOND";
           updatedObj.diamondObj[name] = value;
+
+          if(name === "onpcsrate" || name === "onpcslbws"){
+            updatedObj.diamondObj[name] = checked ? 1 : 0;
+          }
+
           setMaterialObjError((prev) => ({
             ...prev, // Keep the previous error objects intact
             diamondObj: {
@@ -314,6 +318,11 @@ const NewCustomerReceive = () => {
           updatedObj.colorstoneObj['customer'] = searchUser;
           updatedObj.colorstoneObj['material'] = "COLORSTONE";
           updatedObj.colorstoneObj[name] = value;
+
+          if(name === "onpcsrate" || name === "onpcslbws"){
+            updatedObj.colorstoneObj[name] = checked ? 1 : 0;
+          }
+
           setMaterialObjError((prev) => ({
             ...prev, // Keep the previous error objects intact
             colorstoneObj: {
@@ -330,6 +339,11 @@ const NewCustomerReceive = () => {
           updatedObj.findingObj['customer'] = searchUser;
           updatedObj.findingObj['material'] = "FINDING";
           updatedObj.findingObj[name] = value;
+
+          if(name === "onpcsrate" || name === "onpcslbws"){
+            updatedObj.findingObj[name] = checked ? 1 : 0;
+          }
+
           setMaterialObjError((prev) => ({
             ...prev, // Keep the previous error objects intact
             findingObj: {
@@ -348,6 +362,11 @@ const NewCustomerReceive = () => {
           updatedObj.alloyObj['customer'] = searchUser;
           updatedObj.alloyObj['material'] = "ALLOY";
           updatedObj.alloyObj[name] = value;
+
+          if(name === "onpcsrate" || name === "onpcslbws"){
+            updatedObj.alloyObj[name] = checked ? 1 : 0;
+          }
+
           setMaterialObjError((prev) => ({
             ...prev, // Keep the previous error objects intact
             alloyObj: {
@@ -362,6 +381,11 @@ const NewCustomerReceive = () => {
           updatedObj.miscObj['customer'] = searchUser;
           updatedObj.miscObj['material'] = "MISC";
           updatedObj.miscObj[name] = value;
+
+          if(name === "onpcsrate" || name === "onpcslbws"){
+            updatedObj.miscObj[name] = checked ? 1 : 0;
+          }
+
           setMaterialObjError((prev) => ({
             ...prev, // Keep the previous error objects intact
             miscObj: {
@@ -399,11 +423,14 @@ const NewCustomerReceive = () => {
           });
       
           if (Object.keys(errors).length === 0) {
+            
+
               // If no errors, add the diamond object to the list
               setMetalList((prev) => {
                 const updatedMetalObj = { 
                   ...materialObj.metalObj, 
                   customer: searchUser,
+                  amount:((+materialObj.metalObj?.wt) * (+materialObj.metalObj?.rate)),
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -411,17 +438,24 @@ const NewCustomerReceive = () => {
               });
               
               setMaterialObj({
-                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: mode === "customer_receive" ?
-                { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                findingObj: 
-                mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                    metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', amount:'' },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                // mountObj: mode === "customer_receive" ?
+                // { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                // : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // findingObj: 
+                // mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                // : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '' },
+                // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -442,7 +476,7 @@ const NewCustomerReceive = () => {
           // setMountList((prev) => (
           //   [...prev, materialObj.mountObj]
           // ))
-          let requiredFields = ['quality', 'metal', 'quality', "color", "wt", 'tunch'];
+          let requiredFields = ['metal', 'quality', "color", "wt", 'tunch'];
     
           // Initialize an errors object to hold individual errors
           let errors = {};
@@ -456,10 +490,13 @@ const NewCustomerReceive = () => {
       
           if (Object.keys(errors).length === 0) {
               // If no errors, add the diamond object to the list
+
+         
               setMountList((prev) => {
                 const updatedMountObj = { 
                   ...materialObj.mountObj, 
                   customer: searchUser,
+                  
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -467,17 +504,24 @@ const NewCustomerReceive = () => {
               });
               
               setMaterialObj({
-                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: mode === "customer_receive" ?
-                  { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                findingObj: 
-                mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                // mountObj: mode === "customer_receive" ?
+                //   { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                //   : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:'', amount:'',  locker: '', description: '' },
+                // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // findingObj: 
+                // mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                // : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', labouramt:'', onpcslbws:'', locker: '', labouramt:"", description: '' },
+                // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -534,6 +578,7 @@ const NewCustomerReceive = () => {
                   const updatedDiamondObj = { 
                     ...materialObj.diamondObj, 
                     customer: searchUser,
+                    amount:materialObj.diamondObj?.onpcsrate ? ((+materialObj.diamondObj?.pcs)*(+materialObj.diamondObj?.rate)) : ((+materialObj.diamondObj?.wt)*(+materialObj.diamondObj?.rate)),
                     id: Math.floor(Math.random() * 100000)  // Generating a random ID
                   };
                   
@@ -541,17 +586,24 @@ const NewCustomerReceive = () => {
                 });
                 
         setMaterialObj({
-          metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-          mountObj: mode === "customer_receive" ?
-                  { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-          diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-          colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-          miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-          findingObj: 
-                mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-          alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+          metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+          // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+          // mountObj: mode === "customer_receive" ?
+          //         { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+          //         : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+          // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+          // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+          // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+          // findingObj: 
+          //       mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+          //       : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '' },
+          // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
         });
 
         matRef.current.focus();
@@ -588,6 +640,7 @@ const NewCustomerReceive = () => {
                   const updatedColorStoneObj = { 
                     ...materialObj.colorstoneObj, 
                     customer: searchUser,
+                    amount:materialObj.colorstoneObj?.onpcsrate ? ((+materialObj.colorstoneObj?.pcs)*(+materialObj.colorstoneObj?.rate)) : ((+materialObj.colorstoneObj?.wt)*(+materialObj.colorstoneObj?.rate)),
                     id: Math.floor(Math.random() * 100000)  // Generating a random ID
                   };
                   
@@ -595,17 +648,24 @@ const NewCustomerReceive = () => {
                 });
                 
                 setMaterialObj({
-                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  mountObj: mode === "customer_receive" ?
-                  { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-                  diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                  colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                  miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                  findingObj: 
-                  mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-                  alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                  // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  // mountObj: mode === "customer_receive" ?
+                  // { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                  // : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                  // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                  // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                  // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                  // findingObj: 
+                  // mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                  // : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '' },
+                  // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
                 });
 
                 matRef.current.focus();
@@ -638,11 +698,58 @@ const NewCustomerReceive = () => {
           });
       
           if (Object.keys(errors).length === 0) {
+
+            let amt = 0;
+            console.log("in error 0 condition", materialObj.findingObj);
+            
+            if((materialObj.findingObj?.onpcsrate === 0 || materialObj.findingObj?.onpcsrate === '') && (materialObj.findingObj?.onpcslbws === 0 || materialObj.findingObj?.onpcslbws === '')){
+              
+              if((+materialObj.findingObj?.rate) === 0 && (+materialObj.findingObj?.labour) === 0){
+                amt = 0; //condition satisfied
+              }
+              if(((+materialObj.findingObj?.rate) === 0) && ((+materialObj.findingObj?.labour) !== 0)){                
+                amt = ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.wt)); // condition satisfied
+              }
+              if((+materialObj.findingObj?.rate) !== 0 && (+materialObj.findingObj?.labour) === 0){
+                amt = (((((+materialObj.findingObj?.rate) * (materialObj.findingObj?.tunch)) * (+materialObj.findingObj?.wt))) / 100); //condition satisfied
+              }
+              if((+materialObj.findingObj?.rate) !== 0 && (+materialObj.findingObj?.labour) !== 0){
+                amt = (((((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.tunch)) * (+materialObj.findingObj?.wt)) / 100) 
+                      +
+                      (+materialObj.findingObj?.labour) * (+materialObj.findingObj?.wt)); //condition satisfied
+              }
+            }
+            if((materialObj.findingObj?.onpcsrate === 1 || materialObj.findingObj?.onpcsrate !== '') && (materialObj.findingObj?.onpcslbws === 0 || materialObj.findingObj?.onpcslbws === '')){
+              if(materialObj.findingObj?.onpcsrate === 0 || materialObj.findingObj?.onpcsrate === "")  {
+                amt = ((((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.tunch)) / 100) * (+materialObj.findingObj?.wt)); //condition satisfied
+              }
+              else{
+                amt = ((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.pcs)); //condition satisfied
+              }
+            }
+            if((materialObj.findingObj?.onpcsrate === 0 || materialObj.findingObj?.onpcsrate === '') && materialObj.findingObj?.onpcslbws === 1){
+              if(+materialObj.findingObj?.wastage === 0){
+                  amt = (((((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.tunch)) * (+materialObj.findingObj?.wt)) / 100)
+                        + 
+                        ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.pcs))) //condition satisfied
+              }
+              if(+materialObj.findingObj?.wastage !== 0){
+                amt = (((((+materialObj.findingObj?.rate) * ((+materialObj.findingObj?.tunch) + (+materialObj.findingObj?.wastage))) * (+materialObj.findingObj?.wt))) / 100)
+                      + 
+                      ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.pcs)) //condition satisfied
+              }
+            }
+            if(materialObj.findingObj?.onpcsrate === 1 && materialObj.findingObj?.onpcslbws === 1){
+              amt = (((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.pcs)) + ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.pcs))); //condition satisfied
+           }
+
+
               // If no errors, add the diamond object to the list
               setFindingList((prev) => {
                 const updatedFindingObj = { 
                   ...materialObj.findingObj, 
                   customer: searchUser,
+                  amount:amt,
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -650,17 +757,24 @@ const NewCustomerReceive = () => {
               });
               
               setMaterialObj({
-                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: mode === "customer_receive" ?
-                  { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                findingObj: 
-                  mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                // mountObj: mode === "customer_receive" ?
+                //   { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                //   : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                // findingObj: 
+                //   mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                //   : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', labouramt:"", locker: '', description: '' },
+                // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -698,6 +812,7 @@ const NewCustomerReceive = () => {
                 const updatedAlloyObj = { 
                   ...materialObj.alloyObj, 
                   customer: searchUser,
+                  amount: ((+materialObj.alloyObj?.wt) * (+materialObj.alloyObj?.rate)),
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -705,17 +820,24 @@ const NewCustomerReceive = () => {
               });
               
               setMaterialObj({
-                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                mountObj: mode === "customer_receive" ?
-                  { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-                diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                findingObj: 
-                  mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-                alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                // mountObj: mode === "customer_receive" ?
+                //   { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                //   : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                // findingObj: 
+                //   mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                //   : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', labouramt:"", description: '' },
+                // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
               });
 
               matRef.current.focus();
@@ -753,6 +875,7 @@ const NewCustomerReceive = () => {
                   const updatedMiscObj = { 
                     ...materialObj.miscObj, 
                     customer: searchUser,
+                    amount:materialObj.miscObj?.onpcsrate ? ((+materialObj.miscObj?.pcs)*(+materialObj.miscObj?.rate)) : ((+materialObj.miscObj?.wt)*(+materialObj.miscObj?.rate)),
                     id: Math.floor(Math.random() * 100000)  // Generating a random ID
                   };
                   
@@ -761,17 +884,24 @@ const NewCustomerReceive = () => {
                 
                 
                 setMaterialObj({
-                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  mountObj: mode === "customer_receive" ?
-                  { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', description: '' },
-                  diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                  colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                  miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
-                  findingObj: 
-                  mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
-                  : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', description: '' },
-                  alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                  // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  // mountObj: mode === "customer_receive" ?
+                  // { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                  // : { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', locker: '', labouramt:"", description: '' },
+                  // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                  // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                  // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '' },
+                  // findingObj: 
+                  // mode === "customer_receive" ? { id:'', customer:'', material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' }
+                  // : { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'',wastage:'', onpcslbws:'', locker: '', labouramt:"", description: '' },
+                  // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
                 });
 
                 matRef.current.focus();
@@ -842,7 +972,28 @@ const NewCustomerReceive = () => {
       }
     }
 
-    const columns = [ 
+    // const columns = [ 
+    //   { id: 'srno', label: 'SrNo', minWidth: 80, align: 'center' },
+    //   { id: 'customer', label: 'Customer', minWidth: 80, align: 'center' },
+    //   { id: 'material', label: 'Material', minWidth: 80, align: 'left' },
+    //   { id: 'mtype', label: 'MType', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+    //   { id: 'lot', label: 'Lot#', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+    //   { id: 'type', label: 'Type', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+    //   { id: 'quality', label: 'Quality', minWidth: 100, align: 'left', format: value => value?.toLocaleString('en-US') },
+    //   { id: 'color', label: 'Color', minWidth: 80, align: 'left', format: value => value?.toLocaleString('en-US') },
+    //   { id: 'size', label: 'Size', minWidth: 80, align: 'left', format: value => value?.toFixed(2) },
+    //   { id: 'pcs', label: 'Pcs', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+    //   { id: 'wt', label: 'Weight', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
+    //   { id: 'tunch', label: 'Tunch', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+    //   mode === "customer_receive" && { id: 'actualWeight', label: 'Actual Weight', minWidth: 100, align: 'left', format: value => value?.toFixed(2) },
+    //   mode === "material_purchase" && { id: 'labour', label: 'Labour', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+    //   mode === "material_purchase" && { id: 'labouramt', label: 'LabourAmt', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+    //   mode === "material_purchase" && { id: 'amount', label: 'Total', minWidth: 100, align: 'left', format: value => value?.toFixed(2) },
+    //   { id: 'locker', label: 'Locker', minWidth: 80, align: 'left', format: value => value?.toFixed(2) },
+    //   { id: 'description', label: 'Description', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
+    //   { id: 'action', label: 'Remove', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
+    // ]
+    const columns = [
       { id: 'srno', label: 'SrNo', minWidth: 80, align: 'center' },
       { id: 'customer', label: 'Customer', minWidth: 80, align: 'center' },
       { id: 'material', label: 'Material', minWidth: 80, align: 'left' },
@@ -855,11 +1006,19 @@ const NewCustomerReceive = () => {
       { id: 'pcs', label: 'Pcs', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
       { id: 'wt', label: 'Weight', minWidth: 80, align: 'right', format: value => value?.toFixed(2) },
       { id: 'tunch', label: 'Tunch', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
-      { id: 'actualWeight', label: 'Actual Weight', minWidth: 100, align: 'left', format: value => value?.toFixed(2) },
+      ...(mode === "customer_receive" ? [{ id: 'actualWeight', label: 'Actual Weight', minWidth: 100, align: 'left', format: value => value?.toFixed(2) }] : []),
+      ...(mode === "material_purchase" ? [
+        { id: 'less', label: 'Less', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+        { id: 'labour', label: 'Labour', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+        { id: 'labouramt', label: 'LabourAmt', minWidth: 100, align: 'right', format: value => value?.toFixed(2) },
+        { id: 'amount', label: 'Total', minWidth: 100, align: 'left', format: value => value?.toFixed(2) }
+      ] : []),
       { id: 'locker', label: 'Locker', minWidth: 80, align: 'left', format: value => value?.toFixed(2) },
       { id: 'description', label: 'Description', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
-      { id: 'action', label: 'Remove', minWidth: 90, align: 'right', format: value => value?.toFixed(2) },
-    ]
+      { id: 'action', label: 'Remove', minWidth: 90, align: 'right', format: value => value?.toFixed(2) }
+    ];
+    
+    
  
 
 
@@ -1282,8 +1441,9 @@ const handleSave = () => {
           { ( (mode === "material_purchase" && ([2,3,4,5,7]?.includes(materialId))) ) && <div className="filter-item d-flex justify-content-center align-items-center" style={{paddingTop:'20px'}}>
             <div>
               <input type="checkbox" style={{width:'20px'}} id='onpcsrate' name='onpcsrate' autoComplete='off' 
-              value={ materialObj.mountObj?.onpcsrate || materialObj.diamondObj?.onpcsrate || materialObj.colorstoneObj?.onpcsrate || materialObj.miscObj?.onpcsrate || materialObj.findingObj?.onpcsrate } 
+              // value={ materialObj.mountObj?.onpcsrate || materialObj.diamondObj?.onpcsrate || materialObj.colorstoneObj?.onpcsrate || materialObj.miscObj?.onpcsrate || materialObj.findingObj?.onpcsrate } 
               checked={ materialObj.mountObj?.onpcsrate || materialObj.diamondObj?.onpcsrate || materialObj.colorstoneObj?.onpcsrate || materialObj.miscObj?.onpcsrate || materialObj.findingObj?.onpcsrate } 
+              // checked={ materialObj.mountObj?.onpcsrate || materialObj.diamondObj?.onpcsrate || materialObj.colorstoneObj?.onpcsrate || materialObj.miscObj?.onpcsrate || materialObj.findingObj?.onpcsrate } 
               onChange={(e)=> handleDynamicChange(e)} />
               <label htmlFor="onpcsrate" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>On Pcs</label>
             </div>
@@ -1292,27 +1452,30 @@ const handleSave = () => {
           { ( mode === "material_purchase" && (materialId === 2 || materialId === 5) ) && <div className="filter-item">
             <div>
               <label htmlFor="labour" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>LABOUR</label>
-              <input type="text"  id='labour' name='labour' autoComplete='off' value={materialObj.metalObj?.locker || materialObj.mountObj?.locker || materialObj.diamondObj?.locker || materialObj.colorstoneObj?.locker || materialObj.miscObj?.locker || materialObj.findingObj?.locker || materialObj.alloyObj?.locker} onChange={(e)=> handleDynamicChange(e)} 
+              <input type="text"  id='labour' name='labour' autoComplete='off' value={materialObj.metalObj?.labour || materialObj.mountObj?.labour || materialObj.diamondObj?.labour || materialObj.colorstoneObj?.labour || materialObj.miscObj?.labour || materialObj.findingObj?.labour || materialObj.alloyObj?.labour} onChange={(e)=> handleDynamicChange(e)} 
               />
             </div>
           </div>}
           { ( mode === "material_purchase" && materialId === 2 || materialId === 5 ) && <div className="filter-item">
             <div>
               <label htmlFor="wastage" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>WASTAGE</label>
-              <input type="text"  id='wastage' name='wastage' autoComplete='off' value={materialObj.metalObj?.locker || materialObj.mountObj?.locker || materialObj.diamondObj?.locker || materialObj.colorstoneObj?.locker || materialObj.miscObj?.locker || materialObj.findingObj?.locker || materialObj.alloyObj?.locker} onChange={(e)=> handleDynamicChange(e)} 
+              <input type="text"  id='wastage' name='wastage' autoComplete='off' value={materialObj.metalObj?.wastage || materialObj.mountObj?.wastage || materialObj.diamondObj?.wastage || materialObj.colorstoneObj?.wastage || materialObj.miscObj?.wastage || materialObj.findingObj?.wastage || materialObj.alloyObj?.wastage} onChange={(e)=> handleDynamicChange(e)} 
               />
             </div>
           </div>}
           { ( (mode === "material_purchase" && (materialId === 2 || materialId === 5)) ) && <div className="filter-item d-flex justify-content-center align-items-center" style={{paddingTop:'20px'}}>
             <div>
-              <input type="checkbox" style={{width:'20px'}} id='onpcsbylbws' name='onpcsbylbws' autoComplete='off' value={materialObj.metalObj?.rate || materialObj.mountObj?.rate || materialObj.diamondObj?.rate || materialObj.colorstoneObj?.rate || materialObj.miscObj?.rate || materialObj.findingObj?.rate || materialObj.alloyObj?.rate} onChange={(e)=> handleDynamicChange(e)} />
-              <label htmlFor="onpcsbylbws" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>On Pcs</label>
+              <input type="checkbox" style={{width:'20px'}} id='onpcslbws' name='onpcslbws' autoComplete='off' 
+              // value={ materialObj.mountObj?.onpcslbws || materialObj.diamondObj?.onpcslbws || materialObj.colorstoneObj?.onpcslbws || materialObj.miscObj?.onpcslbws || materialObj.findingObj?.onpcslbws } 
+              checked={ materialObj.mountObj?.onpcslbws || materialObj.diamondObj?.onpcslbws || materialObj.colorstoneObj?.onpcslbws || materialObj.miscObj?.onpcslbws || materialObj.findingObj?.onpcslbws } 
+              onChange={(e)=> handleDynamicChange(e)} />
+              <label htmlFor="onpcslbws" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>On Pcs</label>
             </div>
           </div>}
           { ( mode === "material_purchase" && materialId === 2 ) && <div className="filter-item">
             <div>
               <label htmlFor="amount" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>AMOUNT</label>
-              <input type="text"  id='amount' name='amount' autoComplete='off' value={materialObj.metalObj?.locker || materialObj.mountObj?.locker || materialObj.diamondObj?.locker || materialObj.colorstoneObj?.locker || materialObj.miscObj?.locker || materialObj.findingObj?.locker || materialObj.alloyObj?.locker} onChange={(e)=> handleDynamicChange(e)} 
+              <input type="text"  id='amount' name='amount' autoComplete='off' value={materialObj.metalObj?.amount || materialObj.mountObj?.amount || materialObj.diamondObj?.amount || materialObj.colorstoneObj?.amount || materialObj.miscObj?.amount || materialObj.findingObj?.amount || materialObj.alloyObj?.amount} onChange={(e)=> handleDynamicChange(e)} 
               />
             </div>
           </div>}
@@ -1345,13 +1508,20 @@ const handleSave = () => {
               <Button sx={{minWidth:'max-content'}}  
                 onClick={() => <> {setMaterialValue('')}{
                   setMaterialObj({
-                  metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
-                  findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
-                  alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
+                    metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', labour:'', wastage:'', },
+                    mountObj: { id:'', customer:'', material: '', metal:"", mtype: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', less:'', tunch: '', actualWeight: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', amount:'', labouramt:"", locker: '', description: '' },
+                    diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', onpcsrate:"", locker: '', description: '', amount:"", labour:'', wastage:'', },
+                    findingObj: { id:'', customer:'', metal:"", material: '', mtype: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', rate: '', onpcsrate:'', labour:'', wastage:'', onpcslbws:'', labouramt:"", locker: '', amount:"", description: '' },
+                    alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '', amount:"", labour:'', wastage:'', }
+                  // metalObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  // mountObj: { id:'', customer:'', material: '', metal: '', lot: '', category: '', quality: '', color: '', wt: '', pcs: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  // diamondObj: { id:'', customer:'', material: '', mtype: '', lot: '',  shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  // colorstoneObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  // miscObj: { id:'', customer:'', material: '', mtype: '', lot: '', shape: '', quality: '', color: '', size: '', pcs: '', wt: '', rate: '', locker: '', description: '' },
+                  // findingObj: { id:'', customer:'', material: '', metal: '', lot: '', fType: '', accessories: '', quality: '', color: '', size: '', pcs: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '' },
+                  // alloyObj: { id:'', customer:'', material: '', metal: '', quality: '', color: '', wt: '', rate: '', locker: '', description: '' }
                 })} </>} 
               >
               <Tooltip title="Reset">
@@ -1364,7 +1534,7 @@ const handleSave = () => {
           </div>
         </div>
         <div className='my-5'><Typography variant='h5' className='fs_fgp text_color'>MATERIAL DETAILS</Typography></div>
-        <div style={{maxWidth:'1550px', paddingBottom:'3rem'}}>
+        <div style={{maxWidth:`${mode === "customer_receive" ? "1550px" : "1770px"}`, paddingBottom:'3rem'}}>
           <TableContainer component={Paper} 
             sx={{
               maxHeight: 440,
