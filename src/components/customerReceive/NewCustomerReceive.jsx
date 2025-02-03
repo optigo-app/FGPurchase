@@ -491,12 +491,54 @@ const NewCustomerReceive = () => {
           if (Object.keys(errors).length === 0) {
               // If no errors, add the diamond object to the list
 
-         
+              let amt = 0;
+            
+              if((materialObj.mountObj?.onpcsrate === 0 || materialObj.mountObj?.onpcsrate === '') && (materialObj.mountObj?.onpcslbws === 0 || materialObj.mountObj?.onpcslbws === '')){
+                
+                if((+materialObj.mountObj?.rate) === 0 && (+materialObj.mountObj?.labour) === 0){
+                  amt = 0; //condition satisfied
+                }
+                if(((+materialObj.mountObj?.rate) === 0) && ((+materialObj.mountObj?.labour) !== 0)){                
+                  amt = ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.wt)); // condition satisfied
+                }
+                if((+materialObj.mountObj?.rate) !== 0 && (+materialObj.mountObj?.labour) === 0){
+                  amt = (((((+materialObj.mountObj?.rate) * (materialObj.mountObj?.tunch)) * (+materialObj.mountObj?.wt))) / 100); //condition satisfied
+                }
+                if((+materialObj.mountObj?.rate) !== 0 && (+materialObj.mountObj?.labour) !== 0){
+                  amt = (((((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.tunch)) * (+materialObj.mountObj?.wt)) / 100) 
+                        +
+                        (+materialObj.mountObj?.labour) * (+materialObj.mountObj?.wt)); //condition satisfied
+                }
+              }
+              if((materialObj.mountObj?.onpcsrate === 1 || materialObj.mountObj?.onpcsrate !== '') && (materialObj.mountObj?.onpcslbws === 0 || materialObj.mountObj?.onpcslbws === '')){
+                if(materialObj.mountObj?.onpcsrate === 0 || materialObj.mountObj?.onpcsrate === "")  {
+                  amt = ((((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.tunch)) / 100) * (+materialObj.mountObj?.wt)); //condition satisfied
+                }
+                else{
+                  amt = ((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.pcs)); //condition satisfied
+                }
+              }
+              if((materialObj.mountObj?.onpcsrate === 0 || materialObj.mountObj?.onpcsrate === '') && materialObj.mountObj?.onpcslbws === 1){
+                if(+materialObj.mountObj?.wastage === 0){
+                    amt = (((((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.tunch)) * (+materialObj.mountObj?.wt)) / 100)
+                          + 
+                          ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.pcs))) //condition satisfied
+                }
+                if(+materialObj.mountObj?.wastage !== 0){
+                  amt = (((((+materialObj.mountObj?.rate) * ((+materialObj.mountObj?.tunch) + (+materialObj.mountObj?.wastage))) * (+materialObj.mountObj?.wt))) / 100)
+                        + 
+                        ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.pcs)) //condition satisfied
+                }
+              }
+              if(materialObj.mountObj?.onpcsrate === 1 && materialObj.mountObj?.onpcslbws === 1){
+                amt = (((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.pcs)) + ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.pcs))); //condition satisfied
+              }
+
               setMountList((prev) => {
                 const updatedMountObj = { 
                   ...materialObj.mountObj, 
                   customer: searchUser,
-                  
+                  amount:amt,
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -700,7 +742,6 @@ const NewCustomerReceive = () => {
           if (Object.keys(errors).length === 0) {
 
             let amt = 0;
-            console.log("in error 0 condition", materialObj.findingObj);
             
             if((materialObj.findingObj?.onpcsrate === 0 || materialObj.findingObj?.onpcsrate === '') && (materialObj.findingObj?.onpcslbws === 0 || materialObj.findingObj?.onpcslbws === '')){
               
@@ -741,7 +782,7 @@ const NewCustomerReceive = () => {
             }
             if(materialObj.findingObj?.onpcsrate === 1 && materialObj.findingObj?.onpcslbws === 1){
               amt = (((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.pcs)) + ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.pcs))); //condition satisfied
-           }
+            }
 
 
               // If no errors, add the diamond object to the list
