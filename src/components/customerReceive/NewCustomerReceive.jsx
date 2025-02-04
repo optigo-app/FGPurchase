@@ -248,161 +248,313 @@ const NewCustomerReceive = () => {
 
 
 
+    // const handleDynamicChange = (e) => {
+    //   const { name, value, checked } = e.target;
+      
+    //   setMaterialObj(prevState => {
+    //     const updatedObj = { ...prevState };  
+    
+    //     if(materialId === 1){
+    //       updatedObj.metalObj['customer'] = searchUser;
+    //       updatedObj.metalObj['material'] = "METAL";
+    //       updatedObj.metalObj[name] = value;
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         metalObj: {
+    //             ...prev.metalObj, // Ensure diamondObj is updated properly
+    //             quality:"",
+    //             color:"",
+    //             wt:"",
+    //             tunch:""
+    //         }
+    //     }));
+    //     }
+    //     if(materialId === 2){
+          
+    //       updatedObj.mountObj['customer'] = searchUser;
+    //       updatedObj.mountObj['material'] = "MOUNT";
+    //       updatedObj.mountObj[name] = value;
+    //       if(name === "onpcsrate" || name === "onpcslbws"){
+    //         updatedObj.mountObj[name] = checked ? 1 : 0;
+    //       }
+          
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         mountObj: {
+    //             ...prev.mountObj, // Ensure diamondObj is updated properly
+    //             category:"",
+    //             metal:"",
+    //             quality:"",
+    //             color:"",
+    //             wt:"",
+    //             tunch:""
+    //         }
+    //     }));
+    //     }
+    //     if(materialId === 3){
+    //       updatedObj.diamondObj['customer'] = searchUser;
+    //       updatedObj.diamondObj['material'] = "DIAMOND";
+    //       updatedObj.diamondObj[name] = value;
+
+    //       if(name === "onpcsrate" || name === "onpcslbws"){
+    //         updatedObj.diamondObj[name] = checked ? 1 : 0;
+    //       }
+
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         diamondObj: {
+    //             ...prev.diamondObj, // Ensure diamondObj is updated properly
+    //             shape: "",
+    //             quality: "",
+    //             color: "",
+    //             size: "",
+    //             // wt: "weight is required",
+    //             // rate: "rate is required",
+    //             locker: "",
+    //         }
+    //     }));
+    //     }
+    //     if(materialId === 4){
+    //       updatedObj.colorstoneObj['customer'] = searchUser;
+    //       updatedObj.colorstoneObj['material'] = "COLORSTONE";
+    //       updatedObj.colorstoneObj[name] = value;
+
+    //       if(name === "onpcsrate" || name === "onpcslbws"){
+    //         updatedObj.colorstoneObj[name] = checked ? 1 : 0;
+    //       }
+
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         colorstoneObj: {
+    //             ...prev.colorstoneObj, // Ensure diamondObj is updated properly
+    //             shape: "",
+    //             quality: "",
+    //             color: "",
+    //             size: "",
+    //             locker: "",
+    //         }
+    //     }));
+    //     }
+    //     if(materialId === 5){
+    //       updatedObj.findingObj['customer'] = searchUser;
+    //       updatedObj.findingObj['material'] = "FINDING";
+    //       updatedObj.findingObj[name] = value;
+
+    //       if(name === "onpcsrate" || name === "onpcslbws"){
+    //         updatedObj.findingObj[name] = checked ? 1 : 0;
+    //       }
+
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         findingObj: {
+    //             ...prev.findingObj, // Ensure diamondObj is updated properly
+    //             metal:"",
+    //             fType:"",
+    //             accessories:"",
+    //             quality:"",
+    //             color:"",
+    //             wt:"",
+    //             tunch:""
+    //         }
+    //     }));
+    //     }
+    //     if(materialId === 6){
+    //       updatedObj.alloyObj['customer'] = searchUser;
+    //       updatedObj.alloyObj['material'] = "ALLOY";
+    //       updatedObj.alloyObj[name] = value;
+
+    //       if(name === "onpcsrate" || name === "onpcslbws"){
+    //         updatedObj.alloyObj[name] = checked ? 1 : 0;
+    //       }
+
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         alloyObj: {
+    //             ...prev.alloyObj, // Ensure diamondObj is updated properly
+    //             quality: "",
+    //             color: "",
+    //             wt:""
+    //         }
+    //     }));
+    //     }
+    //     if(materialId === 7){
+    //       updatedObj.miscObj['customer'] = searchUser;
+    //       updatedObj.miscObj['material'] = "MISC";
+    //       updatedObj.miscObj[name] = value;
+
+    //       if(name === "onpcsrate" || name === "onpcslbws"){
+    //         updatedObj.miscObj[name] = checked ? 1 : 0;
+    //       }
+
+    //       setMaterialObjError((prev) => ({
+    //         ...prev, // Keep the previous error objects intact
+    //         miscObj: {
+    //             ...prev.miscObj, // Ensure diamondObj is updated properly
+    //             shape: "",
+    //             quality: "",
+    //             color: "",
+    //             size: "",
+    //             locker: "",
+    //         }
+    //     }));
+    //     }
+        
+    //     return updatedObj;
+    //   });
+
+    // };
+    
+    const calculateAmount = (updatedMaterialObj) => {
+      let amt = 0;
+    
+      if ((updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === '') &&
+          (updatedMaterialObj.onpcslbws === 0 || updatedMaterialObj.onpcslbws === '')) {
+        if (+updatedMaterialObj.rate === 0 && +updatedMaterialObj.labour === 0) {
+          amt = 0;
+        } 
+        if (+updatedMaterialObj.rate === 0 && +updatedMaterialObj.labour !== 0) {
+          amt = (+updatedMaterialObj.labour * +updatedMaterialObj.wt);
+        }
+        if (+updatedMaterialObj.rate !== 0 && +updatedMaterialObj.labour === 0) {
+          amt = ((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100;
+        }
+        if (+updatedMaterialObj.rate !== 0 && +updatedMaterialObj.labour !== 0) {
+          amt = (((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100) + 
+                (+updatedMaterialObj.labour * +updatedMaterialObj.wt);
+        }
+      }
+    
+      if ((updatedMaterialObj.onpcsrate === 1 || updatedMaterialObj.onpcsrate !== '') && 
+          (updatedMaterialObj.onpcslbws === 0 || updatedMaterialObj.onpcslbws === '')) {
+        if (updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === "") {
+          amt = ((+updatedMaterialObj.rate * updatedMaterialObj.tunch) / 100) * (+updatedMaterialObj.wt);
+        } else {
+          amt = (+updatedMaterialObj.rate * +updatedMaterialObj.pcs);
+        }
+      }
+    
+      if ((updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === '') && updatedMaterialObj.onpcslbws === 1) {
+        if (+updatedMaterialObj.wastage === 0) {
+          amt = ((((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100) + 
+                (+updatedMaterialObj.labour * +updatedMaterialObj.pcs));
+        }
+        if (+updatedMaterialObj.wastage !== 0) {
+          amt = (((+updatedMaterialObj.rate * (+updatedMaterialObj.tunch + updatedMaterialObj.wastage)) * (+updatedMaterialObj.wt)) / 100) + 
+                (+updatedMaterialObj.labour * +updatedMaterialObj.pcs);
+        }
+      }
+    
+      if (updatedMaterialObj.onpcsrate === 1 && updatedMaterialObj.onpcslbws === 1) {
+        amt = ((+updatedMaterialObj.rate * +updatedMaterialObj.pcs) + 
+               (+updatedMaterialObj.labour * +updatedMaterialObj.pcs));
+      }
+    
+      return amt;
+    }
+    
     const handleDynamicChange = (e) => {
       const { name, value, checked } = e.target;
-      
-      setMaterialObj(prevState => {
-        const updatedObj = { ...prevState };  
     
-        if(materialId === 1){
-          updatedObj.metalObj['customer'] = searchUser;
-          updatedObj.metalObj['material'] = "METAL";
-          updatedObj.metalObj[name] = value;
-          setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
-            metalObj: {
-                ...prev.metalObj, // Ensure diamondObj is updated properly
-                quality:"",
-                color:"",
-                wt:"",
-                tunch:""
-            }
-        }));
-        }
-        if(materialId === 2){
-          
+      setMaterialObj(prevState => {
+        const updatedObj = { ...prevState };
+    
+        // Update values based on materialId (MOUNT - 2 and FINDING - 5)
+        if (materialId === 2) {
           updatedObj.mountObj['customer'] = searchUser;
           updatedObj.mountObj['material'] = "MOUNT";
           updatedObj.mountObj[name] = value;
-          if(name === "onpcsrate" || name === "onpcslbws"){
+          if (name === "onpcsrate" || name === "onpcslbws") {
             updatedObj.mountObj[name] = checked ? 1 : 0;
           }
-          
           setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
+            ...prev,
             mountObj: {
-                ...prev.mountObj, // Ensure diamondObj is updated properly
-                category:"",
-                metal:"",
-                quality:"",
-                color:"",
-                wt:"",
-                tunch:""
+              ...prev.mountObj,
+              category: "",
+              metal: "",
+              quality: "",
+              color: "",
+              wt: "",
+              tunch: ""
             }
-        }));
+          }));
+          
+          // Calculate the amount dynamically for material ID 2 (MOUNT)
+          const updatedAmount = calculateAmount(updatedObj.mountObj);
+          updatedObj.mountObj.amount = updatedAmount;
         }
-        if(materialId === 3){
-          updatedObj.diamondObj['customer'] = searchUser;
-          updatedObj.diamondObj['material'] = "DIAMOND";
-          updatedObj.diamondObj[name] = value;
-
-          if(name === "onpcsrate" || name === "onpcslbws"){
-            updatedObj.diamondObj[name] = checked ? 1 : 0;
-          }
-
-          setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
-            diamondObj: {
-                ...prev.diamondObj, // Ensure diamondObj is updated properly
-                shape: "",
-                quality: "",
-                color: "",
-                size: "",
-                // wt: "weight is required",
-                // rate: "rate is required",
-                locker: "",
-            }
-        }));
-        }
-        if(materialId === 4){
-          updatedObj.colorstoneObj['customer'] = searchUser;
-          updatedObj.colorstoneObj['material'] = "COLORSTONE";
-          updatedObj.colorstoneObj[name] = value;
-
-          if(name === "onpcsrate" || name === "onpcslbws"){
-            updatedObj.colorstoneObj[name] = checked ? 1 : 0;
-          }
-
-          setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
-            colorstoneObj: {
-                ...prev.colorstoneObj, // Ensure diamondObj is updated properly
-                shape: "",
-                quality: "",
-                color: "",
-                size: "",
-                locker: "",
-            }
-        }));
-        }
-        if(materialId === 5){
+    
+        if (materialId === 5) {
           updatedObj.findingObj['customer'] = searchUser;
           updatedObj.findingObj['material'] = "FINDING";
           updatedObj.findingObj[name] = value;
-
-          if(name === "onpcsrate" || name === "onpcslbws"){
+          if (name === "onpcsrate" || name === "onpcslbws") {
             updatedObj.findingObj[name] = checked ? 1 : 0;
           }
-
           setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
+            ...prev,
             findingObj: {
-                ...prev.findingObj, // Ensure diamondObj is updated properly
-                metal:"",
-                fType:"",
-                accessories:"",
-                quality:"",
-                color:"",
-                wt:"",
-                tunch:""
+              ...prev.findingObj,
+              metal: "",
+              fType: "",
+              accessories: "",
+              quality: "",
+              color: "",
+              wt: "",
+              tunch: ""
             }
-        }));
+          }));
+    
+          // Calculate the amount dynamically for material ID 5 (FINDING)
+          const updatedAmount = calculateAmount(updatedObj.findingObj);
+          updatedObj.findingObj.amount = updatedAmount;
         }
-        if(materialId === 6){
-          updatedObj.alloyObj['customer'] = searchUser;
-          updatedObj.alloyObj['material'] = "ALLOY";
-          updatedObj.alloyObj[name] = value;
-
-          if(name === "onpcsrate" || name === "onpcslbws"){
-            updatedObj.alloyObj[name] = checked ? 1 : 0;
+    
+        // For other materials, no amount calculation is needed, just update the state
+        if (![2, 5].includes(materialId)) {
+          if (materialId === 1) {
+            updatedObj.metalObj['customer'] = searchUser;
+            updatedObj.metalObj['material'] = "METAL";
+            updatedObj.metalObj[name] = value;
+            if (name === "onpcsrate" || name === "onpcslbws") {
+              updatedObj.findingObj[name] = checked ? 1 : 0;
+            }
+          } else if (materialId === 3) {
+            updatedObj.diamondObj['customer'] = searchUser;
+            updatedObj.diamondObj['material'] = "DIAMOND";
+            updatedObj.diamondObj[name] = value;
+            if (name === "onpcsrate" || name === "onpcslbws") {
+              updatedObj.findingObj[name] = checked ? 1 : 0;
+            }
+          } else if (materialId === 4) {
+            updatedObj.colorstoneObj['customer'] = searchUser;
+            updatedObj.colorstoneObj['material'] = "COLORSTONE";
+            updatedObj.colorstoneObj[name] = value;
+            if (name === "onpcsrate" || name === "onpcslbws") {
+              updatedObj.findingObj[name] = checked ? 1 : 0;
+            }
+          } else if (materialId === 6) {
+            updatedObj.alloyObj['customer'] = searchUser;
+            updatedObj.alloyObj['material'] = "ALLOY";
+            updatedObj.alloyObj[name] = value;
+            if (name === "onpcsrate" || name === "onpcslbws") {
+              updatedObj.findingObj[name] = checked ? 1 : 0;
+            }
+          } else if (materialId === 7) {
+            updatedObj.miscObj['customer'] = searchUser;
+            updatedObj.miscObj['material'] = "MISC";
+            updatedObj.miscObj[name] = value;
+            if (name === "onpcsrate" || name === "onpcslbws") {
+              updatedObj.findingObj[name] = checked ? 1 : 0;
+            }
           }
-
-          setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
-            alloyObj: {
-                ...prev.alloyObj, // Ensure diamondObj is updated properly
-                quality: "",
-                color: "",
-                wt:""
-            }
-        }));
         }
-        if(materialId === 7){
-          updatedObj.miscObj['customer'] = searchUser;
-          updatedObj.miscObj['material'] = "MISC";
-          updatedObj.miscObj[name] = value;
-
-          if(name === "onpcsrate" || name === "onpcslbws"){
-            updatedObj.miscObj[name] = checked ? 1 : 0;
-          }
-
-          setMaterialObjError((prev) => ({
-            ...prev, // Keep the previous error objects intact
-            miscObj: {
-                ...prev.miscObj, // Ensure diamondObj is updated properly
-                shape: "",
-                quality: "",
-                color: "",
-                size: "",
-                locker: "",
-            }
-        }));
-        }
-        
+    
         return updatedObj;
       });
-
     };
+    
+    
     const handleAddInList = () => {
         if(materialId === 1){
 
@@ -521,8 +673,8 @@ const NewCustomerReceive = () => {
               if((materialObj.mountObj?.onpcsrate === 0 || materialObj.mountObj?.onpcsrate === '') && materialObj.mountObj?.onpcslbws === 1){
                 if(+materialObj.mountObj?.wastage === 0){
                     amt = (((((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.tunch)) * (+materialObj.mountObj?.wt)) / 100)
-                          + 
-                          ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.pcs))) //condition satisfied
+                            + 
+                            ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.pcs))) //condition satisfied
                 }
                 if(+materialObj.mountObj?.wastage !== 0){
                   amt = (((((+materialObj.mountObj?.rate) * ((+materialObj.mountObj?.tunch) + (+materialObj.mountObj?.wastage))) * (+materialObj.mountObj?.wt))) / 100)
@@ -539,6 +691,7 @@ const NewCustomerReceive = () => {
                   ...materialObj.mountObj, 
                   customer: searchUser,
                   amount:amt,
+                  labouramt:amt,
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -783,14 +936,14 @@ const NewCustomerReceive = () => {
             if(materialObj.findingObj?.onpcsrate === 1 && materialObj.findingObj?.onpcslbws === 1){
               amt = (((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.pcs)) + ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.pcs))); //condition satisfied
             }
-
-
+            
               // If no errors, add the diamond object to the list
               setFindingList((prev) => {
                 const updatedFindingObj = { 
                   ...materialObj.findingObj, 
                   customer: searchUser,
                   amount:amt,
+                  labouramt:amt,
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
@@ -971,6 +1124,56 @@ const NewCustomerReceive = () => {
 
         matRef.current.focus();
     }
+
+    // const calculateAmount = (updatedMaterialObj) => {
+    //   let amt = 0;
+      
+    //   if ((updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === '') && 
+    //       (updatedMaterialObj.onpcslbws === 0 || updatedMaterialObj.onpcslbws === '')) {
+    //     if (+updatedMaterialObj.rate === 0 && +updatedMaterialObj.labour === 0) {
+    //       amt = 0;
+    //     } 
+    //     if (+updatedMaterialObj.rate === 0 && +updatedMaterialObj.labour !== 0) {
+    //       amt = (+updatedMaterialObj.labour * +updatedMaterialObj.wt);
+    //     }
+    //     if (+updatedMaterialObj.rate !== 0 && +updatedMaterialObj.labour === 0) {
+    //       amt = ((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100;
+    //     }
+    //     if (+updatedMaterialObj.rate !== 0 && +updatedMaterialObj.labour !== 0) {
+    //       amt = (((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100) + 
+    //             (+updatedMaterialObj.labour * +updatedMaterialObj.wt);
+    //     }
+    //   }
+    
+    //   if ((updatedMaterialObj.onpcsrate === 1 || updatedMaterialObj.onpcsrate !== '') && 
+    //       (updatedMaterialObj.onpcslbws === 0 || updatedMaterialObj.onpcslbws === '')) {
+    //     if (updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === "") {
+    //       amt = ((+updatedMaterialObj.rate * updatedMaterialObj.tunch) / 100) * (+updatedMaterialObj.wt);
+    //     } else {
+    //       amt = (+updatedMaterialObj.rate * +updatedMaterialObj.pcs);
+    //     }
+    //   }
+    
+    //   if ((updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === '') && updatedMaterialObj.onpcslbws === 1) {
+    //     if (+updatedMaterialObj.wastage === 0) {
+    //       amt = ((((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100) + 
+    //             (+updatedMaterialObj.labour * +updatedMaterialObj.pcs));
+    //     }
+    //     if (+updatedMaterialObj.wastage !== 0) {
+    //       amt = (((+updatedMaterialObj.rate * (+updatedMaterialObj.tunch + updatedMaterialObj.wastage)) * (+updatedMaterialObj.wt)) / 100) + 
+    //             (+updatedMaterialObj.labour * +updatedMaterialObj.pcs);
+    //     }
+    //   }
+    
+    //   if (updatedMaterialObj.onpcsrate === 1 && updatedMaterialObj.onpcslbws === 1) {
+    //     amt = ((+updatedMaterialObj.rate * +updatedMaterialObj.pcs) + 
+    //            (+updatedMaterialObj.labour * +updatedMaterialObj.pcs));
+    //   }
+    
+    //   return amt;
+    // }
+    
+
     const handleEnterKeyDown = (e) => {
       if(e?.key?.toLowerCase() === "enter"){
 
