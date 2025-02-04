@@ -435,12 +435,12 @@ const NewCustomerReceive = () => {
     
       if ((updatedMaterialObj.onpcsrate === 0 || updatedMaterialObj.onpcsrate === '') && updatedMaterialObj.onpcslbws === 1) {
         if (+updatedMaterialObj.wastage === 0) {
-          amt = ((((+updatedMaterialObj.rate * updatedMaterialObj.tunch) * (+updatedMaterialObj.wt)) / 100) + 
-                (+updatedMaterialObj.labour * +updatedMaterialObj.pcs));
+          amt = (((((+updatedMaterialObj.rate) * (+updatedMaterialObj.tunch)) * (+updatedMaterialObj.wt)) / 100) + 
+                ((+updatedMaterialObj.labour) * (+updatedMaterialObj.pcs)));
         }
         if (+updatedMaterialObj.wastage !== 0) {
-          amt = (((+updatedMaterialObj.rate * (+updatedMaterialObj.tunch + updatedMaterialObj.wastage)) * (+updatedMaterialObj.wt)) / 100) + 
-                (+updatedMaterialObj.labour * +updatedMaterialObj.pcs);
+          amt = ((((+updatedMaterialObj.rate) * ((+updatedMaterialObj.tunch) + (+updatedMaterialObj.wastage))) * (+updatedMaterialObj.wt)) / 100) + 
+                ((+updatedMaterialObj.labour) * (+updatedMaterialObj.pcs));
         }
       }
     
@@ -466,6 +466,8 @@ const NewCustomerReceive = () => {
           if (name === "onpcsrate" || name === "onpcslbws") {
             updatedObj.mountObj[name] = checked ? 1 : 0;
           }
+          console.log(updatedObj.mountObj);
+          
           setMaterialObjError((prev) => ({
             ...prev,
             mountObj: {
@@ -556,6 +558,7 @@ const NewCustomerReceive = () => {
     
     
     const handleAddInList = () => {
+      
         if(materialId === 1){
 
           // setMetalList((prev) => (
@@ -644,6 +647,7 @@ const NewCustomerReceive = () => {
               // If no errors, add the diamond object to the list
 
               let amt = 0;
+              let lbrAmt = 0;
             
               if((materialObj.mountObj?.onpcsrate === 0 || materialObj.mountObj?.onpcsrate === '') && (materialObj.mountObj?.onpcslbws === 0 || materialObj.mountObj?.onpcslbws === '')){
                 
@@ -685,16 +689,22 @@ const NewCustomerReceive = () => {
               if(materialObj.mountObj?.onpcsrate === 1 && materialObj.mountObj?.onpcslbws === 1){
                 amt = (((+materialObj.mountObj?.rate) * (+materialObj.mountObj?.pcs)) + ((+materialObj.mountObj?.labour) * (+materialObj.mountObj?.pcs))); //condition satisfied
               }
-
+              if(materialObj.mountObj.onpcslbws === 0 || materialObj.mountObj.onpcslbws === ''){
+                lbrAmt = ((+materialObj.mountObj?.labour) * (+materialObj?.mountObj?.wt));
+              } else {
+                lbrAmt = ((+materialObj.mountObj?.labour) * (+materialObj?.mountObj?.pcs));
+              }
+              
               setMountList((prev) => {
                 const updatedMountObj = { 
                   ...materialObj.mountObj, 
                   customer: searchUser,
                   amount:amt,
-                  labouramt:amt,
+                  labouramt:lbrAmt,
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
-                
+                console.log(updatedMountObj);
+                  
                 return [...prev, updatedMountObj];
               });
               
@@ -895,7 +905,7 @@ const NewCustomerReceive = () => {
           if (Object.keys(errors).length === 0) {
 
             let amt = 0;
-            
+            let lbrAmt = 0;
             if((materialObj.findingObj?.onpcsrate === 0 || materialObj.findingObj?.onpcsrate === '') && (materialObj.findingObj?.onpcslbws === 0 || materialObj.findingObj?.onpcslbws === '')){
               
               if((+materialObj.findingObj?.rate) === 0 && (+materialObj.findingObj?.labour) === 0){
@@ -936,14 +946,20 @@ const NewCustomerReceive = () => {
             if(materialObj.findingObj?.onpcsrate === 1 && materialObj.findingObj?.onpcslbws === 1){
               amt = (((+materialObj.findingObj?.rate) * (+materialObj.findingObj?.pcs)) + ((+materialObj.findingObj?.labour) * (+materialObj.findingObj?.pcs))); //condition satisfied
             }
-            
+            if(materialObj.findingObj.onpcslbws === 0 || materialObj.findingObj.onpcslbws === ''){
+              lbrAmt = ((+materialObj.findingObj?.labour) * (+materialObj?.findingObj?.wt));
+            }
+            if(materialObj.findingObj.onpcslbws === 1 || materialObj.findingObj.onpcslbws !== ''){
+              lbrAmt = ((+materialObj.findingObj?.labour) * (+materialObj?.findingObj?.pcs));
+            }
+              
               // If no errors, add the diamond object to the list
               setFindingList((prev) => {
                 const updatedFindingObj = { 
                   ...materialObj.findingObj, 
                   customer: searchUser,
                   amount:amt,
-                  labouramt:amt,
+                  labouramt:lbrAmt,
                   id: Math.floor(Math.random() * 100000)  // Generating a random ID
                 };
                 
