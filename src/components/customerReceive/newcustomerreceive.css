@@ -111,3 +111,30 @@
     color: white;
     
 }
+
+
+.taxaddlessmatpurchase{
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 2px;
+    text-align: right;
+    font-weight: bold;
+}
+.taxaddlessmatpurchase:focus{
+    border: 1px solid #7367F0;
+    outline: none;
+}
+
+.remarks_mp{
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 2px;
+}
+.remarks_mp:focus{
+    border: 1px solid #7367F0;
+    outline: none;
+}
+
+.btn_roundup_mp {
+    padding: 1px !important;
+}

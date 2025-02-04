@@ -9,9 +9,13 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { currencyRates, MaterialList, taxProfiles, tdsProfiles } from '../../master/MasterData';
 import { Trash } from 'tabler-icons-react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleMultiPartPayFlag } from '../../redux/slices/HomeSlice';
+import MultipartPay from '../Payment/MultiPartPay';
 const NewCustomerReceive = () => {
     const mode = useSelector((state) => state?.fgp?.mode);
+    const multiPartPayFlag = useSelector((state) => state?.home?.multiPartPayFlag);
+    const dispatch = useDispatch();
     
     const theme = useTheme();
     const [date, setDate] = useState(new Date());
@@ -34,6 +38,8 @@ const NewCustomerReceive = () => {
    const [materialValue, setMaterialValue] = useState('');
    const [materialId, setMaterialId] = useState('');
    const [selectedMaterialIndex, setSelectedMaterialIndex] = useState(-1);
+
+    const [taxProfileShow, setTaxProfileShow] = useState(false);
 
     const [materialObj, setMaterialObj] = useState({
       metalObj: { id:'', customer:'', material: '', mtype: '', quality: '', color: '', wt: '', tunch: '', actualWeight: '', rate: '', locker: '', description: '', amount:'' },
@@ -1413,8 +1419,18 @@ const handleSave = () => {
       srno: index + 1 // Add the serial number as the index + 1
     }));
 
+    if(mode === "material_purchase"){
+      setTaxProfileShow(true);
+    }
+
     console.log(finalDataMainArray);
 };
+
+const handleMultiPartPayMentClick = () => {
+  console.log("click event");
+  
+  dispatch(handleMultiPartPayFlag(true));
+}
 
   return (
     <div className='cust_receive_container'>
@@ -1555,8 +1571,8 @@ const handleSave = () => {
               </div>
           </div>}
         { selectedUser === '' ? '' : <>
-        <div className='my-4'><Typography variant='h5' className='fs_fgp text_color' >MATERIAL ENTRY</Typography></div>
-        <div className="filters-container_cr fs_fgp">      
+        { !taxProfileShow && <div className='my-4'><Typography variant='h5' className='fs_fgp text_color' >MATERIAL ENTRY</Typography></div>}
+        { !taxProfileShow && <div className="filters-container_cr fs_fgp">      
           <div className="filter-item">
             <div>
               <label htmlFor="material" style={{fontSize:'0.7rem', paddingLeft:'4px', color:'#797979'}}>MATERIAL</label>
@@ -1792,9 +1808,9 @@ const handleSave = () => {
             </Button>
             </div>
           </div>
-        </div>
-        <div className='my-5'><Typography variant='h5' className='fs_fgp text_color'>MATERIAL DETAILS</Typography></div>
-        <div style={{maxWidth:`${mode === "customer_receive" ? "1550px" : "1770px"}`, paddingBottom:'3rem'}}>
+        </div>}
+        { !taxProfileShow && <div className='my-5'><Typography variant='h5' className='fs_fgp text_color'>MATERIAL DETAILS</Typography></div>}
+        { !taxProfileShow && <div style={{maxWidth:`${mode === "customer_receive" ? "1550px" : "1770px"}`, paddingBottom:'3rem'}}>
           <TableContainer component={Paper} 
             sx={{
               maxHeight: 440,
@@ -1898,12 +1914,79 @@ const handleSave = () => {
               className='jobgrid_fgp fs_fgp'
             />
             <div className='d-flex justify-content-end align-items-center'>
-              <Button variant='contained' className='fs_fgp' size='small' 
+              { mode !== "material_purchase" && <Button variant='contained' className='fs_fgp' size='small' 
                 sx={{bgcolor:theme?.palette?.customColors?.purple}}
                 onClick={() => handleSave()}
-              >FINAL SAVE</Button>
+              >FINAL SAVE</Button>}
+              { mode === "material_purchase" && <Button variant='contained' className='fs_fgp' size='small' 
+                sx={{bgcolor:theme?.palette?.customColors?.purple}}
+                onClick={() => handleSave()}
+              >Continue</Button>}
             </div>
-        </div>
+        </div>}
+        {
+          taxProfileShow && <div className='fs_fgp pb-5'>
+            <div className='my-5'><Typography variant='h5' className='fs_fgp text_color'>TAXES AND ADD/LESS</Typography></div>
+            <div className='d-flex justify-content-between align-items-start'>
+              <div className='w-25'>
+                <div className='d-flex justify-content-between align-items-center w-75'>
+                  <div className='w-50 d-flex justify-content-start align-items-center text_color'>Amount</div>
+                  <div className='w-50 d-flex justify-content-end align-items-center fw-bold'>17150.40</div>
+                </div>
+                <div className='d-flex justify-content-between align-items-center w-75'>
+                  <div className='w-50 d-flex justify-content-start align-items-center text_color'>CGST</div>
+                  <div className='w-50 d-flex justify-content-end align-items-center fw-bold'>257.26</div>
+                </div>
+                <div  className='d-flex justify-content-between align-items-center w-75'>
+                  <div className='w-50 d-flex justify-content-start align-items-center text_color'>SGST</div>
+                  <div className='w-50 d-flex justify-content-end align-items-center fw-bold'>257.26</div>
+                </div>
+                <div  className='d-flex justify-content-between align-items-center w-75'>
+                  <div className='d-flex align-items-center'>
+                    {/* <div className='w-50 d-flex justify-content-start align-items-center text_color'>Add/Less</div> */}
+                    <div className='d-flex justify-content-start align-items-center fw-bold '>
+                    <input type="radio" id='add' name='addless' className='taxaddlessmatpurchase me-1'  />
+                    <label htmlFor="add" className='text_color fw-normal'>Add</label>
+                  </div>
+                  <div className='d-flex justify-content-end align-items-center fw-bold ps-2'>
+                    <input type="radio" id='less' name='addless' className='taxaddlessmatpurchase me-1'  />
+                    <label htmlFor="less" className='text_color fw-normal'>Less</label>
+                  </div>
+                  <div><Button variant='contained' size='small' sx={{mx:1}} className='btn_roundup_mp' style={{minWidth:'100px', fontSize:'12px',  color:theme?.palette?.customColors?.white, backgroundColor:theme?.palette?.customColors?.purple}}>ROUND UP</Button></div>
+                  </div>
+                  <div className='w-50 d-flex justify-content-end align-items-center fw-bold'><input type="text" style={{maxWidth:'70px'}} value={10} className='taxaddlessmatpurchase'  /></div>
+                </div>
+                <div  className='d-flex justify-content-between align-items-center w-75 pt-2 mt-2 border-top'>
+                  <div className='w-50 d-flex justify-content-start align-items-center fw-bold'>Final Amount</div>
+                  <div className='w-50 d-flex justify-content-end align-items-center fw-bold'>1,64,270.00</div>
+                </div>
+                <div  className='d-flex justify-content-between align-items-center w-75 pt-2 mt-2 border-top'>
+                  <div className='w-50 d-flex justify-content-start align-items-center text_color'>Invoice Due Days</div>
+                  <div className='w-50 d-flex justify-content-end align-items-center fw-bold'>5</div>
+                </div>
+              </div>
+              <div className='w-25'>
+                <div className='d-flex flex-column'>
+                  <label htmlFor="remarks_mp" className='fs_fgp text_color'>Remarks:</label>
+                  <textarea name="remarks_mp" id="remarks_mp" className='remarks_mp' rows={5} ></textarea>
+                  <div className='mt-1'>
+                    <Button variant='contained' size='small' 
+                      sx={{backgroundColor:theme?.palette?.customColors?.purple, color:'white'}}
+                      onClick={() => handleMultiPartPayMentClick()}
+                    >Multipart Payment</Button></div>
+                </div>
+              </div>
+              
+                 <MultipartPay multiPartPayFlag={multiPartPayFlag} />
+              
+              <div></div>
+            </div>
+            <div className='mt-5'>
+              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.orange, color:'white', mr:1}} onClick={() => setTaxProfileShow(false)}>Back</Button>
+              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.purple, color:'white'}}>Continue</Button>
+            </div>
+          </div>
+        }
         </>}
     </div>
   )
