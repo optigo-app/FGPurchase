@@ -10,11 +10,15 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { currencyRates, MaterialList, taxProfiles, tdsProfiles } from '../../master/MasterData';
 import { Trash } from 'tabler-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleMultiPartPayFlag } from '../../redux/slices/HomeSlice';
+import { handleMultiPartPayFlag, handlePayByCash } from '../../redux/slices/HomeSlice';
 import MultipartPay from '../Payment/MultiPartPay';
+import PayByCash from './PayByCash';
+import PayByBank from './PayByBank';
 const NewCustomerReceive = () => {
     const mode = useSelector((state) => state?.fgp?.mode);
     const multiPartPayFlag = useSelector((state) => state?.home?.multiPartPayFlag);
+    const payByCash = useSelector((state) => state?.home?.payByCash);
+    const payByBank = useSelector((state) => state?.home?.payByBank);
     const dispatch = useDispatch();
     
     const theme = useTheme();
@@ -74,6 +78,10 @@ const NewCustomerReceive = () => {
     const [metalList, setMetalList] = useState([]);
     const [mountList, setMountList] = useState([]);
     const [alloyList, setAlloyList] = useState([]);
+
+    const [handlePayment, setHandlePayment] = useState(false);
+    // const [payByCash, setPayByCash] = useState(false);
+    // const [payByBank, setPayByBank] = useState(false);
 
 
     const handleChangePage = (event, newPage) => {
@@ -1421,15 +1429,17 @@ const handleSave = () => {
 
     if(mode === "material_purchase"){
       setTaxProfileShow(true);
+      setHandlePayment(false);
     }
 
-    console.log(finalDataMainArray);
 };
 
 const handleMultiPartPayMentClick = () => {
-  console.log("click event");
-  
   dispatch(handleMultiPartPayFlag(true));
+}
+
+const handleTaxProfileContinue = () => {
+  setHandlePayment(true);
 }
 
   return (
@@ -1983,8 +1993,22 @@ const handleMultiPartPayMentClick = () => {
             </div>
             <div className='mt-5'>
               <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.orange, color:'white', mr:1}} onClick={() => setTaxProfileShow(false)}>Back</Button>
-              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.purple, color:'white'}}>Continue</Button>
+              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.purple, color:'white'}} onClick={() => handleTaxProfileContinue()}>Continue</Button>
             </div>
+            { handlePayment && <div className='mt-5'>
+              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.red, color:'white', mr:1}} onClick={() => dispatch(handlePayByCash(true))}>Pay By Cash</Button>
+              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.red, color:'white'}} onClick={() => dispatch(handlePayByCash(true))}>Pay By Bank</Button>
+            </div>}
+            
+            <div>
+              {
+                payByCash && <PayByCash payByCash={payByCash} />
+              }
+              {
+                payByBank && <PayByBank payByBank={payByBank} />
+              }
+            </div>
+
           </div>
         }
         </>}

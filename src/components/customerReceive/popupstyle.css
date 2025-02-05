@@ -1,0 +1,12 @@
+
+
+.popupfield{
+    padding: 4px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+.popupfield:focus{
+    padding: 4px;
+    border: 1px solid #7367F0;
+    outline: none;
+}

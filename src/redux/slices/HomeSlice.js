@@ -11,7 +11,9 @@ const homeObject = {
     addSubtag:false,
     uploadImage:[],
     selectedTabValue:'',
-    showImgListPopUp:false
+    showImgListPopUp:false,
+    payByBank:false,
+    payByCash:false
 }
 
 const HomeSlice = createSlice({
@@ -50,7 +52,13 @@ const HomeSlice = createSlice({
         },
         handleaddSubtagFlag:(state, action) => {
             state.addSubtag = action.payload;
-        }
+        },
+        handlePayByCash:(state, action) => {
+            state.payByCash = action?.payload;
+        },
+        handlePayByBank:(state, action) => {
+            state.payByBank = action?.payload;
+        },
     }
 })
 
@@ -65,5 +73,8 @@ export const {
     handleMultiPartPayFlag, 
     handleMountModal, 
     handleIssuedMaterialModal, 
-    handleaddSubtagFlag } = HomeSlice?.actions;
+    handleaddSubtagFlag,
+    handlePayByBank,
+    handlePayByCash
+ } = HomeSlice?.actions;
 export default HomeSlice.reducer;
