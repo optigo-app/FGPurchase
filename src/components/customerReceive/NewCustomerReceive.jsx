@@ -10,7 +10,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { currencyRates, MaterialList, taxProfiles, tdsProfiles } from '../../master/MasterData';
 import { Trash } from 'tabler-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleMultiPartPayFlag, handlePayByCash } from '../../redux/slices/HomeSlice';
+import { handleMultiPartPayFlag, handlePayByBank, handlePayByCash } from '../../redux/slices/HomeSlice';
 import MultipartPay from '../Payment/MultiPartPay';
 import PayByCash from './PayByCash';
 import PayByBank from './PayByBank';
@@ -1997,7 +1997,7 @@ const handleTaxProfileContinue = () => {
             </div>
             { handlePayment && <div className='mt-5'>
               <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.red, color:'white', mr:1}} onClick={() => dispatch(handlePayByCash(true))}>Pay By Cash</Button>
-              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.red, color:'white'}} onClick={() => dispatch(handlePayByCash(true))}>Pay By Bank</Button>
+              <Button size='small' sx={{px:1, backgroundColor:theme?.palette?.customColors?.red, color:'white'}} onClick={() => dispatch(handlePayByBank(true))}>Pay By Bank</Button>
             </div>}
             
             <div>
