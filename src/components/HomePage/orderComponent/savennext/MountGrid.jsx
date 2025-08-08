@@ -88,7 +88,6 @@ const MountGrid = () => {
         { id: 'wtgm', label: 'Wt (Gm)', minWidth: 100 , align: 'center'},
         { id: 'addwt', label: 'Add Wt', minWidth: 40 , align: 'center'},
       ]
-      
 
   return (
     <>

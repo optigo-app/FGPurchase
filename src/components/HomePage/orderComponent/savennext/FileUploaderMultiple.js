@@ -1,363 +1,193 @@
-// ** React Imports
-import { Fragment, useState } from 'react'
-
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import List from '@mui/material/List'
-import Button from '@mui/material/Button'
-import ListItem from '@mui/material/ListItem'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CancelIcon from '@mui/icons-material/Cancel';
-// ** Icon Imports
-// import Icon from 'src/@core/components/icon'
-// import Icon from '../../../../components/Core'
-import { Icon } from '@iconify/react';
-
-// ** Third Party Imports
-import { useDropzone } from 'react-dropzone';
-import "./fileUpload.css"
-import { Tooltip, Modal, useTheme,  } from '@mui/material';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { TbEye, TbEyeBitcoin } from 'react-icons/tb'
+import { useState, Fragment } from 'react'
+import {
+  Box,
+  Button,
+  Modal,
+  Tooltip,
+  Typography,
+  IconButton,
+  useTheme
+} from '@mui/material'
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import CancelIcon from '@mui/icons-material/Cancel'
+import { useDropzone } from 'react-dropzone'
+import { Icon } from '@iconify/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { handleShowImgListPopUp, handleUploadImageList } from '../../../../redux/slices/HomeSlice'
+import {
+  handleShowImgListPopUp,
+  handleUploadImageList
+} from '../../../../redux/slices/HomeSlice'
 
-const FileUploaderMultiple = ({fs, classApply}) => {
-  // ** State
-  const [files, setFiles] = useState([]);
-  const theme = useTheme();
-  const dispatch = useDispatch();
-  const uploadImage = useSelector(state => state?.home?.uploadImage);
-  const showImgListPopUp = useSelector(state => state?.home?.showImgListPopUp);
-  // const [showImgListPopUp, setShowImgPopUp] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex + 1 === files.length ? 0 : prevIndex + 1
-    );
-  };
 
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? files.length - 1 : prevIndex - 1
-    );
-  };
+const FileUploaderMultiple = ({ fs = 28, classApply = '' }) => {
+  const [files, setFiles] = useState([])
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  // ** Hooks
+  const dispatch = useDispatch()
+  const theme = useTheme()
+  const showImgListPopUp = useSelector(state => state.home.showImgListPopUp)
+
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop: acceptedFiles => {
-      console.log(acceptedFiles);
-      
-      setFiles(prevFiles => [
-        ...prevFiles,
-        ...acceptedFiles
-        // .filter(
-        //   newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
-        // )
-      ])
-      // setFiles(prevFiles => {
-      //   if (prevFiles.length > 0) {
-      //     // Only apply filter condition if there are existing files
-      //     return [
-      //       ...prevFiles,
-      //       ...acceptedFiles
-      //       // .filter(
-      //         // newFile => !prevFiles.some(existingFile => existingFile.name === newFile.name)
-      //       // )
-      //     ];
-      //   } else {
-      //     // If no previous files, just add all accepted files
-      //     return [...acceptedFiles];
-      //   }
-      // });
-      let arr = [...files, ...acceptedFiles];
+      const updatedFiles = [...files, ...acceptedFiles]
+      const uniqueFiles = updatedFiles.reduce((acc, file) => {
+        if (!acc.some(f => f.name === file.name)) acc.push(file)
+        return acc
+      }, [])
 
-      // Filter to store only unique images based on their name
-      const uniqueImages = arr.reduce((acc, current) => {
-        if (!acc.some(file => file.name === current.name)) {
-          acc.push(current);
-        }
-        return acc;
-      }, []);
-      
-      // Dispatch the unique images
-      dispatch(handleUploadImageList(uniqueImages));
-      
-      
-      // dispatch(handleUploadImageList([...acceptedFiles]))
-
+      setFiles(uniqueFiles)
+      dispatch(handleUploadImageList(uniqueFiles))
     }
-    // onDrop: acceptedFiles => {
-    //   setFiles(acceptedFiles.map(file => Object.assign(file)))
-    // }
   })
 
-  const renderFilePreview = file => {
-    if (file.type.startsWith('image')) {
-      return <img width={28} height={28} alt={file.name} src={URL.createObjectURL(file)} />
-    } else {
-    //   return <Icon icon='tabler:file-description' />
-      return ''
-    }
-  }
-  const renderFilePreview2 = file => {
-    if (file.type.startsWith('image')) {
-      return <img alt={file.name} style={{ width:'100%', objectFit:'cover', height:"300px",  padding:'5px', boxSizing:'border-box', borderRadius:'10px'}} src={URL.createObjectURL(file)} />
-    } else {
-    //   return <Icon icon='tabler:file-description' />
-      return ''
-    }
+  const handleRemoveFile = fileToRemove => {
+    const updated = files.filter(file => file.name !== fileToRemove.name)
+    setFiles(updated)
+    dispatch(handleUploadImageList(updated))
   }
 
-  const handleRemoveFile = file => {
-    const uploadedFiles = files
-    const filtered = uploadedFiles.filter(i => i.name !== file.name)
-    setFiles([...filtered])
+  const renderPreview = file =>
+    file.type.startsWith('image') ? (
+      <img
+        src={URL.createObjectURL(file)}
+        alt={file.name}
+        style={{
+          width: '100%',
+          height: '300px',
+          objectFit: 'contain',
+          borderRadius: 10
+        }}
+      />
+    ) : null
+
+  const nextImage = () => {
+    setCurrentImageIndex(prev =>
+      prev + 1 >= files.length ? 0 : prev + 1
+    )
   }
 
-  const fileList = files.map(file => (
-    // <ListItem key={file.name}>
-    // <div key={file.name}>
-      <div className='file-details'>
-        <div className='file-preview   d-flex justify-content-center align-items-center p-0 me-2'>{renderFilePreview(file)}</div>
-        {/* <div className='d-flex flex-column justify-content-center align-items-center'>
-          <Typography className='file-name'>{file.name}</Typography>
-          <Typography className='file-size' variant='body2'>
-            {Math.round(file.size / 100) / 10 > 1000
-              ? `${(Math.round(file.size / 100) / 10000).toFixed(1)} mb`
-              : `${(Math.round(file.size / 100) / 10).toFixed(1)} kb`}
-          </Typography>
-        </div> */}
-      </div>
-      // <IconButton onClick={() => handleRemoveFile(file)}>
-      //   <Icon icon='tabler:x' fontSize={20} />
-      // </IconButton>
-    // </div>
-  ))
-  const fileList2 = files.map(file => (
-    // <ListItem key={file.name}>
-    // <div key={file.name}>
-      <div className='file-details'>
-        <div className='file-preview   d-flex justify-content-center align-items-center p-0 '>{renderFilePreview2(file)}</div>
-        {/* <div className='d-flex flex-column justify-content-center align-items-center'>
-          <Typography className='file-name'>{file.name}</Typography>
-          <Typography className='file-size' variant='body2'>
-            {Math.round(file.size / 100) / 10 > 1000
-              ? `${(Math.round(file.size / 100) / 10000).toFixed(1)} mb`
-              : `${(Math.round(file.size / 100) / 10).toFixed(1)} kb`}
-          </Typography>
-        </div> */}
-      </div>
-      // <IconButton onClick={() => handleRemoveFile(file)}>
-      //   <Icon icon='tabler:x' fontSize={20} />
-      // </IconButton>
-    // </div>
-  ))
-
-  const handleRemoveAllFiles = () => {
-    setFiles([])
+  const prevImage = () => {
+    setCurrentImageIndex(prev =>
+      prev === 0 ? files.length - 1 : prev - 1
+    )
   }
-  const renderFilePreviewLarge = file => {
-    if (file.type.startsWith('image')) {
-      return (
-        <>
-        <img
-          alt={file.name}
-          style={{
-            width: '100%',
-            objectFit: 'contain',
-            height: '290px',
-            padding: '5px',
-            boxSizing: 'border-box',
-            borderRadius: '10px',
-          }}
-          src={URL.createObjectURL(file)}
-        />
-        <div className='d-flex justify-content-center' style={{paddingTop:'10px'}}><Button size='small' variant='contained' color='error' onClick={() => handleRemoveFile(file)}>Remove</Button></div>
 
-        </>
-      )
-    } else {
-      return ''
+  const btnStyle = {
+    color: theme?.palette?.customColors?.titleColor,
+    borderColor: theme?.palette?.customColors?.titleColor,
+    fontSize: '12px',
+    lineHeight: 1.6,
+    fontWeight: '600 !important',
+    '&:hover': {
+      color: theme?.palette?.customColors?.titleColor,
+      borderColor: theme?.palette?.customColors?.titleColor,
     }
   }
 
   return (
     <Fragment>
-    {/* <div className='d-flex align-items-center minHeight_file'> */}
-    <div className={`d-flex align-items-center ${classApply}`}>
-      <div {...getRootProps({ className: 'dropzone' })} className=''>
-        <input {...getInputProps()} />
-        <Box sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', flexDirection: 'column',  }}>
-          <Box
-            sx={{
-                mt:0,
-                mb:0,
-                width: 28,
-                height: 28,
-                display: 'flex',
-                borderRadius: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                outline:'none',
-                // backgroundColor: '#e8e8e8'
-                //   backgroundColor: theme => `rgba(${theme.palette.customColors.main}, 0.08)`
-            }}
+      <Box className={`d-flex align-items-center gap-2 ${classApply}`}>
+        <div {...getRootProps()} className="upload-trigger">
+          <input {...getInputProps()} />
+          <Button
+            startIcon={<FileUploadOutlinedIcon />}
+            variant="outlined"
+            size="small"
+            sx={btnStyle}
           >
-            {/* <Tooltip title="Upload Image" style={{cursor:'pointer'}}><Icon icon='tabler:upload' fontSize='1.75rem' /></Tooltip> */}
-            <Tooltip title="Upload Image" style={{cursor:'pointer'}}><UploadFileIcon style={{ fontSize: `${fs}`, color:theme?.palette?.customColors?.purple, cursor:'pointer' }} /></Tooltip>
-          </Box>
-          {/* <Typography variant='h6' sx={{ mb: 1.5, minWidth:50, fontSize:'10px' }}>
-            Upload Image
-          </Typography> */}
-            {/* Drop files here or click to upload. */}
-          {/* <Typography sx={{ color: 'text.secondary' }}>
-            (This is just a demo drop zone. Selected files are not actually uploaded.)
-          </Typography> */}
-        </Box>
-      </div>
-      {files.length ? (
-        <Fragment>
-          {/* <List >{fileList}</List> */}
-          <Tooltip title="Preview Uploaded Image" style={{cursor:'pointer'}}>
-            {/* <div onClick={() => setShowImgPopUp(true)}> */}
-            <div onClick={() => dispatch(handleShowImgListPopUp(true))}>
-              {/* {fileList} */}
-              {/* <TbEyeBitcoin size={30} /> */}
-              {/* <TbEye size={30} /> */}
-            </div>
-            </Tooltip>
-          <div className='buttons'>
-            {/* <Button variant='contained' size='small' className='me-1'>Upload Image</Button> */}
-            {/* <Button color='error' variant='contained' size='small' onClick={handleRemoveAllFiles}  >
-              <Tooltip title="Remove Uploaded Image">Remove</Tooltip>
-            </Button> */}
-          </div>
-        </Fragment>
-      ) : null}
-    </div>
-{/* 
-    {
-          showImgListPopUp && <Modal
-            open={showImgListPopUp}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-            onClose={() => setShowImgPopUp(false)}
-          >
-            <Box 
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      // width: "95%",
-                      bgcolor: 'background.paper',
-                      borderRadius: '12px',
-                      boxShadow: 24,
-                      p: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      maxHeight: '500px',
-                      // overflowY:'scroll',
-                      border: 'none',
-                      minWidth:'600px'
-                    }}
-            >
-              <div className='w-100'>
-                <div className='d-flex align-items-center justify-content-between p-1'>
-                    <div></div>
-                    <div><Typography variant='h6'>Uploaded Images</Typography></div>
-                    <div className='d-flex align-items-center'>
-                      <Tooltip title="Close" onClick={() => setShowImgPopUp(false)} style={{cursor:'pointer'}}><CancelIcon /></Tooltip>
-                    </div>
-                </div>
-                <div>
-                
-                <div className='d-flex flex-wrap'>
-              {files?.map(file => (
-                <div key={file.name} className='file-preview'>
-                  {renderFilePreviewLarge(file)}
-                </div>
-              ))}
-            </div>
-                </div>
-              </div>
-            </Box>
+            Upload
+          </Button>
+        </div>
+      </Box>
 
-          </Modal>
-        } */}
-        
-      {showImgListPopUp && (
-        <Modal
-          open={showImgListPopUp}
-          // onClose={() => setShowImgPopUp(false)}
-          onClose={() => dispatch(handleShowImgListPopUp(false))}
-          aria-labelledby="modal-title"
-          aria-describedby="modal-description"
+      <Modal
+        open={showImgListPopUp}
+        onClose={() => dispatch(handleShowImgListPopUp(false))}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'background.paper',
+            borderRadius: 3,
+            p: 3,
+            width: '100%',
+            maxWidth: 500,
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            boxShadow: 24
+          }}
         >
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              bgcolor: 'background.paper',
-              borderRadius: '12px',
-              boxShadow: 24,
-              p: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              maxHeight: '500px',
-              border: 'none',
-              minWidth: '600px',
-              minHeight:'410px'
-            }}
-          >
-            <div className="w-100">
-              <div className="d-flex align-items-center justify-content-between p-1">
-                <div></div>
-                <Typography variant="h6">Uploaded Images</Typography>
-                {/* <Tooltip title="Close" onClick={() => setShowImgPopUp(false)} style={{ cursor: 'pointer' }}> */}
-                <Tooltip title="Close" onClick={() => dispatch(handleShowImgListPopUp(false))} style={{ cursor: 'pointer' }}>
-                  <CancelIcon />
-                </Tooltip>
-              </div>
-              <div style={{ position: 'relative', width: '100%', height: '300px' }}>
-                {uploadImage?.length > 0 && renderFilePreviewLarge(files[currentImageIndex])}
-                <IconButton
-                  onClick={handlePrevImage}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '10px',
-                    transform: 'translateY(-50%)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                  }}
-                >
-                  <Icon icon="tabler:chevron-left" />
-                </IconButton>
-                <IconButton
-                  onClick={handleNextImage}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    right: '10px',
-                    transform: 'translateY(-50%)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                  }}
-                >
-                  <Icon icon="tabler:chevron-right" />
-                </IconButton>
-              </div>
-            </div>
+          <Box className="d-flex justify-content-between align-items-center mb-2">
+            <Typography variant="h6">Uploaded Images</Typography>
+            <Tooltip title="Close">
+              <IconButton onClick={() => dispatch(handleShowImgListPopUp(false))}>
+                <CancelIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
-        </Modal>
-      )}
+
+          {files.length > 0 && (
+            <Box sx={{ position: 'relative' }}>
+              {renderPreview(files[currentImageIndex])}
+              <IconButton
+                onClick={prevImage}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: 10,
+                  transform: 'translateY(-50%)',
+                  bgcolor: 'rgba(255, 255, 255, 0.7)',
+                  transition: 'background-color 0.2s ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(200, 200, 255, 0.9)',
+                    boxShadow: 3,
+                    transform: 'translateY(-50%) scale(1.1)'
+                  }
+                }}
+              >
+                <Icon icon="tabler:chevron-left" />
+              </IconButton>
+
+              <IconButton
+                onClick={nextImage}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: 10,
+                  transform: 'translateY(-50%)',
+                  bgcolor: 'rgba(255, 255, 255, 0.7)',
+                  transition: 'background-color 0.2s ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(200, 200, 255, 0.9)',
+                    boxShadow: 3,
+                    transform: 'translateY(-50%) scale(1.1)'
+                  }
+                }}
+              >
+                <Icon icon="tabler:chevron-right" />
+              </IconButton>
+              <Box className="d-flex justify-content-center mt-2">
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    background: theme?.palette?.customColors?.red,
+                    color: '#fff',
+                  }}
+                  onClick={() => handleRemoveFile(files[currentImageIndex])}
+                >
+                  Remove
+                </Button>
+              </Box>
+            </Box>
+          )}
+        </Box>
+      </Modal>
 
     </Fragment>
   )

@@ -13,24 +13,6 @@ code {
 }
 
 
-@font-face {
-  font-family: "Public Sans, sans-serif";
-  src: url("./assets/Font/static/PublicSans-Light.ttf");
-}
-
-@font-face {
-  font-family: "Public Sans Bold, sans-serif";
-  src: url("./assets/Font/static/PublicSans-Bold.ttf");
-}
-
-.fs_fgp{
-  font-family: "Public Sans, sans-serif" !important;
-}
-
-.fs_fgp .MuiButtonBase-root{
-  font-family: "Public Sans, sans-serif"  !important;
-}
-
 .text_color{
   color: grey !important;
 }

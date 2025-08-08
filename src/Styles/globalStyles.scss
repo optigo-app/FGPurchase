@@ -1,0 +1,40 @@
+// for toggle
+.toglleButtonBox {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    padding: 10px 0px;
+    max-width: 80%;
+    overflow: auto;
+  
+    .toggle-group {
+      background-color: #d3d3d399;
+      border-radius: 6px;
+      padding: 8px;
+      display: flex;
+      gap: 5px;
+      margin-right: 20px;
+  
+      .toggle-button {
+        display: flex;
+        gap: 8px;
+        flex: 1;
+        font-size: 14px;
+        color: #333;
+        border: none;
+        padding: 4px 10px;
+        min-width: 100px;
+        text-transform: none;
+        transition: all 0.2s ease-in-out;
+        border-radius: 6px;
+  
+        &.Mui-selected {
+          background: linear-gradient(270deg, rgba(115, 103, 240, 0.7) 0%, #7367f0 100%) !important;
+          color: #fff !important;
+          font-weight: 700 !important;
+        }
+      }
+    }
+  }
+  
