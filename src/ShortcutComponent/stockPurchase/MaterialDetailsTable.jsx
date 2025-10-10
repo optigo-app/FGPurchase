@@ -44,7 +44,6 @@ const MaterialDetailsTable = ({
                         <tr key={i} className='fs_fgp'>
                             <td align="center" width={"50px"}>{i + 1}</td>
 
-                            {/* Material */}
                             <td align='center' width={"80px"}>
                                 <InputField
                                     name="material"
@@ -56,7 +55,6 @@ const MaterialDetailsTable = ({
                                 />
                             </td>
 
-                            {/* Type */}
                             <td align='center' width={"80px"}>
                                 <InputField
                                     name="type"
@@ -67,8 +65,7 @@ const MaterialDetailsTable = ({
                                 />
                             </td>
 
-                            {/* Criteria */}
-                            <td align="left" width={"350px"}>
+                            <td align="left" width={"250px"}>
                                 <CriteriaInputs
                                     rowData={rowData}
                                     onChange={(e) => onInputChange(e, i)}
@@ -76,19 +73,19 @@ const MaterialDetailsTable = ({
                                 />
                             </td>
 
-                            {/* Pcs/Wt */}
-                            <td align="center" width={"130px"}>
+                            <td align="center" width={"120px"}>
                                 <div>
                                     <InputField
                                         name="pcs"
                                         value={rowData.pcs}
                                         onChange={(e) => onInputChange(e, i)}
-                                        width="40px"
+                                        width="60px"
                                         placeholder="pcs"
                                         style={{ marginRight: '2px' }}
                                     />
                                     <InputField
                                         name="wt"
+                                        type="number"
                                         value={rowData.wt}
                                         onChange={(e) => onInputChange(e, i)}
                                         width="60px"
@@ -97,9 +94,8 @@ const MaterialDetailsTable = ({
                                 </div>
                             </td>
 
-                            {/* Tunch/Wastage (only for Finding) */}
-                            {config.showTunchWastage && (
-                                <td align="center" width={"130px"}>
+                            {config?.showTunchWastage && (
+                                <td align="center" width={"120px"}>
                                     <div>
                                         <InputField
                                             name="tunch"
@@ -120,21 +116,20 @@ const MaterialDetailsTable = ({
                                 </td>
                             )}
 
-                            {/* Supplier */}
-                            <td align="left" width={"100px"}>
+                            <td align="left" width={"80px"}>
                                 <InputField
                                     name="supplier"
                                     value={rowData.supplier}
                                     onChange={(e) => onInputChange(e, i)}
-                                    width="100px"
+                                    width="80px"
                                     placeholder="supplier"
                                 />
                             </td>
 
-                            {/* Rate */}
                             <td align="right" width={"80px"}>
                                 <InputField
                                     name="rate"
+                                    type="number"
                                     value={rowData.rate}
                                     onChange={(e) => onInputChange(e, i)}
                                     width="100px"
@@ -142,10 +137,10 @@ const MaterialDetailsTable = ({
                                 />
                             </td>
 
-                            {/* Sale Rate */}
                             <td align="right" width={"80px"}>
                                 <InputField
                                     name="amount"
+                                    type="number"
                                     value={rowData.amount}
                                     onChange={(e) => onInputChange(e, i)}
                                     width="100px"
@@ -153,7 +148,6 @@ const MaterialDetailsTable = ({
                                 />
                             </td>
 
-                            {/* Mark Up */}
                             <td align="center" width={"60px"}>
                                 <Tooltip title="Mark Up Details">
                                     <Button
@@ -165,7 +159,6 @@ const MaterialDetailsTable = ({
                                 </Tooltip>
                             </td>
 
-                            {/* On Pcs */}
                             <td align="left" width={"80px"}>
                                 <input
                                     type="checkbox"
@@ -176,7 +169,6 @@ const MaterialDetailsTable = ({
                                 />
                             </td>
 
-                            {/* AddIn GrossWt (only for Misc) */}
                             {config.showAddInGrossWt && (
                                 <td align="right" width={"50px"}>
                                     <input
@@ -189,7 +181,6 @@ const MaterialDetailsTable = ({
                                 </td>
                             )}
 
-                            {/* Add Button */}
                             <td align="center" width={"80px"}>
                                 <Button sx={{ width: '50px' }} onKeyDown={onKeyDown}>
                                     <AddCircleIcon

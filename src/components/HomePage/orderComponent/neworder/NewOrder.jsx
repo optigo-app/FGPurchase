@@ -131,6 +131,8 @@ const NewOrder = () => {
       };
     }
 
+    console.log("payload",payload)
+
     dispatch(handleSaveAndNextFlag(true));
     dispatch(saveNewOrder(payload));
   };

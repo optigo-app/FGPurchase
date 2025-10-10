@@ -7,13 +7,14 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { ThemeProvider } from "@mui/material";
 import DefaultPalette from "./master/theme";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div>
       <Provider store={store}>
         <ThemeProvider theme={DefaultPalette}>
-
+        <Toaster position="top-right" reverseOrder={false} />
         <BrowserRouter basename="/fgpurchase"  
           future={{
             v7_startTransition: true,

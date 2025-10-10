@@ -10,7 +10,7 @@ const isRowEmpty = (row) => {
     return fieldsToCheck.every(key => !row[key] || row[key] === "");
 };
 
-const GroupedTableSection = ({ title, rows, type, mode }) => {
+const GroupedTableSection = ({ title, rows, type, mode, onDelete }) => {
     const [open, setOpen] = useState(true);
     const validRows = rows?.filter(e => !isRowEmpty(e)) || [];
 
@@ -34,7 +34,14 @@ const GroupedTableSection = ({ title, rows, type, mode }) => {
                 </td>
             </tr>
             {open && rows.map((e, i) => (
-                <ShowMaterialDetailsGrid key={`${type}-${i}`} data={e} index={i} type={type} mode={mode} />
+                <ShowMaterialDetailsGrid 
+                    key={`${type}-${i}`} 
+                    data={e} 
+                    index={i} 
+                    type={type} 
+                    mode={mode} 
+                    onDelete={onDelete}
+                />
             ))}
         </>
     );

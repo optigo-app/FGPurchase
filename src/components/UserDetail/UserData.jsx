@@ -1,32 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./userdata.css";
 import {
   handleCustomizeJobFlag,
   handleSaveAndNextFlag,
   handleSelectedButton,
 } from "../../redux/slices/HomeSlice";
+import { deleteJob, bulkDeleteJobs, loadJobForEdit } from "../../redux/slices/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from "../../assets/images/delete.png";
 import { handlePopUpJobDetails } from "../../redux/slices/FgpSlice";
-import { Settings } from "@mui/icons-material";
 import JobGrid from "./JobGrid";
 import "./jobgrid.css";
-import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Box, Button, Checkbox, IconButton, Modal, Tooltip, Typography, useTheme } from "@mui/material";
-
-import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TablePagination from '@mui/material/TablePagination'
+import { Box, Button, Modal, Tooltip, Typography, useTheme } from "@mui/material";
 import scanGif from "../../assets/images/scan.gif";
-import { Trash } from "tabler-icons-react";
-import MergeIcon from '@mui/icons-material/Merge';
-import GridOnSharpIcon from '@mui/icons-material/GridOnSharp';
 import SummaryPanel from "./SummaryPanel";
 import JobDataGrid from "./JobDataGrid";
 
@@ -37,28 +23,26 @@ const UserData = () => {
   const [showModeOfDelDropDown, setShowModeOfDelDropDown] = useState(false);
   const [showAddLess, setShowAddLess] = useState(false);
 
-  const [jobListData, setJobListData] = useState();
-  console.log('jobListData: ', jobListData);
+  const createdJobs = useSelector((state) => state?.job?.createdJobs || []);
+
+  const jobListData = createdJobs.map((job, index) => ({
+    id: index + 1, 
+    details: job.tagNo, 
+    gwt: job.gwt,
+    netwt: job.nwt,
+    totalamt: job.amount,
+    delete: null,
+    jobNo: job.jobNo,
+    originalJob: job,
+  }));
+
   const [selectedRows, setSelectedRows] = useState([]);
-  console.log('selectedRows: ', selectedRows);
 
   const [jobSearch, setJobSearch] = useState('');
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
   });
-
-  useEffect(() => {
-    setJobListData([
-      { id: 1, details: '1/271928 ', gwt: 3.120, netwt: 2.654, totalamt: 3081.5, delete: null },
-      { id: 2, details: '1/271929', gwt: 4.019, netwt: 3.254, totalamt: 4081.5, delete: null },
-      { id: 3, details: '1/271929', gwt: 4.228, netwt: 3.621, totalamt: 4081.5, delete: null },
-      { id: 4, details: '1/271929', gwt: 4.145, netwt: 3.690, totalamt: 4081.5, delete: null },
-      { id: 5, details: '1/271929', gwt: 4.841, netwt: 3.687, totalamt: 4081.5, delete: null },
-      { id: 6, details: '1/271929', gwt: 4.992, netwt: 3.678, totalamt: 4081.5, delete: null },
-      { id: 7, details: '1/271929', gwt: 4.100, netwt: 3.600, totalamt: 4081.5, delete: null },
-    ])
-  }, []);
 
   const dispatch = useDispatch();
   const MoreJobDetailsFlag = useSelector((state) => state?.fgp?.MoreJobDetails);
@@ -70,7 +54,6 @@ const UserData = () => {
   const [inputError, setInputError] = useState(false);
   const ScanRef = useRef(null);
 
-  const [hovered, setHovered] = useState(false);
   const [hoveredTax, setHoveredTax] = useState(false);
   const [hoveredModeOfDel, setHoveredModeOfDel] = useState(false);
   const [hoveredAddLess, setHoveredAddLess] = useState(false);
@@ -114,52 +97,44 @@ const UserData = () => {
   };
 
   const handleRowClick = (row) => {
-    moveToSaveNNextPage(true);
+    dispatch(loadJobForEdit(row.jobNo));
+    moveToSaveNNextPage();
   }
 
   const handleSingleDelete = (id) => {
-    setJobListData(prev => prev.filter(item => item.id !== id));
+    const jobToDelete = jobListData.find(item => item.id === id);
+    if (jobToDelete) {
+      dispatch(deleteJob(jobToDelete.jobNo));
+    }
     setSelectedRows(prev => prev.filter(rowId => rowId !== id));
   };
 
   const handleBulkDelete = () => {
-    setJobListData(prev => prev.filter(item => !selectedRows.includes(item.id)));
+    const jobsToDelete = jobListData
+      .filter(item => selectedRows.includes(item.id))
+      .map(item => item.jobNo);
+    
+    if (jobsToDelete.length > 0) {
+      dispatch(bulkDeleteJobs(jobsToDelete));
+    }
     setSelectedRows([]);
   };
 
   const handleClubJob = () => {
-    setJobListData(prev =>
-      prev.map(item =>
-        selectedRows.includes(item.id)
-          ? { ...item, isClubJob: true }
-          : item
-      )
-    );
+    // Club job functionality - TODO: Implement with Redux
   }
 
   const handleUnclubJob = (row) => {
-    setJobListData(prev =>
-      prev.map(item =>
-        item.id === row.id
-          ? { ...item, isClubJob: false }
-          : item
-      )
-    );
+    // Unclub job functionality - TODO: Implement with Redux
   }
 
   const handleAllUnclubJob = () => {
-    setJobListData(prev =>
-      prev.map(item => ({
-        ...item,
-        isClubJob: false
-      }))
-    );
+    // All unclub job functionality - TODO: Implement with Redux
   };
 
   const handleSelectAllChange = (e) => {
-    debugger
     if (e.target.checked) {
-      const allSelectable = jobListData?.filter(row => !row.isClubJob)?.map(row => row.id);
+      const allSelectable = jobListData?.map(row => row.id);
       setSelectedRows(allSelectable);
     } else {
       setSelectedRows([]);
@@ -174,7 +149,7 @@ const UserData = () => {
     }
   };
 
-  const allClubbed = jobListData?.every(item => item.isClubJob);
+  const allClubbed = false;
 
   <Button
     variant="contained"
@@ -190,11 +165,9 @@ const UserData = () => {
   >
     {allClubbed ? 'Unclub All' : 'Club Job'}
   </Button>
-  // ... existing code ...
 
   return (
     <div className="userDataContainer">
-      {/* Bill Info Section */}
       <div className={`bill-info ${MoreJobDetailsFlag ? "narrow" : "full"}`}>
         <div className="bill-header">
           <span className="label">Bill No-</span>
@@ -202,7 +175,6 @@ const UserData = () => {
         </div>
       </div>
 
-      {/* Bill Summary Section */}
       <div className={`bill-summary ${MoreJobDetailsFlag ? "narrow" : "full"}`}>
         <div className="summary-item align-start">
           <div className="label">Amount</div>
@@ -273,6 +245,7 @@ const UserData = () => {
 
         />
       </div>
+      {/* for tag breakup when we click on row then this open but as of now it not working */}
       {
         tagBreakPopUp && <>
           <Modal

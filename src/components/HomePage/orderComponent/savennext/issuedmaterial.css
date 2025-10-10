@@ -1,14 +1,21 @@
-.ibtninput{
+.ibtninput {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 1px 3px #0000001a;
     font-size: 14px;
-    padding: 2px;
-    /* width: 100%; */
+    padding: 4px;
 }
-.ibtninput:focus{
-    /* border-color: #007bff; */
+
+.ibtninput:focus {
     border-color: #7367F0;
-    box-shadow: 0 0 4px #007bff80;
+    box-shadow: 0 0 4px #7367F0;
     outline: none;
+}
+
+.issue_sl_op {
+    border: 1px solid #ccc;
+    outline-color: #7367F0;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 120px !important;
 }

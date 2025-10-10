@@ -31,6 +31,7 @@ const customTheme = createTheme({
       grey:'#A8AAAE',
       lightgrey:'#D3D3D3',
       red:'linear-gradient(270deg, rgba(255, 72, 66, 0.8) 0%, #d90429 100%)',
+      danger:'#ff4843',
       // orange:'#FF9F43',
       orange:'#FF9F43',
       lightBgOrange:'#FFF0E1',

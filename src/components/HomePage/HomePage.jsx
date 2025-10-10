@@ -34,6 +34,7 @@ import NewCustomerReceive from '../customerReceive/NewCustomerReceive';
 import PrintTypeModal from '../../ShortcutComponent/PrintTypeModal';
 import UpdateDateModal from '../../ShortcutComponent/UpdateDateModal';
 import CurrencyExchangeModal from '../../ShortcutComponent/CurrencyExchangeModal';
+import toast from 'react-hot-toast';
 
 const style = {
   position: "absolute",
@@ -156,7 +157,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     { title: "Rate Cut", icon: <PercentIcon />, value: "Rate Cut" },
     { title: "Pay", icon: <PaymentIcon />, value: "Pay" },
     { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
-    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Save", icon: <SaveIcon />, value: "save" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
   const buttonAltActionsReceive = [
@@ -168,25 +169,29 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   const buttonAltActionsIssue = [
     { title: "Add", icon: <AddIcon />, value: "add" },
     { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
-    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Save", icon: <SaveIcon />, value: "save" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
   const buttonCustReceiveActionsIssue = [
     { title: "Add", icon: <AddIcon />, value: "custReceive" },
     { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
-    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Save", icon: <SaveIcon />, value: "save" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
   const buttonMatPurchaseActionsIssue = [
     { title: "Add", icon: <AddIcon />, value: "custReceive" },
     { title: "Summary", icon: <SummarizeIcon />, value: "Summary" },
-    { title: "Save", icon: <SaveIcon />, value: "" },
+    { title: "Save", icon: <SaveIcon />, value: "save" },
     { title: "Print", icon: <PrintIcon />, value: "Print" },
   ];
 
   const handleButtonClick = (value) => {
     if (value === "Print") {
       setPrintListModal(true);
+      return
+    }
+    if (value === "save") {
+      toast.success("Saved Successfully");
       return
     }
     if (value) {
@@ -721,8 +726,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             {selectedButton === 'Rate Cut' && <RateCut />}
             {selectedButton === 'Pay' && <Pay />}
             {selectedButton === 'Summary' && <Summary />}
-            {selectedButton === 'Save' && <Save />}
             {selectedButton === 'altjobs' && <AltJobs />}
+            {selectedButton === 'save' && <Save />}
             {selectedButton === 'custReceive' && <NewCustomerReceive />}
             {selectedButton === 'material_purchase' && <NewCustomerReceive />}
           </>

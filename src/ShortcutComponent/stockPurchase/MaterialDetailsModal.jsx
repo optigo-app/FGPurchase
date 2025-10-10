@@ -35,7 +35,7 @@ const MaterialDetailsModal = ({
     maxHeight: '500px',
     overflowY: 'scroll',
     border: 'none',
-    minWidth: '1550px'
+    minWidth: '1850px'
   };
 
   return (

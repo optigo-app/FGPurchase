@@ -1,10 +1,11 @@
-import { Tooltip, Button, AvatarGroup } from '@mui/material';
+import { Button, AvatarGroup } from '@mui/material';
 import ViewKanbanOutlinedIcon from '@mui/icons-material/ViewKanbanOutlined';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import InfoIcon from '@mui/icons-material/Info';
 import SettingsIcon from '@mui/icons-material/Settings';
 import './MaterialInfo.css';
 import FileUploaderMultiple from '../FileUploaderMultiple';
+import { formatWeight } from '../../../../../Utils/globalFunc';
 
 const MaterialInfo = ({
   theme,
@@ -15,8 +16,17 @@ const MaterialInfo = ({
   setChangeCriteria,
   uploadImage,
   renderFilePreview,
-  mode
+  mode,
+  materialDetails,
+  calculations,
+  currentJob
 }) => {
+  // Use Redux calculations (real-time from working area)
+  const netWeight = materialDetails?.netwt || 0;
+  const diamondWeight = materialDetails?.diawt || 0;
+  const pureWeight = calculations?.pureWeight || 0;
+  const totalAmount = calculations?.totalAmount || 0;
+  
   const btnStyle = {
     color: theme?.palette?.customColors?.titleColor,
     borderColor: theme?.palette?.customColors?.titleColor,
@@ -31,11 +41,15 @@ const MaterialInfo = ({
   return (
     <div className='material-info-container'>
       <div className="material-details">
-        <span><strong>Tag No:</strong> 1/12566</span>
-        <span><strong>Net Wt:</strong> 2.256 gm</span>
-        <span><strong>Pure Wt:</strong> 1.256</span>
-        <span><strong>Dia:</strong> 2.256 cts</span>
-        <span><strong>Amount:</strong> 12000</span>
+        <span><strong>Tag No:</strong> {
+          currentJob ? 
+            `${currentJob.jobNo} | ${currentJob.tagNo}` : 
+            (materialDetails?.tagno || 'New Job')
+        }</span>
+        <span><strong>Net Wt:</strong> {formatWeight(netWeight)} gm</span>
+        <span><strong>Pure Wt:</strong> {formatWeight(pureWeight)} gm</span>
+        <span><strong>Dia:</strong> {formatWeight(diamondWeight)} cts</span>
+        <span><strong>Amount:</strong> ₹{totalAmount.toLocaleString('en-IN')}</span>
         <Button
           variant="outlined"
           size="small"

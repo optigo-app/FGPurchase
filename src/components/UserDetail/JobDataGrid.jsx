@@ -121,7 +121,7 @@ const JobDataGrid = ({
                 field: 'totalamt',
                 headerName: 'Amount',
                 width: 105,
-                valueFormatter: (params) => Number(params.value || 0).toFixed(2),
+                valueFormatter: (params) => Number(params || 0).toFixed(2),
             }]
             : []),
         {
@@ -131,7 +131,7 @@ const JobDataGrid = ({
             sortable: false,
             renderCell: (params) => (
                 <IconButton size="small" onClick={() => handleSingleDelete(params.row?.id)}>
-                    <Trash color={theme?.palette?.customColors?.purple || 'grey'} />
+                    <Trash size={20} color={theme?.palette?.customColors?.danger || 'grey'} />
                 </IconButton>
             ),
         },
@@ -162,7 +162,6 @@ const JobDataGrid = ({
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'flex-start',
-                        lineHeight: '1.4 !important',
                         whiteSpace: 'normal',
                     },
                     '& .MuiDataGrid-columnHeaders': {
@@ -185,7 +184,12 @@ const JobDataGrid = ({
                     '& .MuiDataGrid-cell:focus-within': {
                         outline: 'none',
                     },
-                    // Optional: remove row highlight on selection
+                    '& .MuiDataGrid-row': {
+                        cursor: 'pointer',
+                        '&:hover': {
+                            backgroundColor: '#f5f5f5',
+                        },
+                    },
                     '& .MuiDataGrid-row.Mui-selected': {
                         backgroundColor: 'inherit !important',
                     },

@@ -1,46 +1,215 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import { Tooltip } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { calculateNetWeight, calculateGrossWeight, formatWeight } from '../../Utils/globalFunc';
 
 const fields1 = [
-  { id: 'HSN', label: 'HSN', placeholder: 'HSN' },
-  { id: 'refno', label: 'Ref No.', placeholder: 'Ref No' },
-  { id: 'ctype', label: 'Cert. Type', placeholder: 'Certificate Type' },
-  { id: 'certno', label: 'Cert. No.', placeholder: 'Certificate No.' },
-  { id: 'huid', label: 'HUID. No.', placeholder: 'HUID No' },
+  { id: 'HSN', label: 'HSN', placeholder: 'HSN', type: 'text' },
+  { id: 'refno', label: 'Ref No.', placeholder: 'Ref No', type: 'text' },
+  { id: 'ctype', label: 'Cert. Type', placeholder: 'Certificate Type', type: 'text' },
+  { id: 'certno', label: 'Cert. No.', placeholder: 'Certificate No.', type: 'text' },
+  { id: 'huid', label: 'HUID. No.', placeholder: 'HUID No', type: 'text' },
 ];
 
 const fields2 = [
-  { id: 'metaltype', label: 'MetalType', placeholder: 'Metal Type' },
-  { id: 'grosswt', label: 'GrossWt', placeholder: 'Gross Wt' },
-  { id: 'netwt', label: 'NetWt', placeholder: 'NetWt' },
-  { id: 'tunch', label: 'Tunch', placeholder: 'Tunch' },
-  { id: 'wastage', label: 'Wastage', placeholder: 'Wastage' },
-  { id: 'diawt', label: 'Dia. Wt', placeholder: 'Dia.Wt' },
-  { id: 'cswt', label: 'Cs. Wt', placeholder: 'Cs.Wt' },
-  { id: 'miscwt', label: 'Misc. Wt', placeholder: 'Misc Wt' },
-  { id: 'finewt', label: 'Finding. Wt', placeholder: 'Finding Wt' },
-  { id: 'labour', label: 'Labour', placeholder: 'Labour' },
-  { id: 'saleslabour', label: 'SalesLabour', placeholder: 'SalesLabour' },
+  { id: 'metaltype', label: 'MetalType', placeholder: 'Metal Type', type: 'text' },
+  { id: 'grosswt', label: 'GrossWt', placeholder: 'Gross Wt', type: 'number' },
+  { id: 'netwt', label: 'NetWt', placeholder: 'NetWt', type: 'number' },
+  { id: 'tunch', label: 'Tunch', placeholder: 'Tunch', type: 'number' },
+  { id: 'wastage', label: 'Wastage', placeholder: 'Wastage', type: 'number' },
+  { id: 'diawt', label: 'Dia. Wt', placeholder: 'Dia.Wt', type: 'number' },
+  { id: 'cswt', label: 'Cs. Wt', placeholder: 'Cs.Wt', type: 'number' },
+  { id: 'miscwt', label: 'Misc. Wt', placeholder: 'Misc Wt', type: 'number' },
+  { id: 'finewt', label: 'Finding. Wt', placeholder: 'Finding Wt', type: 'number' },
+  { id: 'labour', label: 'Labour', placeholder: 'Labour', type: 'number' },
+  { id: 'saleslabour', label: 'SalesLabour', placeholder: 'SalesLabour', type: 'number' },
 ];
 
-const PrimaryDetails = ({ mode, onChange, showSubTag, setChangeCriteria, handleEnterKeyChange, csWtFocus, miscWtFocus, findingWtFocus }) => {
-  const renderInput = ({ id, label, placeholder }, isSecondRow = false) => (
-    <div className="filter-item" key={id}>
-      <div>
-        <label htmlFor={id} style={{ fontSize: '0.7rem', paddingLeft: '4px', color: '#797979' }}>{label}</label>
-        <input
-          type="text"
-          id={id}
-          name={id}
-          placeholder={placeholder}
-          ref={id === 'cswt' ? csWtFocus : id === 'miscwt' ? miscWtFocus : id === 'finewt' ? findingWtFocus : undefined}
-          onChange={(e) => onChange(id, e.target.value)}
-          onKeyDown={isSecondRow && ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id) ? (e) => handleEnterKeyChange(e, id) : undefined}
-        />
+
+const formatDecimal3 = (value) => {
+  const [integer, decimal] = value.split('.');
+  if (decimal && decimal.length > 3) {
+    return `${integer}.${decimal.slice(0, 3)}`;
+  }
+  return value;
+};
+
+const formatDecimal2 = (value) => {
+  const [integer, decimal] = value.split('.');
+  if (decimal && decimal.length > 2) {
+    return `${integer}.${decimal.slice(0, 2)}`;
+  }
+  return value;
+};
+
+const ClearButton = ({ onClick }) => (
+  <div className="filter-item d-flex justify-content-center align-items-center w-100">
+    <button 
+      type="button" 
+      onClick={onClick}
+      style={{
+        background: 'none',
+        border: 'none',
+        color: '#776BF0',
+        cursor: 'pointer',
+        textDecoration: 'underline',
+        fontSize: '0.8rem',
+        marginTop: '20px'
+      }}
+    >
+      Clear
+    </button>
+  </div>
+);
+
+const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChangeCriteria, handleEnterKeyChange, csWtFocus, miscWtFocus, findingWtFocus }, ref) => {
+  const [primaryWeightField, setPrimaryWeightField] = useState(null);
+  const hsnInputRef = useRef(null);
+
+  // Expose focus function to parent component
+  useImperativeHandle(ref, () => ({
+    focusHSN: () => {
+      if (hsnInputRef.current) {
+        hsnInputRef.current.focus();
+      }
+    }
+  }));
+
+  useEffect(() => {
+    if ((!values.grosswt || values.grosswt.trim() === '') && (!values.netwt || values.netwt.trim() === '')) {
+      setPrimaryWeightField(null);
+    }
+  }, [values.grosswt, values.netwt]);
+
+  useEffect(() => {
+    if (!primaryWeightField && values.grosswt && values.grosswt.trim() !== '') {
+      setPrimaryWeightField('grosswt');
+      return;
+    }
+
+    if (primaryWeightField === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
+      const calculatedNetWt = calculateNetWeight(
+        values.grosswt,
+        values.diawt || 0,
+        values.cswt || 0,
+        values.miscwt || 0,
+        values.finewt || 0
+      );
+      const formattedNetWt = formatWeight(calculatedNetWt);
+      
+      if (values.netwt !== formattedNetWt) {
+        onChange('netwt', formattedNetWt);
+      }
+    } else if (primaryWeightField === 'netwt' && values.netwt && values.netwt.trim() !== '') {
+      const calculatedGrossWt = calculateGrossWeight(
+        values.netwt,
+        values.diawt || 0,
+        values.cswt || 0,
+        values.miscwt || 0,
+        values.finewt || 0
+      );
+      const formattedGrossWt = formatWeight(calculatedGrossWt);
+      
+      if (values.grosswt !== formattedGrossWt) {
+        onChange('grosswt', formattedGrossWt);
+      }
+    }
+  }, [values.diawt, values.cswt, values.miscwt, values.finewt, primaryWeightField, values.grosswt, values.netwt]);
+
+  const handleClearFields1 = () => {
+    fields1.forEach(field => {
+      onChange(field.id, '');
+    });
+  };
+
+  const handleClearFields2 = () => {
+    fields2.forEach(field => {
+      onChange(field.id, '');
+    });
+    setPrimaryWeightField(null);
+  };
+
+  const handleInputChange = (id, value) => {
+    let formattedValue = value;
+    
+    if (id === 'grosswt' || id === 'netwt') {
+      formattedValue = formatDecimal3(value);
+    } else if (id === 'tunch' || id === 'wastage') {
+      formattedValue = formatDecimal2(value);
+    } else if (['diawt', 'cswt', 'miscwt', 'finewt'].includes(id)) {
+      formattedValue = formatDecimal3(value);
+    }
+
+    if (id === 'grosswt' || id === 'netwt') {
+      setPrimaryWeightField(id);
+    }
+
+    if (['diawt', 'cswt', 'miscwt', 'finewt'].includes(id)) {
+      const updatedValues = { ...values, [id]: formattedValue };
+      
+      if (primaryWeightField === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
+        const calculatedNetWt = calculateNetWeight(
+          values.grosswt,
+          updatedValues.diawt || 0,
+          updatedValues.cswt || 0,
+          updatedValues.miscwt || 0,
+          updatedValues.finewt || 0
+        );
+        onChange('netwt', formatWeight(calculatedNetWt));
+      } else if (primaryWeightField === 'netwt' && values.netwt && values.netwt.trim() !== '') {
+        const calculatedGrossWt = calculateGrossWeight(
+          values.netwt,
+          updatedValues.diawt || 0,
+          updatedValues.cswt || 0,
+          updatedValues.miscwt || 0,
+          updatedValues.finewt || 0
+        );
+        onChange('grosswt', formatWeight(calculatedGrossWt));
+      }
+    }
+    onChange(id, formattedValue);
+  };
+
+  const handleKeyDown = (e, id, isSecondRow) => {
+    if (e.key === 'Tab' && id === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
+      e.preventDefault();
+      const tunchInput = document.getElementById('tunch');
+      if (tunchInput) {
+        tunchInput.focus();
+      }
+    } else if (isSecondRow && ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id)) {
+      handleEnterKeyChange(e, id);  
+    }
+  };
+
+  const renderInput = ({ id, label, placeholder, type = 'text' }, isSecondRow = false) => {
+    const isCalculatedWeightField = ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id);
+    
+    return (
+      <div className="filter-item" key={id}>
+        <div>
+          <label htmlFor={id} style={{ fontSize: '0.7rem', paddingLeft: '4px', color: '#797979' }}>{label}</label>
+          <input
+            type={type}
+            id={id}
+            name={id}
+            value={values[id] || ''}
+            placeholder={placeholder}
+            step={type === 'number' ? '0.001' : undefined}
+            min={type === 'number' ? '0' : undefined}
+            ref={id === 'HSN' ? hsnInputRef : id === 'cswt' ? csWtFocus : id === 'miscwt' ? miscWtFocus : id === 'finewt' ? findingWtFocus : undefined}
+            onChange={(e) => handleInputChange(id, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, id, isSecondRow)}
+            style={{
+              backgroundColor: isCalculatedWeightField ? '#f8f9fa' : 'white',
+              cursor: isCalculatedWeightField ? 'pointer' : 'text'
+            }}
+            title={isCalculatedWeightField ? 'Click to open material details' : ''}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <>
@@ -48,6 +217,7 @@ const PrimaryDetails = ({ mode, onChange, showSubTag, setChangeCriteria, handleE
         <div className="filters-container_sn fs_fgp">
           {fields1.map(f => renderInput(f))}
           <div className="filter-item d-flex justify-content-center align-items-center w-100">
+          <ClearButton onClick={handleClearFields1} />
             <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }} onClick={() => setChangeCriteria(true)}>
               <SettingsIcon style={{ color: '#776BF0', cursor: 'pointer' }} />
             </Tooltip>
@@ -58,6 +228,7 @@ const PrimaryDetails = ({ mode, onChange, showSubTag, setChangeCriteria, handleE
       <div className="filters-container2 fs_fgp">
         {(mode !== 'alteration_receive' ? fields2.slice(0, 1) : []).map(f => renderInput(f))}
         {fields2.slice(mode !== 'alteration_receive' ? 1 : 0).map(f => renderInput(f, true))}
+        <ClearButton onClick={handleClearFields2} />
       </div>
 
       {showSubTag && (
@@ -70,14 +241,16 @@ const PrimaryDetails = ({ mode, onChange, showSubTag, setChangeCriteria, handleE
                 <SettingsIcon style={{ color: '#776BF0', cursor: 'pointer' }} />
               </Tooltip>
             </div>
+            <ClearButton onClick={handleClearFields1} />
           </div>
           <div className="filters-container2 fs_fgp">
             {fields2.map(f => renderInput(f, true))}
+            <ClearButton onClick={handleClearFields2} />
           </div>
         </>
       )}
     </>
   );
-};
+});
 
 export default PrimaryDetails;

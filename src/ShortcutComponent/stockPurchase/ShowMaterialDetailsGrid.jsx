@@ -3,7 +3,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, Checkbox } from '@mui/material';
 
-const ShowMaterialDetailsGrid = ({ data, index, mode, type }) => {
+const ShowMaterialDetailsGrid = ({ data, index, mode, type, onDelete }) => {
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(index);
+    }
+  };
+
   return (
     <tr>
       <td>{index + 1}</td>
@@ -40,7 +46,7 @@ const ShowMaterialDetailsGrid = ({ data, index, mode, type }) => {
         </IconButton>
       </td>
       <td>
-        <IconButton size="small" color="error">
+        <IconButton size="small" color="error" onClick={handleDelete}>
           <DeleteIcon />
         </IconButton>
       </td>

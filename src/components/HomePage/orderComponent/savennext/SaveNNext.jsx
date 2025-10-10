@@ -1,21 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import "./savennext.css";
 import DeleteIcon from "../../../../assets/images/delete.png";
-import SettingsIcon from '@mui/icons-material/Settings';
 import { handleIssuedMaterialModal, handleSaveAndNextFlag, handleSelectedButton, handleShowImgListPopUp } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { startWorking, updateWorkingData, saveJob, saveAndNew, resetJobCounter, testAction } from '../../../../redux/slices/jobSlice';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
-import { Tooltip, Button, AvatarGroup, Avatar, useTheme, IconButton } from '@mui/material';
-import FileUploaderMultiple from './FileUploaderMultiple';
+import { Tooltip, Button, Avatar, useTheme, IconButton } from '@mui/material';
 import MountGrid from './MountGrid';
 import IssuedMaterial from './IssuedMaterial';
-import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
-import InfoIcon from '@mui/icons-material/Info';
-import Grid4x4SharpIcon from '@mui/icons-material/Grid4x4Sharp';
 import MaterialDetailsModal from '../../../../ShortcutComponent/stockPurchase/MaterialDetailsModal';
 import { materialConfigs } from '../../../../ShortcutComponent/stockPurchase/MaterialDetailsConfig';
 import MarkupModal from '../../../../ShortcutComponent/stockPurchase/MarkupModal';
@@ -25,6 +21,9 @@ import GroupedTableSection from '../../../../ShortcutComponent/stockPurchase/Gro
 import PrimaryDetails from '../../../../ShortcutComponent/stockPurchase/PrimaryDetails';
 import RemarkModal from '../../../../ShortcutComponent/stockPurchase/RemarkModal';
 import MaterialInfo from './selectedJobDetail/MaterialInfo';
+import { calculateDiamondWeight, calculateColorstoneWeight, calculateMiscWeight, calculateFindingWeight, formatWeight } from '../../../../Utils/globalFunc';
+import { mapMultipleIssuedToMaterialDetails, mergeWithExistingRows } from '../../../../Utils/materialDataMapper';
+
 const SaveNNext = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -34,6 +33,31 @@ const SaveNNext = () => {
   const addSubTag = useSelector(state => state?.home?.addSubtag);
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
   const uploadImage = useSelector(state => state?.home?.uploadImage);
+  
+  // Job Redux state (Phase 1 Test)
+  const jobState = useSelector(state => state?.job);
+  
+  // Ref for PrimaryDetails to focus HSN input
+  const primaryDetailsRef = useRef(null);
+  
+  // Test Redux connection & Start working
+  useEffect(() => {
+    dispatch(testAction('Redux connection test successful!'));
+    
+    // TEMPORARY: Reset job counter to ensure clean start
+    if (jobState?.jobCounter > 0 && jobState?.createdJobs?.length === 0) {
+      dispatch(resetJobCounter());
+    }
+    
+    dispatch(startWorking()); // Start the working session
+  }, []);
+  
+  // Debug: Watch edit mode
+  useEffect(() => {
+    if (jobState?.selectedJobFromList) {
+      console.log('🟢 SaveNNext - EDIT MODE - Job:', jobState.selectedJobFromList);
+    }
+  }, [jobState?.selectedJobFromList]);
   const [markUpModal, setMarkUpModal] = useState(false);
   const [addMoreMaterial, setAddMoreMaterial] = useState(false);
   const [remarkModal, setRemarkModal] = useState(false);
@@ -175,8 +199,38 @@ const SaveNNext = () => {
     }
   }
 
+  // Save & Print Handler (saves job and prints)
+  const handleSaveJob = () => {
+    const isEditing = jobState?.selectedJobFromList;
+    console.log(`💾 SaveNNext - ${isEditing ? 'Update & Print' : 'Save & Print'} clicked`);
+    
+    dispatch(saveJob({
+      // Let Redux generate the tag number automatically
+      customer: 'Test Customer'
+    }));
+    
+    // TODO: Add print functionality here
+  };
+
+  // Save & New Handler  
+  const handleSaveAndNewJob = () => {
+    const isEditing = jobState?.selectedJobFromList;
+    console.log(`💾 SaveNNext - ${isEditing ? 'Save & Update' : 'Save & New'} clicked`);
+    
+    dispatch(saveAndNew({
+      // Let Redux generate the tag number automatically
+      customer: 'Test Customer 2'
+    }));
+    
+    // Focus HSN input after save & new for quick data entry
+    setTimeout(() => {
+      if (primaryDetailsRef.current) {
+        primaryDetailsRef.current.focusHSN();
+      }
+    }, 100); // Small delay to ensure Redux state is updated
+  };
+
   const handleEnterKeyChange = useCallback((e, args) => {
-    debugger
     if (e?.key?.toLowerCase() === "enter") {
       if (args === 'diawt') {
         setAddDiaInfoPopUp(true);
@@ -193,8 +247,12 @@ const SaveNNext = () => {
     }
   }, [addDiaInfoPopUp, addCSInfoPopUp, addMiscInfoPopUp, addFindingInfoPopUp]);
 
+  // Redux-based material details change handler
   const handleFilterChange = (field, value) => {
-    setMaterialDetails(prev => ({ ...prev, [field]: value }));
+    dispatch(updateWorkingData({
+      type: 'materialDetails',
+      payload: { field, value }
+    }));
   };
 
   const handleCriteriaChange = (field, value) => {
@@ -203,13 +261,22 @@ const SaveNNext = () => {
 
   const handleDiamondInputChange = (e, rowIndex) => {
     const { name, value, type, checked } = e.target;
-    const updatedRows = [...addDiamondRows];
-    updatedRows[rowIndex][name] = type === "checkbox" ? checked : value;
-    setAddDiamondRows(updatedRows);
+    const finalValue = type === "checkbox" ? checked : value;
+    
+    dispatch(updateWorkingData({
+      type: 'materialRow',
+      payload: { 
+        materialType: 'diamond', 
+        index: rowIndex, 
+        field: name, 
+        value: finalValue 
+      }
+    }));
   };
 
   const handleAddRow = () => {
-    const lastRow = addDiamondRows[addDiamondRows.length - 1];
+    const diamondRows = jobState?.workingArea?.materials?.diamond || [];
+    const lastRow = diamondRows[diamondRows.length - 1];
     const keysToIgnore = ['onPcs'];
     const isLastRowValid = Object.entries(lastRow)
       .filter(([key]) => !keysToIgnore.includes(key))
@@ -219,34 +286,19 @@ const SaveNNext = () => {
       alert('Please fill out all required fields in the last row before adding a new one.');
       return;
     }
-
-    setAddDiamondRows([
-      ...addDiamondRows,
-      {
-        material: '',
-        type: '',
-        shape: '',
-        clarity: '',
-        color: '',
-        size: '',
-        pcs: '',
-        wt: '',
-        supplier: '',
-        rate: '',
-        amount: '',
-        onPcs: false,
-        addInGrossWt: null,
-        tunch: 0,
-        wastage: 0
-      },
-    ]);
+    
+    dispatch(updateWorkingData({
+      type: 'addRow',
+      payload: { materialType: 'diamond' }
+    }));
   };
 
-  const handleDIamondKeyDown = (e) => {
+  const handleDIamondsKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleAddRow();
     }
   };
+
 
   useEffect(() => {
     if (addDiaInfoPopUp) {
@@ -260,44 +312,31 @@ const SaveNNext = () => {
 
   const handleSaveDiamondDetails = () => {
     setAddDiaInfoPopUp(false);
-    const hasValidDiamondData = isTableDataValid(addDiamondRows);
-    if (!hasValidDiamondData) {
-      return;
-    }
-    setMaterialDetails({
-      ...materialDetails,
-      moreMaterial: {
-        ...materialDetails.moreMaterial,
-        diamond: addDiamondRows
-      }
-    })
   }
 
   const handleSaveColorstoneDetails = () => {
     setAddCSInfoPopUp(false);
-    const hasValidCsData = isTableDataValid(addCsRows);
-    if (!hasValidCsData) {
-      return;
-    }
-    setMaterialDetails({
-      ...materialDetails,
-      moreMaterial: {
-        ...materialDetails.moreMaterial,
-        colorstone: addCsRows
-      }
-    })
   }
 
   const handleColorstoneInputChange = (e, rowIndex) => {
-    const { name, value } = e.target;
-    const updatedRows = [...addCsRows];
-    updatedRows[rowIndex][name] = value;
-    setAddCSRows(updatedRows);
+    const { name, value, type, checked } = e.target;
+    const finalValue = type === "checkbox" ? checked : value;
+    
+    dispatch(updateWorkingData({
+      type: 'materialRow',
+      payload: { 
+        materialType: 'colorstone', 
+        index: rowIndex, 
+        field: name, 
+        value: finalValue 
+      }
+    }));
   };
 
   // Add a new row
   const handleCSAddRow = () => {
-    const lastRow = addCsRows[addCsRows.length - 1];
+    const colorstoneRows = jobState?.workingArea?.materials?.colorstone || [];
+    const lastRow = colorstoneRows[colorstoneRows.length - 1];
     const keysToIgnore = ['onPcs'];
     const isLastRowValid = Object.entries(lastRow)
       .filter(([key]) => !keysToIgnore.includes(key))
@@ -307,27 +346,11 @@ const SaveNNext = () => {
       alert('Please fill out all required fields in the last row before adding a new one.');
       return;
     }
-
-    setAddCSRows([
-      ...addCsRows,
-      {
-        material: '',
-        type: '',
-        shape: '',
-        clarity: '',
-        color: '',
-        size: '',
-        pcs: '',
-        wt: '',
-        supplier: '',
-        rate: '',
-        amount: '',
-        onPcs: false,
-        addInGrossWt: null,
-        tunch: 0,
-        wastage: 0
-      },
-    ]);
+    
+    dispatch(updateWorkingData({
+      type: 'addRow',
+      payload: { materialType: 'colorstone' }
+    }));
   };
 
   const handleColorstoneKeyDown = (e) => {
@@ -349,57 +372,40 @@ const SaveNNext = () => {
   //add misc pop up logic
   const handleSaveMiscDetails = () => {
     setAddMiscInfoPopUp(false);
-    const hasValidMiscData = isTableDataValid(addMiscRows);
-    if (!hasValidMiscData) {
-      return;
-    }
-    setMaterialDetails({
-      ...materialDetails,
-      moreMaterial: {
-        ...materialDetails.moreMaterial,
-        misc: addMiscRows
-      }
-    })
   }
 
   const handleMiscInputChange = (e, rowIndex) => {
-    const { name, value } = e.target;
-    const updatedRows = [...addMiscRows];
-    updatedRows[rowIndex][name] = value;
-    setAddMiscRows(updatedRows);
+    const { name, value, type, checked } = e.target;
+    const finalValue = type === "checkbox" ? checked : value;
+    
+    dispatch(updateWorkingData({
+      type: 'materialRow',
+      payload: { 
+        materialType: 'misc', 
+        index: rowIndex, 
+        field: name, 
+        value: finalValue 
+      }
+    }));
   };
 
   const handleMiscAddRow = () => {
-    const lastRow = addMiscRows[addMiscRows?.length - 1];
+    const miscRows = jobState?.workingArea?.materials?.misc || [];
+    const lastRow = miscRows[miscRows?.length - 1];
     const keysToIgnore = ['onPcs'];
     const isLastRowValid = Object.entries(lastRow)
-      .filter(([key]) => !keysToIgnore.includes(key)) // Exclude ignored keys
-      .every(([, value]) => value !== ''); // Check remaining fields
+      .filter(([key]) => !keysToIgnore.includes(key))
+      .every(([, value]) => value !== '');
 
     if (!isLastRowValid) {
       alert('Please fill out all required fields in the last row before adding a new one.');
-      return; // Stop adding a new row
+      return;
     }
-    setAddMiscRows([
-      ...addMiscRows,
-      {
-        material: '',
-        type: '',
-        shape: '',
-        clarity: '',
-        color: '',
-        size: '',
-        pcs: '',
-        wt: '',
-        supplier: '',
-        rate: '',
-        amount: '',
-        onPcs: false,
-        addInGrossWt: false,
-        tunch: 0,
-        wastage: 0
-      },
-    ]);
+    
+    dispatch(updateWorkingData({
+      type: 'addRow',
+      payload: { materialType: 'misc' }
+    }));
   };
 
   const handleMiscKeyDown = (e) => {
@@ -421,57 +427,40 @@ const SaveNNext = () => {
   //add finding pop up logic
   const handleSaveFindingDetails = () => {
     setAddFindingInfoPopUp(false);
-    const hasValidFindingData = isTableDataValid(addFindingRows);
-    if (!hasValidFindingData) {
-      return;
-    }
-    setMaterialDetails({
-      ...materialDetails,
-      moreMaterial: {
-        ...materialDetails.moreMaterial,
-        finding: addFindingRows
-      }
-    })
   }
 
   const handleFindingInputChange = (e, rowIndex) => {
-    const { name, value } = e.target;
-    const updatedRows = [...addFindingRows];
-    updatedRows[rowIndex][name] = value;
-    setAddFindingRows(updatedRows);
+    const { name, value, type, checked } = e.target;
+    const finalValue = type === "checkbox" ? checked : value;
+    
+    dispatch(updateWorkingData({
+      type: 'materialRow',
+      payload: { 
+        materialType: 'finding', 
+        index: rowIndex, 
+        field: name, 
+        value: finalValue 
+      }
+    }));
   };
 
   // Add a new row
   const handleFindingAddRow = () => {
-    const lastRow = addFindingRows[addFindingRows?.length - 1];
+    const findingRows = jobState?.workingArea?.materials?.finding || [];
+    const lastRow = findingRows[findingRows?.length - 1];
     const keysToIgnore = ['onPcs'];
     const isLastRowValid = Object.entries(lastRow)
-      .filter(([key]) => !keysToIgnore.includes(key)) // Exclude ignored keys
-      .every(([, value]) => value !== ''); // Check remaining fields
+      .filter(([key]) => !keysToIgnore.includes(key)) 
+      .every(([, value]) => value !== '');
     if (!isLastRowValid) {
       alert('Please fill out all required fields in the last row before adding a new one.');
-      return; // Stop adding a new row
+      return; 
     }
-    setAddFindingRows([
-      ...addFindingRows,
-      {
-        material: '',
-        type: '',
-        shape: '',
-        clarity: '',
-        color: '',
-        size: '',
-        pcs: '',
-        wt: '',
-        supplier: '',
-        rate: '',
-        amount: '',
-        onPcs: false,
-        addInGrossWt: null,
-        tunch: 0,
-        wastage: 0
-      },
-    ]);
+    
+    dispatch(updateWorkingData({
+      type: 'addRow',
+      payload: { materialType: 'finding' }
+    }));
   };
 
   const handleFindingKeyDown = (e) => {
@@ -510,6 +499,122 @@ const SaveNNext = () => {
     }
   }
 
+  // Create blank row template
+  const createBlankRow = () => ({
+    material: '',
+    type: '',
+    shape: '',
+    clarity: '',
+    color: '',
+    size: '',
+    pcs: '',
+    wt: '',
+    supplier: '',
+    rate: '',
+    amount: '',
+    onPcs: null,
+    addInGrossWt: null,
+    tunch: 0,
+    wastage: 0
+  });
+
+  // Delete functions for each material type
+  const handleDeleteDiamondRow = (index) => {
+    dispatch(updateWorkingData({
+      type: 'deleteRow',
+      payload: { materialType: 'diamond', index }
+    }));
+  };
+
+  const handleDeleteCsRow = (index) => {
+    dispatch(updateWorkingData({
+      type: 'deleteRow',
+      payload: { materialType: 'colorstone', index }
+    }));
+  };
+
+  const handleDeleteMiscRow = (index) => {
+    dispatch(updateWorkingData({
+      type: 'deleteRow',
+      payload: { materialType: 'misc', index }
+    }));
+  };
+
+  const handleDeleteFindingRow = (index) => {
+    dispatch(updateWorkingData({
+      type: 'deleteRow',
+      payload: { materialType: 'finding', index }
+    }));
+  };
+
+  const handleReceivedMaterialData = (receivedData) => {
+    const { diamond, colorstone, misc, finding } = receivedData;
+
+    if (diamond && diamond.length > 0) {
+      const mappedDiamondData = mapMultipleIssuedToMaterialDetails(diamond, 'diamond');
+      const mergedDiamondRows = mergeWithExistingRows(addDiamondRows, mappedDiamondData);
+      setAddDiamondRows(mergedDiamondRows);
+      
+      const totalDiamondWeight = calculateDiamondWeight(mergedDiamondRows);
+      setMaterialDetails(prev => ({
+        ...prev,
+        diawt: formatWeight(totalDiamondWeight)
+      }));
+      
+      setAddDiaInfoPopUp(true);
+    }
+
+    if (colorstone && colorstone.length > 0) {
+      const mappedColorstoneData = mapMultipleIssuedToMaterialDetails(colorstone, 'colorstone');
+      const mergedColorstoneRows = mergeWithExistingRows(addCsRows, mappedColorstoneData);
+      setAddCSRows(mergedColorstoneRows);
+      
+      const totalColorstoneWeight = calculateColorstoneWeight(mergedColorstoneRows);
+      setMaterialDetails(prev => ({
+        ...prev,
+        cswt: formatWeight(totalColorstoneWeight)
+      }));
+      
+      if (!diamond || diamond.length === 0) {
+        setAddCSInfoPopUp(true);
+      }
+    }
+
+    if (misc && misc.length > 0) {
+      const mappedMiscData = mapMultipleIssuedToMaterialDetails(misc, 'misc');
+      const mergedMiscRows = mergeWithExistingRows(addMiscRows, mappedMiscData);
+      setAddMiscRows(mergedMiscRows);
+      
+      const totalMiscWeight = calculateMiscWeight(mergedMiscRows);
+      setMaterialDetails(prev => ({
+        ...prev,
+        miscwt: formatWeight(totalMiscWeight)
+      }));
+      
+      if ((!diamond || diamond.length === 0) && (!colorstone || colorstone.length === 0)) {
+        setAddMiscInfoPopUp(true);
+      }
+    }
+
+    if (finding && finding.length > 0) {
+      const mappedFindingData = mapMultipleIssuedToMaterialDetails(finding, 'finding');
+      const mergedFindingRows = mergeWithExistingRows(addFindingRows, mappedFindingData);
+      setAddFindingRows(mergedFindingRows);
+      
+      const totalFindingWeight = calculateFindingWeight(mergedFindingRows);
+      setMaterialDetails(prev => ({
+        ...prev,
+        finewt: formatWeight(totalFindingWeight)
+      }));
+      
+      if ((!diamond || diamond.length === 0) && 
+          (!colorstone || colorstone.length === 0) && 
+          (!misc || misc.length === 0)) {
+        setAddFindingInfoPopUp(true);
+      }
+    }
+  };
+
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
 
   const renderFilePreview = (file, index) => {
@@ -518,21 +623,21 @@ const SaveNNext = () => {
         src={URL.createObjectURL(file)}
         key={index}
         sx={{
-          height: hoveredIndex === index ? 42 : 39, // Larger size on hover
+          height: hoveredIndex === index ? 42 : 39, 
           width: hoveredIndex === index ? 42 : 39,
-          transition: "transform 0.2s ease, height 0.2s ease, width 0.2s ease", // Smooth transition
+          transition: "transform 0.2s ease, height 0.2s ease, width 0.2s ease",
           cursor: "pointer",
-          border: hoveredIndex === index ? "2px solid grey !important" : "1px solid #989898", // Distinct border on hover
+          border: hoveredIndex === index ? "2px solid grey !important" : "1px solid #989898",
         }}
         onClick={() => {
           setHoveredIndex(null);
           dispatch(handleShowImgListPopUp(true));
         }}
         onMouseEnter={() => {
-          setHoveredIndex(index); // Update hovered index
+          setHoveredIndex(index);
         }}
         onMouseLeave={() => {
-          setHoveredIndex(null); // Reset hovered index
+          setHoveredIndex(null);
         }}
       />
     );
@@ -569,10 +674,20 @@ const SaveNNext = () => {
           uploadImage={uploadImage}
           renderFilePreview={renderFilePreview}
           mode={mode}
+          materialDetails={jobState?.workingArea?.materialDetails || {}}
+          calculations={jobState?.workingArea?.calculations || {}}
+          diamondRows={jobState?.workingArea?.materials?.diamond || []}
+          colorstoneRows={jobState?.workingArea?.materials?.colorstone || []}
+          miscRows={jobState?.workingArea?.materials?.misc || []}
+          findingRows={jobState?.workingArea?.materials?.finding || []}
+          currentJob={jobState?.selectedJobFromList ? 
+            jobState?.createdJobs?.find(job => job.jobNo === jobState.selectedJobFromList) : null}
         />
 
         <PrimaryDetails
+          ref={primaryDetailsRef}
           mode={mode}
+          values={jobState?.workingArea?.materialDetails || {}}
           onChange={handleFilterChange}
           showSubTag={addSubTag}
           setChangeCriteria={setChangeCriteria}
@@ -583,7 +698,6 @@ const SaveNNext = () => {
         />
         <div>
           {
-            //  addMoreMaterial && <>
             1 && <>
               <div className='d-flex justify-content-between align-items-center mb-2 pt-3'>
                 {<h5 className='ps-2 mb-0'>{showTableEntry && ""}</h5>}
@@ -605,7 +719,7 @@ const SaveNNext = () => {
                   </div>
                 </div>
                 {mountModal && <MountGrid />}
-                {issuedMaterialModal && <IssuedMaterial />}
+                {issuedMaterialModal && <IssuedMaterial onReceiveData={handleReceivedMaterialData} />}
               </div>
               {showTableEntry && (
                 <div className='w-100 d-flex justify-content-start align-items-center'>
@@ -630,10 +744,10 @@ const SaveNNext = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <GroupedTableSection title="💎 Diamond Rows" rows={addDiamondRows} type="diamond" mode={mode} />
-                      <GroupedTableSection title="🔷 CS Stone Rows" rows={addCsRows} type="cs" mode={mode} />
-                      <GroupedTableSection title="🛠 Misc Rows" rows={addMiscRows} type="misc" mode={mode} />
-                      <GroupedTableSection title="🔗 Finding Rows" rows={addFindingRows} type="finding" mode={mode} />
+                      <GroupedTableSection title="💎 Diamond Rows" rows={addDiamondRows} type="diamond" mode={mode} onDelete={handleDeleteDiamondRow} />
+                      <GroupedTableSection title="🔷 CS Stone Rows" rows={addCsRows} type="cs" mode={mode} onDelete={handleDeleteCsRow} />
+                      <GroupedTableSection title="🛠 Misc Rows" rows={addMiscRows} type="misc" mode={mode} onDelete={handleDeleteMiscRow} />
+                      <GroupedTableSection title="🔗 Finding Rows" rows={addFindingRows} type="finding" mode={mode} onDelete={handleDeleteFindingRow} />
                     </tbody>
                   </table>
                 </div>
@@ -804,11 +918,11 @@ const SaveNNext = () => {
                     open={addDiaInfoPopUp}
                     onClose={() => setAddDiaInfoPopUp(false)}
                     title={materialConfigs.diamond.title}
-                    rows={addDiamondRows}
+                    rows={jobState?.workingArea?.materials?.diamond || []}
                     onInputChange={handleDiamondInputChange}
                     onAddRow={handleAddRow}
                     onSave={handleSaveDiamondDetails}
-                    onKeyDown={handleDIamondKeyDown}
+                    onKeyDown={handleDIamondsKeyDown}
                     config={materialConfigs.diamond}
                     theme={theme}
                     dispatch={dispatch}
@@ -823,7 +937,7 @@ const SaveNNext = () => {
                     open={addCSInfoPopUp}
                     onClose={() => setAddCSInfoPopUp(false)}
                     title={materialConfigs.colorstone.title}
-                    rows={addCsRows}
+                    rows={jobState?.workingArea?.materials?.colorstone || []}
                     onInputChange={handleColorstoneInputChange}
                     onAddRow={handleCSAddRow}
                     onSave={handleSaveColorstoneDetails}
@@ -842,7 +956,7 @@ const SaveNNext = () => {
                     open={addMiscInfoPopUp}
                     onClose={() => setAddMiscInfoPopUp(false)}
                     title={materialConfigs.misc.title}
-                    rows={addMiscRows}
+                    rows={jobState?.workingArea?.materials?.misc || []}
                     onInputChange={handleMiscInputChange}
                     onAddRow={handleMiscAddRow}
                     onSave={handleSaveMiscDetails}
@@ -861,7 +975,7 @@ const SaveNNext = () => {
                     open={addFindingInfoPopUp}
                     onClose={() => setAddFindingInfoPopUp(false)}
                     title={materialConfigs.finding.title}
-                    rows={addFindingRows}
+                    rows={jobState?.workingArea?.materials?.finding || []}
                     onInputChange={handleFindingInputChange}
                     onAddRow={handleFindingAddRow}
                     onSave={handleSaveFindingDetails}
@@ -880,14 +994,20 @@ const SaveNNext = () => {
 
           <div className='d-flex align-items-center justify-content-center pb-2'>
             <div className="m-1">
-              <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }} onClick={() => handleSaveAndNew()}>Save & New</Button>
+              <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }} onClick={handleSaveAndNewJob}>
+                {jobState?.selectedJobFromList ? 'Save & Update' : 'Save & New'}
+              </Button>
             </div>
             <div className="m-1">
-              <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }}>Save & Print</Button>
+              <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }} onClick={handleSaveJob}>
+                {jobState?.selectedJobFromList ? 'Update & Print' : 'Save & Print'}
+              </Button>
             </div>
           </div>
 
         </div>
+
+
         <RemarkModal
           open={remarkModal}
           onClose={() => setRemarkModal(false)}
