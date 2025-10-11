@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import "./savennext.css";
 import DeleteIcon from "../../../../assets/images/delete.png";
-import { handleIssuedMaterialModal, handleSaveAndNextFlag, handleSelectedButton, handleShowImgListPopUp } from '../../../../redux/slices/HomeSlice';
+import { handleIssuedMaterialModal, handleShowImgListPopUp } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { startWorking, updateWorkingData, saveJob, saveAndNew, resetJobCounter, testAction } from '../../../../redux/slices/jobSlice';
+import { startWorking, updateWorkingData, addBulkMaterialRows, saveJob, saveAndNew, resetJobCounter, testAction } from '../../../../redux/slices/jobSlice';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
@@ -21,8 +21,7 @@ import GroupedTableSection from '../../../../ShortcutComponent/stockPurchase/Gro
 import PrimaryDetails from '../../../../ShortcutComponent/stockPurchase/PrimaryDetails';
 import RemarkModal from '../../../../ShortcutComponent/stockPurchase/RemarkModal';
 import MaterialInfo from './selectedJobDetail/MaterialInfo';
-import { calculateDiamondWeight, calculateColorstoneWeight, calculateMiscWeight, calculateFindingWeight, formatWeight } from '../../../../Utils/globalFunc';
-import { mapMultipleIssuedToMaterialDetails, mergeWithExistingRows } from '../../../../Utils/materialDataMapper';
+import { mapMultipleIssuedToMaterialDetails } from '../../../../Utils/materialDataMapper';
 
 const SaveNNext = () => {
   const dispatch = useDispatch();
@@ -34,119 +33,40 @@ const SaveNNext = () => {
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
   const uploadImage = useSelector(state => state?.home?.uploadImage);
   
-  // Job Redux state (Phase 1 Test)
   const jobState = useSelector(state => state?.job);
-  
-  // Ref for PrimaryDetails to focus HSN input
   const primaryDetailsRef = useRef(null);
   
-  // Test Redux connection & Start working
   useEffect(() => {
     dispatch(testAction('Redux connection test successful!'));
     
-    // TEMPORARY: Reset job counter to ensure clean start
     if (jobState?.jobCounter > 0 && jobState?.createdJobs?.length === 0) {
       dispatch(resetJobCounter());
     }
-    
-    dispatch(startWorking()); // Start the working session
+    dispatch(startWorking()); 
   }, []);
   
-  // Debug: Watch edit mode
   useEffect(() => {
     if (jobState?.selectedJobFromList) {
       console.log('🟢 SaveNNext - EDIT MODE - Job:', jobState.selectedJobFromList);
     }
   }, [jobState?.selectedJobFromList]);
+
   const [markUpModal, setMarkUpModal] = useState(false);
   const [addMoreMaterial, setAddMoreMaterial] = useState(false);
   const [remarkModal, setRemarkModal] = useState(false);
   const [saveRemark, setSaveRemark] = useState('');
   const [addDiaInfoPopUp, setAddDiaInfoPopUp] = useState(false);
-  const [addDiamondRows, setAddDiamondRows] = useState([
-    {
-      material: '',
-      type: '',
-      shape: '',
-      clarity: '',
-      color: '',
-      size: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-      onPcs: null,
-      addInGrossWt: null,
-      tunch: 0,
-      wastage: 0
-    },
-  ]);
   const diamond_Focus = useRef();
   const [addCSInfoPopUp, setAddCSInfoPopUp] = useState(false);
-  const [addCsRows, setAddCSRows] = useState([
-    {
-      material: '',
-      type: '',
-      shape: '',
-      clarity: '',
-      color: '',
-      size: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-      onPcs: null,
-      addInGrossWt: null,
-      tunch: 0,
-      wastage: 0
-    },
-  ]);
+
   const colorstone_focus = useRef();
   const csWtFocus = useRef();
   const [addMiscInfoPopUp, setAddMiscInfoPopUp] = useState(false);
-  const [addMiscRows, setAddMiscRows] = useState([
-    {
-      material: '',
-      type: '',
-      shape: '',
-      clarity: '',
-      color: '',
-      size: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-      onPcs: null,
-      addInGrossWt: null,
-      tunch: 0,
-      wastage: 0
-    },
-  ]);
+
   const misc_focus = useRef();
   const miscWtFocus = useRef();
   const [addFindingInfoPopUp, setAddFindingInfoPopUp] = useState(false);
-  const [addFindingRows, setAddFindingRows] = useState([
-    {
-      material: '',
-      type: '',
-      shape: '',
-      clarity: '',
-      color: '',
-      size: '',
-      pcs: '',
-      wt: '',
-      supplier: '',
-      rate: '',
-      amount: '',
-      onPcs: null,
-      addInGrossWt: null,
-      tunch: 0,
-      wastage: 0
-    },
-  ]);
+
   const findingWtFocus = useRef();
   const finding_focus = useRef();
   const [materialDetails, setMaterialDetails] = useState({});
@@ -205,11 +125,8 @@ const SaveNNext = () => {
     console.log(`💾 SaveNNext - ${isEditing ? 'Update & Print' : 'Save & Print'} clicked`);
     
     dispatch(saveJob({
-      // Let Redux generate the tag number automatically
       customer: 'Test Customer'
     }));
-    
-    // TODO: Add print functionality here
   };
 
   // Save & New Handler  
@@ -218,16 +135,14 @@ const SaveNNext = () => {
     console.log(`💾 SaveNNext - ${isEditing ? 'Save & Update' : 'Save & New'} clicked`);
     
     dispatch(saveAndNew({
-      // Let Redux generate the tag number automatically
       customer: 'Test Customer 2'
     }));
     
-    // Focus HSN input after save & new for quick data entry
     setTimeout(() => {
       if (primaryDetailsRef.current) {
         primaryDetailsRef.current.focusHSN();
       }
-    }, 100); // Small delay to ensure Redux state is updated
+    }, 100);
   };
 
   const handleEnterKeyChange = useCallback((e, args) => {
@@ -298,7 +213,6 @@ const SaveNNext = () => {
       handleAddRow();
     }
   };
-
 
   useEffect(() => {
     if (addDiaInfoPopUp) {
@@ -479,45 +393,6 @@ const SaveNNext = () => {
     }
   }, [addFindingInfoPopUp]);
 
-  const isTableDataValid = (rows) => {
-    return rows.some(row =>
-      Object.values(row).some(value => value !== "" && value !== null && value !== 0)
-    );
-  };
-
-  const handleSaveAndNew = () => {
-    if (selectedTabValue === 'neworder') {
-      dispatch(handleSaveAndNextFlag(true));
-    } else {
-      dispatch(handleSaveAndNextFlag(false));
-    }
-    if (mode === "alteration_issue") {
-      dispatch(handleSelectedButton("add"));
-    }
-    if (mode === "alteration_receive") {
-      dispatch(handleSelectedButton("altjobs"));
-    }
-  }
-
-  // Create blank row template
-  const createBlankRow = () => ({
-    material: '',
-    type: '',
-    shape: '',
-    clarity: '',
-    color: '',
-    size: '',
-    pcs: '',
-    wt: '',
-    supplier: '',
-    rate: '',
-    amount: '',
-    onPcs: null,
-    addInGrossWt: null,
-    tunch: 0,
-    wastage: 0
-  });
-
   // Delete functions for each material type
   const handleDeleteDiamondRow = (index) => {
     dispatch(updateWorkingData({
@@ -552,65 +427,50 @@ const SaveNNext = () => {
 
     if (diamond && diamond.length > 0) {
       const mappedDiamondData = mapMultipleIssuedToMaterialDetails(diamond, 'diamond');
-      const mergedDiamondRows = mergeWithExistingRows(addDiamondRows, mappedDiamondData);
-      setAddDiamondRows(mergedDiamondRows);
-      
-      const totalDiamondWeight = calculateDiamondWeight(mergedDiamondRows);
-      setMaterialDetails(prev => ({
-        ...prev,
-        diawt: formatWeight(totalDiamondWeight)
+      dispatch(addBulkMaterialRows({
+        materialType: 'diamond',
+        rows: mappedDiamondData
       }));
-      
-      setAddDiaInfoPopUp(true);
+      if((!colorstone || colorstone.length === 0) && 
+      (!misc || misc.length === 0) && (!finding || finding.length === 0))
+      setTimeout(() => setAddDiaInfoPopUp(true), 100);
     }
 
     if (colorstone && colorstone.length > 0) {
       const mappedColorstoneData = mapMultipleIssuedToMaterialDetails(colorstone, 'colorstone');
-      const mergedColorstoneRows = mergeWithExistingRows(addCsRows, mappedColorstoneData);
-      setAddCSRows(mergedColorstoneRows);
-      
-      const totalColorstoneWeight = calculateColorstoneWeight(mergedColorstoneRows);
-      setMaterialDetails(prev => ({
-        ...prev,
-        cswt: formatWeight(totalColorstoneWeight)
+      dispatch(addBulkMaterialRows({
+        materialType: 'colorstone',
+        rows: mappedColorstoneData
       }));
       
       if (!diamond || diamond.length === 0) {
-        setAddCSInfoPopUp(true);
+        setTimeout(() => setAddCSInfoPopUp(true), 100);
       }
     }
 
     if (misc && misc.length > 0) {
       const mappedMiscData = mapMultipleIssuedToMaterialDetails(misc, 'misc');
-      const mergedMiscRows = mergeWithExistingRows(addMiscRows, mappedMiscData);
-      setAddMiscRows(mergedMiscRows);
-      
-      const totalMiscWeight = calculateMiscWeight(mergedMiscRows);
-      setMaterialDetails(prev => ({
-        ...prev,
-        miscwt: formatWeight(totalMiscWeight)
+      dispatch(addBulkMaterialRows({
+        materialType: 'misc',
+        rows: mappedMiscData
       }));
       
       if ((!diamond || diamond.length === 0) && (!colorstone || colorstone.length === 0)) {
-        setAddMiscInfoPopUp(true);
+        setTimeout(() => setAddMiscInfoPopUp(true), 100);
       }
     }
 
     if (finding && finding.length > 0) {
       const mappedFindingData = mapMultipleIssuedToMaterialDetails(finding, 'finding');
-      const mergedFindingRows = mergeWithExistingRows(addFindingRows, mappedFindingData);
-      setAddFindingRows(mergedFindingRows);
-      
-      const totalFindingWeight = calculateFindingWeight(mergedFindingRows);
-      setMaterialDetails(prev => ({
-        ...prev,
-        finewt: formatWeight(totalFindingWeight)
+      dispatch(addBulkMaterialRows({
+        materialType: 'finding',
+        rows: mappedFindingData
       }));
       
       if ((!diamond || diamond.length === 0) && 
           (!colorstone || colorstone.length === 0) && 
           (!misc || misc.length === 0)) {
-        setAddFindingInfoPopUp(true);
+        setTimeout(() => setAddFindingInfoPopUp(true), 100);
       }
     }
   };
@@ -744,10 +604,10 @@ const SaveNNext = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <GroupedTableSection title="💎 Diamond Rows" rows={addDiamondRows} type="diamond" mode={mode} onDelete={handleDeleteDiamondRow} />
-                      <GroupedTableSection title="🔷 CS Stone Rows" rows={addCsRows} type="cs" mode={mode} onDelete={handleDeleteCsRow} />
-                      <GroupedTableSection title="🛠 Misc Rows" rows={addMiscRows} type="misc" mode={mode} onDelete={handleDeleteMiscRow} />
-                      <GroupedTableSection title="🔗 Finding Rows" rows={addFindingRows} type="finding" mode={mode} onDelete={handleDeleteFindingRow} />
+                      <GroupedTableSection title="💎 Diamond Rows" rows={jobState?.workingArea?.materials?.diamond || []} type="diamond" mode={mode} onDelete={handleDeleteDiamondRow} />
+                      <GroupedTableSection title="🔷 CS Stone Rows" rows={jobState?.workingArea?.materials?.colorstone || []} type="cs" mode={mode} onDelete={handleDeleteCsRow} />
+                      <GroupedTableSection title="🛠 Misc Rows" rows={jobState?.workingArea?.materials?.misc || []} type="misc" mode={mode} onDelete={handleDeleteMiscRow} />
+                      <GroupedTableSection title="🔗 Finding Rows" rows={jobState?.workingArea?.materials?.finding || []} type="finding" mode={mode} onDelete={handleDeleteFindingRow} />
                     </tbody>
                   </table>
                 </div>

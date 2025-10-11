@@ -48,6 +48,12 @@ const IssuedMaterial = ({ onReceiveData }) => {
     misc: {},
     finding: {}
   });
+  
+  // Separate state for GWT checkboxes (only for misc tab)
+  const [gwtCheckedItems, setGwtCheckedItems] = useState({});
+  
+  // Separate state for GWT selected rows (independent from DataGrid selection)
+  const [gwtSelectedRows, setGwtSelectedRows] = useState([]);
 
   const [inputValues, setInputValues] = useState({
     diamond: {},
@@ -387,8 +393,7 @@ const IssuedMaterial = ({ onReceiveData }) => {
       align: 'center',
       headerAlign: 'center',
       renderCell: (params) => {
-        const materialType = getCurrentMaterialType();
-        const isChecked = checkedItems[materialType]?.[params.row.id] || false;
+        const isChecked = gwtCheckedItems[params.row.id] || false;
 
         return (
           <input
@@ -397,12 +402,12 @@ const IssuedMaterial = ({ onReceiveData }) => {
               width: '18px',
               height: '18px',
               cursor: 'pointer',
-              accentColor: '#776BF0'
+              accentColor: theme?.palette?.customColors?.purple
             }}
             checked={isChecked}
             onChange={(e) => {
               e.stopPropagation();
-              handleCheckboxChange(params.row.id, params.row);
+              handleGwtCheckboxChange(params.row.id, params.row);
             }}
           />
         );
@@ -475,6 +480,52 @@ const IssuedMaterial = ({ onReceiveData }) => {
     fontWeight: isSelected ? 'bold' : 'normal',
   });
 
+  const getSelectedRowIds = () => {
+    const materialType = getCurrentMaterialType();
+    return selectedRows[materialType]?.map(row => row.id) || [];
+  };
+
+  const handleRowSelectionChange = (newSelection) => {
+    const materialType = getCurrentMaterialType();
+    
+    // Get full row data for selected IDs
+    const selectedRowsData = arrType.filter(row => newSelection.includes(row.id));
+    
+    setSelectedRows(prev => ({
+      ...prev,
+      [materialType]: selectedRowsData
+    }));
+
+    // Update checked items for styling
+    const newCheckedItems = {};
+    newSelection.forEach(id => {
+      newCheckedItems[id] = true;
+    });
+    
+    setCheckedItems(prev => ({
+      ...prev,
+      [materialType]: newCheckedItems
+    }));
+  };
+
+  const handleGwtCheckboxChange = (rowId, rowData) => {
+    setGwtCheckedItems(prev => ({
+      ...prev,
+      [rowId]: !prev[rowId]
+    }));
+
+    // Update GWT selected rows independently from DataGrid
+    setGwtSelectedRows(prev => {
+      const isCurrentlySelected = prev.some(row => row.id === rowId);
+
+      if (isCurrentlySelected) {
+        return prev.filter(row => row.id !== rowId);
+      } else {
+        return [...prev, rowData];
+      }
+    });
+  };
+
   const handleCheckboxChange = (rowId, rowData) => {
     const materialType = getCurrentMaterialType();
 
@@ -503,17 +554,25 @@ const IssuedMaterial = ({ onReceiveData }) => {
       }
     });
   };
-
+  
   const handleReceiveNow = () => {
+    // Combine DataGrid selections with GWT selections for misc tab
+    const combinedMiscRows = [
+      ...selectedRows.misc, // DataGrid selected rows
+      ...gwtSelectedRows    // GWT selected rows
+    ];
+    
+    // Remove duplicates based on row ID
+    const uniqueMiscRows = combinedMiscRows.filter((row, index, self) => 
+      index === self.findIndex(r => r.id === row.id)
+    );
+
     const allSelectedData = {
       diamond: selectedRows.diamond,
       colorstone: selectedRows.colorstone,
-      misc: selectedRows.misc,
+      misc: uniqueMiscRows,
       finding: selectedRows.finding
     };
-    // console.log('Selected data for receiving:', allSelectedData);
-    // console.log('Current input values:', inputValues);
-
     const hasSelectedData = Object.values(allSelectedData).some(arr => arr.length > 0);
 
     if (!hasSelectedData) {
@@ -563,12 +622,17 @@ const IssuedMaterial = ({ onReceiveData }) => {
       misc: [],
       finding: []
     });
+    
     setCheckedItems({
       diamond: {},
       colorstone: {},
       misc: {},
       finding: {}
     });
+    
+    // Reset GWT checkbox state
+    setGwtCheckedItems({});
+    setGwtSelectedRows([]);
   };
 
   const indicatorStyle = {
@@ -696,12 +760,15 @@ const IssuedMaterial = ({ onReceiveData }) => {
               disableColumnMenu
               page={page}
               onPageChange={(newPage) => setPage(newPage)}
-              onRowClick={(params) => {
-                handleCheckboxChange(params.row.id, params.row);
+              checkboxSelection
+              disableRowSelectionOnClick
+              rowSelectionModel={getSelectedRowIds()}
+              onRowSelectionModelChange={(newSelection) => {
+                handleRowSelectionChange(newSelection);
               }}
               getRowClassName={(params) => {
                 const materialType = getCurrentMaterialType();
-                const isSelected = checkedItems[materialType]?.[params.row.id] || false;
+                const isSelected = getSelectedRowIds().includes(params.row.id);
                 return isSelected ? 'selected-row' : '';
               }}
               sx={{
@@ -726,9 +793,23 @@ const IssuedMaterial = ({ onReceiveData }) => {
                   backgroundColor: '#f5f5f5',
                 },
                 '& .selected-row': {
-                  backgroundColor: '#e3f2fd !important',
+                  backgroundColor: `${theme?.palette?.customColors?.purple}20 !important`,
                   '&:hover': {
-                    backgroundColor: '#bbdefb !important',
+                    backgroundColor: `${theme?.palette?.customColors?.purple}30 !important`,
+                  },
+                },
+                // DataGrid checkbox styling
+                '& .MuiCheckbox-root': {
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple,
+                  },
+                  '&.MuiCheckbox-indeterminate': {
+                    color: theme?.palette?.customColors?.purple,
+                  },
+                },
+                '& .MuiDataGrid-checkboxInput': {
+                  '&.Mui-checked': {
+                    color: theme?.palette?.customColors?.purple,
                   },
                 },
               }}

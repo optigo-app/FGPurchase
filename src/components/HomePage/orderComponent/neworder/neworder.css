@@ -1,14 +1,7 @@
-/* .neworder_component{
-    width: 100%;
-    box-sizing: border-box;
-    padding-top: 10px;
-} */
-
 .neworder_component {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    /* background-color: #f9f9f9; */
     background-color: #F8F9FA !important;
     background-color: white;
     border: 1px solid #ddd;
@@ -17,9 +10,7 @@
   
   .filter_grid {
     display: grid;
-    /* grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); */
     grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-    /* gap: 16px; */
     gap: 5px;
   }
   
@@ -31,7 +22,6 @@
     border-radius: 4px;
     font-size: 14px;
     outline: none;
-    /* max-width: 125px; */
   }
   
   .hsn_input {
@@ -70,7 +60,6 @@
     color: #000;
   }
   
-  /* Responsive Styles */
   @media (max-width: 768px) {
     .filter_grid {
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -90,7 +79,6 @@
   
   .categoryNewOrder:focus{
     outline: none;
-    /* border: 1px solid #007bff !important; */
     border: 1px solid #6B62DC !important;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
   }

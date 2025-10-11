@@ -251,6 +251,27 @@ const jobSlice = createSlice({
       }
     },
     
+    addBulkMaterialRows: (state, action) => {
+      const { materialType, rows } = action.payload;
+      if (rows && rows.length > 0) {
+        // Filter out empty rows from existing materials first
+        const existingRows = state.workingArea.materials[materialType].filter(row => 
+          row.material && row.material.trim() !== ''
+        );
+        
+        // Add new rows to filtered existing rows
+        state.workingArea.materials[materialType] = [
+          ...existingRows,
+          ...rows.map(rowData => ({ ...rowData }))
+        ];
+        
+        state.workingArea.hasData = true;
+        state.workingArea.isDirty = true;
+        
+        recalculateWorkingArea(state);
+      }
+    },
+    
     saveJob: (state, action) => {
       
       if (state.workingArea.hasData) {
@@ -354,9 +375,11 @@ const jobSlice = createSlice({
   }
 });
 
+// Export actions
 export const {
   startWorking,
   updateWorkingData,
+  addBulkMaterialRows,
   saveJob,
   saveAndNew,
   deleteJob,

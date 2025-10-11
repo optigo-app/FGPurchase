@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './neworder.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, useTheme } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { handleaddSubtagFlag, handleSaveAndNextFlag } from '../../../../redux/slices/HomeSlice';
@@ -81,8 +81,7 @@ const FormSection = ({ data, onChange }) => (
 const NewOrder = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const addSubTag = useSelector((state) => state?.home?.addSubtag);
-  const [mode, setMode] = useState(''); // 'tag' or 'subtag'
+  const [mode, setMode] = useState('');
   const [formData, setFormData] = useState({});
   const [subTagData, setSubTagData] = useState({});
 
@@ -102,12 +101,22 @@ const NewOrder = () => {
   };
 
   const handleCheckboxChange = (selectedMode) => {
-    if (selectedMode === 'subtag') {
-      dispatch(handleaddSubtagFlag(!addSubTag));
-    } else {
-      dispatch(handleaddSubtagFlag(!addSubTag));
+    if (selectedMode === 'tag') {
+      if (mode === 'tag' || mode === 'subtag') {
+        setMode('');
+        dispatch(handleaddSubtagFlag(false));
+      } else {
+        setMode('tag');
+      }
+    } else if (selectedMode === 'subtag') {
+      if (mode === 'subtag') {
+        setMode('tag');
+        dispatch(handleaddSubtagFlag(false));
+      } else {
+        setMode('subtag');
+        dispatch(handleaddSubtagFlag(true));
+      }
     }
-    setMode((prevMode) => (prevMode === selectedMode ? '' : selectedMode));
   };
 
   const handleSaveNNext = () => {
@@ -131,12 +140,9 @@ const NewOrder = () => {
       };
     }
 
-    console.log("payload",payload)
-
     dispatch(handleSaveAndNextFlag(true));
     dispatch(saveNewOrder(payload));
   };
-
 
   return (
     <div className="neworder_component">
@@ -157,32 +163,38 @@ const NewOrder = () => {
           <input
             type="checkbox"
             id="tag"
-            checked={mode === 'tag'}
+            checked={mode === 'tag' || mode === 'subtag'}
             onChange={() => handleCheckboxChange('tag')}
             className="checkbox-radio"
           />
-          <label htmlFor="tag" className={`checkbox-label ${mode === 'tag' ? 'checked' : ''}`}>
+          <label htmlFor="tag" className={`checkbox-label ${(mode === 'tag' || mode === 'subtag') ? 'checked' : ''}`}>
             Tag Generate
           </label>
         </div>
-        <div className="radio_group">
-          <input
-            type="checkbox"
-            id="subtag"
-            checked={mode === 'subtag'}
-            onChange={() => handleCheckboxChange('subtag')}
-            className="checkbox-radio"
-          />
-          <label htmlFor="subtag" className={`checkbox-label ${mode === 'subtag' ? 'checked' : ''}`}>
-            Add Sub Tag
-          </label>
-        </div>
+        {/* Show Add Sub Tag checkbox only when Tag Generate is checked */}
+        {(mode === 'tag' || mode === 'subtag') && (
+          <div className="radio_group">
+            <input
+              type="checkbox"
+              id="subtag"
+              checked={mode === 'subtag'}
+              onChange={() => handleCheckboxChange('subtag')}
+              className="checkbox-radio"
+            />
+            <label htmlFor="subtag" className={`checkbox-label ${mode === 'subtag' ? 'checked' : ''}`}>
+              Add Sub Tag
+            </label>
+          </div>
+        )}
       </div>
 
       {/* Forms */}
-      {mode === 'tag' && <FormSection data={formData} onChange={handleChange} />}
+      {mode === 'tag' && <>
+        <div className="text-secondary mt-3 fs_fgp">Tag Entry</div>
+        <FormSection data={formData} onChange={handleChange} /></>}
       {mode === 'subtag' && (
         <>
+          <div className="text-secondary mt-3 fs_fgp">Sub Tag Entry</div>
           <FormSection data={formData} onChange={handleChange} />
           <div className="mt-3">
             <FormSection

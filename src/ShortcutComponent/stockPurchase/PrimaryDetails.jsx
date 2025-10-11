@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
-import { Tooltip } from '@mui/material';
+import { Tooltip, Alert, Snackbar } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { calculateNetWeight, calculateGrossWeight, formatWeight } from '../../Utils/globalFunc';
 
@@ -24,7 +24,6 @@ const fields2 = [
   { id: 'labour', label: 'Labour', placeholder: 'Labour', type: 'number' },
   { id: 'saleslabour', label: 'SalesLabour', placeholder: 'SalesLabour', type: 'number' },
 ];
-
 
 const formatDecimal3 = (value) => {
   const [integer, decimal] = value.split('.');
@@ -64,9 +63,10 @@ const ClearButton = ({ onClick }) => (
 
 const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChangeCriteria, handleEnterKeyChange, csWtFocus, miscWtFocus, findingWtFocus }, ref) => {
   const [primaryWeightField, setPrimaryWeightField] = useState(null);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const hsnInputRef = useRef(null);
 
-  // Expose focus function to parent component
   useImperativeHandle(ref, () => ({
     focusHSN: () => {
       if (hsnInputRef.current) {
@@ -74,6 +74,18 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
       }
     }
   }));
+
+  const showAlert = (message) => {
+    setAlertMessage(message);
+    setAlertOpen(true);
+  };
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAlertOpen(false);
+  };
 
   useEffect(() => {
     if ((!values.grosswt || values.grosswt.trim() === '') && (!values.netwt || values.netwt.trim() === '')) {
@@ -86,32 +98,40 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
       setPrimaryWeightField('grosswt');
       return;
     }
-
     if (primaryWeightField === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
-      const calculatedNetWt = calculateNetWeight(
-        values.grosswt,
-        values.diawt || 0,
-        values.cswt || 0,
-        values.miscwt || 0,
-        values.finewt || 0
-      );
-      const formattedNetWt = formatWeight(calculatedNetWt);
-      
-      if (values.netwt !== formattedNetWt) {
-        onChange('netwt', formattedNetWt);
+      try {
+        const calculatedNetWt = calculateNetWeight(
+          values.grosswt,
+          values.diawt || 0,
+          values.cswt || 0,
+          values.miscwt || 0,
+          values.finewt || 0
+        );
+        const formattedNetWt = formatWeight(calculatedNetWt);
+        if (values.netwt !== formattedNetWt) {
+          onChange('netwt', formattedNetWt);
+        }
+      } catch (error) {
+        showAlert(error.message);
+        onChange('netwt', '');
       }
     } else if (primaryWeightField === 'netwt' && values.netwt && values.netwt.trim() !== '') {
-      const calculatedGrossWt = calculateGrossWeight(
-        values.netwt,
-        values.diawt || 0,
-        values.cswt || 0,
-        values.miscwt || 0,
-        values.finewt || 0
-      );
-      const formattedGrossWt = formatWeight(calculatedGrossWt);
-      
-      if (values.grosswt !== formattedGrossWt) {
-        onChange('grosswt', formattedGrossWt);
+      try {
+        const calculatedGrossWt = calculateGrossWeight(
+          values.netwt,
+          values.diawt || 0,
+          values.cswt || 0,
+          values.miscwt || 0,
+          values.finewt || 0
+        );
+        const formattedGrossWt = formatWeight(calculatedGrossWt);
+        
+        if (values.grosswt !== formattedGrossWt) {
+          onChange('grosswt', formattedGrossWt);
+        }
+      } catch (error) {
+        showAlert(error.message);
+        onChange('grosswt', '');
       }
     }
   }, [values.diawt, values.cswt, values.miscwt, values.finewt, primaryWeightField, values.grosswt, values.netwt]);
@@ -131,7 +151,6 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
 
   const handleInputChange = (id, value) => {
     let formattedValue = value;
-    
     if (id === 'grosswt' || id === 'netwt') {
       formattedValue = formatDecimal3(value);
     } else if (id === 'tunch' || id === 'wastage') {
@@ -148,23 +167,33 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
       const updatedValues = { ...values, [id]: formattedValue };
       
       if (primaryWeightField === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
-        const calculatedNetWt = calculateNetWeight(
-          values.grosswt,
-          updatedValues.diawt || 0,
-          updatedValues.cswt || 0,
-          updatedValues.miscwt || 0,
-          updatedValues.finewt || 0
-        );
-        onChange('netwt', formatWeight(calculatedNetWt));
+        try {
+          const calculatedNetWt = calculateNetWeight(
+            values.grosswt,
+            updatedValues.diawt || 0,
+            updatedValues.cswt || 0,
+            updatedValues.miscwt || 0,
+            updatedValues.finewt || 0
+          );
+          onChange('netwt', formatWeight(calculatedNetWt));
+        } catch (error) {
+          showAlert(error.message);
+          onChange('netwt', '');
+        }
       } else if (primaryWeightField === 'netwt' && values.netwt && values.netwt.trim() !== '') {
-        const calculatedGrossWt = calculateGrossWeight(
-          values.netwt,
-          updatedValues.diawt || 0,
-          updatedValues.cswt || 0,
-          updatedValues.miscwt || 0,
-          updatedValues.finewt || 0
-        );
-        onChange('grosswt', formatWeight(calculatedGrossWt));
+        try {
+          const calculatedGrossWt = calculateGrossWeight(
+            values.netwt,
+            updatedValues.diawt || 0,
+            updatedValues.cswt || 0,
+            updatedValues.miscwt || 0,
+            updatedValues.finewt || 0
+          );
+          onChange('grosswt', formatWeight(calculatedGrossWt));
+        } catch (error) {
+          showAlert(error.message);
+          onChange('grosswt', '');
+        }
       }
     }
     onChange(id, formattedValue);
@@ -249,6 +278,37 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
           </div>
         </>
       )}
+
+      {/* MUI Alert for error messages */}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={8000}
+        onClose={handleAlertClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="warning"
+          variant="outlined"
+          sx={{ 
+            width: '100%',
+            backgroundColor: '#fff3cd',
+            borderColor: '#ffc107',
+            color: '#856404',
+            '& .MuiAlert-icon': {
+              color: '#ffc107'
+            },
+            '& .MuiAlert-action': {
+              color: '#856404'
+            },
+            boxShadow: '0 4px 12px rgba(255, 193, 7, 0.3)',
+            borderRadius: '8px',
+            fontWeight: 500
+          }}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 });
