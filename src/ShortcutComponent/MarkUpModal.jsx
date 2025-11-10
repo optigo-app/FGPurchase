@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Box, Button } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 

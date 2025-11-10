@@ -1,7 +1,5 @@
-// ** React Import
 import { forwardRef } from 'react'
 
-// ** MUI Imports
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 

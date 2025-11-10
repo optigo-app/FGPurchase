@@ -10,7 +10,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 
-import { Tooltip, Modal, Box, Typography, RadioGroup, FormControlLabel, Radio, FormControl, Button, useTheme } from '@mui/material';
+import { Tooltip, Button, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleCustomizeJobFlag, handleSave, handleSaveAndNextFlag, handleSelectedButton } from '../../redux/slices/HomeSlice';
 import EditIcon from '@mui/icons-material/Edit';
@@ -56,7 +56,6 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const userListRef = useRef(null);
-  const [selectOrder, setSelectorder] = useState('neworder');
   const selectedButton = useSelector((state) => (state?.home?.selectButtonValue));
   const savedValue = useSelector((state) => (state?.home?.homefilterObject));
   const [selectedButtonFlag, setSelectedButtonFlag] = useState(true);
@@ -88,21 +87,6 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
     locker: false,
     voucherType: false,
   });
-
-  const [filtersValue, setFiltersValue] = useState({
-    searchUser: '',
-    refno: '',
-    bookName: '',
-    currency: '',
-    locker: '',
-    counter: '',
-    voucherType: ''
-  });
-
-
-  const handleOrderSelection = (e) => {
-    setSelectorder(e.target.value);
-  };
 
   const handleRefNoChange = (e) => {
     const value = e.target.value;
@@ -208,6 +192,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   const [selectedUser, setSelectedUser] = useState('');
   const [showUserListFlag, setShowUserListFlag] = useState(false);
   const [selectedUserIndex, setSelecteUserdIndex] = useState(-1);
+
   const handleUserTypo = (e) => {
     setUserSearch(e.target.value);
     const value = e.target.value;

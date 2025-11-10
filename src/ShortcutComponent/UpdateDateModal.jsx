@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Box, Button, IconButton } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import CloseIcon from '@mui/icons-material/Close';

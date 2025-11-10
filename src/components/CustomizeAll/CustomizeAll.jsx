@@ -156,6 +156,7 @@ const CustomizeAll = () => {
         </ToggleButton>
       </ToggleButtonGroup>
       </Box>
+      
       {selectedButton === "CustomizeAll" && (
         <div className="mt-3 sm:mt-2 xs:mt-1 fs_fgp">
           <div style={{ width: "100%" }} className="mb-3 sm:mb-2 xs:mb-1">

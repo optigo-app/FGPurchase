@@ -1,12 +1,7 @@
-// ** React Imports
 import { forwardRef } from 'react'
-
-// ** Custom Component Import
-// import CustomTextField from 'src/@core/components/mui/text-field'
 import CustomTextField from './text-field'
 
 const PickersComponent = forwardRef(({ ...props }, ref) => {
-  // ** Props
   const { label, readOnly } = props
 
   return (

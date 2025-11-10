@@ -65,7 +65,7 @@ const ChangeCriteriaModal = ({
           </div>
 
           <div className="filter_grid mt-3">
-            {options.map((item, index) => (
+            {options?.map((item, index) => (
               <div key={index}>
                 <select
                   className='categoryNewOrder fs_fgp'
@@ -73,24 +73,32 @@ const ChangeCriteriaModal = ({
                   onChange={(e) => handleChange(item.key, e.target.value)}
                 >
                   <option value="">{item.label}</option>
-                  {item.data.map((e, i) => (
+                  {item?.data?.map((e, i) => (
                     <option value={e?.[item.value]} key={i}>{e?.[item.text]}</option>
                   ))}
                 </select>
               </div>
             ))}
-
-            <div className='text-center categoryNewOrder'>
-              <Button
-                variant='contained'
-                className='fs_fgp'
-                sx={{ fontWeight: 'bold', backgroundColor: theme?.palette?.customColors?.green }}
-                size='small'
-                onClick={handleSave}
-              >
-                Save
-              </Button>
-            </div>
+          </div>
+          <div className='categoryNewOrder mt-2 d-flex justify-content-end w-100 gap-2'>
+            <Button
+              variant='contained'
+              className='fs_fgp'
+              sx={{ fontWeight: 'bold', background: theme?.palette?.customColors?.primary }}
+              size='small'
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+            <Button
+              variant='outlined'
+              className='fs_fgp'
+              sx={{ fontWeight: 'bold', borderColor: theme?.palette?.customColors?.purple, color: theme?.palette?.customColors?.purple }}
+              size='small'
+              onClick={onClose}
+            >
+              Cancel
+            </Button>
           </div>
         </div>
       </Box>

@@ -48,7 +48,6 @@ const SaveNNext = () => {
     isSubTag: false
   };
 
-  console.log("jobState", jobState)
   console.log("currentJobInfo", currentJobInfo)
 
   useEffect(() => {
@@ -65,7 +64,6 @@ const SaveNNext = () => {
     }
   }, [jobState?.selectedJobFromList]);
 
-  // Auto-focus HSN field when component mounts with form data (coming from NewOrder)
   useEffect(() => {
     if (jobState?.formData?.hasFormData && primaryDetailsRef.current) {
       setTimeout(() => {
@@ -80,7 +78,6 @@ const SaveNNext = () => {
   const [saveRemark, setSaveRemark] = useState('');
   // Separate remark states for main and sub tag
   const [subTagRemarkModal, setSubTagRemarkModal] = useState(false);
-  const [subTagSaveRemark, setSubTagSaveRemark] = useState('');
   const [addDiaInfoPopUp, setAddDiaInfoPopUp] = useState(false);
   const diamond_Focus = useRef();
   const [addCSInfoPopUp, setAddCSInfoPopUp] = useState(false);
