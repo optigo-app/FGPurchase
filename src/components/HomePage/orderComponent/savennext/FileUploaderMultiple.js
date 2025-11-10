@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -15,18 +15,35 @@ import { Icon } from '@iconify/react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   handleShowImgListPopUp,
-  handleUploadImageList
+  handleUploadImageList,
+  handleSubTagUploadImageList
 } from '../../../../redux/slices/HomeSlice'
 
 
 
-const FileUploaderMultiple = ({ fs = 28, classApply = '' }) => {
-  const [files, setFiles] = useState([])
+const FileUploaderMultiple = ({ fs = 28, classApply = '', isSubTag = false }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const dispatch = useDispatch()
   const theme = useTheme()
   const showImgListPopUp = useSelector(state => state.home.showImgListPopUp)
+  
+  // Get the appropriate upload image list based on isSubTag
+  const uploadImage = useSelector(state => 
+    isSubTag ? state.home.subTagUploadImages : state.home.uploadImage
+  )
+
+  // Use Redux state as the source of truth for files
+  const files = uploadImage || []
+
+  // Reset currentImageIndex when files change or when there are no files
+  useEffect(() => {
+    if (files.length === 0) {
+      setCurrentImageIndex(0)
+    } else if (currentImageIndex >= files.length) {
+      setCurrentImageIndex(files.length - 1)
+    }
+  }, [files.length, currentImageIndex])
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
@@ -37,15 +54,23 @@ const FileUploaderMultiple = ({ fs = 28, classApply = '' }) => {
         return acc
       }, [])
 
-      setFiles(uniqueFiles)
-      dispatch(handleUploadImageList(uniqueFiles))
+      // Dispatch to the appropriate action based on isSubTag
+      if (isSubTag) {
+        dispatch(handleSubTagUploadImageList(uniqueFiles))
+      } else {
+        dispatch(handleUploadImageList(uniqueFiles))
+      }
     }
   })
 
   const handleRemoveFile = fileToRemove => {
     const updated = files.filter(file => file.name !== fileToRemove.name)
-    setFiles(updated)
-    dispatch(handleUploadImageList(updated))
+    // Dispatch to the appropriate action based on isSubTag
+    if (isSubTag) {
+      dispatch(handleSubTagUploadImageList(updated))
+    } else {
+      dispatch(handleUploadImageList(updated))
+    }
   }
 
   const renderPreview = file =>

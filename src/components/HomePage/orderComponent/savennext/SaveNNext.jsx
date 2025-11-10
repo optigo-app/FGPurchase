@@ -7,10 +7,9 @@ import { startWorking, updateWorkingData, addBulkMaterialRows, saveJob, saveAndN
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
-import { Tooltip, Button, Avatar, useTheme, IconButton } from '@mui/material';
+import { Tooltip, Button, Avatar, useTheme } from '@mui/material';
 import MountGrid from './MountGrid';
 import IssuedMaterial from './IssuedMaterial';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { brandMainData, categorymainData, collectionMainData, genderMainData, occasionMainData, productTypeMainData, styleMainData, subCategoryMainData } from '../../../../master/MasterData';
 import MaterialDetailsModal from '../../../../ShortcutComponent/stockPurchase/MaterialDetailsModal';
 import { materialConfigs } from '../../../../ShortcutComponent/stockPurchase/MaterialDetailsConfig';
@@ -28,45 +27,69 @@ const SaveNNext = () => {
   const theme = useTheme();
   const mode = useSelector(state => state?.fgp?.mode);
   const mountModal = useSelector(state => state?.home?.mountModal);
-  const selectedTabValue = useSelector(state => state?.home?.selectedTabValue);
-  const addSubTag = useSelector(state => state?.home?.addSubtag);
   const issuedMaterialModal = useSelector(state => state?.home?.issuedMaterialModal);
   const uploadImage = useSelector(state => state?.home?.uploadImage);
-  
+  const subTagUploadImages = useSelector(state => state?.home?.subTagUploadImages);
   const jobState = useSelector(state => state?.job);
   const primaryDetailsRef = useRef(null);
-  
+
+  // Get current job info for sub-tag mode
+  const currentJobInfo = jobState?.formData?.mode === 'subtag' && jobState?.formData?.pendingJobs?.length > 1 ? {
+    isSubTagMode: true,
+    currentJobIndex: jobState?.workingArea?.currentJobIndex || 0,
+    totalJobs: jobState?.formData?.pendingJobs?.length || 1,
+    currentTagData: jobState?.formData?.pendingJobs?.[jobState?.workingArea?.currentJobIndex || 0]?.tagData || {},
+    isSubTag: jobState?.formData?.pendingJobs?.[jobState?.workingArea?.currentJobIndex || 0]?.isSubTag || false
+  } : {
+    isSubTagMode: false,
+    currentJobIndex: 0,
+    totalJobs: 1,
+    currentTagData: jobState?.formData?.mainTagData || {},
+    isSubTag: false
+  };
+
+  console.log("jobState", jobState)
+  console.log("currentJobInfo", currentJobInfo)
+
   useEffect(() => {
     dispatch(testAction('Redux connection test successful!'));
-    
     if (jobState?.jobCounter > 0 && jobState?.createdJobs?.length === 0) {
       dispatch(resetJobCounter());
     }
-    dispatch(startWorking()); 
+    dispatch(startWorking());
   }, []);
-  
+
   useEffect(() => {
     if (jobState?.selectedJobFromList) {
       console.log('🟢 SaveNNext - EDIT MODE - Job:', jobState.selectedJobFromList);
     }
   }, [jobState?.selectedJobFromList]);
 
+  // Auto-focus HSN field when component mounts with form data (coming from NewOrder)
+  useEffect(() => {
+    if (jobState?.formData?.hasFormData && primaryDetailsRef.current) {
+      setTimeout(() => {
+        primaryDetailsRef.current.focusHSN();
+      }, 100);
+    }
+  }, [jobState?.formData?.hasFormData]);
+
   const [markUpModal, setMarkUpModal] = useState(false);
   const [addMoreMaterial, setAddMoreMaterial] = useState(false);
   const [remarkModal, setRemarkModal] = useState(false);
   const [saveRemark, setSaveRemark] = useState('');
+  // Separate remark states for main and sub tag
+  const [subTagRemarkModal, setSubTagRemarkModal] = useState(false);
+  const [subTagSaveRemark, setSubTagSaveRemark] = useState('');
   const [addDiaInfoPopUp, setAddDiaInfoPopUp] = useState(false);
   const diamond_Focus = useRef();
   const [addCSInfoPopUp, setAddCSInfoPopUp] = useState(false);
-
   const colorstone_focus = useRef();
   const csWtFocus = useRef();
   const [addMiscInfoPopUp, setAddMiscInfoPopUp] = useState(false);
-
   const misc_focus = useRef();
   const miscWtFocus = useRef();
   const [addFindingInfoPopUp, setAddFindingInfoPopUp] = useState(false);
-
   const findingWtFocus = useRef();
   const finding_focus = useRef();
   const [materialDetails, setMaterialDetails] = useState({});
@@ -74,6 +97,7 @@ const SaveNNext = () => {
   const [changeCriteria, setChangeCriteria] = useState(false);
   const [altReceiveTimeHide, setAltReceiveTimeHide] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [currentMaterialContext, setCurrentMaterialContext] = useState({ type: '', isSubTag: false });
   const [rowData, setRowData] = useState({
     type: "D",
     criteria: "RND",
@@ -109,8 +133,16 @@ const SaveNNext = () => {
     setRemarkModal(true);
   }
 
+  const handleSubTagAddRemark = () => {
+    setSubTagRemarkModal(true);
+  }
+
   const handleRemarkChange = (e) => {
     setSaveRemark(e.target.value);
+  }
+
+  const handleSubTagRemarkChange = (e) => {
+    setSubTagSaveRemark(e.target.value);
   }
 
   const handleSaveRemark = () => {
@@ -123,7 +155,18 @@ const SaveNNext = () => {
   const handleSaveJob = () => {
     const isEditing = jobState?.selectedJobFromList;
     console.log(`💾 SaveNNext - ${isEditing ? 'Update & Print' : 'Save & Print'} clicked`);
-    
+
+    // Validate sub-tag data if in sub-tag mode
+    if (jobState?.formData?.mode === 'subtag') {
+      const mainHasData = Object.values(jobState?.workingArea?.materialDetails || {}).some(value => value && value.trim() !== '');
+      const subHasData = Object.values(jobState?.workingArea?.subTagMaterialDetails || {}).some(value => value && value.trim() !== '');
+
+      if (!mainHasData || !subHasData) {
+        alert('Please fill both Main Tag and Sub Tag data before saving.');
+        return;
+      }
+    }
+
     dispatch(saveJob({
       customer: 'Test Customer'
     }));
@@ -133,11 +176,18 @@ const SaveNNext = () => {
   const handleSaveAndNewJob = () => {
     const isEditing = jobState?.selectedJobFromList;
     console.log(`💾 SaveNNext - ${isEditing ? 'Save & Update' : 'Save & New'} clicked`);
-    
+    if (jobState?.formData?.mode === 'subtag') {
+      const mainHasData = Object.values(jobState?.workingArea?.materialDetails || {})?.some(value => value && value.trim() !== '');
+      const subHasData = Object.values(jobState?.workingArea?.subTagMaterialDetails || {})?.some(value => value && value.trim() !== '');
+
+      if (!mainHasData || !subHasData) {
+        alert('Please fill both Main Tag and Sub Tag data before saving.');
+        return;
+      }
+    }
     dispatch(saveAndNew({
       customer: 'Test Customer 2'
     }));
-    
     setTimeout(() => {
       if (primaryDetailsRef.current) {
         primaryDetailsRef.current.focusHSN();
@@ -145,28 +195,32 @@ const SaveNNext = () => {
     }, 100);
   };
 
-  const handleEnterKeyChange = useCallback((e, args) => {
+  const handleEnterKeyChange = useCallback((e, args, isSubTag = false) => {
     if (e?.key?.toLowerCase() === "enter") {
       if (args === 'diawt') {
         setAddDiaInfoPopUp(true);
+        setCurrentMaterialContext({ type: 'diamond', isSubTag });
       }
       if (args === 'cswt') {
         setAddCSInfoPopUp(true);
+        setCurrentMaterialContext({ type: 'colorstone', isSubTag });
       }
       if (args === 'miscwt') {
         setAddMiscInfoPopUp(true);
+        setCurrentMaterialContext({ type: 'misc', isSubTag });
       }
       if (args === 'finewt') {
         setAddFindingInfoPopUp(true);
+        setCurrentMaterialContext({ type: 'finding', isSubTag });
       }
     }
   }, [addDiaInfoPopUp, addCSInfoPopUp, addMiscInfoPopUp, addFindingInfoPopUp]);
 
   // Redux-based material details change handler
-  const handleFilterChange = (field, value) => {
+  const handleFilterChange = (field, value, isSubTag = false) => {
     dispatch(updateWorkingData({
       type: 'materialDetails',
-      payload: { field, value }
+      payload: { field, value, isSubTag }
     }));
   };
 
@@ -177,14 +231,15 @@ const SaveNNext = () => {
   const handleDiamondInputChange = (e, rowIndex) => {
     const { name, value, type, checked } = e.target;
     const finalValue = type === "checkbox" ? checked : value;
-    
+
     dispatch(updateWorkingData({
       type: 'materialRow',
-      payload: { 
-        materialType: 'diamond', 
-        index: rowIndex, 
-        field: name, 
-        value: finalValue 
+      payload: {
+        materialType: 'diamond',
+        index: rowIndex,
+        field: name,
+        value: finalValue,
+        isSubTag: currentMaterialContext.isSubTag
       }
     }));
   };
@@ -201,10 +256,10 @@ const SaveNNext = () => {
       alert('Please fill out all required fields in the last row before adding a new one.');
       return;
     }
-    
+
     dispatch(updateWorkingData({
       type: 'addRow',
-      payload: { materialType: 'diamond' }
+      payload: { materialType: 'diamond', isSubTag: currentMaterialContext.isSubTag }
     }));
   };
 
@@ -235,14 +290,15 @@ const SaveNNext = () => {
   const handleColorstoneInputChange = (e, rowIndex) => {
     const { name, value, type, checked } = e.target;
     const finalValue = type === "checkbox" ? checked : value;
-    
+
     dispatch(updateWorkingData({
       type: 'materialRow',
-      payload: { 
-        materialType: 'colorstone', 
-        index: rowIndex, 
-        field: name, 
-        value: finalValue 
+      payload: {
+        materialType: 'colorstone',
+        index: rowIndex,
+        field: name,
+        value: finalValue,
+        isSubTag: currentMaterialContext.isSubTag
       }
     }));
   };
@@ -260,10 +316,10 @@ const SaveNNext = () => {
       alert('Please fill out all required fields in the last row before adding a new one.');
       return;
     }
-    
+
     dispatch(updateWorkingData({
       type: 'addRow',
-      payload: { materialType: 'colorstone' }
+      payload: { materialType: 'colorstone', isSubTag: currentMaterialContext.isSubTag }
     }));
   };
 
@@ -291,14 +347,15 @@ const SaveNNext = () => {
   const handleMiscInputChange = (e, rowIndex) => {
     const { name, value, type, checked } = e.target;
     const finalValue = type === "checkbox" ? checked : value;
-    
+
     dispatch(updateWorkingData({
       type: 'materialRow',
-      payload: { 
-        materialType: 'misc', 
-        index: rowIndex, 
-        field: name, 
-        value: finalValue 
+      payload: {
+        materialType: 'misc',
+        index: rowIndex,
+        field: name,
+        value: finalValue,
+        isSubTag: currentMaterialContext.isSubTag
       }
     }));
   };
@@ -315,10 +372,10 @@ const SaveNNext = () => {
       alert('Please fill out all required fields in the last row before adding a new one.');
       return;
     }
-    
+
     dispatch(updateWorkingData({
       type: 'addRow',
-      payload: { materialType: 'misc' }
+      payload: { materialType: 'misc', isSubTag: currentMaterialContext.isSubTag }
     }));
   };
 
@@ -346,14 +403,15 @@ const SaveNNext = () => {
   const handleFindingInputChange = (e, rowIndex) => {
     const { name, value, type, checked } = e.target;
     const finalValue = type === "checkbox" ? checked : value;
-    
+
     dispatch(updateWorkingData({
       type: 'materialRow',
-      payload: { 
-        materialType: 'finding', 
-        index: rowIndex, 
-        field: name, 
-        value: finalValue 
+      payload: {
+        materialType: 'finding',
+        index: rowIndex,
+        field: name,
+        value: finalValue,
+        isSubTag: currentMaterialContext.isSubTag
       }
     }));
   };
@@ -364,16 +422,16 @@ const SaveNNext = () => {
     const lastRow = findingRows[findingRows?.length - 1];
     const keysToIgnore = ['onPcs'];
     const isLastRowValid = Object.entries(lastRow)
-      .filter(([key]) => !keysToIgnore.includes(key)) 
+      .filter(([key]) => !keysToIgnore.includes(key))
       .every(([, value]) => value !== '');
     if (!isLastRowValid) {
       alert('Please fill out all required fields in the last row before adding a new one.');
-      return; 
+      return;
     }
-    
+
     dispatch(updateWorkingData({
       type: 'addRow',
-      payload: { materialType: 'finding' }
+      payload: { materialType: 'finding', isSubTag: currentMaterialContext.isSubTag }
     }));
   };
 
@@ -424,25 +482,30 @@ const SaveNNext = () => {
 
   const handleReceivedMaterialData = (receivedData) => {
     const { diamond, colorstone, misc, finding } = receivedData;
+    const isSubTag = currentMaterialContext.isSubTag;
 
     if (diamond && diamond.length > 0) {
       const mappedDiamondData = mapMultipleIssuedToMaterialDetails(diamond, 'diamond');
+
       dispatch(addBulkMaterialRows({
         materialType: 'diamond',
-        rows: mappedDiamondData
+        rows: mappedDiamondData,
+        isSubTag: isSubTag
       }));
-      if((!colorstone || colorstone.length === 0) && 
-      (!misc || misc.length === 0) && (!finding || finding.length === 0))
-      setTimeout(() => setAddDiaInfoPopUp(true), 100);
+
+      if ((!colorstone || colorstone.length === 0) &&
+        (!misc || misc.length === 0) && (!finding || finding.length === 0))
+        setTimeout(() => setAddDiaInfoPopUp(true), 100);
     }
 
     if (colorstone && colorstone.length > 0) {
       const mappedColorstoneData = mapMultipleIssuedToMaterialDetails(colorstone, 'colorstone');
       dispatch(addBulkMaterialRows({
         materialType: 'colorstone',
-        rows: mappedColorstoneData
+        rows: mappedColorstoneData,
+        isSubTag: isSubTag
       }));
-      
+
       if (!diamond || diamond.length === 0) {
         setTimeout(() => setAddCSInfoPopUp(true), 100);
       }
@@ -452,9 +515,10 @@ const SaveNNext = () => {
       const mappedMiscData = mapMultipleIssuedToMaterialDetails(misc, 'misc');
       dispatch(addBulkMaterialRows({
         materialType: 'misc',
-        rows: mappedMiscData
+        rows: mappedMiscData,
+        isSubTag: isSubTag
       }));
-      
+
       if ((!diamond || diamond.length === 0) && (!colorstone || colorstone.length === 0)) {
         setTimeout(() => setAddMiscInfoPopUp(true), 100);
       }
@@ -464,12 +528,13 @@ const SaveNNext = () => {
       const mappedFindingData = mapMultipleIssuedToMaterialDetails(finding, 'finding');
       dispatch(addBulkMaterialRows({
         materialType: 'finding',
-        rows: mappedFindingData
+        rows: mappedFindingData,
+        isSubTag: isSubTag
       }));
-      
-      if ((!diamond || diamond.length === 0) && 
-          (!colorstone || colorstone.length === 0) && 
-          (!misc || misc.length === 0)) {
+
+      if ((!diamond || diamond.length === 0) &&
+        (!colorstone || colorstone.length === 0) &&
+        (!misc || misc.length === 0)) {
         setTimeout(() => setAddFindingInfoPopUp(true), 100);
       }
     }
@@ -483,7 +548,7 @@ const SaveNNext = () => {
         src={URL.createObjectURL(file)}
         key={index}
         sx={{
-          height: hoveredIndex === index ? 42 : 39, 
+          height: hoveredIndex === index ? 42 : 39,
           width: hoveredIndex === index ? 42 : 39,
           transition: "transform 0.2s ease, height 0.2s ease, width 0.2s ease",
           cursor: "pointer",
@@ -515,7 +580,6 @@ const SaveNNext = () => {
     }
   }, [uploadImage]);
 
-
   return (
     <>
       <div className='savennext_container'>
@@ -523,7 +587,7 @@ const SaveNNext = () => {
           <h5 className='header_title_fgp fs_fgp'>Add Product Details</h5>
         </div>
 
-        {/* Job Line */}
+        {/* Job Line - Main Tag */}
         <MaterialInfo
           theme={theme}
           showTableEntry={showTableEntry}
@@ -540,77 +604,136 @@ const SaveNNext = () => {
           colorstoneRows={jobState?.workingArea?.materials?.colorstone || []}
           miscRows={jobState?.workingArea?.materials?.misc || []}
           findingRows={jobState?.workingArea?.materials?.finding || []}
-          currentJob={jobState?.selectedJobFromList ? 
+          currentJob={jobState?.selectedJobFromList ?
             jobState?.createdJobs?.find(job => job.jobNo === jobState.selectedJobFromList) : null}
+          isSubTag={false}
+          setCurrentMaterialContext={setCurrentMaterialContext}
         />
 
         <PrimaryDetails
           ref={primaryDetailsRef}
           mode={mode}
           values={jobState?.workingArea?.materialDetails || {}}
+          subTagValues={jobState?.workingArea?.subTagMaterialDetails || {}}
+          materials={jobState?.workingArea?.materials || {}}
+          subTagMaterials={jobState?.workingArea?.subTagMaterials || {}}
           onChange={handleFilterChange}
-          showSubTag={addSubTag}
+          showSubTag={jobState?.formData?.mode === 'subtag'}
           setChangeCriteria={setChangeCriteria}
           handleEnterKeyChange={handleEnterKeyChange}
           csWtFocus={csWtFocus}
           miscWtFocus={miscWtFocus}
           findingWtFocus={findingWtFocus}
+          // MaterialInfo props for subtag
+          theme={theme}
+          showTableEntry={showTableEntry}
+          setShowTableEntry={setShowTableEntry}
+          handleAddRemark={handleAddRemark}
+          handleSubTagAddRemark={handleSubTagAddRemark}
+          subTagUploadImages={subTagUploadImages || []}
+          renderFilePreview={renderFilePreview}
+          subTagMaterialDetails={jobState?.workingArea?.subTagMaterialDetails || {}}
+          subTagCalculations={jobState?.workingArea?.subTagCalculations || {}}
+          // InfoOutlinedIcon props
+          onMainInfoIconClick={() => {
+            setCurrentMaterialContext({ type: 'main', isSubTag: false });
+            dispatch(handleIssuedMaterialModal(true));
+          }}
+          onSubTagInfoIconClick={() => {
+            setCurrentMaterialContext({ type: 'sub', isSubTag: true });
+            dispatch(handleIssuedMaterialModal(true));
+          }}
+          dispatch={dispatch}
+          // Material context props
+          setCurrentMaterialContext={setCurrentMaterialContext}
         />
         <div>
           {
             1 && <>
               <div className='d-flex justify-content-between align-items-center mb-2 pt-3'>
                 {<h5 className='ps-2 mb-0'>{showTableEntry && ""}</h5>}
-                <div className='d-flex justify-content-between align-items-center'>
-                  <div>
-                    <Tooltip title="Receive From Vendor">
-                      <IconButton
-                        onClick={() => dispatch(handleIssuedMaterialModal(true))}
-                        sx={{
-                          color: '#fff',
-                          border: `1px solid ${theme?.palette?.customColors?.purple}`,
-                          background: `${theme?.palette?.customColors?.primary}`,
-                          p: 1,
-                        }}
-                      >
-                        <InfoOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </div>
-                {mountModal && <MountGrid />}
-                {issuedMaterialModal && <IssuedMaterial onReceiveData={handleReceivedMaterialData} />}
               </div>
+              {mountModal && <MountGrid />}
+              {issuedMaterialModal && <IssuedMaterial onReceiveData={handleReceivedMaterialData} />}
+
               {showTableEntry && (
-                <div className='w-100 d-flex justify-content-start align-items-center'>
-                  <table className='table tableCus fs_fgp' style={{ width: '90%', overflow: 'auto' }}>
-                    <thead>
-                      <tr>
-                        <th>Sr</th>
-                        <th>Type</th>
-                        <th>Shape</th>
-                        <th>Clarity / FType</th>
-                        <th>Color</th>
-                        <th>Size / Accessories</th>
-                        <th>Pcs/Wt</th>
-                        <th>Tunch/Wastage</th>
-                        <th>Supplier</th>
-                        <th>Rate</th>
-                        <th>Amount</th>
-                        <th>On Pcs</th>
-                        <th>AddIn GrossWt</th>
-                        <th>Update</th>
-                        <th>{mode === 'alteration_receive' ? 'Detach' : 'Remove'}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <GroupedTableSection title="💎 Diamond Rows" rows={jobState?.workingArea?.materials?.diamond || []} type="diamond" mode={mode} onDelete={handleDeleteDiamondRow} />
-                      <GroupedTableSection title="🔷 CS Stone Rows" rows={jobState?.workingArea?.materials?.colorstone || []} type="cs" mode={mode} onDelete={handleDeleteCsRow} />
-                      <GroupedTableSection title="🛠 Misc Rows" rows={jobState?.workingArea?.materials?.misc || []} type="misc" mode={mode} onDelete={handleDeleteMiscRow} />
-                      <GroupedTableSection title="🔗 Finding Rows" rows={jobState?.workingArea?.materials?.finding || []} type="finding" mode={mode} onDelete={handleDeleteFindingRow} />
-                    </tbody>
-                  </table>
-                </div>
+                <>
+                  {/* Show Main Tag Material Details Table only when context is main */}
+                  {!currentMaterialContext.isSubTag && (
+                    <div className='mb-3'>
+                      <h6 className="ps-2 mb-2" style={{ color: theme?.palette?.customColors?.primary }}>
+                        📋 Main Tag Material Details
+                      </h6>
+                      <div className='w-100 d-flex justify-content-start align-items-center'>
+                        <table className='table tableCus fs_fgp' style={{ width: '90%', overflow: 'auto' }}>
+                          <thead>
+                            <tr>
+                              <th>Sr</th>
+                              <th>Type</th>
+                              <th>Shape</th>
+                              <th>Clarity / FType</th>
+                              <th>Color</th>
+                              <th>Size / Accessories</th>
+                              <th>Pcs/Wt</th>
+                              <th>Tunch/Wastage</th>
+                              <th>Supplier</th>
+                              <th>Rate</th>
+                              <th>Amount</th>
+                              <th>On Pcs</th>
+                              <th>AddIn GrossWt</th>
+                              <th>Update</th>
+                              <th>{mode === 'alteration_receive' ? 'Detach' : 'Remove'}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <GroupedTableSection title="💎 Diamond Rows" rows={jobState?.workingArea?.materials?.diamond || []} type="diamond" mode={mode} onDelete={handleDeleteDiamondRow} />
+                            <GroupedTableSection title="🔷 CS Stone Rows" rows={jobState?.workingArea?.materials?.colorstone || []} type="cs" mode={mode} onDelete={handleDeleteCsRow} />
+                            <GroupedTableSection title="🛠 Misc Rows" rows={jobState?.workingArea?.materials?.misc || []} type="misc" mode={mode} onDelete={handleDeleteMiscRow} />
+                            <GroupedTableSection title="🔗 Finding Rows" rows={jobState?.workingArea?.materials?.finding || []} type="finding" mode={mode} onDelete={handleDeleteFindingRow} />
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Show Sub Tag Material Details Table only when context is sub tag */}
+                  {currentMaterialContext.isSubTag && jobState?.formData?.mode === 'subtag' && (
+                    <div className='mb-3'>
+                      <h6 className="ps-2 mb-2" style={{ color: theme?.palette?.customColors?.primary }}>
+                        Sub Tag Material Details
+                      </h6>
+                      <div className='w-100 d-flex justify-content-start align-items-center'>
+                        <table className='table tableCus fs_fgp' style={{ width: '90%', overflow: 'auto' }}>
+                          <thead>
+                            <tr>
+                              <th>Sr</th>
+                              <th>Type</th>
+                              <th>Shape</th>
+                              <th>Clarity / FType</th>
+                              <th>Color</th>
+                              <th>Size / Accessories</th>
+                              <th>Pcs/Wt</th>
+                              <th>Tunch/Wastage</th>
+                              <th>Supplier</th>
+                              <th>Rate</th>
+                              <th>Amount</th>
+                              <th>On Pcs</th>
+                              <th>AddIn GrossWt</th>
+                              <th>Update</th>
+                              <th>{mode === 'alteration_receive' ? 'Detach' : 'Remove'}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <GroupedTableSection title="💎 Diamond Rows" rows={jobState?.workingArea?.subTagMaterials?.diamond || []} type="diamond" mode={mode} onDelete={handleDeleteDiamondRow} />
+                            <GroupedTableSection title="🔷 CS Stone Rows" rows={jobState?.workingArea?.subTagMaterials?.colorstone || []} type="cs" mode={mode} onDelete={handleDeleteCsRow} />
+                            <GroupedTableSection title="🛠 Misc Rows" rows={jobState?.workingArea?.subTagMaterials?.misc || []} type="misc" mode={mode} onDelete={handleDeleteMiscRow} />
+                            <GroupedTableSection title="🔗 Finding Rows" rows={jobState?.workingArea?.subTagMaterials?.finding || []} type="finding" mode={mode} onDelete={handleDeleteFindingRow} />
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
               <div style={{ maxHeight: '245px' }}>
@@ -778,7 +901,9 @@ const SaveNNext = () => {
                     open={addDiaInfoPopUp}
                     onClose={() => setAddDiaInfoPopUp(false)}
                     title={materialConfigs.diamond.title}
-                    rows={jobState?.workingArea?.materials?.diamond || []}
+                    rows={currentMaterialContext.isSubTag ? 
+                      (jobState?.workingArea?.subTagMaterials?.diamond || []) : 
+                      (jobState?.workingArea?.materials?.diamond || [])}
                     onInputChange={handleDiamondInputChange}
                     onAddRow={handleAddRow}
                     onSave={handleSaveDiamondDetails}
@@ -797,7 +922,9 @@ const SaveNNext = () => {
                     open={addCSInfoPopUp}
                     onClose={() => setAddCSInfoPopUp(false)}
                     title={materialConfigs.colorstone.title}
-                    rows={jobState?.workingArea?.materials?.colorstone || []}
+                    rows={currentMaterialContext.isSubTag ? 
+                      (jobState?.workingArea?.subTagMaterials?.colorstone || []) : 
+                      (jobState?.workingArea?.materials?.colorstone || [])}
                     onInputChange={handleColorstoneInputChange}
                     onAddRow={handleCSAddRow}
                     onSave={handleSaveColorstoneDetails}
@@ -816,7 +943,9 @@ const SaveNNext = () => {
                     open={addMiscInfoPopUp}
                     onClose={() => setAddMiscInfoPopUp(false)}
                     title={materialConfigs.misc.title}
-                    rows={jobState?.workingArea?.materials?.misc || []}
+                    rows={currentMaterialContext.isSubTag ? 
+                      (jobState?.workingArea?.subTagMaterials?.misc || []) : 
+                      (jobState?.workingArea?.materials?.misc || [])}
                     onInputChange={handleMiscInputChange}
                     onAddRow={handleMiscAddRow}
                     onSave={handleSaveMiscDetails}
@@ -835,7 +964,9 @@ const SaveNNext = () => {
                     open={addFindingInfoPopUp}
                     onClose={() => setAddFindingInfoPopUp(false)}
                     title={materialConfigs.finding.title}
-                    rows={jobState?.workingArea?.materials?.finding || []}
+                    rows={currentMaterialContext.isSubTag ? 
+                      (jobState?.workingArea?.subTagMaterials?.finding || []) : 
+                      (jobState?.workingArea?.materials?.finding || [])}
                     onInputChange={handleFindingInputChange}
                     onAddRow={handleFindingAddRow}
                     onSave={handleSaveFindingDetails}
@@ -855,18 +986,19 @@ const SaveNNext = () => {
           <div className='d-flex align-items-center justify-content-center pb-2'>
             <div className="m-1">
               <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }} onClick={handleSaveAndNewJob}>
-                {jobState?.selectedJobFromList ? 'Save & Update' : 'Save & New'}
+                {jobState?.selectedJobFromList ? 'Save & Update' :
+                  jobState?.formData?.mode === 'subtag' ? 'Save Both Jobs & New' : 'Save & New'}
               </Button>
             </div>
             <div className="m-1">
               <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }} onClick={handleSaveJob}>
-                {jobState?.selectedJobFromList ? 'Update & Print' : 'Save & Print'}
+                {jobState?.selectedJobFromList ? 'Update & Print' :
+                  jobState?.formData?.mode === 'subtag' ? 'Save Both Jobs & Print' : 'Save & Print'}
               </Button>
             </div>
           </div>
 
         </div>
-
 
         <RemarkModal
           open={remarkModal}

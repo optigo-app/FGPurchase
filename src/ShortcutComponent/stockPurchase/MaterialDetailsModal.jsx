@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Box, Typography, Tooltip, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MaterialDetailsTable from './MaterialDetailsTable';
@@ -47,7 +46,6 @@ const MaterialDetailsModal = ({
     >
       <Box sx={modalStyle}>
         <div className='w-100'>
-          {/* Header */}
           <div className='d-flex align-items-center justify-content-between p-1'>
             <div></div>
             <div>
@@ -80,7 +78,6 @@ const MaterialDetailsModal = ({
             </div>
           </div>
 
-          {/* Table */}
           <MaterialDetailsTable
             rows={rows}
             onInputChange={onInputChange}
@@ -92,7 +89,6 @@ const MaterialDetailsModal = ({
             focusRef={focusRef}
           />
 
-          {/* Save Button */}
           <div className='d-flex justify-content-center align-items-center w-100'>
             <Button
               variant='contained'

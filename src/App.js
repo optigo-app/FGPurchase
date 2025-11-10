@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css"
 import "./Styles/globalStyles.scss"
 import FGP from "./components/FGP/FGP";

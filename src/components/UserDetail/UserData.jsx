@@ -66,24 +66,12 @@ const UserData = () => {
     dispatch(handleSelectedButton("add"));
   }
 
-  const handleOpenPopup = (row) => {
-    console.log(row);
-    setTagBreakPopUp(true);
-  }
-
   const handleJobSearch = (e) => {
     setJobSearch(e.target.value);
   }
 
   const handleInputChangeHidden = (event) => {
     setInputValueHidden(event.target.value);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleGoButtonClick();
-    }
   };
 
   const handleGoButtonClick = () => {

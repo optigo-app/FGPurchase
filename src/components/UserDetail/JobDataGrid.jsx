@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Checkbox, IconButton, Typography } from '@mui/material';
 import { Trash } from 'tabler-icons-react';
-import CallSplitIcon from '@mui/icons-material/CallSplit';
+import { FiLink } from 'react-icons/fi';
 
 const JobDataGrid = ({
     rows = [],
@@ -51,12 +51,13 @@ const JobDataGrid = ({
             ),
             renderCell: (params) => (
                 <Box display="flex" alignItems="center" gap={1}>
-                    {params.row.isClubJob ? (
-                        <CallSplitIcon
-                            fontSize="small"
-                            titleAccess="Unclub"
-                            style={{ color: 'blue', cursor: 'pointer' }}
+                    {params.row.originalJob.isClubJob ? (
+                        <FiLink
+                            size={16}
+                            color="blue"
+                            style={{ cursor: 'pointer' }}
                             onClick={() => handleUnclubJob(params)}
+                            title="Unclub Job"
                         />
                     ) : (
                         <Checkbox
@@ -154,7 +155,7 @@ const JobDataGrid = ({
                 onRowSelectionModelChange={(ids) => setSelectedRows(ids)}
                 selectionModel={selectedRows}
                 isRowSelectable={(params) => !params.row?.isClubJob}
-                getRowClassName={(params) => params.row?.isClubJob ? 'club-job-row' : ''}
+                getRowClassName={(params) => params.row?.originalJob?.isClubJob ? 'club-job-row' : ''}
                 sx={{
                     fontSize: '12px',
                     '& .MuiDataGrid-cell': {

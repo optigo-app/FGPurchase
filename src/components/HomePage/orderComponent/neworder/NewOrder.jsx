@@ -15,7 +15,7 @@ import {
   subCategoryMainData,
 } from '../../../../master/MasterData';
 import { capitalizeWords } from '../../../../master/global';
-import { saveNewOrder } from '../../../../redux/slices/StockPurchaseSlice';
+import { storeFormData } from '../../../../redux/slices/jobSlice';
 
 const Dropdown = ({ name, value, options, onChange }) => (
   <select
@@ -120,33 +120,37 @@ const NewOrder = () => {
   };
 
   const handleSaveNNext = () => {
-    let payload = {};
+    let payload = {
+      inwardAs: 'neworder'
+    };
 
     if (mode === 'tag') {
       payload = {
+        ...payload,
         mode: 'tag',
         data: formData,
       };
     } else if (mode === 'subtag') {
       payload = {
+        ...payload,
         mode: 'subtag',
-        mainData: formData,
+        data: formData,
         subTagData: subTagData,
       };
     } else {
       payload = {
+        ...payload,
         mode: 'bulk',
         data: formData,
       };
     }
 
     dispatch(handleSaveAndNextFlag(true));
-    dispatch(saveNewOrder(payload));
+    dispatch(storeFormData(payload));
   };
 
   return (
     <div className="neworder_component">
-      {/* Heading */}
       <div className="d-flex align-items-center">
         {mode === 'tag' ? (
           <h4 className="text-secondary fs_fgp">Tag Entry</h4>
@@ -157,7 +161,6 @@ const NewOrder = () => {
         )}
       </div>
 
-      {/* Radio Buttons */}
       <div className="action_section mt-2 mb-3">
         <div className="radio_group">
           <input
@@ -171,7 +174,6 @@ const NewOrder = () => {
             Tag Generate
           </label>
         </div>
-        {/* Show Add Sub Tag checkbox only when Tag Generate is checked */}
         {(mode === 'tag' || mode === 'subtag') && (
           <div className="radio_group">
             <input
@@ -188,7 +190,6 @@ const NewOrder = () => {
         )}
       </div>
 
-      {/* Forms */}
       {mode === 'tag' && <>
         <div className="text-secondary mt-3 fs_fgp">Tag Entry</div>
         <FormSection data={formData} onChange={handleChange} /></>}
@@ -211,8 +212,6 @@ const NewOrder = () => {
         </>
       )}
 
-
-      {/* Next Button */}
       <div className="mt-4">
         <Button
           variant="contained"

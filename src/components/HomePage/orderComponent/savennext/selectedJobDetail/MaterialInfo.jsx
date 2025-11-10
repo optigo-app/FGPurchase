@@ -19,7 +19,9 @@ const MaterialInfo = ({
   mode,
   materialDetails,
   calculations,
-  currentJob
+  currentJob,
+  isSubTag = false,
+  setCurrentMaterialContext
 }) => {
   // Use Redux calculations (real-time from working area)
   const netWeight = materialDetails?.netwt || 0;
@@ -44,7 +46,7 @@ const MaterialInfo = ({
         <span><strong>Tag No:</strong> {
           currentJob ? 
             `${currentJob.jobNo} | ${currentJob.tagNo}` : 
-            (materialDetails?.tagno || 'New Job')
+            (materialDetails?.tagno || (isSubTag ? 'Sub Tag Job' : 'New Job'))
         }</span>
         <span><strong>Net Wt:</strong> {formatWeight(netWeight)} gm</span>
         <span><strong>Pure Wt:</strong> {formatWeight(pureWeight)} gm</span>
@@ -54,7 +56,16 @@ const MaterialInfo = ({
           variant="outlined"
           size="small"
           style={btnStyle}
-          onClick={() => setShowTableEntry(!showTableEntry)}
+          onClick={() => {
+            // Set material context based on isSubTag
+            if (setCurrentMaterialContext) {
+              setCurrentMaterialContext({ 
+                type: isSubTag ? 'sub' : 'main', 
+                isSubTag: isSubTag 
+              });
+            }
+            setShowTableEntry(!showTableEntry);
+          }}
           startIcon={<ViewKanbanOutlinedIcon />}
         >
           Mat. Details
@@ -99,6 +110,7 @@ const MaterialInfo = ({
             fs="30px"
             classApply="upload-btn"
             style={{ color: theme?.palette?.customColors?.titleColor }}
+            isSubTag={isSubTag}
           />
         )}
         {uploadImage?.length > 0 && (

@@ -10,6 +10,7 @@ const homeObject = {
     issuedMaterialModal:false,
     addSubtag:false,
     uploadImage:[],
+    subTagUploadImages:[],
     selectedTabValue:'',
     showImgListPopUp:false,
     payByBank:false,
@@ -25,6 +26,9 @@ const HomeSlice = createSlice({
         },
         handleUploadImageList: (state, action) => {
             state.uploadImage = action.payload;
+        },
+        handleSubTagUploadImageList: (state, action) => {
+            state.subTagUploadImages = action.payload;
         },
         handleShowImgListPopUp: (state, action) => {
             state.showImgListPopUp = action.payload;
@@ -65,7 +69,8 @@ const HomeSlice = createSlice({
 export const { 
     handleSelectedTabValue,
     handleShowImgListPopUp, 
-    handleUploadImageList, 
+    handleUploadImageList,
+    handleSubTagUploadImageList, 
     handleSaveAndNextFlag, 
     handleCustomizeJobFlag, 
     handleSave, 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
-import { Tooltip, Alert, Snackbar } from '@mui/material';
+import { Tooltip, Alert, Snackbar, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { calculateNetWeight, calculateGrossWeight, formatWeight } from '../../Utils/globalFunc';
+import MaterialInfo from '../../components/HomePage/orderComponent/savennext/selectedJobDetail/MaterialInfo';
 
 const fields1 = [
   { id: 'HSN', label: 'HSN', placeholder: 'HSN', type: 'text' },
@@ -43,8 +45,8 @@ const formatDecimal2 = (value) => {
 
 const ClearButton = ({ onClick }) => (
   <div className="filter-item d-flex justify-content-center align-items-center w-100">
-    <button 
-      type="button" 
+    <button
+      type="button"
       onClick={onClick}
       style={{
         background: 'none',
@@ -61,7 +63,36 @@ const ClearButton = ({ onClick }) => (
   </div>
 );
 
-const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChangeCriteria, handleEnterKeyChange, csWtFocus, miscWtFocus, findingWtFocus }, ref) => {
+const PrimaryDetails = forwardRef(({
+  mode,
+  values,
+  subTagValues,
+  onChange,
+  showSubTag,
+  setChangeCriteria,
+  handleEnterKeyChange,
+  csWtFocus,
+  miscWtFocus,
+  findingWtFocus,
+  materials,
+  subTagMaterials,
+  // MaterialInfo props for subtag
+  theme,
+  showTableEntry,
+  setShowTableEntry,
+  handleAddRemark,
+  handleSubTagAddRemark,
+  subTagUploadImages,
+  renderFilePreview,
+  subTagMaterialDetails,
+  subTagCalculations,
+  // InfoOutlinedIcon props
+  onMainInfoIconClick,
+  onSubTagInfoIconClick,
+  dispatch,
+  // Material context props
+  setCurrentMaterialContext
+}, ref) => {
   const [primaryWeightField, setPrimaryWeightField] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -125,7 +156,7 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
           values.finewt || 0
         );
         const formattedGrossWt = formatWeight(calculatedGrossWt);
-        
+
         if (values.grosswt !== formattedGrossWt) {
           onChange('grosswt', formattedGrossWt);
         }
@@ -149,7 +180,7 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
     setPrimaryWeightField(null);
   };
 
-  const handleInputChange = (id, value) => {
+  const handleInputChange = (id, value, isSubTag = false) => {
     let formattedValue = value;
     if (id === 'grosswt' || id === 'netwt') {
       formattedValue = formatDecimal3(value);
@@ -163,72 +194,105 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
       setPrimaryWeightField(id);
     }
 
+    const currentValues = isSubTag ? subTagValues : values;
+
     if (['diawt', 'cswt', 'miscwt', 'finewt'].includes(id)) {
-      const updatedValues = { ...values, [id]: formattedValue };
-      
-      if (primaryWeightField === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
+      const updatedValues = { ...currentValues, [id]: formattedValue };
+
+      if (primaryWeightField === 'grosswt' && currentValues.grosswt && currentValues.grosswt.trim() !== '') {
         try {
           const calculatedNetWt = calculateNetWeight(
-            values.grosswt,
+            currentValues.grosswt,
             updatedValues.diawt || 0,
             updatedValues.cswt || 0,
             updatedValues.miscwt || 0,
             updatedValues.finewt || 0
           );
-          onChange('netwt', formatWeight(calculatedNetWt));
+          onChange('netwt', formatWeight(calculatedNetWt), isSubTag);
         } catch (error) {
           showAlert(error.message);
-          onChange('netwt', '');
+          onChange('netwt', '', isSubTag);
         }
-      } else if (primaryWeightField === 'netwt' && values.netwt && values.netwt.trim() !== '') {
+      } else if (primaryWeightField === 'netwt' && currentValues.netwt && currentValues.netwt.trim() !== '') {
         try {
           const calculatedGrossWt = calculateGrossWeight(
-            values.netwt,
+            currentValues.netwt,
             updatedValues.diawt || 0,
             updatedValues.cswt || 0,
             updatedValues.miscwt || 0,
             updatedValues.finewt || 0
           );
-          onChange('grosswt', formatWeight(calculatedGrossWt));
+          onChange('grosswt', formatWeight(calculatedGrossWt), isSubTag);
         } catch (error) {
           showAlert(error.message);
-          onChange('grosswt', '');
+          onChange('grosswt', '', isSubTag);
         }
       }
     }
-    onChange(id, formattedValue);
+    onChange(id, formattedValue, isSubTag);
   };
 
-  const handleKeyDown = (e, id, isSecondRow) => {
-    if (e.key === 'Tab' && id === 'grosswt' && values.grosswt && values.grosswt.trim() !== '') {
-      e.preventDefault();
-      const tunchInput = document.getElementById('tunch');
-      if (tunchInput) {
-        tunchInput.focus();
+  const handleKeyDown = (e, id, isSecondRow, isSubTag = false) => {
+    if (e.key === 'Tab' && id === 'grosswt') {
+      const currentValues = isSubTag ? subTagValues : values;
+      if (currentValues.grosswt && currentValues.grosswt.trim() !== '') {
+        e.preventDefault();
+        const tunchInputId = isSubTag ? 'tunch_subtag' : 'tunch';
+        const tunchInput = document.getElementById(tunchInputId);
+        if (tunchInput) {
+          tunchInput.focus();
+        }
       }
     } else if (isSecondRow && ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id)) {
-      handleEnterKeyChange(e, id);  
+      handleEnterKeyChange(e, id, isSubTag);
     }
   };
 
-  const renderInput = ({ id, label, placeholder, type = 'text' }, isSecondRow = false) => {
+  const renderInput = ({ id, label, placeholder, type = 'text' }, isSecondRow = false, isSubTag = false, suffix = '') => {
     const isCalculatedWeightField = ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id);
-    
+    const currentValues = isSubTag ? subTagValues : values;
+    const currentMaterials = isSubTag ? subTagMaterials : materials;
+    const inputId = isSubTag ? `${id}_subtag` : id;
+
+    let calculatedValue = currentValues?.[id] || '';
+    if (isCalculatedWeightField && currentMaterials) {
+      let materialType = '';
+      if (id === 'diawt') materialType = 'diamond';
+      else if (id === 'cswt') materialType = 'colorstone';
+      else if (id === 'miscwt') materialType = 'misc';
+      else if (id === 'finewt') materialType = 'finding';
+
+      if (materialType && currentMaterials[materialType]) {
+        const totalWeight = currentMaterials[materialType].reduce((sum, item) => {
+          const weight = parseFloat(item.wt) || 0;
+          return sum + weight;
+        }, 0);
+
+        if (!currentValues?.[id] || currentValues?.[id] === '') {
+          calculatedValue = totalWeight > 0 ? totalWeight.toFixed(3) : '';
+        } else {
+          calculatedValue = currentValues?.[id] || '';
+        }
+      }
+    }
+
     return (
-      <div className="filter-item" key={id}>
+      <div className="filter-item" key={inputId}>
         <div>
-          <label htmlFor={id} style={{ fontSize: '0.7rem', paddingLeft: '4px', color: '#797979' }}>{label}</label>
+          <label htmlFor={inputId} style={{ fontSize: '0.7rem', paddingLeft: '4px', color: '#797979' }}>
+            {label}{suffix}
+          </label>
           <input
             type={type}
-            id={id}
-            name={id}
-            value={values[id] || ''}
+            id={inputId}
+            name={inputId}
+            value={calculatedValue}
             placeholder={placeholder}
             step={type === 'number' ? '0.001' : undefined}
             min={type === 'number' ? '0' : undefined}
-            ref={id === 'HSN' ? hsnInputRef : id === 'cswt' ? csWtFocus : id === 'miscwt' ? miscWtFocus : id === 'finewt' ? findingWtFocus : undefined}
-            onChange={(e) => handleInputChange(id, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, id, isSecondRow)}
+            ref={id === 'HSN' && !isSubTag ? hsnInputRef : id === 'cswt' ? csWtFocus : id === 'miscwt' ? miscWtFocus : id === 'finewt' ? findingWtFocus : undefined}
+            onChange={(e) => handleInputChange(id, e.target.value, isSubTag)}
+            onKeyDown={(e) => handleKeyDown(e, id, isSecondRow, isSubTag)}
             style={{
               backgroundColor: isCalculatedWeightField ? '#f8f9fa' : 'white',
               cursor: isCalculatedWeightField ? 'pointer' : 'text'
@@ -244,42 +308,135 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
     <>
       {mode !== 'alteration_receive' && (
         <div className="filters-container_sn fs_fgp">
-          {fields1.map(f => renderInput(f))}
-          <div className="filter-item d-flex justify-content-center align-items-center w-100">
-          <ClearButton onClick={handleClearFields1} />
-            <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }} onClick={() => setChangeCriteria(true)}>
-              <SettingsIcon style={{ color: '#776BF0', cursor: 'pointer' }} />
+          {fields1?.map(f => renderInput(f))}
+          <div className="d-flex justify-content-center align-items-center w-100">
+            <ClearButton onClick={handleClearFields1} />
+            <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }}>
+              <IconButton
+                onClick={() => setChangeCriteria(true)}
+                sx={{
+                  color: '#fff',
+                  border: `1px solid ${theme?.palette?.customColors?.purple}`,
+                  background: `${theme?.palette?.customColors?.primary}`,
+                  p: 1,
+                  marginTop: '20px'
+                }}
+              >
+                <SettingsIcon sx={{ fontSize: '1rem' }} />
+              </IconButton>
+            </Tooltip>
+            {/* Main Tag InfoOutlinedIcon */}
+            <Tooltip title="Receive From Vendor - Main Tag" style={{ cursor: 'pointer', marginTop: '20px', marginLeft: '10px' }}>
+              <IconButton
+                onClick={onMainInfoIconClick}
+                sx={{
+                  color: '#fff',
+                  border: `1px solid ${theme?.palette?.customColors?.purple}`,
+                  background: `${theme?.palette?.customColors?.primary}`,
+                  p: 1,
+                  marginTop: '20px'
+                }}
+              >
+                <InfoOutlinedIcon sx={{ fontSize: '1rem' }} />
+              </IconButton>
             </Tooltip>
           </div>
         </div>
       )}
 
       <div className="filters-container2 fs_fgp">
-        {(mode !== 'alteration_receive' ? fields2.slice(0, 1) : []).map(f => renderInput(f))}
-        {fields2.slice(mode !== 'alteration_receive' ? 1 : 0).map(f => renderInput(f, true))}
+        {(mode !== 'alteration_receive' ? fields2?.slice(0, 1) : [])?.map(f => renderInput(f))}
+        {fields2?.slice(mode !== 'alteration_receive' ? 1 : 0)?.map(f => renderInput(f, true))}
         <ClearButton onClick={handleClearFields2} />
       </div>
 
       {showSubTag && (
         <>
           <hr />
-          <div className="filters-container_sn fs_fgp">
-            {fields1.map(f => renderInput(f))}
-            <div className="filter-item d-flex justify-content-center align-items-center w-100">
-              <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }} onClick={() => setChangeCriteria(true)}>
-                <SettingsIcon style={{ color: '#776BF0', cursor: 'pointer' }} />
-              </Tooltip>
-            </div>
-            <ClearButton onClick={handleClearFields1} />
+          {/* Sub Tag Section Heading */}
+          <div style={{ marginTop: '20px', marginBottom: '10px' }}>
+            <h5 className='header_title_fgp fs_fgp' style={{ color: '#fff' }}>
+              Add Sub Tag Product Details
+            </h5>
           </div>
-          <div className="filters-container2 fs_fgp">
-            {fields2.map(f => renderInput(f, true))}
-            <ClearButton onClick={handleClearFields2} />
+
+          {/* Sub Tag MaterialInfo - appears before Sub Tag Entry form */}
+          <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+            <MaterialInfo
+              theme={theme}
+              showTableEntry={showTableEntry}
+              setShowTableEntry={setShowTableEntry}
+              handleAddRemark={handleSubTagAddRemark}
+              setAltReceiveTimeHide={() => console.log('Show alt receive time')}
+              setChangeCriteria={() => console.log('Change criteria')}
+              uploadImage={subTagUploadImages || []}
+              renderFilePreview={renderFilePreview}
+              mode={mode}
+              materialDetails={subTagMaterialDetails || {}}
+              calculations={subTagCalculations || {}}
+              diamondRows={subTagMaterials?.diamond || []}
+              colorstoneRows={subTagMaterials?.colorstone || []}
+              miscRows={subTagMaterials?.misc || []}
+              findingRows={subTagMaterials?.finding || []}
+              currentJob={null}
+              isSubTag={true}
+              setCurrentMaterialContext={setCurrentMaterialContext}
+            />
+          </div>
+          <div style={{ backgroundColor: '#f8f9fa', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}>
+            <h6 style={{ color: '#495057', marginBottom: '10px' }}>Sub Tag Entry</h6>
+            <div className="filters-container_sn fs_fgp">
+              {fields1?.map(f => renderInput(f, false, true, ' (Sub)'))}
+              <div className="d-flex justify-content-center align-items-center w-100">
+                <ClearButton onClick={() => {
+                  fields1?.forEach(field => {
+                    onChange(field.id, '', true);
+                  });
+                }} />
+                <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }}>
+                  <IconButton
+                    onClick={() => setChangeCriteria(true)}
+                    sx={{
+                      color: '#fff',
+                      border: `1px solid ${theme?.palette?.customColors?.purple}`,
+                      background: `${theme?.palette?.customColors?.primary}`,
+                      p: 1,
+                      marginTop: '20px'
+                    }}
+                  >
+                    <SettingsIcon sx={{ fontSize: '1rem' }} />
+                  </IconButton>
+                </Tooltip>
+                {/* Sub Tag InfoOutlinedIcon */}
+                <Tooltip title="Receive From Vendor - Sub Tag" style={{ cursor: 'pointer', marginTop: '20px', marginLeft: '10px' }}>
+                  <IconButton
+                    onClick={onSubTagInfoIconClick}
+                    sx={{
+                      color: '#fff',
+                      border: `1px solid ${theme?.palette?.customColors?.purple}`,
+                      background: `${theme?.palette?.customColors?.primary}`,
+                      p: 1,
+                      marginTop: '20px'
+                    }}
+                  >
+                    <InfoOutlinedIcon sx={{ fontSize: '1rem' }} />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            </div>
+            <div className="filters-container2 fs_fgp">
+              {(mode !== 'alteration_receive' ? fields2?.slice(0, 1) : [])?.map(f => renderInput(f, false, true, ' (Sub)'))}
+              {fields2?.slice(mode !== 'alteration_receive' ? 1 : 0)?.map(f => renderInput(f, true, true, ' (Sub)'))}
+              <ClearButton onClick={() => {
+                fields2?.forEach(field => {
+                  onChange(field.id, '', true);
+                });
+              }} />
+            </div>
           </div>
         </>
       )}
 
-      {/* MUI Alert for error messages */}
       <Snackbar
         open={alertOpen}
         autoHideDuration={8000}
@@ -290,7 +447,7 @@ const PrimaryDetails = forwardRef(({ mode, values, onChange, showSubTag, setChan
           onClose={handleAlertClose}
           severity="warning"
           variant="outlined"
-          sx={{ 
+          sx={{
             width: '100%',
             backgroundColor: '#fff3cd',
             borderColor: '#ffc107',
