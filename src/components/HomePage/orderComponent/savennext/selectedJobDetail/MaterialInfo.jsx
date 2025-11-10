@@ -22,7 +22,7 @@ const MaterialInfo = ({
   currentJob,
   isSubTag = false,
   setCurrentMaterialContext
-}) => {
+}) => { 
   // Use Redux calculations (real-time from working area)
   const netWeight = materialDetails?.netwt || 0;
   const diamondWeight = materialDetails?.diawt || 0;

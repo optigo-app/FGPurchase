@@ -28,15 +28,12 @@ const FileUploaderMultiple = ({ fs = 28, classApply = '', isSubTag = false }) =>
   const theme = useTheme()
   const showImgListPopUp = useSelector(state => state.home.showImgListPopUp)
   
-  // Get the appropriate upload image list based on isSubTag
   const uploadImage = useSelector(state => 
     isSubTag ? state.home.subTagUploadImages : state.home.uploadImage
   )
 
-  // Use Redux state as the source of truth for files
   const files = uploadImage || []
 
-  // Reset currentImageIndex when files change or when there are no files
   useEffect(() => {
     if (files.length === 0) {
       setCurrentImageIndex(0)
@@ -54,7 +51,6 @@ const FileUploaderMultiple = ({ fs = 28, classApply = '', isSubTag = false }) =>
         return acc
       }, [])
 
-      // Dispatch to the appropriate action based on isSubTag
       if (isSubTag) {
         dispatch(handleSubTagUploadImageList(uniqueFiles))
       } else {
@@ -65,7 +61,6 @@ const FileUploaderMultiple = ({ fs = 28, classApply = '', isSubTag = false }) =>
 
   const handleRemoveFile = fileToRemove => {
     const updated = files.filter(file => file.name !== fileToRemove.name)
-    // Dispatch to the appropriate action based on isSubTag
     if (isSubTag) {
       dispatch(handleSubTagUploadImageList(updated))
     } else {

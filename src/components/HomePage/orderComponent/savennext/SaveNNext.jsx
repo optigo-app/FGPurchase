@@ -3,7 +3,7 @@ import "./savennext.css";
 import DeleteIcon from "../../../../assets/images/delete.png";
 import { handleIssuedMaterialModal, handleShowImgListPopUp } from '../../../../redux/slices/HomeSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { startWorking, updateWorkingData, addBulkMaterialRows, saveJob, saveAndNew, resetJobCounter, testAction } from '../../../../redux/slices/jobSlice';
+import { startWorking, updateWorkingData, addBulkMaterialRows, saveJob, saveAndNew, resetJobCounter, cancelJobEdit, testAction } from '../../../../redux/slices/jobSlice';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from "@mui/icons-material/Save";
@@ -141,10 +141,6 @@ const SaveNNext = () => {
     setSaveRemark(e.target.value);
   }
 
-  const handleSubTagRemarkChange = (e) => {
-    setSubTagSaveRemark(e.target.value);
-  }
-
   const handleSaveRemark = () => {
     if (saveRemark) {
       setRemarkModal(false);
@@ -193,6 +189,15 @@ const SaveNNext = () => {
         primaryDetailsRef.current.focusHSN();
       }
     }, 100);
+  };
+
+  // Cancel Handler - cancels job editing and clears form
+  const handleCancelJob = () => {
+    const isEditing = jobState?.selectedJobFromList;
+    console.log(`❌ SaveNNext - Cancel ${isEditing ? 'Edit' : 'Job'} clicked`);
+    
+    // Dispatch cancel action to reset state
+    dispatch(cancelJobEdit());
   };
 
   const handleEnterKeyChange = useCallback((e, args, isSubTag = false) => {
@@ -994,6 +999,11 @@ const SaveNNext = () => {
               <Button variant='contained' className='fs_fgp' size='small' sx={{ background: theme?.palette?.customColors?.primary, color: 'white' }} style={{ minWidth: '100px' }} onClick={handleSaveJob}>
                 {jobState?.selectedJobFromList ? 'Update & Print' :
                   jobState?.formData?.mode === 'subtag' ? 'Save Both Jobs & Print' : 'Save & Print'}
+              </Button>
+            </div>
+            <div className="m-1">
+              <Button variant='outlined' className='fs_fgp' size='small' sx={{ borderColor: theme?.palette?.customColors?.purple, color: theme?.palette?.customColors?.purple }} style={{ minWidth: '100px' }} onClick={handleCancelJob}>
+                Cancel
               </Button>
             </div>
           </div>

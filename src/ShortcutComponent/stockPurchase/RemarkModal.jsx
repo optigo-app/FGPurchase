@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Box, Tooltip, Button } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -55,7 +54,7 @@ const RemarkModal = ({
           <Button
             className='fs_fgp'
             sx={{
-              backgroundColor: theme?.palette?.customColors?.green,
+              background: theme?.palette?.customColors?.primary,
               color: 'white',
               fontWeight: 'bold'
             }}

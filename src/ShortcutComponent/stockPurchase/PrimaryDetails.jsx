@@ -325,7 +325,6 @@ const PrimaryDetails = forwardRef(({
                 <SettingsIcon sx={{ fontSize: '1rem' }} />
               </IconButton>
             </Tooltip>
-            {/* Main Tag InfoOutlinedIcon */}
             <Tooltip title="Receive From Vendor - Main Tag" style={{ cursor: 'pointer', marginTop: '20px', marginLeft: '10px' }}>
               <IconButton
                 onClick={onMainInfoIconClick}
@@ -353,14 +352,12 @@ const PrimaryDetails = forwardRef(({
       {showSubTag && (
         <>
           <hr />
-          {/* Sub Tag Section Heading */}
           <div style={{ marginTop: '20px', marginBottom: '10px' }}>
             <h5 className='header_title_fgp fs_fgp' style={{ color: '#fff' }}>
               Add Sub Tag Product Details
             </h5>
           </div>
 
-          {/* Sub Tag MaterialInfo - appears before Sub Tag Entry form */}
           <div style={{ marginTop: '15px', marginBottom: '15px' }}>
             <MaterialInfo
               theme={theme}

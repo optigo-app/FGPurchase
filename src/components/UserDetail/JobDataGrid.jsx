@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Checkbox, IconButton, Typography } from '@mui/material';
 import { Trash } from 'tabler-icons-react';
-import { FiLink } from 'react-icons/fi';
+import { MdCallSplit } from 'react-icons/md';
 
 const JobDataGrid = ({
     rows = [],
@@ -52,7 +52,7 @@ const JobDataGrid = ({
             renderCell: (params) => (
                 <Box display="flex" alignItems="center" gap={1}>
                     {params.row.originalJob.isClubJob ? (
-                        <FiLink
+                        <MdCallSplit 
                             size={16}
                             color="blue"
                             style={{ cursor: 'pointer' }}

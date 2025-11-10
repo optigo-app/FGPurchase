@@ -22,6 +22,9 @@ const UserData = () => {
   const [showTaxDropDown, setShowTaxDropDown] = useState(false);
   const [showModeOfDelDropDown, setShowModeOfDelDropDown] = useState(false);
   const [showAddLess, setShowAddLess] = useState(false);
+  const [hoveredTax, setHoveredTax] = useState(false);
+  const [hoveredModeOfDel, setHoveredModeOfDel] = useState(false);
+  const [hoveredAddLess, setHoveredAddLess] = useState(false);
 
   const createdJobs = useSelector((state) => state?.job?.createdJobs || []);
 
@@ -53,10 +56,6 @@ const UserData = () => {
   const [inputValue, setInputValue] = useState(undefined);
   const [inputError, setInputError] = useState(false);
   const ScanRef = useRef(null);
-
-  const [hoveredTax, setHoveredTax] = useState(false);
-  const [hoveredModeOfDel, setHoveredModeOfDel] = useState(false);
-  const [hoveredAddLess, setHoveredAddLess] = useState(false);
 
   const handleTaxSelectionChange = (e) => { };
 
@@ -404,7 +403,9 @@ const UserData = () => {
 
       {mode !== "alteration_issue" && (
         <SummaryPanel
+          mode={mode}
           theme={theme}
+          jobData={createdJobs}
           showTaxDropDown={showTaxDropDown}
           setShowTaxDropDown={setShowTaxDropDown}
           hoveredTax={hoveredTax}

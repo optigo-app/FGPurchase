@@ -248,7 +248,6 @@ const createJobFromWorkingArea = (state, jobData, existingJobNo = null, jobConfi
   const originalJob = existingJobNo ? state.createdJobs.find(job => job.jobNo === existingJobNo) : null;
   
   // Use job configuration if provided (for sub-tag mode)
-  const formData = jobConfig || state.formData;
   let tagData;
   let materialDetails;
   let materials;
@@ -716,6 +715,18 @@ const jobSlice = createSlice({
       };
     },
     
+    cancelJobEdit: (state) => {
+      state.selectedJobFromList = null;
+      resetWorkingArea(state);
+
+      if (state.formData.mode) {
+        resetFormDataAfterSave(state);
+      }
+      
+      state.workingArea.isActive = false;
+      state.workingArea.startedAt = null;
+    },
+
     testAction: (state, action) => {
       state.appState.error = null;
     }
@@ -737,6 +748,7 @@ export const {
   loadJobForEdit,
   resetJobCounter,
   getCurrentJobInfo,
+  cancelJobEdit,
   testAction
 } = jobSlice.actions;
 
