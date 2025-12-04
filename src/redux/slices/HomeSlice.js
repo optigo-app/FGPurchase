@@ -1,28 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const homeObject = {
-    isSaveAndNext:false,
-    isJobCustomize:false,
-    selectButtonValue:'',
-    homefilterObject:{},
-    multiPartPayFlag:false,
-    mountModal:false,
-    issuedMaterialModal:false,
-    addSubtag:false,
-    uploadImage:[],
-    subTagUploadImages:[],
-    selectedTabValue:'',
-    showImgListPopUp:false,
-    payByBank:false,
-    payByCash:false
+    isSaveAndNext: false,
+    isJobCustomize: false,
+    selectButtonValue: '',
+    homefilterObject: {},
+    multiPartPayFlag: false,
+    mountModal: false,
+    issuedMaterialModal: false,
+    addSubtag: false,
+    uploadImage: [],
+    subTagUploadImages: [],
+    selectedTabValue: '',
+    selectedPurchaseValue: '',
+    showImgListPopUp: false,
+    payByBank: false,
+    payByCash: false
 }
 
 const HomeSlice = createSlice({
-    name:'home',
-    initialState:homeObject,
-    reducers:{
+    name: 'home',
+    initialState: homeObject,
+    reducers: {
         handleSelectedTabValue: (state, action) => {
             state.selectedTabValue = action.payload;
+        },
+        handleSelectedPurchaseTabValue: (state, action) => {
+            state.selectedPurchaseValue = action.payload
         },
         handleUploadImageList: (state, action) => {
             state.uploadImage = action.payload;
@@ -42,44 +46,45 @@ const HomeSlice = createSlice({
         handleSave: (state, action) => {
             state.homefilterObject = action.payload;
         },
-        handleSelectedButton:(state, action) => {
+        handleSelectedButton: (state, action) => {
             state.selectButtonValue = action.payload;
         },
-        handleMultiPartPayFlag:(state, action) => {
+        handleMultiPartPayFlag: (state, action) => {
             state.multiPartPayFlag = action.payload;
         },
-        handleMountModal:(state, action) => {
+        handleMountModal: (state, action) => {
             state.mountModal = action.payload;
         },
-        handleIssuedMaterialModal:(state, action) => {
+        handleIssuedMaterialModal: (state, action) => {
             state.issuedMaterialModal = action.payload;
         },
-        handleaddSubtagFlag:(state, action) => {
+        handleaddSubtagFlag: (state, action) => {
             state.addSubtag = action.payload;
         },
-        handlePayByCash:(state, action) => {
+        handlePayByCash: (state, action) => {
             state.payByCash = action?.payload;
         },
-        handlePayByBank:(state, action) => {
+        handlePayByBank: (state, action) => {
             state.payByBank = action?.payload;
         },
     }
 })
 
-export const { 
+export const {
     handleSelectedTabValue,
-    handleShowImgListPopUp, 
+    handleSelectedPurchaseTabValue,
+    handleShowImgListPopUp,
     handleUploadImageList,
-    handleSubTagUploadImageList, 
-    handleSaveAndNextFlag, 
-    handleCustomizeJobFlag, 
-    handleSave, 
-    handleSelectedButton, 
-    handleMultiPartPayFlag, 
-    handleMountModal, 
-    handleIssuedMaterialModal, 
+    handleSubTagUploadImageList,
+    handleSaveAndNextFlag,
+    handleCustomizeJobFlag,
+    handleSave,
+    handleSelectedButton,
+    handleMultiPartPayFlag,
+    handleMountModal,
+    handleIssuedMaterialModal,
     handleaddSubtagFlag,
     handlePayByBank,
     handlePayByCash
- } = HomeSlice?.actions;
+} = HomeSlice?.actions;
 export default HomeSlice.reducer;

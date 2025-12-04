@@ -78,16 +78,30 @@ const FormSection = ({ data, onChange }) => (
   </div>
 );
 
-const NewOrder = () => {
+const NewOrder = ({ purchase }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [mode, setMode] = useState('');
   const [formData, setFormData] = useState({});
   const [subTagData, setSubTagData] = useState({});
+  const [designModeMain, setDesignModeMain] = useState('auto');
+  const [designValueMain, setDesignValueMain] = useState('auto');
+  const [designModeSub, setDesignModeSub] = useState('auto');
+  const [designValueSub, setDesignValueSub] = useState('auto');
 
   useEffect(() => {
     dispatch(handleaddSubtagFlag(false));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (purchase === 'tagging') {
+      setMode('tag');
+      dispatch(handleaddSubtagFlag(false));
+    } else {
+      setMode('');
+      dispatch(handleaddSubtagFlag(false));
+    }
+  }, [purchase, dispatch]);
 
   const handleChange = (field, value) => {
     if (mode === 'subtag' && field.startsWith('sub_')) {
@@ -120,8 +134,22 @@ const NewOrder = () => {
   };
 
   const handleSaveNNext = () => {
+    const designFlagMain = designModeMain;
+    const designNoMain = designModeMain === 'auto'
+      ? 'Auto'
+      : (designValueMain || '');
+
+    const designFlagSub = designModeSub;
+    const designNoSub = designModeSub === 'auto'
+      ? 'Auto'
+      : (designValueSub || '');
+
     let payload = {
-      inwardAs: 'neworder'
+      inwardAs: 'neworder',
+      designFlagMain,
+      designNoMain,
+      designFlagSub,
+      designNoSub,
     };
 
     if (mode === 'tag') {
@@ -150,67 +178,213 @@ const NewOrder = () => {
   };
 
   return (
-    <div className="neworder_component">
-      <div className="d-flex align-items-center">
-        {mode === 'tag' ? (
-          <h4 className="text-secondary fs_fgp">Tag Entry</h4>
-        ) : mode === 'subtag' ? (
-          <h4 className="text-secondary fs_fgp">Make Your Sub Entry</h4>
+    <>
+      <div className='mainDivForStEntry'>
+        {mode === 'subtag' ? (
+          <>
+            {/* Card 1: Tag Entry */}
+            <div className='designDt' style={{
+              justifyContent: mode === 'subtag' ? "space-between" : "flex-end"
+            }}>
+              {purchase === 'tagging' && (
+                <div className="radio_group">
+                  <input
+                    type="checkbox"
+                    id="subtag"
+                    checked={mode === 'subtag'}
+                    onChange={() => handleCheckboxChange('subtag')}
+                    className="checkbox-radio"
+                  />
+                  <label htmlFor="subtag" className={`checkbox-label ${mode === 'subtag' ? 'checked' : ''}`}>
+                    Add Sub Tag
+                  </label>
+                </div>
+              )}
+              <div className="design-controls">
+                <label className='me-4'>Design#:</label>
+                <label className="fs_fgp me-2">
+                  <input
+                    type="checkbox"
+                    checked={designModeMain === 'auto'}
+                    onChange={() => {
+                      setDesignModeMain('auto');
+                      setDesignValueMain('auto');
+                    }}
+                    className="me-1"
+                  />
+                  Auto
+                </label>
+                <label className="fs_fgp me-2">
+                  <input
+                    type="checkbox"
+                    checked={designModeMain === 'manual'}
+                    onChange={() => {
+                      setDesignModeMain('manual');
+                      setDesignValueMain('');
+                    }}
+                    className="me-1"
+                  />
+                  Manual
+                </label>
+                <input
+                  type="text"
+                  className="fs_fgp design-input"
+                  value={designValueMain}
+                  placeholder='Enter Design'
+                  onChange={(e) => {
+                    if (designModeMain === 'manual') {
+                      setDesignValueMain(e.target.value);
+                    }
+                  }}
+                  readOnly={designModeMain === 'auto'}
+                />
+              </div>
+            </div>
+            <div className="neworder_component mb-3">
+              <div className="d-flex align-items-center">
+                <h4 className="text-secondary fs_fgp">Tag Entry</h4>
+              </div>
+              <FormSection data={formData} onChange={handleChange} />
+            </div>
+
+            {/* Card 2: Sub Tag Entry */}
+            <div className='designDt' style={{
+              justifyContent: "flex-end"
+            }}>
+              <div className="design-controls">
+                <label className='me-4'>Design#:</label>
+                <label className="fs_fgp me-2">
+                  <input
+                    type="checkbox"
+                    checked={designModeSub === 'auto'}
+                    onChange={() => {
+                      setDesignModeSub('auto');
+                      setDesignValueSub('auto');
+                    }}
+                    className="me-1"
+                  />
+                  Auto
+                </label>
+                <label className="fs_fgp me-2">
+                  <input
+                    type="checkbox"
+                    checked={designModeSub === 'manual'}
+                    onChange={() => {
+                      setDesignModeSub('manual');
+                      setDesignValueSub('');
+                    }}
+                    className="me-1"
+                  />
+                  Manual
+                </label>
+                <input
+                  type="text"
+                  className="fs_fgp design-input"
+                  value={designValueSub}
+                  placeholder='Enter Design'
+                  onChange={(e) => {
+                    if (designModeSub === 'manual') {
+                      setDesignValueSub(e.target.value);
+                    }
+                  }}
+                  readOnly={designModeSub === 'auto'}
+                />
+              </div>
+            </div>
+            <div className="neworder_component">
+              <div className="d-flex align-items-center">
+                <h4 className="text-secondary fs_fgp">Sub Tag Entry</h4>
+              </div>
+              <FormSection
+                data={subTagData}
+                onChange={(field, value) => handleChange(`sub_${field}`, value)}
+              />
+            </div>
+          </>
         ) : (
-          <h4 className="text-secondary fs_fgp">Bulk Job Entry</h4>
-        )}
-      </div>
+          <div className='mainDivForStEntry'>
+            <div className='designDt' style={{
+              justifyContent: mode === 'subtag' ? "space-between" : "flex-end"
+            }}>
+              <div className="design-controls">
+                <label className='me-4'>Design#:</label>
+                <label className="fs_fgp me-2">
+                  <input
+                    type="checkbox"
+                    checked={designModeMain === 'auto'}
+                    onChange={() => {
+                      setDesignModeMain('auto');
+                      setDesignValueMain('auto');
+                    }}
+                    className="me-1"
+                  />
+                  Auto
+                </label>
+                <label className="fs_fgp me-2">
+                  <input
+                    type="checkbox"
+                    checked={designModeMain === 'manual'}
+                    onChange={() => {
+                      setDesignModeMain('manual');
+                      setDesignValueMain('');
+                    }}
+                    className="me-1"
+                  />
+                  Manual
+                </label>
+                <input
+                  type="text"
+                  className="fs_fgp design-input"
+                  value={designValueMain}
+                  placeholder='Enter Design'
+                  onChange={(e) => {
+                    if (designModeMain === 'manual') {
+                      setDesignValueMain(e.target.value);
+                    }
+                  }}
+                  readOnly={designModeMain === 'auto'}
+                />
+              </div>
+            </div>
+            <div className="neworder_component">
+              <div className="d-flex align-items-center">
+                {mode === 'tag' ? (
+                  <h4 className="text-secondary fs_fgp">Tag Entry</h4>
+                ) : (
+                  <h4 className="text-secondary fs_fgp">Bulk Job Entry</h4>
+                )}
+              </div>
 
-      <div className="action_section mt-2 mb-3">
-        <div className="radio_group">
-          <input
-            type="checkbox"
-            id="tag"
-            checked={mode === 'tag' || mode === 'subtag'}
-            onChange={() => handleCheckboxChange('tag')}
-            className="checkbox-radio"
-          />
-          <label htmlFor="tag" className={`checkbox-label ${(mode === 'tag' || mode === 'subtag') ? 'checked' : ''}`}>
-            Tag Generate
-          </label>
-        </div>
-        {(mode === 'tag' || mode === 'subtag') && (
-          <div className="radio_group">
-            <input
-              type="checkbox"
-              id="subtag"
-              checked={mode === 'subtag'}
-              onChange={() => handleCheckboxChange('subtag')}
-              className="checkbox-radio"
-            />
-            <label htmlFor="subtag" className={`checkbox-label ${mode === 'subtag' ? 'checked' : ''}`}>
-              Add Sub Tag
-            </label>
+              {purchase === 'tagging' && (
+                <div className="action_section mt-2 mb-3">
+                  <div className="radio_group">
+                    <input
+                      type="checkbox"
+                      id="subtag"
+                      checked={mode === 'subtag'}
+                      onChange={() => handleCheckboxChange('subtag')}
+                      className="checkbox-radio"
+                    />
+                    <label htmlFor="subtag" className={`checkbox-label ${mode === 'subtag' ? 'checked' : ''}`}>
+                      Add Sub Tag
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              {mode === 'tag' && <>
+                <div className="text-secondary mt-3 fs_fgp">Tag Entry</div>
+                <FormSection data={formData} onChange={handleChange} /></>}
+              {mode === '' && (
+                <>
+                  <div className="text-secondary mt-3 fs_fgp">Bulk Job Entry</div>
+                  <FormSection data={formData} onChange={handleChange} />
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>
-
-      {mode === 'tag' && <>
-        <div className="text-secondary mt-3 fs_fgp">Tag Entry</div>
-        <FormSection data={formData} onChange={handleChange} /></>}
-      {mode === 'subtag' && (
-        <>
-          <div className="text-secondary mt-3 fs_fgp">Sub Tag Entry</div>
-          <FormSection data={formData} onChange={handleChange} />
-          <div className="mt-3">
-            <FormSection
-              data={subTagData}
-              onChange={(field, value) => handleChange(`sub_${field}`, value)}
-            />
-          </div>
-        </>
-      )}
-      {mode === '' && (
-        <>
-          <div className="text-secondary mt-3 fs_fgp">Bulk Job Entry</div>
-          <FormSection data={formData} onChange={handleChange} />
-        </>
-      )}
 
       <div className="mt-4">
         <Button
@@ -227,7 +401,7 @@ const NewOrder = () => {
           Next
         </Button>
       </div>
-    </div>
+    </>
 
   );
 };

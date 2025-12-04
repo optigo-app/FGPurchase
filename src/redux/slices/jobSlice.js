@@ -35,11 +35,15 @@ const initialState = {
   createdJobs: [],
   jobCounter: 0,
   selectedJobFromList: null,
-  
+
   // Form data storage before product details
   formData: {
     mode: '', // 'bulk', 'tag', 'subtag'
     inwardAs: '', // 'neworder', 'reorder', 'jobbased'
+    mainDesignFlag: '',
+    mainDesignNo: '',
+    subDesignFlag: '',
+    subDesignNo: '',
     mainTagData: {
       productType: '',
       brand: '',
@@ -65,7 +69,7 @@ const initialState = {
     hasFormData: false,
     pendingJobs: [] // For storing multiple job configurations when sub-tag is selected
   },
-  
+
   workingArea: {
     isActive: false,
     currentJobIndex: 0, // For tracking which job we're working on in sub-tag mode
@@ -90,7 +94,7 @@ const initialState = {
       labour: '',
       saleslabour: ''
     },
-    
+
     // Sub tag job data (for sub-tag mode)
     subTagMaterialDetails: {
       HSN: '',
@@ -118,7 +122,7 @@ const initialState = {
       misc: [createBlankRow()],
       finding: [createBlankRow()]
     },
-    
+
     // Sub tag materials (for sub-tag mode)
     subTagMaterials: {
       diamond: [createBlankRow()],
@@ -135,7 +139,7 @@ const initialState = {
       totalMiscWeight: 0,
       totalFindingWeight: 0
     },
-    
+
     // Sub tag calculations (for sub-tag mode)
     subTagCalculations: {
       pureWeight: 0,
@@ -177,13 +181,13 @@ const validateSubTagData = (state) => {
   if (state.formData.mode !== 'subtag') {
     return true; // Not in sub-tag mode, use regular validation
   }
-  
+
   // Check if main tag data has some content
   const mainHasData = Object.values(state.workingArea.materialDetails).some(value => value && value.trim() !== '');
-  
+
   // Check if sub-tag data has some content
   const subHasData = Object.values(state.workingArea.subTagMaterialDetails).some(value => value && value.trim() !== '');
-  
+
   return mainHasData && subHasData;
 };
 
@@ -246,12 +250,12 @@ const createJobFromWorkingArea = (state, jobData, existingJobNo = null, jobConfi
   }
 
   const originalJob = existingJobNo ? state.createdJobs.find(job => job.jobNo === existingJobNo) : null;
-  
+
   // Use job configuration if provided (for sub-tag mode)
   let tagData;
   let materialDetails;
   let materials;
-  
+
   if (jobConfig && jobConfig.isSubTag) {
     // If this is a sub-tag job, use sub-tag data
     tagData = jobConfig.tagData;
@@ -267,7 +271,7 @@ const createJobFromWorkingArea = (state, jobData, existingJobNo = null, jobConfi
   // Generate tagNo with mode suffix
   let baseTagNo = originalJob?.tagNo || jobData.tagNo || `1/${12860 + state.jobCounter}`;
   let tagNo = baseTagNo;
-  
+
   // Add suffix based on mode
   if (!originalJob?.tagNo && !jobData.tagNo) {
     const mode = state.formData.mode;
@@ -292,14 +296,16 @@ const createJobFromWorkingArea = (state, jobData, existingJobNo = null, jobConfi
 
     status: 'created',
     createdAt: new Date().toISOString(),
-    
+
     // Add isClubJob flag: 1 for subtag mode jobs, 0 for regular jobs
     isClubJob: state.formData.mode === 'subtag' ? 1 : 0,
-    
+
     // Store form data with job
     formData: {
       mode: state.formData.mode,
       inwardAs: state.formData.inwardAs,
+      designFlag: jobConfig?.designFlag ?? state.formData.mainDesignFlag,
+      designNo: jobConfig?.designNo ?? state.formData.mainDesignNo,
       tagData: { ...tagData },
       isSubTag: jobConfig?.isSubTag || false,
       subTagIndex: jobConfig?.subTagIndex || 0
@@ -342,6 +348,10 @@ const resetFormDataAfterSave = (state) => {
   state.formData = {
     mode: '',
     inwardAs: '',
+    mainDesignFlag: '',
+    mainDesignNo: '',
+    subDesignFlag: '',
+    subDesignNo: '',
     mainTagData: {
       productType: '',
       brand: '',
@@ -375,19 +385,35 @@ const jobSlice = createSlice({
   reducers: {
     // Store form data from NewOrder component
     storeFormData: (state, action) => {
-      const { mode, inwardAs, data, subTagData } = action.payload;
-      
+      console.log("hdsh", action)
+      const {
+        mode,
+        inwardAs,
+        data,
+        subTagData,
+        designFlagMain,
+        designNoMain,
+        designFlagSub,
+        designNoSub
+      } = action.payload;
+
       state.formData.mode = mode;
       state.formData.inwardAs = inwardAs;
+      state.formData.mainDesignFlag = designFlagMain || '';
+      state.formData.mainDesignNo = designNoMain || '';
+      state.formData.subDesignFlag = designFlagSub || '';
+      state.formData.subDesignNo = designNoSub || '';
       state.formData.hasFormData = true;
-      
+
       if (mode === 'bulk') {
         state.formData.mainTagData = { ...data };
         // For bulk mode, create single job configuration
         state.formData.pendingJobs = [{
           isSubTag: false,
           tagData: { ...data },
-          subTagIndex: 0
+          subTagIndex: 0,
+          designFlag: state.formData.mainDesignFlag,
+          designNo: state.formData.mainDesignNo
         }];
       } else if (mode === 'tag') {
         state.formData.mainTagData = { ...data };
@@ -395,7 +421,9 @@ const jobSlice = createSlice({
         state.formData.pendingJobs = [{
           isSubTag: false,
           tagData: { ...data },
-          subTagIndex: 0
+          subTagIndex: 0,
+          designFlag: state.formData.mainDesignFlag,
+          designNo: state.formData.mainDesignNo
         }];
       } else if (mode === 'subtag') {
         state.formData.mainTagData = { ...data };
@@ -405,22 +433,30 @@ const jobSlice = createSlice({
           {
             isSubTag: false,
             tagData: { ...data },
-            subTagIndex: 0
+            subTagIndex: 0,
+            designFlag: state.formData.mainDesignFlag,
+            designNo: state.formData.mainDesignNo
           },
           {
             isSubTag: true,
             tagData: { ...subTagData },
-            subTagIndex: 1
+            subTagIndex: 1,
+            designFlag: state.formData.subDesignFlag,
+            designNo: state.formData.subDesignNo
           }
         ];
       }
     },
-    
+
     // Clear form data
     clearFormData: (state) => {
       state.formData = {
         mode: '',
         inwardAs: '',
+        mainDesignFlag: '',
+        mainDesignNo: '',
+        subDesignFlag: '',
+        subDesignNo: '',
         mainTagData: {
           productType: '',
           brand: '',
@@ -447,7 +483,7 @@ const jobSlice = createSlice({
         pendingJobs: []
       };
     },
-    
+
     // Move to next job in sub-tag mode
     moveToNextJob: (state) => {
       if (state.formData.mode === 'subtag' && state.workingArea.currentJobIndex < state.formData.pendingJobs.length - 1) {
@@ -458,7 +494,7 @@ const jobSlice = createSlice({
         state.workingArea.startedAt = new Date().toISOString();
       }
     },
-    
+
     startWorking: (state) => {
       if (!state.workingArea.isActive) {
         state.workingArea.isActive = true;
@@ -482,7 +518,7 @@ const jobSlice = createSlice({
           }
           recalculateWorkingArea(state);
           break;
-          
+
         case 'subTagMaterialDetails':
           state.workingArea.subTagMaterialDetails[payload.field] = payload.value;
           recalculateWorkingArea(state);
@@ -522,7 +558,7 @@ const jobSlice = createSlice({
       if (rows && rows.length > 0) {
         // Determine which materials object to use based on isSubTag
         const materialsKey = isSubTag ? 'subTagMaterials' : 'materials';
-        
+
         // Ensure the materials object exists
         if (!state.workingArea[materialsKey]) {
           state.workingArea[materialsKey] = {
@@ -532,7 +568,7 @@ const jobSlice = createSlice({
             finding: []
           };
         }
-        
+
         // Filter out empty rows from existing materials first
         const existingRows = state.workingArea[materialsKey][materialType].filter(row =>
           row.material && row.material.trim() !== ''
@@ -567,19 +603,19 @@ const jobSlice = createSlice({
           if (state.formData.mode === 'subtag' && state.formData.pendingJobs.length > 1) {
             // Create both jobs at once
             const createdJobNos = [];
-            
+
             // Create main tag job
             const mainJobConfig = state.formData.pendingJobs[0];
             const mainJob = createJobFromWorkingArea(state, jobData, null, mainJobConfig);
             state.createdJobs.unshift(mainJob);
             createdJobNos.push(mainJob.jobNo);
-            
+
             // Create sub tag job
             const subJobConfig = state.formData.pendingJobs[1];
             const subJob = createJobFromWorkingArea(state, jobData, null, subJobConfig);
             state.createdJobs.unshift(subJob);
             createdJobNos.push(subJob.jobNo);
-            
+
             state.appState.lastJobCreated = createdJobNos;
           } else {
             // Single job creation
@@ -615,19 +651,19 @@ const jobSlice = createSlice({
           if (state.formData.mode === 'subtag' && state.formData.pendingJobs.length > 1) {
             // Create both jobs at once
             const createdJobNos = [];
-            
+
             // Create main tag job
             const mainJobConfig = state.formData.pendingJobs[0];
             const mainJob = createJobFromWorkingArea(state, jobData, null, mainJobConfig);
             state.createdJobs.unshift(mainJob);
             createdJobNos.push(mainJob.jobNo);
-            
+
             // Create sub tag job
             const subJobConfig = state.formData.pendingJobs[1];
             const subJob = createJobFromWorkingArea(state, jobData, null, subJobConfig);
             state.createdJobs.unshift(subJob);
             createdJobNos.push(subJob.jobNo);
-            
+
             state.appState.lastJobCreated = createdJobNos;
           } else {
             // Single job creation
@@ -714,7 +750,7 @@ const jobSlice = createSlice({
         isSubTag: false
       };
     },
-    
+
     cancelJobEdit: (state) => {
       state.selectedJobFromList = null;
       resetWorkingArea(state);
@@ -722,7 +758,7 @@ const jobSlice = createSlice({
       if (state.formData.mode) {
         resetFormDataAfterSave(state);
       }
-      
+
       state.workingArea.isActive = false;
       state.workingArea.startedAt = null;
     },

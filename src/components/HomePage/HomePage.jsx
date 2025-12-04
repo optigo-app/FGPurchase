@@ -76,9 +76,10 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
   const [printListModal, setPrintListModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [date, setDate] = useState(new Date());
+  const [userRefDate, setUserRefDate] = useState(new Date());
+  const [isUpdatingUserRefDate, setIsUpdatingUserRefDate] = useState(false);
   const [voucherType, setVoucherType] = useState('');
   const [exchangeRate, setExchangeRate] = useState('');
-
 
   const [validationErrors, setValidationErrors] = useState({
     searchUser: false,
@@ -303,6 +304,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       counter: counter,
       voucherType: voucherType,
       date: date.toISOString(),
+      userRefDate: userRefDate.toISOString(),
       modeType: modeComp,
     };
 
@@ -358,6 +360,7 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       setRefno(savedValue?.refno || '');
       setVoucherType(savedValue?.voucherType || '');
       setDate(savedValue?.date ? new Date(savedValue?.date) : new Date());
+      setUserRefDate(savedValue?.userRefDate ? new Date(savedValue?.userRefDate) : new Date());
       setModeComp(savedValue?.modeType || '');
     }
   }, [savedValue]);
@@ -603,8 +606,14 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
             <div className="info-card">
               <span className="label">Date:</span>
               {!dateUpdateFlag && (
-                <span className="value editable" onClick={() => setDateUpdateFlag(true)}>
-                  11 Oct 2024
+                <span
+                  className="value editable"
+                  onClick={() => {
+                    setIsUpdatingUserRefDate(false);
+                    setDateUpdateFlag(true);
+                  }}
+                >
+                  {date ? date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
                 </span>
               )}
             </div>
@@ -614,7 +623,22 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               <span className="label">Currency Exch Rate:</span>
               {!currExchRateFlag && (
                 <span className="value editable" onClick={() => setCurrExchRateFlag(true)}>
-                  7.81
+                  {exchangeRate || 7.81}
+                </span>
+              )}
+            </div>
+            {/* User Reference Date*/}
+            <div className="info-card">
+              <span className="label">User Reference Date:</span>
+              {!dateUpdateFlag && (
+                <span
+                  className="value editable"
+                  onClick={() => {
+                    setIsUpdatingUserRefDate(true);
+                    setDateUpdateFlag(true);
+                  }}
+                >
+                  {userRefDate ? userRefDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
                 </span>
               )}
             </div>
@@ -631,7 +655,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
         )}
 
 
-        <div className="action-buttons">
+        <div className="action-bar-row">
+          <div className="action-buttons">
           {(modeComp !== "alteration_receive" && modeComp !== "alteration_issue" && modeComp !== "customer_receive" && modeComp !== "material_purchase") && buttonActions?.map((action) => (
             <Tooltip title={action.title} arrow placement="top" key={action.value}>
               <button
@@ -702,6 +727,13 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
               </button>
             </Tooltip>
           ))}
+          </div>
+
+          <div className="set-info-card fs_fgp">
+            <span>Diamondset: <strong>DeepakDiam</strong></span>
+            <span>ColorStoneset: <strong>DepakCs</strong></span>
+            <span>LabourSet: <strong>depak</strong></span>
+          </div>
         </div>
 
         {!selectedButtonFlag &&
@@ -728,8 +760,8 @@ const HomePage = ({ toggleSidebar, isSidebarOpen }) => {
       <UpdateDateModal
         open={dateUpdateFlag}
         onClose={() => setDateUpdateFlag(false)}
-        date={date}
-        setDate={setDate}
+        date={isUpdatingUserRefDate ? userRefDate : date}
+        setDate={isUpdatingUserRefDate ? setUserRefDate : setDate}
         CustomInput={CustomInput}
         theme={theme}
       />

@@ -22,13 +22,13 @@ const MaterialInfo = ({
   currentJob,
   isSubTag = false,
   setCurrentMaterialContext
-}) => { 
+}) => {
   // Use Redux calculations (real-time from working area)
   const netWeight = materialDetails?.netwt || 0;
   const diamondWeight = materialDetails?.diawt || 0;
   const pureWeight = calculations?.pureWeight || 0;
   const totalAmount = calculations?.totalAmount || 0;
-  
+
   const btnStyle = {
     color: theme?.palette?.customColors?.titleColor,
     borderColor: theme?.palette?.customColors?.titleColor,
@@ -43,11 +43,16 @@ const MaterialInfo = ({
   return (
     <div className='material-info-container'>
       <div className="material-details">
-        <span><strong>Tag No:</strong> {
-          currentJob ? 
-            `${currentJob.jobNo} | ${currentJob.tagNo}` : 
-            (materialDetails?.tagno || (isSubTag ? 'Sub Tag Job' : 'New Job'))
-        }</span>
+        <span><strong>Material Info(</strong>
+          <span><strong> Design No:</strong>{
+            currentJob &&
+            `${currentJob.formData.designNo}`}</span>{" | "}
+          <span><strong>Tag No:</strong>{
+            currentJob ?
+              `${currentJob.jobNo} | ${currentJob.tagNo}` :
+              (materialDetails?.tagno || (isSubTag ? 'Sub Tag Job' : 'New Job'))
+          } </span><strong>)</strong>
+        </span>
         <span><strong>Net Wt:</strong> {formatWeight(netWeight)} gm</span>
         <span><strong>Pure Wt:</strong> {formatWeight(pureWeight)} gm</span>
         <span><strong>Dia:</strong> {formatWeight(diamondWeight)} cts</span>
@@ -59,9 +64,9 @@ const MaterialInfo = ({
           onClick={() => {
             // Set material context based on isSubTag
             if (setCurrentMaterialContext) {
-              setCurrentMaterialContext({ 
-                type: isSubTag ? 'sub' : 'main', 
-                isSubTag: isSubTag 
+              setCurrentMaterialContext({
+                type: isSubTag ? 'sub' : 'main',
+                isSubTag: isSubTag
               });
             }
             setShowTableEntry(!showTableEntry);

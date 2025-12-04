@@ -48,7 +48,7 @@ const SaveNNext = () => {
     isSubTag: false
   };
 
-  console.log("currentJobInfo", currentJobInfo)
+  console.log("jobState", jobState)
 
   useEffect(() => {
     dispatch(testAction('Redux connection test successful!'));
