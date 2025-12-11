@@ -1,7 +1,7 @@
 import React from 'react';
 import InputField from './InputField';
 
-const CriteriaInputs = ({ rowData, onChange, config }) => {
+const CriteriaInputs = ({ rowData, onChange, config, readOnly }) => {
   const criteriaFields = config.criteriaFields || [
     { name: 'shape', placeholder: 'Shape', width: '80px' },
     { name: 'clarity', placeholder: 'Clarity', width: '70px' },
@@ -19,6 +19,7 @@ const CriteriaInputs = ({ rowData, onChange, config }) => {
           onChange={onChange}
           width={field.width}
           placeholder={field.placeholder}
+          readOnly={readOnly}
         />
       ))}
     </div>

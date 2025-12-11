@@ -7,6 +7,7 @@ const MaterialDetailsModal = ({
   open,
   onClose,
   title,
+  materialname,
   rows,
   onInputChange,
   onAddRow,
@@ -17,7 +18,8 @@ const MaterialDetailsModal = ({
   dispatch,
   handleIssuedMaterialModal,
   markUpModalOpen,
-  focusRef
+  focusRef,
+  readOnly
 }) => {
   const modalStyle = {
     position: 'absolute',
@@ -87,6 +89,7 @@ const MaterialDetailsModal = ({
             theme={theme}
             markUpModalOpen={markUpModalOpen}
             focusRef={focusRef}
+            readOnly={readOnly}
           />
 
           <div className='d-flex justify-content-center align-items-center w-100'>

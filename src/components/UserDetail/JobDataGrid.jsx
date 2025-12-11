@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Box, Checkbox, IconButton, Typography } from '@mui/material';
 import { Trash } from 'tabler-icons-react';
 import { MdCallSplit } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 
 const JobDataGrid = ({
     rows = [],
@@ -22,6 +23,8 @@ const JobDataGrid = ({
     handleCheckboxChange,
     handleUnclubJob,
 }) => {
+
+    const selectedJobFromList = useSelector((state) => state.job.selectedJobFromList);
 
     const selectableRowIds = useMemo(
         () => rows.filter(r => !r.isClubJob).map(r => r.id),
@@ -52,7 +55,7 @@ const JobDataGrid = ({
             renderCell: (params) => (
                 <Box display="flex" alignItems="center" gap={1}>
                     {params.row.originalJob.isClubJob ? (
-                        <MdCallSplit 
+                        <MdCallSplit
                             size={16}
                             color="blue"
                             style={{ cursor: 'pointer' }}
@@ -136,7 +139,7 @@ const JobDataGrid = ({
                 </IconButton>
             ),
         },
-    ], [selectedRows, isAllSelected, isIndeterminate, mode]);
+    ], [selectedRows, isAllSelected, isIndeterminate, mode, theme, handleSelectAllChange, handleUnclubJob, handleCheckboxChange, setTagBreakPopUp, dispatch, handleCustomizeJobFlag, handleSelectedButton, handleSingleDelete]);
 
     return (
         <Box sx={{ height: 380, width: '100%' }}>
@@ -155,7 +158,16 @@ const JobDataGrid = ({
                 onRowSelectionModelChange={(ids) => setSelectedRows(ids)}
                 selectionModel={selectedRows}
                 isRowSelectable={(params) => !params.row?.isClubJob}
-                getRowClassName={(params) => params.row?.originalJob?.isClubJob ? 'club-job-row' : ''}
+                getRowClassName={(params) => {
+                    let className = '';
+                    if (params.row?.originalJob?.isClubJob) {
+                        className += 'club-job-row ';
+                    }
+                    if (params.row?.jobNo === selectedJobFromList) {
+                        className += 'active-job-row ';
+                    }
+                    return className.trim();
+                }}
                 sx={{
                     fontSize: '12px',
                     '& .MuiDataGrid-cell': {
@@ -175,6 +187,9 @@ const JobDataGrid = ({
                     },
                     '& .club-job-row': {
                         backgroundColor: '#ffffe0',
+                    },
+                    '& .active-job-row': {
+                        backgroundColor: '#dededeff !important', // Highlight color for active row
                     },
                     '& .MuiCheckbox-root:hover': {
                         backgroundColor: 'transparent !important',

@@ -13,8 +13,8 @@ const roundToThreeDecimals = (value) => Math.round(value * 1000) / 1000;
 const roundToTwoDecimals = (value) => Math.round(value * 100) / 100;
 
 // Helper function to create blank material row
-const createBlankRow = () => ({
-  material: '',
+const createBlankRow = (materialName = '') => ({
+  material: materialName,
   type: '',
   shape: '',
   clarity: '',
@@ -31,6 +31,22 @@ const createBlankRow = () => ({
 });
 
 // Initial state structure
+const materialConfigsForInitialState = {
+  diamond: 'Diamond',
+  colorstone: 'ColorStone',
+  misc: 'Misc',
+  finding: 'Finding',
+  metal: 'Metal'
+};
+
+const createInitialMaterials = () => {
+  const materials = {};
+  for (const key in materialConfigsForInitialState) {
+    materials[key] = [createBlankRow(materialConfigsForInitialState[key])];
+  }
+  return materials;
+};
+
 const initialState = {
   createdJobs: [],
   jobCounter: 0,
@@ -116,20 +132,10 @@ const initialState = {
       saleslabour: ''
     },
 
-    materials: {
-      diamond: [createBlankRow()],
-      colorstone: [createBlankRow()],
-      misc: [createBlankRow()],
-      finding: [createBlankRow()]
-    },
+    materials: createInitialMaterials(),
 
     // Sub tag materials (for sub-tag mode)
-    subTagMaterials: {
-      diamond: [createBlankRow()],
-      colorstone: [createBlankRow()],
-      misc: [createBlankRow()],
-      finding: [createBlankRow()]
-    },
+    subTagMaterials: createInitialMaterials(),
 
     calculations: {
       pureWeight: 0,
@@ -317,7 +323,8 @@ const createJobFromWorkingArea = (state, jobData, existingJobNo = null, jobConfi
         diamond: [...materials.diamond],
         colorstone: [...materials.colorstone],
         misc: [...materials.misc],
-        finding: [...materials.finding]
+        finding: [...materials.finding],
+        metal: [...materials.metal]
       },
       calculations: { ...working.calculations },
       uiState: { ...working.uiState }
@@ -328,17 +335,13 @@ const createJobFromWorkingArea = (state, jobData, existingJobNo = null, jobConfi
 const resetWorkingArea = (state) => {
   state.workingArea = {
     ...initialState.workingArea,
-    materials: {
-      diamond: [createBlankRow()],
-      colorstone: [createBlankRow()],
-      misc: [createBlankRow()],
-      finding: [createBlankRow()]
-    },
+    materials: createInitialMaterials(),
     subTagMaterials: {
       diamond: [createBlankRow()],
       colorstone: [createBlankRow()],
       misc: [createBlankRow()],
-      finding: [createBlankRow()]
+      finding: [createBlankRow()],
+      metal: [createBlankRow()]
     }
   };
 };
@@ -565,7 +568,8 @@ const jobSlice = createSlice({
             diamond: [],
             colorstone: [],
             misc: [],
-            finding: []
+            finding: [],
+            metal: []
           };
         }
 
@@ -713,7 +717,8 @@ const jobSlice = createSlice({
             diamond: [...jobToEdit.fullJobData.materials.diamond],
             colorstone: [...jobToEdit.fullJobData.materials.colorstone],
             misc: [...jobToEdit.fullJobData.materials.misc],
-            finding: [...jobToEdit.fullJobData.materials.finding]
+            finding: [...jobToEdit.fullJobData.materials.finding],
+            metal: [...jobToEdit.fullJobData.materials.metal]
           },
 
           calculations: { ...jobToEdit.fullJobData.calculations },

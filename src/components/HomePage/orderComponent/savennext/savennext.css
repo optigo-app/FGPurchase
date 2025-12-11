@@ -23,7 +23,7 @@
 }
 
 /* Filters Container with Grid Layout */
-.filters-container_sn{
+.filters-container_sn {
     /* display: grid;
     gap: 16px;
     width: 100%;
@@ -35,7 +35,8 @@
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(113px, 1fr)) !important; /* This will adapt to screen size */
+    grid-template-columns: repeat(auto-fill, minmax(113px, 1fr)) !important;
+    /* This will adapt to screen size */
 }
 
 
@@ -50,21 +51,24 @@
 .filter-item input,
 .filter-item select {
     width: 100%;
-    padding: 10px;
-    font-size: 14px;
+    padding: 8px 5px;
+    font-size: 13px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Optional for subtle shadow */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Optional for subtle shadow */
 }
 
 .filter-item input:focus,
 .filter-item select:focus {
     outline: none;
     /* border-color: #007bff;  */
-    border-color: #7367F0; /* Highlight color on focus */
+    border-color: #7367F0;
+    /* Highlight color on focus */
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
-.m_x_inp_snv{
+
+.m_x_inp_snv {
     margin: 0px 3px;
 }
 
@@ -91,7 +95,8 @@
     border-collapse: collapse;
 }
 
-.table th, .table td {
+.table th,
+.table td {
     padding: 12px;
     text-align: center;
     vertical-align: middle;
@@ -115,8 +120,10 @@
 /* Large Screen View - Full-length View */
 @media (min-width: 1024px) {
     .filters-container_sn {
-        grid-template-columns: repeat(7, 1fr); /* 7 columns for large screens */
+        grid-template-columns: repeat(7, 1fr);
+        /* 7 columns for large screens */
     }
+
     /* .filters-container2 {
         grid-template-columns: repeat(7, 1fr); 
     } */
@@ -125,8 +132,10 @@
 /* Tablet View - 2 Rows, 3 Columns */
 @media (max-width: 1023px) and (min-width: 700px) {
     .filters-container_sn {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for tablet devices */
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 columns for tablet devices */
     }
+
     /* .filters-container2 {
         grid-template-columns: repeat(5, 1fr); 
     } */
@@ -135,8 +144,10 @@
 /* Smaller Devices - 3 Rows, 2 Columns */
 @media (max-width: 699px) {
     .filters-container_sn {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns per row for smaller devices */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns per row for smaller devices */
     }
+
     /* .filters-container2 {
         grid-template-columns: repeat(2, 1fr); 
     } */
@@ -145,8 +156,10 @@
 /* Mobile - Single Column View */
 @media (max-width: 499px) {
     .filters-container_sn {
-        grid-template-columns: 1fr; /* Single column for mobile */
+        grid-template-columns: 1fr;
+        /* Single column for mobile */
     }
+
     /* .filters-container2 {
         grid-template-columns: 1fr;
     } */
@@ -154,7 +167,7 @@
 
 
 
-.minWGwt{
+.minWGwt {
     min-width: 120px !important;
 }
 
@@ -163,7 +176,8 @@
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     gap: 16px;
 }
-.applyBtnRec{
+
+.applyBtnRec {
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -178,24 +192,28 @@
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* This will adapt to screen size */
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    /* This will adapt to screen size */
 }
+
 .filters-container3_sn {
     display: grid;
     gap: 16px;
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); /* This will adapt to screen size */
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    /* This will adapt to screen size */
 }
 
-.addIcon_svn{
+.addIcon_svn {
     border: 1px solid #e8e8e8;
     border-radius: 50%;
     margin-left: 2px;
     cursor: pointer;
 }
-.addIcon_svn:hover{
+
+.addIcon_svn:hover {
     border: 1px solid #e8e8e8;
     border-radius: 50%;
     margin-left: 2px;
@@ -206,36 +224,45 @@
 /* Tablet View - 2 Rows, 3 Columns */
 @media (max-width: 1023px) and (min-width: 700px) {
     .filters-container2 {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for tablet */
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 columns for tablet */
     }
+
     .filters-container3_sn {
-        grid-template-columns: repeat(2, 1fr); /* 3 columns for tablet */
+        grid-template-columns: repeat(2, 1fr);
+        /* 3 columns for tablet */
     }
 }
 
 /* Smaller Devices - 3 Rows, 2 Columns */
 @media (max-width: 699px) {
     .filters-container2 {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns per row for smaller devices */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns per row for smaller devices */
     }
+
     .filters-container3_sn {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns per row for smaller devices */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns per row for smaller devices */
     }
 }
 
 /* Mobile - Single Column View */
 @media (max-width: 499px) {
     .filters-container2 {
-        grid-template-columns: 1fr; /* Single column for mobile */
+        grid-template-columns: 1fr;
+        /* Single column for mobile */
         width: 100%;
     }
+
     .filters-container3_sn {
-        grid-template-columns: repeat(1, 1fr); /* 2 columns per row for smaller devices */
+        grid-template-columns: repeat(1, 1fr);
+        /* 2 columns per row for smaller devices */
     }
 }
 
 
-.onfocus_snv:focus{
+.onfocus_snv:focus {
     outline: none;
     /* border: 1px solid #007bff !important; */
     border: 1px solid #7367F0 !important;
@@ -243,20 +270,23 @@
 }
 
 
-.remark_area_Snv{
+.remark_area_Snv {
     border: 1px solid #e8e8e8;
 }
-.remark_area_Snv:focus{
+
+.remark_area_Snv:focus {
     outline: none;
     border: 1px solid #007bff !important;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
-.textareadRemark_snv{
+
+.textareadRemark_snv {
     border: 1px solid #BDBDBD;
     border-radius: 4px;
     padding: 4px;
 }
-.textareadRemark_snv:focus{
+
+.textareadRemark_snv:focus {
     outline: none;
     /* border: 1px solid #007bff !important; */
     border: 1px solid #7367F0 !important;
@@ -267,9 +297,9 @@
 
 .parent-container {
     position: relative;
-  }
-  
-  .snackbar-custom {
+}
+
+.snackbar-custom {
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -280,62 +310,72 @@
     padding: 8px;
     font-size: 14px;
     text-align: center;
-  }
+}
 
 
 
-  /* i button pop up field and label in receive time */
-  .filter_grid2 {
+/* i button pop up field and label in receive time */
+.filter_grid2 {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-  }
-  .categoryNewOrder:focus{
+}
+
+.categoryNewOrder:focus {
     border-color: #7367F0 !important;
-  }
-  .filter_item_i {
+}
+
+.filter_item_i {
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 100%; /* Ensures each field takes up a full row */
-  }
-  
-  .filter_label_i {
+    width: 100%;
+    /* Ensures each field takes up a full row */
+}
+
+.filter_label_i {
     font-size: 0.9rem;
     color: #797979;
-    width: 120px; /* Fixed width for the label */
-    text-align: right; /* Aligns the text of the label to the right */
-    padding-right: 10px; /* Adds space between label and input */
-  }
-  
-  .filter_input_i {
+    width: 120px;
+    /* Fixed width for the label */
+    text-align: right;
+    /* Aligns the text of the label to the right */
+    padding-right: 10px;
+    /* Adds space between label and input */
+}
+
+.filter_input_i {
     flex-grow: 1;
-    width: 200px; /* Fixed width for the input */
+    width: 200px;
+    /* Fixed width for the input */
     padding: 5px;
     font-size: 0.8rem;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
-  }
-  
-  @media (min-width: 768px) {
+}
+
+@media (min-width: 768px) {
     .filter_item_i {
-      width: 48%; /* Two columns on larger screens */
+        width: 48%;
+        /* Two columns on larger screens */
     }
-  }
-  
+}
 
 
-  .tableCus th {
-    color: #6c757d !important; /* Grey color */
-    font-weight: normal !important; /* Remove bold */
-  }
 
-   .css-1sx06gy-MuiAvatarGroup-root .MuiAvatar-root:first-child {
+.tableCus th {
+    color: #6c757d !important;
+    /* Grey color */
+    font-weight: normal !important;
+    /* Remove bold */
+}
+
+.css-1sx06gy-MuiAvatarGroup-root .MuiAvatar-root:first-child {
     background-color: orange;
-    &:hover{
+
+    &:hover {
         scale: 1.1;
         transition: scale 0.3s ease-in-out;
         cursor: pointer;
     }
-  }
-
+}

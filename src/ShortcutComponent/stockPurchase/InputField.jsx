@@ -7,6 +7,7 @@ const InputField = forwardRef(({
   width,
   placeholder,
   style = {},
+  readOnly,
   ...props
 }, ref) => {
   const inputStyle = {
@@ -26,6 +27,7 @@ const InputField = forwardRef(({
       className='onfocus_snv m_x_inp_snv'
       placeholder={placeholder}
       autoComplete='off'
+      readOnly={readOnly}
       {...props}
     />
   );

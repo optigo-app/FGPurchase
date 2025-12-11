@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Tooltip } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -13,7 +12,8 @@ const MaterialDetailsTable = ({
     config,
     theme,
     markUpModalOpen,
-    focusRef
+    focusRef,
+    readOnly
 }) => {
     return (
         <div className='w-100'>
@@ -23,16 +23,20 @@ const MaterialDetailsTable = ({
                         <th align='center' className='text_color fs_fgp'>Sr</th>
                         <th align='center' className='text_color fs_fgp'>Material</th>
                         <th align='center' className='text_color fs_fgp'>Type</th>
-                        <th align='center' className='text_color fs_fgp'>Criteria</th>
-                        <th align='center' className='text_color fs_fgp'>Pcs/Wt</th>
+                        <th align='center' className='text_color fs_fgp'>{config.isMetal ? 'Metal Color' : 'Criteria'}</th>
+                        <th align='center' className='text_color fs_fgp'>{config.isMetal ? 'Wt' : 'Pcs/Wt'}</th>
                         {config.showTunchWastage && (
                             <th align='center' className='text_color fs_fgp'>Tunch/Wastage</th>
                         )}
                         <th align='center' className='text_color fs_fgp'>Supplier</th>
-                        <th align='center' className='text_color fs_fgp'>Rate</th>
-                        <th align='center' className='text_color fs_fgp'>Sale Rate</th>
-                        <th align='center' className='text_color fs_fgp'>Mark Up</th>
-                        <th align='center' className='text_color fs_fgp'>On Pcs</th>
+                        <th align='center' className='text_color fs_fgp'>{config.isMetal ? 'Pure Rate' : 'Rate'}</th>
+                        <th align='center' className='text_color fs_fgp'>{config.isMetal ? 'Metal Rate' : 'Sale Rate'}</th>
+                        {!config.isMetal &&
+                            <>
+                                <th align='center' className='text_color fs_fgp'>Mark Up</th>
+                                <th align='center' className='text_color fs_fgp'>On Pcs</th>
+                            </>
+                        }
                         {config.showAddInGrossWt && (
                             <th align='center' className='text_color fs_fgp'>AddIn GrossWt</th>
                         )}
@@ -47,11 +51,12 @@ const MaterialDetailsTable = ({
                             <td align='center' width={"80px"}>
                                 <InputField
                                     name="material"
-                                    value={rowData.material}
+                                    value={config.materialname}
                                     onChange={(e) => onInputChange(e, i)}
                                     width="80px"
                                     placeholder="Material"
                                     ref={i === 0 ? focusRef : null}
+                                    readOnly={true}
                                 />
                             </td>
 
@@ -62,27 +67,32 @@ const MaterialDetailsTable = ({
                                     onChange={(e) => onInputChange(e, i)}
                                     width="80px"
                                     placeholder="Type"
+                                    readOnly={readOnly}
                                 />
                             </td>
 
                             <td align="left" width={"250px"}>
-                                <CriteriaInputs
-                                    rowData={rowData}
-                                    onChange={(e) => onInputChange(e, i)}
-                                    config={config}
-                                />
+                                {config.isMetal ? (
+                                    <InputField
+                                        name="metal_color"
+                                        value={rowData.metal_color}
+                                        onChange={(e) => onInputChange(e, i)}
+                                        width="80px"
+                                        placeholder="Metal Color"
+                                        readOnly={readOnly}
+                                    />
+                                ) : (
+                                    <CriteriaInputs
+                                        rowData={rowData}
+                                        onChange={(e) => onInputChange(e, i)}
+                                        config={config}
+                                        readOnly={readOnly}
+                                    />
+                                )}
                             </td>
 
                             <td align="center" width={"120px"}>
-                                <div>
-                                    <InputField
-                                        name="pcs"
-                                        value={rowData.pcs}
-                                        onChange={(e) => onInputChange(e, i)}
-                                        width="60px"
-                                        placeholder="pcs"
-                                        style={{ marginRight: '2px' }}
-                                    />
+                                {config.isMetal ? (
                                     <InputField
                                         name="wt"
                                         type="number"
@@ -90,8 +100,30 @@ const MaterialDetailsTable = ({
                                         onChange={(e) => onInputChange(e, i)}
                                         width="60px"
                                         placeholder="wt"
+                                        readOnly={readOnly}
                                     />
-                                </div>
+                                ) : (
+                                    <div>
+                                        <InputField
+                                            name="pcs"
+                                            value={rowData.pcs}
+                                            onChange={(e) => onInputChange(e, i)}
+                                            width="60px"
+                                            placeholder="pcs"
+                                            style={{ marginRight: '2px' }}
+                                            readOnly={readOnly}
+                                        />
+                                        <InputField
+                                            name="wt"
+                                            type="number"
+                                            value={rowData.wt}
+                                            onChange={(e) => onInputChange(e, i)}
+                                            width="60px"
+                                            placeholder="wt"
+                                            readOnly={readOnly}
+                                        />
+                                    </div>
+                                )}
                             </td>
 
                             {config?.showTunchWastage && (
@@ -104,6 +136,7 @@ const MaterialDetailsTable = ({
                                             width="40px"
                                             placeholder="tunch"
                                             style={{ marginRight: '2px' }}
+                                            readOnly={readOnly}
                                         />
                                         <InputField
                                             name="wastage"
@@ -111,6 +144,7 @@ const MaterialDetailsTable = ({
                                             onChange={(e) => onInputChange(e, i)}
                                             width="60px"
                                             placeholder="wastage"
+                                            readOnly={readOnly}
                                         />
                                     </div>
                                 </td>
@@ -123,63 +157,71 @@ const MaterialDetailsTable = ({
                                     onChange={(e) => onInputChange(e, i)}
                                     width="80px"
                                     placeholder="supplier"
+                                    readOnly={readOnly}
                                 />
                             </td>
 
                             <td align="right" width={"80px"}>
                                 <InputField
-                                    name="rate"
+                                    name={config.isMetal ? "pure_rate" : "rate"}
                                     type="number"
-                                    value={rowData.rate}
+                                    value={config.isMetal ? rowData.pure_rate : rowData.rate}
                                     onChange={(e) => onInputChange(e, i)}
                                     width="100px"
-                                    placeholder="rate"
+                                    placeholder={config.isMetal ? "Pure Rate" : "rate"}
+                                    readOnly={readOnly}
                                 />
                             </td>
 
                             <td align="right" width={"80px"}>
                                 <InputField
-                                    name="amount"
+                                    name={config.isMetal ? "metal_rate" : "amount"}
                                     type="number"
-                                    value={rowData.amount}
+                                    value={config.isMetal ? rowData.metal_rate : rowData.amount}
                                     onChange={(e) => onInputChange(e, i)}
                                     width="100px"
-                                    placeholder="amount"
+                                    placeholder={config.isMetal ? "Metal Rate" : "amount"}
+                                    readOnly={readOnly}
                                 />
                             </td>
 
-                            <td align="center" width={"60px"}>
-                                <Tooltip title="Mark Up Details">
-                                    <Button
-                                        onClick={markUpModalOpen}
-                                        sx={{ width: '50px', color: 'black' }}
-                                    >
-                                        <VisibilityIcon />
-                                    </Button>
-                                </Tooltip>
-                            </td>
+                            {!config.isMetal &&
+                                <>
+                                    <td align="center" width={"60px"}>
+                                        <Tooltip title="Mark Up Details">
+                                            <Button
+                                                onClick={markUpModalOpen}
+                                                sx={{ width: '50px', color: 'black' }}
+                                            >
+                                                <VisibilityIcon />
+                                            </Button>
+                                        </Tooltip>
+                                    </td>
+                                    <td align="left" width={"80px"}>
+                                        <input
+                                            type="checkbox"
+                                            name="onPcs"
+                                            checked={rowData.onPcs}
+                                            onChange={(e) => onInputChange(e, i)}
+                                            className='onfocus_snv'
+                                            disabled={readOnly}
+                                        />
+                                    </td>
 
-                            <td align="left" width={"80px"}>
-                                <input
-                                    type="checkbox"
-                                    name="onPcs"
-                                    checked={rowData.onPcs}
-                                    onChange={(e) => onInputChange(e, i)}
-                                    className='onfocus_snv'
-                                />
-                            </td>
-
-                            {config.showAddInGrossWt && (
-                                <td align="right" width={"50px"}>
-                                    <input
-                                        type="checkbox"
-                                        name="addInGrossWt"
-                                        checked={rowData?.addInGrossWt}
-                                        onChange={(e) => onInputChange(e, i)}
-                                        className='onfocus_snv'
-                                    />
-                                </td>
-                            )}
+                                    {config.showAddInGrossWt && (
+                                        <td align="right" width={"50px"}>
+                                            <input
+                                                type="checkbox"
+                                                name="addInGrossWt"
+                                                checked={rowData?.addInGrossWt}
+                                                onChange={(e) => onInputChange(e, i)}
+                                                className='onfocus_snv'
+                                                disabled={readOnly}
+                                            />
+                                        </td>
+                                    )}
+                                </>
+                            }
 
                             <td align="center" width={"80px"}>
                                 <Button sx={{ width: '50px' }} onKeyDown={onKeyDown}>

@@ -7,7 +7,9 @@ import MaterialInfo from '../../components/HomePage/orderComponent/savennext/sel
 
 const fields1 = [
   { id: 'HSN', label: 'HSN', placeholder: 'HSN', type: 'text' },
+  { id: 'jewelrysize', label: 'Jewelry Size', placeholder: 'Jewelry Size', type: 'text' },
   { id: 'refno', label: 'Ref No.', placeholder: 'Ref No', type: 'text' },
+  { id: 'halmark', label: 'Halmark', placeholder: 'Halmark', type: 'dropdown', options: ['With Hallmark', 'Without Hallmark'] },
   { id: 'ctype', label: 'Cert. Type', placeholder: 'Certificate Type', type: 'text' },
   { id: 'certno', label: 'Cert. No.', placeholder: 'Certificate No.', type: 'text' },
   { id: 'huid', label: 'HUID. No.', placeholder: 'HUID No', type: 'text' },
@@ -15,6 +17,8 @@ const fields1 = [
 
 const fields2 = [
   { id: 'metaltype', label: 'MetalType', placeholder: 'Metal Type', type: 'text' },
+  { id: 'metalcolor', label: 'MetalColor', placeholder: 'Metal Color', type: 'text' },
+  { id: 'applyon', label: 'Apply On', placeholder: 'Apply On', type: 'dropdown', options: ['gross wt', 'net wt'] },
   { id: 'grosswt', label: 'GrossWt', placeholder: 'Gross Wt', type: 'number' },
   { id: 'netwt', label: 'NetWt', placeholder: 'NetWt', type: 'number' },
   { id: 'tunch', label: 'Tunch', placeholder: 'Tunch', type: 'number' },
@@ -24,7 +28,10 @@ const fields2 = [
   { id: 'miscwt', label: 'Misc. Wt', placeholder: 'Misc Wt', type: 'number' },
   { id: 'finewt', label: 'Finding. Wt', placeholder: 'Finding Wt', type: 'number' },
   { id: 'labour', label: 'Labour', placeholder: 'Labour', type: 'number' },
-  { id: 'saleslabour', label: 'SalesLabour', placeholder: 'SalesLabour', type: 'number' },
+  { id: 'saleslabouron', label: 'SalesLabour On', placeholder: 'SalesLabour On', type: 'dropdown', options: ['metal wt', 'diamond wt', 'color stone wt', 'misc wt', 'finding wt'] },
+  { id: 'saleslabour', label: 'SalesLabour', placeholder: 'SalesLabour', type: 'text' },
+  { id: 'purchasemrp', label: 'Purchase MRP', placeholder: 'Purchase MRP', type: 'number' },
+  { id: 'salermrp', label: 'Sales MRP', placeholder: 'Sales MRP', type: 'number' },
 ];
 
 const formatDecimal3 = (value) => {
@@ -91,18 +98,81 @@ const PrimaryDetails = forwardRef(({
   onSubTagInfoIconClick,
   dispatch,
   // Material context props
-  setCurrentMaterialContext
+  setCurrentMaterialContext,
 }, ref) => {
   const [primaryWeightField, setPrimaryWeightField] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [fieldErrorsMain, setFieldErrorsMain] = useState({});
+  const [fieldErrorsSub, setFieldErrorsSub] = useState({});
   const hsnInputRef = useRef(null);
+
+  useEffect(() => {
+    if (values && !values.applyon) {
+      onChange('applyon', 'gross wt', false);
+    }
+    if (showSubTag && subTagValues && !subTagValues.applyon) {
+      onChange('applyon', 'gross wt', true);
+    }
+  }, [values, subTagValues, showSubTag, onChange]);
 
   useImperativeHandle(ref, () => ({
     focusHSN: () => {
       if (hsnInputRef.current) {
         hsnInputRef.current.focus();
       }
+    },
+    validateRequired: () => {
+      const requiredFields = [
+        { id: 'HSN', label: 'HSN' },
+        { id: 'metaltype', label: 'Metal Type' },
+        { id: 'grosswt', label: 'Gross Wt' },
+        { id: 'tunch', label: 'Tunch' },
+        { id: 'wastage', label: 'Wastage' }
+      ];
+
+      const newMainErrors = {};
+      const newSubErrors = {};
+      let firstInvalidDomId = null;
+      let firstInvalidFieldLabel = '';
+
+      requiredFields.forEach(field => {
+        const valueMain = (values?.[field.id] || '').toString().trim();
+        if (!valueMain) {
+          newMainErrors[field.id] = true;
+          if (!firstInvalidDomId) {
+            firstInvalidDomId = field.id;
+            firstInvalidFieldLabel = field.label;
+          }
+        }
+      });
+
+      if (showSubTag) {
+        requiredFields.forEach(field => {
+          const valueSub = (subTagValues?.[field.id] || '').toString().trim();
+          if (!valueSub) {
+            newSubErrors[field.id] = true;
+            if (!firstInvalidDomId) {
+              firstInvalidDomId = `${field.id}_subtag`;
+              firstInvalidFieldLabel = `${field.label} (Sub Tag)`;
+            }
+          }
+        });
+      }
+
+      setFieldErrorsMain(newMainErrors);
+      setFieldErrorsSub(newSubErrors);
+
+      if (firstInvalidDomId) {
+        showAlert(`${firstInvalidFieldLabel} is required.`);
+        const input = document.getElementById(firstInvalidDomId);
+        if (input) {
+          input.focus();
+        }
+        return false;
+      }
+
+      return true;
     }
   }));
 
@@ -229,6 +299,21 @@ const PrimaryDetails = forwardRef(({
         }
       }
     }
+    if (['HSN', 'metaltype', 'grosswt', 'tunch', 'wastage'].includes(id)) {
+      const trimmed = formattedValue.toString().trim();
+      if (isSubTag) {
+        setFieldErrorsSub(prev => ({
+          ...prev,
+          [id]: !trimmed
+        }));
+      } else {
+        setFieldErrorsMain(prev => ({
+          ...prev,
+          [id]: !trimmed
+        }));
+      }
+    }
+
     onChange(id, formattedValue, isSubTag);
   };
 
@@ -243,14 +328,14 @@ const PrimaryDetails = forwardRef(({
           tunchInput.focus();
         }
       }
-    } else if (isSecondRow && ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id)) {
+    } else if (isSecondRow && ['diawt', 'cswt', 'miscwt', 'finewt','netwt'].includes(id)) {
       handleEnterKeyChange(e, id, isSubTag);
     }
   };
 
   const renderInput = ({ id, label, placeholder, type = 'text' }, isSecondRow = false, isSubTag = false, suffix = '') => {
-    const isCalculatedWeightField = ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id);
     const currentValues = isSubTag ? subTagValues : values;
+    const isCalculatedWeightField = ['diawt', 'cswt', 'miscwt', 'finewt'].includes(id);
     const currentMaterials = isSubTag ? subTagMaterials : materials;
     const inputId = isSubTag ? `${id}_subtag` : id;
 
@@ -276,11 +361,35 @@ const PrimaryDetails = forwardRef(({
       }
     }
 
+    if (type === 'dropdown') {
+      const fieldConfig = fields1.find(f => f.id === id) || fields2.find(f => f.id === id);
+      return (
+        <div className="filter-item" key={inputId}>
+          <div>
+            <label htmlFor={inputId} style={{ fontSize: '0.7rem', paddingLeft: '4px', color: '#797979' }}>
+              {label}
+            </label>
+            <select
+              id={inputId}
+              name={inputId}
+              value={calculatedValue}
+              onChange={(e) => handleInputChange(id, e.target.value, isSubTag)}
+              style={{ width: '100%', textTransform: 'capitalize' }}
+            >
+              {fieldConfig?.options?.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="filter-item" key={inputId}>
         <div>
           <label htmlFor={inputId} style={{ fontSize: '0.7rem', paddingLeft: '4px', color: '#797979' }}>
-            {label}{suffix}
+            {label}
           </label>
           <input
             type={type}
@@ -295,9 +404,17 @@ const PrimaryDetails = forwardRef(({
             onKeyDown={(e) => handleKeyDown(e, id, isSecondRow, isSubTag)}
             style={{
               backgroundColor: isCalculatedWeightField ? '#f8f9fa' : 'white',
-              cursor: isCalculatedWeightField ? 'pointer' : 'text'
+              cursor: isCalculatedWeightField ? 'pointer' : 'text',
+              border: ['HSN', 'metaltype', 'grosswt', 'tunch', 'wastage'].includes(id) &&
+                (isSubTag ? fieldErrorsSub[id] : fieldErrorsMain[id])
+                ? '1px solid red'
+                : undefined
             }}
             title={isCalculatedWeightField ? 'Click to open material details' : ''}
+            disabled={
+              (id === 'grosswt' && currentValues.applyon === 'net wt') ||
+              (id === 'netwt' && currentValues.applyon === 'gross wt')
+            }
           />
         </div>
       </div>
@@ -310,7 +427,7 @@ const PrimaryDetails = forwardRef(({
         <div className="filters-container_sn fs_fgp">
           {fields1?.map(f => renderInput(f))}
           <div className="d-flex justify-content-center align-items-center w-100">
-            <ClearButton onClick={handleClearFields1} />
+            {/* <ClearButton onClick={handleClearFields1} /> */}
             <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }}>
               <IconButton
                 onClick={() => setChangeCriteria(true)}
@@ -346,7 +463,7 @@ const PrimaryDetails = forwardRef(({
       <div className="filters-container2 fs_fgp">
         {(mode !== 'alteration_receive' ? fields2?.slice(0, 1) : [])?.map(f => renderInput(f))}
         {fields2?.slice(mode !== 'alteration_receive' ? 1 : 0)?.map(f => renderInput(f, true))}
-        <ClearButton onClick={handleClearFields2} />
+        {/* <ClearButton onClick={handleClearFields2} /> */}
       </div>
 
       {showSubTag && (
@@ -385,11 +502,11 @@ const PrimaryDetails = forwardRef(({
             <div className="filters-container_sn fs_fgp">
               {fields1?.map(f => renderInput(f, false, true, ' (Sub)'))}
               <div className="d-flex justify-content-center align-items-center w-100">
-                <ClearButton onClick={() => {
+                {/* <ClearButton onClick={() => {
                   fields1?.forEach(field => {
                     onChange(field.id, '', true);
                   });
-                }} />
+                }} /> */}
                 <Tooltip title="Change Criteria" style={{ cursor: 'pointer', marginTop: '20px' }}>
                   <IconButton
                     onClick={() => setChangeCriteria(true)}
@@ -424,11 +541,11 @@ const PrimaryDetails = forwardRef(({
             <div className="filters-container2 fs_fgp">
               {(mode !== 'alteration_receive' ? fields2?.slice(0, 1) : [])?.map(f => renderInput(f, false, true, ' (Sub)'))}
               {fields2?.slice(mode !== 'alteration_receive' ? 1 : 0)?.map(f => renderInput(f, true, true, ' (Sub)'))}
-              <ClearButton onClick={() => {
+              {/* <ClearButton onClick={() => {
                 fields2?.forEach(field => {
                   onChange(field.id, '', true);
                 });
-              }} />
+              }} /> */}
             </div>
           </div>
         </>

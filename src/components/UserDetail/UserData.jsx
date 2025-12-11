@@ -24,13 +24,15 @@ const UserData = () => {
   const [showAddLess, setShowAddLess] = useState(false);
   const [hoveredTax, setHoveredTax] = useState(false);
   const [hoveredModeOfDel, setHoveredModeOfDel] = useState(false);
+  const [showTdsDropDown, setShowTdsDropDown] = useState(false);
+  const [hoveredTds, setHoveredTds] = useState(false);
   const [hoveredAddLess, setHoveredAddLess] = useState(false);
 
   const createdJobs = useSelector((state) => state?.job?.createdJobs || []);
 
   const jobListData = createdJobs.map((job, index) => ({
-    id: index + 1, 
-    details: job.tagNo, 
+    id: index + 1,
+    details: job.tagNo,
     gwt: job.gwt,
     netwt: job.nwt,
     totalamt: job.amount,
@@ -100,7 +102,7 @@ const UserData = () => {
     const jobsToDelete = jobListData
       .filter(item => selectedRows.includes(item.id))
       .map(item => item.jobNo);
-    
+
     if (jobsToDelete.length > 0) {
       dispatch(bulkDeleteJobs(jobsToDelete));
     }
@@ -229,7 +231,6 @@ const UserData = () => {
           handleSelectAllChange={handleSelectAllChange}
           handleCheckboxChange={handleCheckboxChange}
           handleUnclubJob={handleUnclubJob}
-
         />
       </div>
       {/* for tag breakup when we click on row then this open but as of now it not working */}
@@ -415,6 +416,10 @@ const UserData = () => {
           setShowModeOfDelDropDown={setShowModeOfDelDropDown}
           hoveredModeOfDel={hoveredModeOfDel}
           setHoveredModeOfDel={setHoveredModeOfDel}
+          showTdsDropDown={showTdsDropDown}
+          setShowTdsDropDown={setShowTdsDropDown}
+          hoveredTds={hoveredTds}
+          setHoveredTds={setHoveredTds}
           showAddLess={showAddLess}
           setShowAddLess={setShowAddLess}
           hoveredAddLess={hoveredAddLess}
